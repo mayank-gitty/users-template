@@ -62,13 +62,13 @@ export default function Master() {
         <Stepper.Step label="Second step" description="Education Details">
           <Education1 />
         </Stepper.Step>
-        <Stepper.Step label="Final step" description="Enter Resume Headline">
+        <Stepper.Step label="Third step" description="Enter Resume Headline">
           <ResumeHeadline />
         </Stepper.Step>
-        <Stepper.Step label="Final step" description="Enter Key Skills">
+        <Stepper.Step label="Fourth step" description="Enter Key Skills">
           <ItSkills1 />
         </Stepper.Step>
-        <Stepper.Step label="Final step" description="Enter Expererience">
+        <Stepper.Step label="Fifth step" description="Enter Expererience">
           <ExperienceDetails />
         </Stepper.Step>
         <Stepper.Step label="Final step" description="Enter Profile Summary">
