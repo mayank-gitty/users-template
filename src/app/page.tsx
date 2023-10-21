@@ -21,7 +21,7 @@ import useThemeContext from "@/context/context";
 
 export default function Home() {
 
- const   {loggedIn, setLoggedIn}:any  = useThemeContext()
+ const   {loggedIn, setLoggedIn ,setFormData,setActive}:any  = useThemeContext()
 
   const router = useRouter();
 
@@ -41,6 +41,16 @@ export default function Home() {
     localStorage.removeItem("name");
 
     setLoggedIn(false)
+    setFormData({
+      itskills:[],
+      education: null,
+      keyskills:[],
+      resume_headline:"",
+      profile_summary:"",
+      total_experience:"",
+      relevent_experience:"", } )
+    setActive(0)
+      
   };
 
   return (
