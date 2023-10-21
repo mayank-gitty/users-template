@@ -15,6 +15,9 @@ query Query {
     relevent_experience
     profile_summary
     keyskillsCount
+    user{
+      name
+    }
     keyskills {
       name
     }
@@ -36,10 +39,11 @@ const DatatablePage = () => {
 
     const users = user.profileUsers.map((item: any) => {
       return {
+        user:item?.user?.name,
         resume_headline: item.resume_headline,
         total_experience: item.total_experience,
         relevant_experience: item.relevent_experience,
-        profiles_summary: item.profile_summary,
+        profile_summary: item.profile_summary,
         // photograph: <img src={item?.photograph?.url} />,
         // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
@@ -70,6 +74,12 @@ const DatatablePage = () => {
         //   sort: "asc",
         //   width: 270,
         // },
+        {
+          label: "Name",
+          field: "user",
+          sort: "asc",
+          width: 200,
+        },
         {
           label: "Resume Headline",
           field: "resume_headline",

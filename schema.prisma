@@ -13,14 +13,15 @@ generator client {
 }
 
 model User {
-  id        String    @id @default(cuid())
-  name      String    @default("")
-  email     String    @unique @default("")
-  password  String
-  company   Company?  @relation("User_company", fields: [companyId], references: [id])
-  companyId String?   @map("company")
-  createdAt DateTime? @default(now())
-  role      String?
+  id                    String        @id @default(cuid())
+  name                  String        @default("")
+  email                 String        @unique @default("")
+  password              String
+  company               Company?      @relation("User_company", fields: [companyId], references: [id])
+  companyId             String?       @map("company")
+  createdAt             DateTime?     @default(now())
+  role                  String?
+  from_ProfileUser_user ProfileUser[] @relation("ProfileUser_user")
 
   @@index([companyId])
 }
@@ -36,6 +37,8 @@ model MultipleUser {
 
 model ProfileUser {
   id                  String     @id @default(cuid())
+  user                User?      @relation("ProfileUser_user", fields: [userId], references: [id])
+  userId              String?    @map("user")
   resume_headline     String     @default("")
   itskills            ItSkill[]  @relation("ProfileUser_itskills")
   education           String     @default("")
@@ -43,6 +46,8 @@ model ProfileUser {
   total_experience    String     @default("")
   relevent_experience String     @default("")
   profile_summary     String     @default("")
+
+  @@index([userId])
 }
 
 model Education {

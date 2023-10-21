@@ -36,6 +36,8 @@ import {
 } from "../../utils/serverQueries";
 import { createMultipleUsers } from "../../utils/serverMutations";
 import { useTransition } from "react";
+import client from "../../../helpers/request";
+
 
 // import { User_data } from "../context/context";
 
@@ -120,6 +122,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
     });
     console.log(user);
 
+    router.push('/multi_users_table')
+
 
   };
 
@@ -129,7 +133,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
   return (
     <>
       <form onSubmit={form.onSubmit((values) => {})}>
-        <div className="px-5 py-6 bg-red-600">
+        <div className="px-5 py-6 bg-green-600">
           {/* Second Navbar */}
           <div className="p-5 bg-white drop-shadow-md rounded-xl">
             <div className="flex items-center justify-between">
@@ -145,7 +149,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                   <button
                     type="button"
                     className={`${clickS} px-3 py-2 rounded-lg capitalize mr-2`}
-                    onClick={() => router.push("/timeline")}
+                    onClick={() => router.push("/")}
                   >
                     Go Back
                   </button>
@@ -162,7 +166,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
           </div>
         </div>
 
-        <div className="px-5 py-6 bg-red-600">
+        <div className="px-5 py-6 bg-green-600">
           <div className="p-5 bg-white drop-shadow-md rounded-xl">
             <div className="mb-4">
               <div className="flex mx-5 my-4">

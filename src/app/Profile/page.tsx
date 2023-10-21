@@ -17,21 +17,20 @@ import { useRouter } from "next/navigation";
 
 // Define mutation
 const PROFILE_USER = gql`
-mutation CreateProfileUser($data: ProfileUserCreateInput!) {
-  createProfileUser(data: $data) {
-    total_experience
-    resume_headline
+  mutation CreateProfileUser($data: ProfileUserCreateInput!) {
+    createProfileUser(data: $data) {
+      total_experience
+      resume_headline
+    }
   }
-}
 `;
 
 const Profile = () => {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const { setFormData, formData ,active, setActive }: any = useThemeContext();
+  const { setFormData, formData, active, setActive }: any = useThemeContext();
 
   const handleChange = (field, value) => {
     setFormData((prevData) => ({
@@ -41,8 +40,6 @@ const Profile = () => {
   };
 
   const save = async () => {
-
-
     console.log("---", formData.itskills);
 
     console.log("---", formData.keyskills);
@@ -73,6 +70,11 @@ const Profile = () => {
         itskills: {
           connect: itskills,
         },
+        user: {
+          connect:  {
+            id:localStorage.getItem("id")
+          }
+        },
         // courseDuration: `startYear: ${formData?.startingYear?.value}  endYear : ${formData?.endingYear?.value}`,
         // course_type: formData.coursetype,
         education: formData.education?.value,
@@ -90,17 +92,13 @@ const Profile = () => {
 
     console.log("profile-user", user);
 
-    setActive(6)
+    setActive(6);
 
-    setTimeout(()=>{
-
-      router.push('/welcome')
-
-    },1000)
+    setTimeout(() => {
+      router.push("/profileUsers");
+    }, 500);
 
     // alert('details submitted')
-
-
   };
 
   const handleSubmit = (e) => {
