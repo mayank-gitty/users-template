@@ -22,6 +22,7 @@ export default list({
       "mobilenumber",
       "email",
       "address",
+      "role"
     ],
   },
 });

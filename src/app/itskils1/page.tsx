@@ -17,15 +17,14 @@ import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 
 // Define mutation
-const IT_SKILLS = gql`
-query ItSkills {
-  itSkills {
+const KEY_SKILLS = gql`
+query KeySkills {
+  keySkills {
     name
     id
   }
 }
 `;
-
 
 const ItSkills1 = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -50,24 +49,23 @@ const ItSkills1 = () => {
   };
 
   const getSkills = async () => {
-    const users: any = await client.request(IT_SKILLS);
+    const users: any = await client.request(KEY_SKILLS);
 
     console.log("usersaa", users);
 
-    const DefaultSkills = users?.itSkills.map((item: any) => {
+    const DefaultSkills = users?.keySkills?.map((item: any) => {
       return {
         label: item.name,
         value: item.id,
       };
     });
 
-    setDefaultSkills(DefaultSkills)
+    setDefaultSkills(DefaultSkills);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getSkills();
-  },[])
-
+  }, []);
 
   const handleCancel = () => {
     // Reset the form
@@ -86,16 +84,18 @@ const ItSkills1 = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop:"2rem"
+        marginTop: "2rem",
       }}
     >
       <Container size="xs" px="xs">
-        <Paper shadow="xl" p="md" style={{
-          width:"30rem"
-        }} >
-          <h6 style={{ textAlign: "left", fontSize: "20px" }}>
-            Key Skills 
-          </h6>
+        <Paper
+          shadow="xl"
+          p="md"
+          style={{
+            width: "30rem",
+          }}
+        >
+          <h6 style={{ textAlign: "left", fontSize: "20px" }}>Key Skills</h6>
           <p style={{ color: "GrayText" }}>
             Specify key skills that your have strong command
           </p>

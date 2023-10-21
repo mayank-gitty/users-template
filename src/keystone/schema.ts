@@ -11,6 +11,7 @@ import ItSkill from '../schemas/ItSkill';
 import Project from '../schemas/Project';
 import AddEducation from '../schemas/AddEducation';
 import Company from '../schemas/Company';
+import KeySkill from '../schemas/KeySkill';
 
 export const lists= {
    User,
@@ -18,6 +19,7 @@ export const lists= {
    ProfileUser,
    Education,
    ItSkill,
+   KeySkill,
    Project,
    Company,
    AddEducation,

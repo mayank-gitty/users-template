@@ -48,7 +48,7 @@ const ItSkills = () => {
       };
     });
 
-    setDefaultSkills(DefaultSkills)
+    setDefaultSkills(DefaultSkills);
   };
 
   useEffect(() => {
@@ -56,7 +56,6 @@ const ItSkills = () => {
   }, []);
 
   // form.getInputProps('skills')
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -81,15 +80,12 @@ const ItSkills = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop:"2rem"
-
+        marginTop: "2rem",
       }}
     >
       <Container size="xs" px="xs">
         <Paper shadow="xl" p="md">
-          <h6 style={{ textAlign: "left", fontSize: "20px" }}>
-            IT Skills
-          </h6>
+          <h6 style={{ textAlign: "left", fontSize: "20px" }}>IT Skills</h6>
           <p style={{ color: "GrayText" }}>
             Specify details about programming languages (such as Java, Python,
             C/C++, Oracle, SQL etc.) or any other software-related knowledge.

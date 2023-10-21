@@ -13,26 +13,25 @@ import {
 import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";
+import { useRouter } from "next/navigation";
 
 // Define mutation
 const PROFILE_USER = gql`
-  mutation Mutation($data: ProfileUserCreateInput!) {
-    createProfileUser(data: $data) {
-      relevent_experience
-    }
+mutation CreateProfileUser($data: ProfileUserCreateInput!) {
+  createProfileUser(data: $data) {
+    total_experience
+    resume_headline
   }
+}
 `;
 
 const Profile = () => {
-  // const [formData, setFormData] = useState({
 
-  //   profileSummary: "",
-
-  // });
+  const router = useRouter()
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const { setFormData, formData }: any = useThemeContext();
+  const { setFormData, formData ,active, setActive }: any = useThemeContext();
 
   const handleChange = (field, value) => {
     setFormData((prevData) => ({
@@ -43,13 +42,13 @@ const Profile = () => {
 
   const save = async () => {
 
-    console.log("---", formData);
 
+    console.log("---", formData.itskills);
 
-    if(!formData.profile_summary ){
+    console.log("---", formData.keyskills);
 
-      return alert('please enter profile summaary')
-
+    if (!formData.profile_summary) {
+      return alert("please enter profile summaary");
     }
 
     const itskills = formData?.itskills?.map((item: any) => {
@@ -69,10 +68,10 @@ const Profile = () => {
     const user = await client.request(PROFILE_USER, {
       data: {
         keyskills: {
-          connect: itskills,
+          connect: keyskills,
         },
         itskills: {
-          connect: keyskills,
+          connect: itskills,
         },
         // courseDuration: `startYear: ${formData?.startingYear?.value}  endYear : ${formData?.endingYear?.value}`,
         // course_type: formData.coursetype,
@@ -90,6 +89,18 @@ const Profile = () => {
     });
 
     console.log("profile-user", user);
+
+    setActive(6)
+
+    setTimeout(()=>{
+
+      router.push('/welcome')
+
+    },1000)
+
+    // alert('details submitted')
+
+
   };
 
   const handleSubmit = (e) => {
@@ -112,7 +123,7 @@ const Profile = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "auto",
-        marginTop:"2rem"
+        marginTop: "2rem",
       }}
     >
       <Container size="xs" px="xs">
@@ -154,7 +165,6 @@ const Profile = () => {
                 }}
               >
                 <Group position="right" mt="md">
-              
                   <Button
                     type="submit"
                     style={{
@@ -179,7 +189,7 @@ const Profile = () => {
             <div
               style={{ color: "green", textAlign: "center", marginTop: "10px" }}
             >
-             Your Details submitted successfully!
+              Your Details submitted successfully!
             </div>
           )}
         </Paper>

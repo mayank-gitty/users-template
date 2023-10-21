@@ -18,7 +18,7 @@ export default list({
     // user: relationship({ ref: "User", many: false, isIndexed: "unique" }),
     // photograph: image({ storage: "my_local_images" }),
     resume_headline: text(),
-    keyskills: relationship({
+    itskills: relationship({
       ref: "ItSkill",
       many: true,
       ui: {
@@ -41,8 +41,8 @@ export default list({
     // gradingSystem: text(),
     // marks: text(),
     // education: relationship({ ref: "AddEducation", many: false }),
-    itskills: relationship({
-      ref: "ItSkill",
+    keyskills: relationship({
+      ref: "KeySkill",
       many: true,
       ui: {
         searchFields: ["name", "version"],
@@ -73,12 +73,11 @@ export default list({
   },
   ui: {
     searchFields: [
-      "user",
-      "experience",
       "name",
       "resume_headline",
       "education",
       "itskills",
+      "keyskills",
       "total_experience",
       "relevant_experience",
       "profile_summary",

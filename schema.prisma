@@ -35,14 +35,14 @@ model MultipleUser {
 }
 
 model ProfileUser {
-  id                  String    @id @default(cuid())
-  resume_headline     String    @default("")
-  keyskills           ItSkill[] @relation("ProfileUser_keyskills")
-  education           String    @default("")
-  itskills            ItSkill[] @relation("ProfileUser_itskills")
-  total_experience    String    @default("")
-  relevent_experience String    @default("")
-  profile_summary     String    @default("")
+  id                  String     @id @default(cuid())
+  resume_headline     String     @default("")
+  itskills            ItSkill[]  @relation("ProfileUser_itskills")
+  education           String     @default("")
+  keyskills           KeySkill[] @relation("ProfileUser_keyskills")
+  total_experience    String     @default("")
+  relevent_experience String     @default("")
+  profile_summary     String     @default("")
 }
 
 model Education {
@@ -63,13 +63,21 @@ model Education {
 }
 
 model ItSkill {
+  id                        String        @id @default(cuid())
+  name                      String        @default("")
+  version                   String        @default("")
+  lastUsed                  String        @default("")
+  experience                String        @default("")
+  from_ProfileUser_itskills ProfileUser[] @relation("ProfileUser_itskills")
+}
+
+model KeySkill {
   id                         String        @id @default(cuid())
   name                       String        @default("")
   version                    String        @default("")
   lastUsed                   String        @default("")
   experience                 String        @default("")
   from_ProfileUser_keyskills ProfileUser[] @relation("ProfileUser_keyskills")
-  from_ProfileUser_itskills  ProfileUser[] @relation("ProfileUser_itskills")
 }
 
 model Project {

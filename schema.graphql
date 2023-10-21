@@ -210,11 +210,11 @@ input MultipleUserCreateInput {
 type ProfileUser {
   id: ID!
   resume_headline: String
-  keyskills(where: ItSkillWhereInput! = {}, orderBy: [ItSkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ItSkillWhereUniqueInput): [ItSkill!]
-  keyskillsCount(where: ItSkillWhereInput! = {}): Int
-  education: String
   itskills(where: ItSkillWhereInput! = {}, orderBy: [ItSkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ItSkillWhereUniqueInput): [ItSkill!]
   itskillsCount(where: ItSkillWhereInput! = {}): Int
+  education: String
+  keyskills(where: KeySkillWhereInput! = {}, orderBy: [KeySkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: KeySkillWhereUniqueInput): [KeySkill!]
+  keyskillsCount(where: KeySkillWhereInput! = {}): Int
   total_experience: String
   relevent_experience: String
   profile_summary: String
@@ -230,9 +230,9 @@ input ProfileUserWhereInput {
   NOT: [ProfileUserWhereInput!]
   id: IDFilter
   resume_headline: StringFilter
-  keyskills: ItSkillManyRelationFilter
-  education: StringFilter
   itskills: ItSkillManyRelationFilter
+  education: StringFilter
+  keyskills: KeySkillManyRelationFilter
   total_experience: StringFilter
   relevent_experience: StringFilter
   profile_summary: StringFilter
@@ -242,6 +242,12 @@ input ItSkillManyRelationFilter {
   every: ItSkillWhereInput
   some: ItSkillWhereInput
   none: ItSkillWhereInput
+}
+
+input KeySkillManyRelationFilter {
+  every: KeySkillWhereInput
+  some: KeySkillWhereInput
+  none: KeySkillWhereInput
 }
 
 input ProfileUserOrderByInput {
@@ -255,9 +261,9 @@ input ProfileUserOrderByInput {
 
 input ProfileUserUpdateInput {
   resume_headline: String
-  keyskills: ItSkillRelateToManyForUpdateInput
-  education: String
   itskills: ItSkillRelateToManyForUpdateInput
+  education: String
+  keyskills: KeySkillRelateToManyForUpdateInput
   total_experience: String
   relevent_experience: String
   profile_summary: String
@@ -270,6 +276,13 @@ input ItSkillRelateToManyForUpdateInput {
   connect: [ItSkillWhereUniqueInput!]
 }
 
+input KeySkillRelateToManyForUpdateInput {
+  disconnect: [KeySkillWhereUniqueInput!]
+  set: [KeySkillWhereUniqueInput!]
+  create: [KeySkillCreateInput!]
+  connect: [KeySkillWhereUniqueInput!]
+}
+
 input ProfileUserUpdateArgs {
   where: ProfileUserWhereUniqueInput!
   data: ProfileUserUpdateInput!
@@ -277,9 +290,9 @@ input ProfileUserUpdateArgs {
 
 input ProfileUserCreateInput {
   resume_headline: String
-  keyskills: ItSkillRelateToManyForCreateInput
-  education: String
   itskills: ItSkillRelateToManyForCreateInput
+  education: String
+  keyskills: KeySkillRelateToManyForCreateInput
   total_experience: String
   relevent_experience: String
   profile_summary: String
@@ -288,6 +301,11 @@ input ProfileUserCreateInput {
 input ItSkillRelateToManyForCreateInput {
   create: [ItSkillCreateInput!]
   connect: [ItSkillWhereUniqueInput!]
+}
+
+input KeySkillRelateToManyForCreateInput {
+  create: [KeySkillCreateInput!]
+  connect: [KeySkillWhereUniqueInput!]
 }
 
 type Education {
@@ -447,6 +465,56 @@ input ItSkillUpdateArgs {
 }
 
 input ItSkillCreateInput {
+  name: String
+  version: String
+  lastUsed: String
+  experience: String
+}
+
+type KeySkill {
+  id: ID!
+  name: String
+  version: String
+  lastUsed: String
+  experience: String
+}
+
+input KeySkillWhereUniqueInput {
+  id: ID
+}
+
+input KeySkillWhereInput {
+  AND: [KeySkillWhereInput!]
+  OR: [KeySkillWhereInput!]
+  NOT: [KeySkillWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  version: StringFilter
+  lastUsed: StringFilter
+  experience: StringFilter
+}
+
+input KeySkillOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  version: OrderDirection
+  lastUsed: OrderDirection
+  experience: OrderDirection
+}
+
+input KeySkillUpdateInput {
+  name: String
+  version: String
+  lastUsed: String
+  experience: String
+}
+
+input KeySkillUpdateArgs {
+  where: KeySkillWhereUniqueInput!
+  data: KeySkillUpdateInput!
+}
+
+input KeySkillCreateInput {
   name: String
   version: String
   lastUsed: String
@@ -684,6 +752,12 @@ type Mutation {
   updateItSkills(data: [ItSkillUpdateArgs!]!): [ItSkill]
   deleteItSkill(where: ItSkillWhereUniqueInput!): ItSkill
   deleteItSkills(where: [ItSkillWhereUniqueInput!]!): [ItSkill]
+  createKeySkill(data: KeySkillCreateInput!): KeySkill
+  createKeySkills(data: [KeySkillCreateInput!]!): [KeySkill]
+  updateKeySkill(where: KeySkillWhereUniqueInput!, data: KeySkillUpdateInput!): KeySkill
+  updateKeySkills(data: [KeySkillUpdateArgs!]!): [KeySkill]
+  deleteKeySkill(where: KeySkillWhereUniqueInput!): KeySkill
+  deleteKeySkills(where: [KeySkillWhereUniqueInput!]!): [KeySkill]
   createProject(data: ProjectCreateInput!): Project
   createProjects(data: [ProjectCreateInput!]!): [Project]
   updateProject(where: ProjectWhereUniqueInput!, data: ProjectUpdateInput!): Project
@@ -740,6 +814,9 @@ type Query {
   itSkills(where: ItSkillWhereInput! = {}, orderBy: [ItSkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ItSkillWhereUniqueInput): [ItSkill!]
   itSkill(where: ItSkillWhereUniqueInput!): ItSkill
   itSkillsCount(where: ItSkillWhereInput! = {}): Int
+  keySkills(where: KeySkillWhereInput! = {}, orderBy: [KeySkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: KeySkillWhereUniqueInput): [KeySkill!]
+  keySkill(where: KeySkillWhereUniqueInput!): KeySkill
+  keySkillsCount(where: KeySkillWhereInput! = {}): Int
   projects(where: ProjectWhereInput! = {}, orderBy: [ProjectOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectWhereUniqueInput): [Project!]
   project(where: ProjectWhereUniqueInput!): Project
   projectsCount(where: ProjectWhereInput! = {}): Int

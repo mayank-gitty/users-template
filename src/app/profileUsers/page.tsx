@@ -1,3 +1,5 @@
+"use client"
+
 import React, { use, useEffect, useState } from "react";
 import { MDBDataTable } from "mdbreact";
 import { gql } from "graphql-request";
@@ -6,35 +8,22 @@ import { link } from "fs";
 
 // Define mutation
 const PROFILE_USERS = gql`
-  query ProfileUsers {
-    profileUsers {
-      education {
-        course
-      }
-      itskills {
-        name
-      }
-      user {
-        name
-        company {
-          name
-        }
-      }
-      keyskills {
-        name
-      }
-      photograph {
-        url
-      }
-      resume_headline
-      total_experience
-      resume {
-        url
-      }
-      relevant_experience
-      profilesummary
+query Query {
+  profileUsers {
+    total_experience
+    resume_headline
+    relevent_experience
+    profile_summary
+    keyskillsCount
+    keyskills {
+      name
+    }
+    itskillsCount
+    itskills {
+      name
     }
   }
+}
 `;
 
 const DatatablePage = () => {
@@ -49,38 +38,38 @@ const DatatablePage = () => {
       return {
         resume_headline: item.resume_headline,
         total_experience: item.total_experience,
-        relevant_experience: item.relevant_experience,
-        profilesummary: item.profilesummary,
-        photograph: <img src={item?.photograph?.url} />,
-        resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
+        relevant_experience: item.relevent_experience,
+        profiles_summary: item.profile_summary,
+        // photograph: <img src={item?.photograph?.url} />,
+        // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
         itskills: item.itskills.map((u: any) => u.name).join(", "),
-        education: item.education.course,
-        user: item?.user?.name,
-        company: item?.user?.company?.map((u: any) => u.name).join(", "),
+        // education: item.education.course,
+        // user: item?.user?.name,
+        // company: item?.user?.company?.map((u: any) => u.name).join(", "),
       };
     });
 
     const test: any = {
       columns: [
-        {
-          label: "Name",
-          field: "user",
-          sort: "asc",
-          width: 150,
-        },
-        {
-          label: "Company",
-          field: "company",
-          sort: "asc",
-          width: 150,
-        },
-        {
-          label: "Photograph",
-          field: "photograph",
-          sort: "asc",
-          width: 270,
-        },
+        // {
+        //   label: "Name",
+        //   field: "user",
+        //   sort: "asc",
+        //   width: 150,
+        // },
+        // {
+        //   label: "resume_headline",
+        //   field: "resume_headline",
+        //   sort: "asc",
+        //   width: 150,
+        // },
+        // {
+        //   label: "Photograph",
+        //   field: "photograph",
+        //   sort: "asc",
+        //   width: 270,
+        // },
         {
           label: "Resume Headline",
           field: "resume_headline",
@@ -93,12 +82,12 @@ const DatatablePage = () => {
           sort: "asc",
           width: 100,
         },
-        {
-          label: "Education",
-          field: "education",
-          sort: "asc",
-          width: 150,
-        },
+        // {
+        //   label: "Education",
+        //   field: "education",
+        //   sort: "asc",
+        //   width: 150,
+        // },
         {
           label: "Itskills",
           field: "itskills",
@@ -119,16 +108,16 @@ const DatatablePage = () => {
         },
         {
           label: "Profile Summary",
-          field: "profilesummary",
+          field: "profile_summary",
           sort: "asc",
           width: 100,
         },
-        {
-          label: "Resume",
-          field: "resume",
-          sort: "asc",
-          width: 100,
-        },
+        // {
+        //   label: "Resume",
+        //   field: "resume",
+        //   sort: "asc",
+        //   width: 100,
+        // },
       ],
       rows: users,
     };
