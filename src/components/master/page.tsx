@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Stepper, Button, Group } from "@mantine/core";
 import ItSkills from "../itskill/page";
-import Education1 from "../education1/page";
-import Profile from "../Profile/page";
+import Education from "../education/page";
+import Profile from "../profile/page";
 import ResumeHeadline from "../resume-headline/page";
 
 
-import ExperienceDetails from "../Experience/page";
+import ExperienceDetails from "../experience/page";
 import useThemeContext from "@/context/context";
 import { useRouter } from "next/navigation";
-import PhotoUpload from "../resume/page";
+import PhotoUpload from "../photograph/page";
 import KeySkills from "../keyskills/page";
 
 
@@ -70,7 +70,7 @@ export default function Master() {
           <ItSkills />
         </Stepper.Step>
         <Stepper.Step label="Education Details" description="">
-          <Education1 />
+          <Education />
         </Stepper.Step>
         <Stepper.Step label="Enter Resume Headline" description="">
           <ResumeHeadline />
