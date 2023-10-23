@@ -44,6 +44,8 @@ const Profile = () => {
 
     console.log("---", formData.keyskills);
 
+    console.log("---", formData.photograph);
+
     if (!formData.profile_summary) {
       return alert("please enter profile summaary");
     }
@@ -77,6 +79,7 @@ const Profile = () => {
         },
         // courseDuration: `startYear: ${formData?.startingYear?.value}  endYear : ${formData?.endingYear?.value}`,
         // course_type: formData.coursetype,
+        photograph:formData.photograph,
         education: formData.education?.value,
         resume_headline: formData.resume_headline,
         relevent_experience: formData.relevent_experience,

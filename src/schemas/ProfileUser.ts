@@ -16,7 +16,7 @@ export default list({
   access: allowAll,
   fields: {
     user: relationship({ ref: "User", many: false }),
-    // photograph: image({ storage: "my_local_images" }),
+    photograph: text(),
     resume_headline: text(),
     itskills: relationship({
       ref: "ItSkill",

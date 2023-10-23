@@ -39,6 +39,7 @@ model ProfileUser {
   id                  String     @id @default(cuid())
   user                User?      @relation("ProfileUser_user", fields: [userId], references: [id])
   userId              String?    @map("user")
+  photograph          String     @default("")
   resume_headline     String     @default("")
   itskills            ItSkill[]  @relation("ProfileUser_itskills")
   education           String     @default("")

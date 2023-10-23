@@ -8,6 +8,8 @@ import ItSkills1 from "../itskils1/page";
 import ExperienceDetails from "../Experience/page";
 import useThemeContext from "@/context/context";
 import { useRouter } from "next/navigation";
+import PhotoUpload from "../resume/page";
+
 
 export default function Master() {
   const { setFormData, formData, active, setActive }: any = useThemeContext();
@@ -17,26 +19,29 @@ export default function Master() {
   const nextStep = () => {
     console.log(active);
 
-    if (formData.itskills.length === 0 && active === 0) {
+    if (!formData.photograph  && active === 0) {
+      return alert("please select and upload photograph");
+    }
+    if (formData.itskills.length === 0 && active === 1) {
       return alert("please select it skills");
     }
 
-    if (!formData.education && active === 1) {
+    if (!formData.education && active === 2) {
       return alert("please select education");
     }
 
-    if (!formData.resume_headline && active === 2) {
+    if (!formData.resume_headline && active === 3) {
       return alert("please enter resume headline");
     }
 
-    if (formData.keyskills.length === 0 && active === 3) {
+    if (formData.keyskills.length === 0 && active === 4) {
       return alert("please select it skills");
     }
 
-    if (!formData.relevent_experience && active === 4) {
+    if (!formData.relevent_experience && active === 5) {
       return alert("please add relevant experience");
     }
-    if (!formData.total_experience && active === 4) {
+    if (!formData.total_experience && active === 5) {
       return alert("please add total experience ");
     }
 
@@ -56,6 +61,9 @@ export default function Master() {
       </div>
 
       <Stepper active={active} onStepClick={setActive}>
+        <Stepper.Step label="Enter Photo" description="">
+          <PhotoUpload/>
+        </Stepper.Step>
         <Stepper.Step label="Enter IT Skills" description="">
           <ItSkills />
         </Stepper.Step>
@@ -77,13 +85,13 @@ export default function Master() {
       </Stepper>
 
       <Group position="center" mt="xl">
-        {active !== 6 && (
+        {active !== 7 && active !== 0 && (
           <Button variant="default" onClick={prevStep}>
             Back
           </Button>
         )}
 
-        {active !== 6 && active !== 5 && (
+        {active !== 7 && active !== 6 && (
           <button className="btn btn-primary" onClick={nextStep}>
             Next step
           </button>

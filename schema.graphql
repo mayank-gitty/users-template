@@ -210,6 +210,7 @@ input MultipleUserCreateInput {
 type ProfileUser {
   id: ID!
   user: User
+  photograph: String
   resume_headline: String
   itskills(where: ItSkillWhereInput! = {}, orderBy: [ItSkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ItSkillWhereUniqueInput): [ItSkill!]
   itskillsCount(where: ItSkillWhereInput! = {}): Int
@@ -231,6 +232,7 @@ input ProfileUserWhereInput {
   NOT: [ProfileUserWhereInput!]
   id: IDFilter
   user: UserWhereInput
+  photograph: StringFilter
   resume_headline: StringFilter
   itskills: ItSkillManyRelationFilter
   education: StringFilter
@@ -254,6 +256,7 @@ input KeySkillManyRelationFilter {
 
 input ProfileUserOrderByInput {
   id: OrderDirection
+  photograph: OrderDirection
   resume_headline: OrderDirection
   education: OrderDirection
   total_experience: OrderDirection
@@ -263,6 +266,7 @@ input ProfileUserOrderByInput {
 
 input ProfileUserUpdateInput {
   user: UserRelateToOneForUpdateInput
+  photograph: String
   resume_headline: String
   itskills: ItSkillRelateToManyForUpdateInput
   education: String
@@ -299,6 +303,7 @@ input ProfileUserUpdateArgs {
 
 input ProfileUserCreateInput {
   user: UserRelateToOneForCreateInput
+  photograph: String
   resume_headline: String
   itskills: ItSkillRelateToManyForCreateInput
   education: String

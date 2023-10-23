@@ -21,6 +21,7 @@ query Query {
     keyskills {
       name
     }
+    photograph 
     itskillsCount
     itskills {
       name
@@ -44,7 +45,8 @@ const DatatablePage = () => {
         total_experience: item.total_experience,
         relevant_experience: item.relevent_experience,
         profile_summary: item.profile_summary,
-        // photograph: <img src={item?.photograph?.url} />,
+
+        photograph: <img src={item?.photograph} />,
         // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
         itskills: item.itskills.map((u: any) => u.name).join(", "),
@@ -77,6 +79,12 @@ const DatatablePage = () => {
         {
           label: "Name",
           field: "user",
+          sort: "asc",
+          width: 200,
+        },
+        {
+          label: "Photograph",
+          field: "photograph",
           sort: "asc",
           width: 200,
         },

@@ -25,6 +25,11 @@
   height: 50px;
 }
 
+.profile-upload {
+  width: 5rem;
+  height: 5rem;
+}
+
 .resume {
   color: blue !important;
 }

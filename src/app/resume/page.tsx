@@ -1,42 +1,62 @@
-// import { useState } from "react";
+"use client";
+import { useState } from "react";
+import useThemeContext from "@/context/context";
 
-// export default function PrivatePage(props) {
-//   const [image, setImage] = useState(null);
-//   const [createObjectURL, setCreateObjectURL] = useState(null);
+export default function PhotoUpload(props) {
+  const [image, setImage] = useState(null);
+  const [createObjectURL, setCreateObjectURL] = useState(null);
 
-//   const uploadToClient = (event) => {
-//     if (event.target.files && event.target.files[0]) {
-//       const i = event.target.files[0];
+  const { setFormData, formData } = useThemeContext();
 
-//       setImage(i);
-//       setCreateObjectURL(URL.createObjectURL(i));
-//     }
-//   };
+  const uploadToClient = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
 
-//   const uploadToServer = async (event) => {        
-//     const body = new FormData();
-//     console.log("image-file1", image)
-//     body.append("image-file1", image);    
-//     const response = await fetch("/api/upload", {
-//       method: "POST",
-//       body
-//     });
-//   };
+      setImage(i);
+      setCreateObjectURL(URL.createObjectURL(i));
+    }
+  };
 
-//   return (
-//     <div>
-//       <div>
-//         <img src={createObjectURL} />
-//         <h4>Select Image</h4>
-//         <input type="file" name="myImage" onChange={uploadToClient} />
-//         <button
-//           className="btn btn-primary"
-//           type="submit"
-//           onClick={uploadToServer}
-//         >
-//           Send to server
-//         </button>
-//       </div>
-//     </div>
-//   );
-// }
+  const uploadToServer = async (event) => {
+    const body = new FormData();
+    console.log("image-file111111", image.name);
+    body.append("image-file1", image);
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body,
+    });
+
+    // console.log('mk',response)
+
+    if (response.ok) {
+      alert("uploaded succesfully");
+
+      setFormData((prevData) => ({
+        ...prevData,
+        ["photograph"]: `uploads/${image?.name}`, 
+      }));
+    }
+  };
+
+  return (
+    <div>
+      <div>
+
+        
+        <div className="profile-upload">
+          <img src={createObjectURL} />
+        </div>
+
+        <h4>Select Image</h4>
+        <input type="file" name="myImage" onChange={uploadToClient} />
+        <button
+          className="btn btn-primary"
+          type="submit"
+          onClick={uploadToServer}
+        >
+          upload
+        </button>
+      </div>
+    </div>
+  );
+}
