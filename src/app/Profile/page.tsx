@@ -95,7 +95,7 @@ const Profile = () => {
 
     console.log("profile-user", user);
 
-    setActive(6);
+    setActive(8);
 
     setTimeout(() => {
       router.push("/profileUsers");

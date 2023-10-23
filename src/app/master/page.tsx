@@ -45,7 +45,7 @@ export default function Master() {
       return alert("please add total experience ");
     }
 
-    setActive((current) => (current < 7 ? current + 1 : current));
+    setActive((current) => (current < 8 ? current + 1 : current));
   };
 
   const prevStep = () =>
@@ -85,13 +85,13 @@ export default function Master() {
       </Stepper>
 
       <Group position="center" mt="xl">
-        {active !== 7 && active !== 0 && (
+        {active !== 8 && active !== 0 && (
           <Button variant="default" onClick={prevStep}>
             Back
           </Button>
         )}
 
-        {active !== 7 && active !== 6 && (
+        {active !== 8 && active !== 6 && (
           <button className="btn btn-primary" onClick={nextStep}>
             Next step
           </button>

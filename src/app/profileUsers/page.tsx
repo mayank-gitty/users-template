@@ -44,7 +44,7 @@ const DatatablePage = () => {
 
     const users = user.profileUsers.map((item: any) => {
       return {
-        user:item?.user?.name,
+        user:item?.user?.name,  
         resume_headline: item.resume_headline,
         total_experience: item.total_experience,
         relevant_experience: item.relevent_experience,

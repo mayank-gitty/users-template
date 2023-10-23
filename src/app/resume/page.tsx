@@ -6,7 +6,7 @@ export default function PhotoUpload(props) {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
 
-  const { setFormData, formData } = useThemeContext();
+  const { setFormData, formData , } = useThemeContext();
 
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -42,9 +42,8 @@ export default function PhotoUpload(props) {
     <div>
       <div>
 
-        
         <div className="profile-upload">
-          <img src={createObjectURL} />
+                             <img src={createObjectURL || formData.photograph } />  
         </div>
 
         <h4>Select Image</h4>
