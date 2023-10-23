@@ -18,6 +18,7 @@ export default list({
     user: relationship({ ref: "User", many: false }),
     photograph: text(),
     resume_headline: text(),
+  
     itskills: relationship({
       ref: "ItSkill",
       many: true,

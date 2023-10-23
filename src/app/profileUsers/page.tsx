@@ -17,7 +17,11 @@ query Query {
     keyskillsCount
     user{
       name
+      company {
+        name
+      }
     }
+
     keyskills {
       name
     }
@@ -45,7 +49,7 @@ const DatatablePage = () => {
         total_experience: item.total_experience,
         relevant_experience: item.relevent_experience,
         profile_summary: item.profile_summary,
-
+        company:item?.user?.company?.name,
         photograph: <img src={item?.photograph} />,
         // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
@@ -85,6 +89,12 @@ const DatatablePage = () => {
         {
           label: "Photograph",
           field: "photograph",
+          sort: "asc",
+          width: 200,
+        },
+        {
+          label: "Company",
+          field: "company",
           sort: "asc",
           width: 200,
         },
