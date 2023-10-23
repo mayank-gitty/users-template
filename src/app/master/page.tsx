@@ -56,27 +56,27 @@ export default function Master() {
       </div>
 
       <Stepper active={active} onStepClick={setActive}>
-        <Stepper.Step label="First step" description="Enter IT Skills">
+        <Stepper.Step label="Enter IT Skills" description="">
           <ItSkills />
         </Stepper.Step>
-        <Stepper.Step label="Second step" description="Education Details">
+        <Stepper.Step label="Education Details" description="">
           <Education1 />
         </Stepper.Step>
-        <Stepper.Step label="Third step" description="Enter Resume Headline">
+        <Stepper.Step label="Enter Resume Headline" description="">
           <ResumeHeadline />
         </Stepper.Step>
-        <Stepper.Step label="Fourth step" description="Enter Key Skills">
+        <Stepper.Step label="Enter Key Skills" description="">
           <ItSkills1 />
         </Stepper.Step>
-        <Stepper.Step label="Fifth step" description="Enter Expererience">
+        <Stepper.Step label="Enter Expererience" >
           <ExperienceDetails />
         </Stepper.Step>
-        <Stepper.Step label="Final step" description="Enter Profile Summary">
+        <Stepper.Step label="Enter Profile Summary" description="">
           <Profile />
         </Stepper.Step>
       </Stepper>
 
-      <Group justify="center" mt="xl">
+      <Group position="center" mt="xl">
         {active !== 6 && (
           <Button variant="default" onClick={prevStep}>
             Back
