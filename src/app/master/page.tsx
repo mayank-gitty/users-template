@@ -4,11 +4,13 @@ import ItSkills from "../itskill/page";
 import Education1 from "../education1/page";
 import Profile from "../Profile/page";
 import ResumeHeadline from "../resume-headline/page";
-import ItSkills1 from "../itskils1/page";
+
+
 import ExperienceDetails from "../Experience/page";
 import useThemeContext from "@/context/context";
 import { useRouter } from "next/navigation";
 import PhotoUpload from "../resume/page";
+import KeySkills from "../keyskills/page";
 
 
 export default function Master() {
@@ -74,7 +76,7 @@ export default function Master() {
           <ResumeHeadline />
         </Stepper.Step>
         <Stepper.Step label="Enter Key Skills" description="">
-          <ItSkills1 />
+          <KeySkills />
         </Stepper.Step>
         <Stepper.Step label="Enter Expererience" >
           <ExperienceDetails />

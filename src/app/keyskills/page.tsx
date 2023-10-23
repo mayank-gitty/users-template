@@ -26,7 +26,7 @@ query KeySkills {
 }
 `;
 
-const ItSkills1 = () => {
+const KeySkills = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [DefaultSkills, setDefaultSkills] = useState([]);
 
@@ -224,4 +224,4 @@ const ItSkills1 = () => {
   );
 };
 
-export default ItSkills1;
+export default KeySkills;

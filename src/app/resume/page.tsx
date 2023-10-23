@@ -46,7 +46,7 @@ export default function PhotoUpload(props) {
                              <img src={createObjectURL || formData.photograph } />  
         </div>
 
-        <h4>Select Image</h4>
+        <h4>  Select Image </h4>
         <input type="file" name="myImage" onChange={uploadToClient} />
         <button
           className="btn btn-primary"
