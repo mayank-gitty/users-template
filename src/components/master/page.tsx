@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Stepper, Button, Group } from "@mantine/core";
 import ItSkills from "../itskill/page";
-import Education1 from "../education1/page";
-import Profile from "../Profile/page";
+import Education from "../education/page";
+import Profile from "../profile/page";
 import ResumeHeadline from "../resume-headline/page";
-import ItSkills1 from "../itskils1/page";
-import ExperienceDetails from "../Experience/page";
+
+
+import ExperienceDetails from "../experience/page";
 import useThemeContext from "@/context/context";
 import { useRouter } from "next/navigation";
-import PhotoUpload from "../resume/page";
+import PhotoUpload from "../photograph/page";
+import KeySkills from "../keyskills/page";
 
 
 export default function Master() {
@@ -45,7 +47,7 @@ export default function Master() {
       return alert("please add total experience ");
     }
 
-    setActive((current) => (current < 7 ? current + 1 : current));
+    setActive((current) => (current < 8 ? current + 1 : current));
   };
 
   const prevStep = () =>
@@ -68,13 +70,13 @@ export default function Master() {
           <ItSkills />
         </Stepper.Step>
         <Stepper.Step label="Education Details" description="">
-          <Education1 />
+          <Education />
         </Stepper.Step>
         <Stepper.Step label="Enter Resume Headline" description="">
           <ResumeHeadline />
         </Stepper.Step>
         <Stepper.Step label="Enter Key Skills" description="">
-          <ItSkills1 />
+          <KeySkills />
         </Stepper.Step>
         <Stepper.Step label="Enter Expererience" >
           <ExperienceDetails />
@@ -85,13 +87,13 @@ export default function Master() {
       </Stepper>
 
       <Group position="center" mt="xl">
-        {active !== 7 && active !== 0 && (
+        {active !== 8 && active !== 0 && (
           <Button variant="default" onClick={prevStep}>
             Back
           </Button>
         )}
 
-        {active !== 7 && active !== 6 && (
+        {active !== 8 && active !== 6 && (
           <button className="btn btn-primary" onClick={nextStep}>
             Next step
           </button>

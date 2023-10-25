@@ -148,7 +148,7 @@ const Education: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newErrors = validateForm();
+    const newErrors = validateForm(); 
 
     if (Object.values(newErrors).every((error) => !error)) {
       console.log("Form data submitted:", formData);
