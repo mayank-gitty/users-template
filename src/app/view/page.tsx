@@ -259,7 +259,7 @@ export default function View(props: IAppProps) {
 
     setTimeout(() => {
       router.push("/profileUsers");
-    }, 1000);
+    }, 2000);
   };
 
   return (

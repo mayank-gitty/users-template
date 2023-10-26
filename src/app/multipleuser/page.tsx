@@ -142,15 +142,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
         address: item.address,
       };
     });
-<<<<<<< HEAD
-
-
-    
-    console.log('ppp',Mutatedata);
-
-
-=======
->>>>>>> d9441dab5e5e988e6ac29b4762b27f51802c1340
     const user = await client.request(ADD_MULTIPLE_USER, {
          data: Mutatedata,
         });
