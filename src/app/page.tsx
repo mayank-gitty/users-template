@@ -58,9 +58,9 @@ export default function Home() {
       <MantineProvider>
         {loggedIn && (
           <div className="d-flex justify-content-end">
-            <button className="btn btn-warning"  onClick={()=> router.push('/multi_users_table') } >
+            {/* <button className="btn btn-warning"  onClick={()=> router.push('/multi_users_table') } >
                multi users
-            </button>
+            </button> */}
 
             <button className="btn btn-warning"  onClick={()=> router.push('/multipleuser') } >
                 create users

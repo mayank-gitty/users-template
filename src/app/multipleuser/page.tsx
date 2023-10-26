@@ -101,8 +101,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
   };
 
   const saveAll = async () => {
-    // console.log("here ", form.validate());
-    console.log(form.values.entries, "testing");
+    
+
     const Mutatedata = form.values.entries.map((item) => {
       return {
         name: item.userName,
@@ -122,14 +122,20 @@ const AddTimeLine = ({ AllProjects }: any) => {
     });
     console.log(user);
 
-    router.push('/multi_users_table')
+    
 
-
+    if (form.username === 'demo' && form.mobileNumber === 'password' && form.email === 'password' && form.address === 'password') {
+      // Successful login, you can redirect or perform other actions here
+      router.push('/multi_users_table')
+  } else {
+      // Failed login, you can show an error message
+      alert('Login failed. Please check your credentials.');
+  }
   };
 
   const clickS = "bg-secondary text-white";
   const notClickS = "bg-gray-100 text-black";
-
+  
   return (
     <>
       <form onSubmit={form.onSubmit((values) => {})}>
