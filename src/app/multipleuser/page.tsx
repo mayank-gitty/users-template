@@ -100,10 +100,41 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
   };
 
+  // const saveAll = async () => {
+    
+
+  //   const Mutatedata = form.values.entries.map((item) => {
+  //     return {
+  //       name: item.userName,
+  //       mobilenumber: item.mobileNumber,
+  //       email: item.email,
+  //       address: item.address,
+  //     };
+  //   });
+
+
+    
+  //   console.log(Mutatedata);
+
+
+  //   const user = await client.request(ADD_MULTIPLE_USER, {
+  //     data: Mutatedata,
+  //   });
+  //   console.log(user);
+
+    
+
+  //   if (form.username === 'demo' && form.mobileNumber === 'password' && form.email === 'password' && form.address === 'password') {
+  //     // Successful login, you can redirect or perform other actions here
+  //     router.push('/multi_users_table')
+  // } else {
+  //     // Failed login, you can show an error message
+  //     alert('Login failed. Please check your credentials.');
+  // }
+  // };
+
   const saveAll = async () => {
-    // console.log("here ", form.validate());
-    console.log(form.values.entries, "testing");
-    const Mutatedata = form.values.entries.map((item) => {
+      const Mutatedata = form.values.entries.map((item) => {
       return {
         name: item.userName,
         mobilenumber: item.mobileNumber,
@@ -111,25 +142,53 @@ const AddTimeLine = ({ AllProjects }: any) => {
         address: item.address,
       };
     });
+<<<<<<< HEAD
 
 
     
     console.log('ppp',Mutatedata);
 
 
+=======
+>>>>>>> d9441dab5e5e988e6ac29b4762b27f51802c1340
     const user = await client.request(ADD_MULTIPLE_USER, {
-      data: Mutatedata,
+         data: Mutatedata,
+        });
+    const validationErrors: FormErrors = {};
+
+    // if (!form.values.date) {
+    //   validationErrors.date = "Date is required";
+    // }
+
+    form.values.entries.forEach((entry, index) => {
+      if (!entry.userName) {
+        validationErrors[`entries.${index}.userName`] = "User Name is required";
+      }
+      if (!entry.mobileNumber) {
+        validationErrors[`entries.${index}.mobileNumber`] = "Mobile Number is required";
+      }
+      if (!entry.email) {
+        validationErrors[`entries.${index}.email`] = "Email is required";
+      }
+      if (!entry.address) {
+        validationErrors[`entries.${index}.address`] = "Address is required";
+      }
     });
-    console.log(user);
 
-    router.push('/multi_users_table')
+    if (Object.keys(validationErrors).length === 0) {
+      // Form is valid, submit the data
+      // ...
 
-
+      // Redirect or perform other actions
+      router.push('/multi_users_table');
+    } else {
+      // Form is invalid, show validation errors
+      setFormErrors(validationErrors);
+    }
   };
-
   const clickS = "bg-secondary text-white";
   const notClickS = "bg-gray-100 text-black";
-
+  
   return (
     <>
       <form onSubmit={form.onSubmit((values) => {})}>

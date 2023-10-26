@@ -36,6 +36,7 @@
     "react-avatar-editor": "^13.0.0",
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",
     "validator": "^13.11.0"
   },
