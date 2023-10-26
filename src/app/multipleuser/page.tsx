@@ -114,7 +114,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
 
     
-    console.log(Mutatedata);
+    console.log('ppp',Mutatedata);
 
 
     const user = await client.request(ADD_MULTIPLE_USER, {

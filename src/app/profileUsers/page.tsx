@@ -5,11 +5,13 @@ import { MDBDataTable } from "mdbreact";
 import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import { link } from "fs";
+import { useRouter } from "next/navigation";
 
 // Define mutation
 const PROFILE_USERS = gql`
-query Query {
-  profileUsers {
+query ProfileUsers($orderBy: [ProfileUserOrderByInput!]!) {
+  profileUsers (orderBy: $orderBy) {
+    id
     total_experience
     resume_headline
     relevent_experience
@@ -37,8 +39,16 @@ query Query {
 const DatatablePage = () => {
   const [main, setMain] = useState();
 
+  const router = useRouter()
+
   const getData = async () => {
-    const user: any = await client.request(PROFILE_USERS);
+    const user: any = await client.request(PROFILE_USERS,{
+      "orderBy": [
+        {
+          "createdAt": "asc"
+        }
+      ]
+    });
 
     console.log("mm", user);
 
@@ -54,6 +64,10 @@ const DatatablePage = () => {
         // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
         itskills: item.itskills.map((u: any) => u.name).join(", "),
+        action:<button className="btn btn-primary" onClick={()=>router.push(`/view?id=${item.id}`)} > edit </button>
+
+          
+      
         // education: item.education.course,
         // user: item?.user?.name,
         // company: item?.user?.company?.map((u: any) => u.name).join(", "),
@@ -83,31 +97,31 @@ const DatatablePage = () => {
         {
           label: "Name",
           field: "user",
-          sort: "asc",
+          sort: "disabled",
           width: 200,
         },
         {
           label: "Photograph",
           field: "photograph",
-          sort: "asc",
+          sort: "disabled",
           width: 200,
         },
         {
           label: "Company",
           field: "company",
-          sort: "asc",
+          sort: "disabled",
           width: 200,
         },
         {
           label: "Resume Headline",
           field: "resume_headline",
-          sort: "asc",
+          sort: "disabled",
           width: 200,
         },
         {
           label: "Keyskills",
           field: "keyskills",
-          sort: "asc",
+          sort: "disabled",
           width: 100,
         },
         // {
@@ -119,33 +133,33 @@ const DatatablePage = () => {
         {
           label: "Itskills",
           field: "itskills",
-          sort: "asc",
+          sort: "disabled",
           width: 100,
         },
         {
           label: "Total Experience",
           field: "total_experience",
-          sort: "asc",
+          sort: "disabled",
           width: 100,
         },
         {
           label: "Relevant Experience",
           field: "relevant_experience",
-          sort: "asc",
+          sort: "disabled",
           width: 100,
         },
         {
           label: "Profile Summary",
           field: "profile_summary",
-          sort: "asc",
+          sort: "disabled",
           width: 100,
         },
-        // {
-        //   label: "Resume",
-        //   field: "resume",
-        //   sort: "asc",
-        //   width: 100,
-        // },
+        {
+          label: "Action",
+          field: "action",
+          sort: "disabled",
+          width: 100,
+        },
       ],
       rows: users,
     };
@@ -159,7 +173,7 @@ const DatatablePage = () => {
 
   return (
     <div className="profile-table">
-      <MDBDataTable bordered small data={main} />
+      <MDBDataTable   bordered small data={main} />
     </div>
   );
 };

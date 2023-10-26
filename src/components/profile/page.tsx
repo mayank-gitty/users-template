@@ -25,12 +25,43 @@ const PROFILE_USER = gql`
   }
 `;
 
+const PROFILE_USERS = gql`
+query Query {
+  profileUsers {
+    total_experience
+    resume_headline
+    relevent_experience
+    profile_summary
+    keyskillsCount
+    user{
+      name
+      email
+      company {
+        name
+      }
+    }
+
+    keyskills {
+      name
+    }
+    photograph 
+    itskillsCount
+    itskills {
+      name
+    }
+  }
+}
+`;
+
 const Profile = () => {
   const router = useRouter();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const { setFormData, formData, active, setActive }: any = useThemeContext();
+
+
+  
 
   const handleChange = (field, value) => {
     setFormData((prevData) => ({
@@ -40,15 +71,23 @@ const Profile = () => {
   };
 
   const save = async () => {
-    console.log("---", formData.itskills);
+    // console.log("---", formData.itskills);
 
-    console.log("---", formData.keyskills);
+    // console.log("---", formData.keyskills);
 
-    console.log("---", formData.photograph);
+    // console.log("---", formData.photograph);
+
+
 
     if (!formData.profile_summary) {
       return alert("please enter profile summaary");
     }
+
+
+    // const all_users = await client.request(PROFILE_USERS)
+
+
+    // const check = all_users.filter((item)=>item.)
 
     const itskills = formData?.itskills?.map((item: any) => {
       return {

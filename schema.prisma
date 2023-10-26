@@ -47,6 +47,7 @@ model ProfileUser {
   total_experience    String     @default("")
   relevent_experience String     @default("")
   profile_summary     String     @default("")
+  createdAt           DateTime?  @default(now())
 
   @@index([userId])
 }

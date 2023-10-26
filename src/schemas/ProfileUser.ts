@@ -7,6 +7,7 @@ import {
   file,
   relationship,
   integer,
+  timestamp
 } from "@keystone-6/core/fields";
 import { allowAll } from "@keystone-6/core/access";
 import { keystoneContext } from "../keystone/context";
@@ -53,6 +54,9 @@ export default list({
     relevent_experience: text(),
     // projects: relationship({ ref: 'Project', many: true, }),
     profile_summary: text(),
+    createdAt: timestamp({
+      defaultValue: { kind: 'now' },
+    }),
     // resume: file({ storage: "my_local_files" }),
   },
   hooks: {
