@@ -108,6 +108,7 @@ const KeySkills = () => {
                 <MultiSelect
                   label="select skill"
                   placeholder="Pick value"
+                  maxSelectedValues={5}
                   onChange={(e) => handleChange(e)}
                   value={formData.keyskills}
                   data={DefaultSkills}
