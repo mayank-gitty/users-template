@@ -114,7 +114,7 @@ const ExperienceDetails = () => {
                   nothingFound="No options"
                   maxDropdownHeight={280}
                   data={releventmonths}
-                  value={formData.total_experience}
+                  value={formData.relevent_experience}
                 />
             </SimpleGrid>
           </form>
