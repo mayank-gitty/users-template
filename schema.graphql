@@ -220,6 +220,7 @@ type ProfileUser {
   total_experience: String
   relevent_experience: String
   profile_summary: String
+  createdAt: DateTime
 }
 
 input ProfileUserWhereUniqueInput {
@@ -240,6 +241,7 @@ input ProfileUserWhereInput {
   total_experience: StringFilter
   relevent_experience: StringFilter
   profile_summary: StringFilter
+  createdAt: DateTimeNullableFilter
 }
 
 input ItSkillManyRelationFilter {
@@ -262,6 +264,7 @@ input ProfileUserOrderByInput {
   total_experience: OrderDirection
   relevent_experience: OrderDirection
   profile_summary: OrderDirection
+  createdAt: OrderDirection
 }
 
 input ProfileUserUpdateInput {
@@ -274,6 +277,7 @@ input ProfileUserUpdateInput {
   total_experience: String
   relevent_experience: String
   profile_summary: String
+  createdAt: DateTime
 }
 
 input UserRelateToOneForUpdateInput {
@@ -311,6 +315,7 @@ input ProfileUserCreateInput {
   total_experience: String
   relevent_experience: String
   profile_summary: String
+  createdAt: DateTime
 }
 
 input UserRelateToOneForCreateInput {
