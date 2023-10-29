@@ -26,31 +26,31 @@ const PROFILE_USER = gql`
 `;
 
 const PROFILE_USERS = gql`
-query Query {
-  profileUsers {
-    total_experience
-    resume_headline
-    relevent_experience
-    profile_summary
-    keyskillsCount
-    user{
-      name
-      email
-      company {
+  query Query {
+    profileUsers {
+      total_experience
+      resume_headline
+      relevent_experience
+      profile_summary
+      keyskillsCount
+      user {
+        name
+        email
+        company {
+          name
+        }
+      }
+
+      keyskills {
+        name
+      }
+      photograph
+      itskillsCount
+      itskills {
         name
       }
     }
-
-    keyskills {
-      name
-    }
-    photograph 
-    itskillsCount
-    itskills {
-      name
-    }
   }
-}
 `;
 
 const Profile = () => {
@@ -59,9 +59,6 @@ const Profile = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const { setFormData, formData, active, setActive }: any = useThemeContext();
-
-
-  
 
   const handleChange = (field, value) => {
     setFormData((prevData) => ({
@@ -77,15 +74,11 @@ const Profile = () => {
 
     // console.log("---", formData.photograph);
 
-
-
     if (!formData.profile_summary) {
       return alert("please enter profile summaary");
     }
 
-
     // const all_users = await client.request(PROFILE_USERS)
-
 
     // const check = all_users.filter((item)=>item.)
 
@@ -112,18 +105,19 @@ const Profile = () => {
           connect: itskills,
         },
         user: {
-          connect:  {
-            id:localStorage.getItem("id")
-          }
+          connect: {
+            id: localStorage.getItem("id"),
+          },
         },
         // courseDuration: `startYear: ${formData?.startingYear?.value}  endYear : ${formData?.endingYear?.value}`,
         // course_type: formData.coursetype,
-        photograph:formData.photograph,
+        photograph: formData.photograph,
         education: formData.education?.value,
         resume_headline: formData.resume_headline,
         relevent_experience: formData.relevent_experience,
         total_experience: formData.total_experience,
         profile_summary: formData.profile_summary,
+        resume: formData.resume,
         // gradingSystem: formData.gradingsystem,
         // course: formData.course.value,
         // marks: formData.marks,

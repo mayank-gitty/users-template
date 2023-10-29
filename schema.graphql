@@ -211,10 +211,13 @@ type ProfileUser {
   id: ID!
   user: User
   photograph: String
+  resume: String
   resume_headline: String
   itskills(where: ItSkillWhereInput! = {}, orderBy: [ItSkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ItSkillWhereUniqueInput): [ItSkill!]
   itskillsCount(where: ItSkillWhereInput! = {}): Int
   education: String
+  active: Boolean
+  open_to_work: Boolean
   keyskills(where: KeySkillWhereInput! = {}, orderBy: [KeySkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: KeySkillWhereUniqueInput): [KeySkill!]
   keyskillsCount(where: KeySkillWhereInput! = {}): Int
   total_experience: String
@@ -234,9 +237,12 @@ input ProfileUserWhereInput {
   id: IDFilter
   user: UserWhereInput
   photograph: StringFilter
+  resume: StringFilter
   resume_headline: StringFilter
   itskills: ItSkillManyRelationFilter
   education: StringFilter
+  active: BooleanFilter
+  open_to_work: BooleanFilter
   keyskills: KeySkillManyRelationFilter
   total_experience: StringFilter
   relevent_experience: StringFilter
@@ -250,6 +256,11 @@ input ItSkillManyRelationFilter {
   none: ItSkillWhereInput
 }
 
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
 input KeySkillManyRelationFilter {
   every: KeySkillWhereInput
   some: KeySkillWhereInput
@@ -259,8 +270,11 @@ input KeySkillManyRelationFilter {
 input ProfileUserOrderByInput {
   id: OrderDirection
   photograph: OrderDirection
+  resume: OrderDirection
   resume_headline: OrderDirection
   education: OrderDirection
+  active: OrderDirection
+  open_to_work: OrderDirection
   total_experience: OrderDirection
   relevent_experience: OrderDirection
   profile_summary: OrderDirection
@@ -270,9 +284,12 @@ input ProfileUserOrderByInput {
 input ProfileUserUpdateInput {
   user: UserRelateToOneForUpdateInput
   photograph: String
+  resume: String
   resume_headline: String
   itskills: ItSkillRelateToManyForUpdateInput
   education: String
+  active: Boolean
+  open_to_work: Boolean
   keyskills: KeySkillRelateToManyForUpdateInput
   total_experience: String
   relevent_experience: String
@@ -308,9 +325,12 @@ input ProfileUserUpdateArgs {
 input ProfileUserCreateInput {
   user: UserRelateToOneForCreateInput
   photograph: String
+  resume: String
   resume_headline: String
   itskills: ItSkillRelateToManyForCreateInput
   education: String
+  active: Boolean
+  open_to_work: Boolean
   keyskills: KeySkillRelateToManyForCreateInput
   total_experience: String
   relevent_experience: String

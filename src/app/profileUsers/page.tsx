@@ -29,6 +29,7 @@ query ProfileUsers($orderBy: [ProfileUserOrderByInput!]!) {
     }
     photograph 
     itskillsCount
+    resume 
     itskills {
       name
     }
@@ -64,10 +65,8 @@ const DatatablePage = () => {
         // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
         itskills: item.itskills.map((u: any) => u.name).join(", "),
-        action:<button className="btn btn-primary" onClick={()=>router.push(`/view?id=${item.id}`)} > edit </button>
-
-          
-      
+        action:<button className="btn btn-primary" onClick={()=>router.push(`/view?id=${item.id}`)} > edit </button>,
+        resume:item.resume ? <a  className="resume-link"   download  href={item.resume} > view  resume </a> : ''        
         // education: item.education.course,
         // user: item?.user?.name,
         // company: item?.user?.company?.map((u: any) => u.name).join(", "),
@@ -151,6 +150,12 @@ const DatatablePage = () => {
         {
           label: "Profile Summary",
           field: "profile_summary",
+          sort: "disabled",
+          width: 100,
+        },
+        {
+          label: "resume",
+          field: "resume",
           sort: "disabled",
           width: 100,
         },

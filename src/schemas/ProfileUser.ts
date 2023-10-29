@@ -7,6 +7,7 @@ import {
   file,
   relationship,
   integer,
+  checkbox,
   timestamp
 } from "@keystone-6/core/fields";
 import { allowAll } from "@keystone-6/core/access";
@@ -18,8 +19,9 @@ export default list({
   fields: {
     user: relationship({ ref: "User", many: false }),
     photograph: text(),
+    resume:text(),
     resume_headline: text(),
-  
+    
     itskills: relationship({
       ref: "ItSkill",
       many: true,
@@ -28,6 +30,13 @@ export default list({
       },
     }),
     education:text(),
+    active: checkbox({
+      defaultValue: true,
+      }),
+    open_to_work: checkbox({
+      defaultValue: true,
+      }),
+      
     // course:text(),
     // university: text(),
     // course_type: select({
