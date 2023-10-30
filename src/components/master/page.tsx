@@ -38,14 +38,25 @@ export default function Master() {
     }
 
     if (formData.keyskills.length === 0 && active === 4) {
-      return alert("please select it skills");
+      return alert("please select key skills");
     }
 
+
+    if (!formData.total_experience && active === 5) {
+      return alert("please add total experience ");
+    }
+
+    if (!formData.total_experience && active === 5) {
+      return alert("please add total experience ");
+    }
+    if (!formData.total_experience_months && active === 5) {
+      return alert("please add experience months");
+    }
     if (!formData.relevent_experience && active === 5) {
       return alert("please add relevant experience");
     }
-    if (!formData.total_experience && active === 5) {
-      return alert("please add total experience ");
+    if (!formData.total_relevant_months && active === 5) {
+      return alert("please add relevant experience months");
     }
     if (!formData.resume && active === 6) {
       return alert("please upload resume");
@@ -94,13 +105,13 @@ export default function Master() {
       </Stepper>
 
       <Group position="center" mt="xl">
-        {active !== 9 && active !== 0 && (
+        {active !== 9 && active !== 0 &&  active !== 8 && (
           <Button variant="default" onClick={prevStep}>
-            Back
+            Back 
           </Button>
         )}
 
-        {active !== 9 && active !== 7 && (
+        {active !== 9 && active !== 7 &&  active !== 8 && (
           <button className="btn btn-primary" onClick={nextStep}>
             Next step
           </button>
