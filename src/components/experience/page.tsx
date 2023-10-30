@@ -1,4 +1,4 @@
-import { Textarea } from "@mantine/core";
+import { SimpleGrid, Textarea } from "@mantine/core";
 import React, { useState } from "react";
 import {
   Button,
@@ -13,9 +13,7 @@ import {
 import useThemeContext from "@/context/context";
 
 const ExperienceDetails = () => {
-
-
-    const { setFormData, formData }: any = useThemeContext();
+  const { setFormData, formData }: any = useThemeContext();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -26,8 +24,6 @@ const ExperienceDetails = () => {
     }));
   };
 
-  
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -37,12 +33,15 @@ const ExperienceDetails = () => {
   const handleCancel = () => {
     // Reset the form
     setFormData({
-    
       profileSummary: "",
-    
     });
   };
-
+  const data = Array(20)
+    .fill(0)
+    .map((_, index) => `${index} years`);
+    const releventmonths = Array(13)
+    .fill(0)
+    .map((_, index) => `${index} months`);
   return (
     <div
       style={{
@@ -50,7 +49,7 @@ const ExperienceDetails = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "auto",
-        marginTop:"2rem"
+        marginTop: "2rem",
       }}
     >
       <Container size="xs" px="xs">
@@ -62,31 +61,62 @@ const ExperienceDetails = () => {
           <Divider my="sm" />
 
           <form onSubmit={handleSubmit}>
-            <Grid>
-              <Grid.Col span={12}>
-                <label htmlFor=""> Total Experience</label>
-                <Textarea
+            <SimpleGrid cols={2}>
+              {/* <Textarea
                   placeholder="enter total experience"
                   size="md"
                   value={formData.total_experience}
                   onChange={(e) =>
                     handleChange("total_experience", e.target.value)
                   }
-                />
-              </Grid.Col>
-              <Grid.Col span={12}>
-                <label htmlFor=""> Total Relevant Experience</label>
-                <Textarea
-                  placeholder="enter relevant experience"
+                /> */}
+              <Select
+                placeholder="select years"
+                searchable
+                nothingFound="No options"
+                maxDropdownHeight={280}
+                data={data}
+                value={formData.total_experience}
+              />
+              <Select
+                placeholder="select months"
+                searchable
+                nothingFound="No options"
+                maxDropdownHeight={280}
+                data={releventmonths}
+                value={formData.total_experience}
+              />
+              <div>
+           Total Relevant Experience
+                {/* <Textarea
+                  placeholder="select years"
                   size="md"
                   value={formData.relevent_experience}
                   onChange={(e) =>
                     handleChange("relevent_experience", e.target.value)
                   }
+                /> */}
+
+                <Select
+                  placeholder="select months"
+                  searchable
+                  nothingFound="No options"
+                  maxDropdownHeight={280}
+                  data={data}
+                  value={formData.relevent_experience}
+                  />
+               
+              </div>
+              <Select
+              mt={23}
+                  placeholder="select months"
+                  searchable
+                  nothingFound="No options"
+                  maxDropdownHeight={280}
+                  data={releventmonths}
+                  value={formData.relevent_experience}
                 />
-              </Grid.Col>
-  
-            </Grid>
+            </SimpleGrid>
           </form>
           {formSubmitted && (
             <div

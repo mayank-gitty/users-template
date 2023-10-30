@@ -151,6 +151,7 @@
 // export default KeySkills;
 
 import React, { Component } from 'react';
+import { MultiSelect } from '@mantine/core';
 
 class MultiForm extends Component {
   constructor(props) {

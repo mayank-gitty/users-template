@@ -67,13 +67,13 @@ export default function Master() {
       </div>
 
       <Stepper active={active} onStepClick={setActive}>
-        <Stepper.Step label="Enter Photo" description="">
+        <Stepper.Step label="Upload Photo" description="">
           <PhotoUpload/>
         </Stepper.Step>
         <Stepper.Step label="Enter IT Skills" description="">
           <ItSkills />
         </Stepper.Step>
-        <Stepper.Step label="Education Details" description="">
+        <Stepper.Step label="Education" description="">
           <Education />
         </Stepper.Step>
         <Stepper.Step label="Enter Resume Headline" description="">
