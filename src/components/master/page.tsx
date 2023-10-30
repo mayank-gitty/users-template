@@ -11,6 +11,7 @@ import useThemeContext from "@/context/context";
 import { useRouter } from "next/navigation";
 import PhotoUpload from "../photograph/page";
 import KeySkills from "../keyskills/page";
+import Resume from "../resume/page";
 
 
 export default function Master() {
@@ -45,6 +46,9 @@ export default function Master() {
     }
     if (!formData.total_experience && active === 5) {
       return alert("please add total experience ");
+    }
+    if (!formData.resume && active === 6) {
+      return alert("please upload resume");
     }
 
     setActive((current) => (current < 8 ? current + 1 : current));
@@ -81,19 +85,22 @@ export default function Master() {
         <Stepper.Step label="Enter Expererience" >
           <ExperienceDetails />
         </Stepper.Step>
+        <Stepper.Step label="upload resume" >
+          <Resume/>
+        </Stepper.Step>
         <Stepper.Step label="Enter Profile Summary" description="">
           <Profile />
         </Stepper.Step>
       </Stepper>
 
       <Group position="center" mt="xl">
-        {active !== 8 && active !== 0 && (
+        {active !== 9 && active !== 0 && (
           <Button variant="default" onClick={prevStep}>
             Back
           </Button>
         )}
 
-        {active !== 8 && active !== 6 && (
+        {active !== 9 && active !== 7 && (
           <button className="btn btn-primary" onClick={nextStep}>
             Next step
           </button>

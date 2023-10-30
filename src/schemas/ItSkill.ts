@@ -4,8 +4,10 @@ import { allowAll } from '@keystone-6/core/access';
 
 export default list({
   access: allowAll,
+
   fields: {
-   name: text(),
+    name: text(),
+    masterId: text(),
     version: text(),
     lastUsed: text(),
    experience: text(),

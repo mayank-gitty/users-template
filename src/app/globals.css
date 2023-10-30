@@ -34,6 +34,11 @@
   color: blue !important;
 }
 
+
+.resume-link {
+  color: blue;
+}
+
 .login-bg {
   background: cadetblue ;
 }

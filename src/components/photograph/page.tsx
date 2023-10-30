@@ -36,6 +36,7 @@ export default function PhotoUpload(props) {
         ["photograph"]: `uploads/${image?.name}`, 
       }));
     }
+    
   };
 
   return (
