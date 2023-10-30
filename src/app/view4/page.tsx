@@ -118,6 +118,8 @@ export default function View(props: IAppProps) {
       relevent_experience: "",
       photograph: "",
       name: "",
+      status:"",
+      work:""
     },
     validate: {
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -187,8 +189,10 @@ export default function View(props: IAppProps) {
       profile_summary: user.profileUsers[0]?.profile_summary,
       total_experience: user.profileUsers[0]?.total_experience,
       relevent_experience: user.profileUsers[0]?.relevent_experience,
-      photograph: user.profileUsers[0]?.photograph,
+      photograph: user.profileUsers[0]?.photograph, 
       name: user?.profileUsers[0]?.user.name,
+      status:user?.profileUsers[0]?.active,
+      work:user?.profileUsers[0]?.open_to_work
     });
   };
 
@@ -308,9 +312,9 @@ export default function View(props: IAppProps) {
 
           <div className="right-section d-flex flex-column">
 
-            <p  className="status" >  {'active'}  </p> 
+            <p  className="status" >  {form.getInputProps('status').value ? 'active' : 'in active' }  </p> 
 
-             <p  className="work" >    {'open to work'}  </p> 
+             <p  className="work" >   {form.getInputProps('work').value ? 'open to work' : 'engaged' }  </p> 
 
           </div>
         </div>
