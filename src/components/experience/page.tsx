@@ -18,10 +18,15 @@ const ExperienceDetails = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleChange = (field, value) => {
+
+    console.log('field',field,value)
+
     setFormData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
+
+
   };
 
   const handleSubmit = (e) => {
@@ -30,18 +35,27 @@ const ExperienceDetails = () => {
     setFormSubmitted(true);
   };
 
+
+
+
   const handleCancel = () => {
     // Reset the form
     setFormData({
       profileSummary: "",
     });
   };
+
   const data = Array(20)
     .fill(0)
     .map((_, index) => `${index} years`);
     const releventmonths = Array(13)
     .fill(0)
     .map((_, index) => `${index} months`);
+
+
+    console.log('data',data)
+
+
   return (
     <div
       style={{
@@ -75,6 +89,7 @@ const ExperienceDetails = () => {
                 searchable
                 nothingFound="No options"
                 maxDropdownHeight={280}
+                onChange={(e)=>handleChange('total_experience',e)}
                 data={data}
                 value={formData.total_experience}
               />
@@ -83,8 +98,9 @@ const ExperienceDetails = () => {
                 searchable
                 nothingFound="No options"
                 maxDropdownHeight={280}
+                onChange={(e)=>handleChange('total_experience_months',e)}
                 data={releventmonths}
-                value={formData.total_experience}
+                value={formData.total_experience_months}
               />
               <div>
            Total Relevant Experience
@@ -102,6 +118,7 @@ const ExperienceDetails = () => {
                   searchable
                   nothingFound="No options"
                   maxDropdownHeight={280}
+                  onChange={(e)=>handleChange('relevent_experience',e)}
                   data={data}
                   value={formData.relevent_experience}
                   />
@@ -113,9 +130,11 @@ const ExperienceDetails = () => {
                   searchable
                   nothingFound="No options"
                   maxDropdownHeight={280}
+                  onChange={(e)=>handleChange('total_relevant_months',e)}
                   data={releventmonths}
-                  value={formData.relevent_experience}
+                  value={formData.total_relevant_months}
                 />
+
             </SimpleGrid>
           </form>
           {formSubmitted && (
