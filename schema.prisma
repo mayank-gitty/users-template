@@ -75,6 +75,7 @@ model Education {
 model ItSkill {
   id                        String        @id @default(cuid())
   name                      String        @default("")
+  masterId                  String        @default("")
   version                   String        @default("")
   lastUsed                  String        @default("")
   experience                String        @default("")
@@ -86,6 +87,7 @@ model KeySkill {
   name                       String        @default("")
   version                    String        @default("")
   lastUsed                   String        @default("")
+  master                     Boolean       @default(false)
   experience                 String        @default("")
   from_ProfileUser_keyskills ProfileUser[] @relation("ProfileUser_keyskills")
 }

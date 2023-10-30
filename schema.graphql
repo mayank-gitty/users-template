@@ -469,6 +469,7 @@ input AddEducationRelateToManyForCreateInput {
 type ItSkill {
   id: ID!
   name: String
+  masterId: String
   version: String
   lastUsed: String
   experience: String
@@ -484,6 +485,7 @@ input ItSkillWhereInput {
   NOT: [ItSkillWhereInput!]
   id: IDFilter
   name: StringFilter
+  masterId: StringFilter
   version: StringFilter
   lastUsed: StringFilter
   experience: StringFilter
@@ -492,6 +494,7 @@ input ItSkillWhereInput {
 input ItSkillOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  masterId: OrderDirection
   version: OrderDirection
   lastUsed: OrderDirection
   experience: OrderDirection
@@ -499,6 +502,7 @@ input ItSkillOrderByInput {
 
 input ItSkillUpdateInput {
   name: String
+  masterId: String
   version: String
   lastUsed: String
   experience: String
@@ -511,6 +515,7 @@ input ItSkillUpdateArgs {
 
 input ItSkillCreateInput {
   name: String
+  masterId: String
   version: String
   lastUsed: String
   experience: String
@@ -521,6 +526,7 @@ type KeySkill {
   name: String
   version: String
   lastUsed: String
+  master: Boolean
   experience: String
 }
 
@@ -536,6 +542,7 @@ input KeySkillWhereInput {
   name: StringFilter
   version: StringFilter
   lastUsed: StringFilter
+  master: BooleanFilter
   experience: StringFilter
 }
 
@@ -544,6 +551,7 @@ input KeySkillOrderByInput {
   name: OrderDirection
   version: OrderDirection
   lastUsed: OrderDirection
+  master: OrderDirection
   experience: OrderDirection
 }
 
@@ -551,6 +559,7 @@ input KeySkillUpdateInput {
   name: String
   version: String
   lastUsed: String
+  master: Boolean
   experience: String
 }
 
@@ -563,6 +572,7 @@ input KeySkillCreateInput {
   name: String
   version: String
   lastUsed: String
+  master: Boolean
   experience: String
 }
 
