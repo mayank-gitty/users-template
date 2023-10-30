@@ -66,6 +66,7 @@ const DatatablePage = () => {
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
         itskills: item.itskills.map((u: any) => u.name).join(", "),
         action:<button className="btn btn-primary" onClick={()=>router.push(`/view?id=${item.id}`)} > edit </button>,
+        view:<button className="btn btn-primary" onClick={()=>router.push(`/view3?id=${item.id}`)} > view </button>,
         resume:item.resume ? <a  className="resume-link"   download  href={item.resume} > view  resume </a> : ''        
         // education: item.education.course,
         // user: item?.user?.name,
@@ -154,8 +155,8 @@ const DatatablePage = () => {
           width: 100,
         },
         {
-          label: "resume",
-          field: "resume",
+          label: "view",
+          field: "view",
           sort: "disabled",
           width: 100,
         },
