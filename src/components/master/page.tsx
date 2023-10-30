@@ -77,7 +77,7 @@ export default function Master() {
         <h4> Fill up Your Details </h4>
       </div>
 
-      <Stepper active={active} onStepClick={setActive}>
+      <Stepper active={active}>
         <Stepper.Step label="Upload Photo" description="">
           <PhotoUpload/>
         </Stepper.Step>
