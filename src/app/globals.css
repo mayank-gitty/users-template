@@ -34,30 +34,78 @@
   color: blue !important;
 }
 
-
 .resume-link {
   color: blue;
 }
 
 .login-bg {
-  background: cadetblue ;
+  background: cadetblue;
 }
-
 
 .view-profile-img {
   /* background-color: #fff; */
   width: 5rem;
-
 }
-
 
 .view-master-page .row {
-
   width: 100%;
+}
 
+.view-profile-page img {
+  width: 6rem;
+  height: 6rem;
+}
 
+.upper-layer-section {
+    width: 90%;
+    margin: auto;
+    /* background:blue; */
 }
 
 
+.tabs-section {
+  padding-top : 2rem;
+  width: 90%;
+  margin: auto;
+  /* background: blueviolet; */
+}
 
 
+.view-profile-page .upper-section {
+margin-top: 4rem;
+}
+
+.view-profile-page img {
+  border-radius: 50%;
+}
+
+.attached-section {
+  margin-left: 3rem;
+}
+
+.view-profile-page .right-section {
+  margin-left: 40%;
+}
+
+.view-profile-page .status {
+
+  background:green;
+  border-radius: 20px;
+  padding: 3px 6px;
+  color: white;
+  text-align: center;
+  font-size: 0.8em;
+
+}
+
+.view-profile-page .work {
+
+  background:green;
+  border-radius: 20px;
+  padding: 3px 6px;
+  color: white;
+  text-align: center;
+
+  font-size: 0.8em;
+
+}

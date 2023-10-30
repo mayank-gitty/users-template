@@ -62,6 +62,10 @@ export default function Home() {
                multi users
             </button> */}
 
+            <button className="btn btn-info" onClick={()=> router.push(`/view4?id=${localStorage.getItem('id')}`) }  >
+              view profile
+            </button>
+
             <button className="btn btn-warning"  onClick={()=> router.push('/multipleuser') } >
                 create users
             </button>
