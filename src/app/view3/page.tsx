@@ -294,7 +294,7 @@ resume:values.resume,
   console.log("f", form.getInputProps("photograph").value);
 
   return (
-    <Box mx="auto" className="view-master-page" >
+    <Box mx="auto" className="view-master-page" style={{display:"flex",alignItems:'center', justifyContent:'center'}} >
       <div style={cardStyle}>
         <div className="">
           <div className="mt-2 d-flex justify-content-center align-items-center">
