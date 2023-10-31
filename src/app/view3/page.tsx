@@ -19,6 +19,32 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { serialize } from "v8";
 
+const cardStyle = {
+  width: '400px',
+  border: '1px solid #ccc',
+  borderRadius: '5px',
+  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  textAlign: 'center',
+  padding: '10px',
+  backgroundColor: '#fff',
+  margin: '5px',
+};
+
+const imageStyle = {
+  maxWidth: '100%',
+  borderRadius: '100%',
+
+};
+
+const titleStyle = {
+  fontSize: '20px',
+  margin: '10px 0',
+};
+
+const textStyle = {
+  color: '#555',
+};
+
 const updateUser = gql`
   mutation Mutation(
     $where: ProfileUserWhereUniqueInput!
@@ -159,9 +185,9 @@ export default function View(props: IAppProps) {
     console.log("user", user);
 
     form.setValues({
-      itskills: user?.profileUser?.itskills.map((item: any) => item.id),
+      itskills: user?.profileUser?.itskills.map((item: any) => item.name),
       education: user?.profileUser?.education,
-      keyskills: user?.profileUser?.keyskills.map((item: any) => item.id),
+      keyskills: user?.profileUser?.keyskills.map((item: any) => item.name),
       resume_headline: user?.profileUser.resume_headline,
       profile_summary: user.profileUser.profile_summary,
       total_experience: user.profileUser.total_experience,
@@ -237,14 +263,15 @@ export default function View(props: IAppProps) {
         keyskills: {
           connect: values.keyskills.map((item: any) => {
             return {
-              id: item,
+              name: item,
             };
           }),
         },
         itskills: {
           connect: values.itskills.map((item: any) => {
             return {
-              id: item,
+              // id: item,
+              name:item,
             };
           }),
         },
@@ -264,28 +291,95 @@ export default function View(props: IAppProps) {
   console.log("f", form.getInputProps("photograph").value);
 
   return (
-    <Box mx="auto" className="view-master-page">
-      <div className="">
+    <Box mx="auto" className="view-master-page" >
+      <div style={cardStyle}>
         <div className="">
           <div className="mt-2 d-flex justify-content-center align-items-center">
             <div className="view-profile-img text-center">
-              <img src={form.getInputProps("photograph").value} />
+              <img src={form.getInputProps("photograph").value} style={{borderRadius:'100%'}} />
 
-              {form.getInputProps('name').value}
+              
             </div>
           </div>
         </div>
-
+        <div className="education row mt-4">    
+          <div className="col-12 row mx-auto">
+            <div className="col-4">Name</div>
+           <div className="col-8">{form.getInputProps('name').value} </div>
+            </div>
+        </div>
+        <div className="education row mt-4">    
+          <div className="col-12 row mx-auto">
+            <div className="col-4">Education </div>
+           <div className="col-8"> {form.getInputProps('education').value} </div>
+            </div>
+        </div>
+        <div className="education row mt-4">    
+          <div className="col-12 row mx-auto">
+            <div className="col-4">Resume headline </div>
+          <div className="col-8"> {form.getInputProps('resume_headline').value} </div>
+            </div>
+        </div>
+        <div className="education row mt-4">    
+          <div className="col-12 row mx-auto">
+            <div className="col-4"> Profile summary </div>
+            <div className="col-8"> {form.getInputProps('profile_summary').value} </div>    
+          </div>
+        </div>
+        <div className="education row mt-4">    
+          <div className="col-12 row mx-auto">
+            <div className="col-4"> Total experience</div>
+            <div className="col-8"> {form.getInputProps('total_experience').value} </div>
+          </div>
+        </div>
+        <div className="education row mt-4">    
+          <div className="col-12 row mx-auto">
+            <div className="col-4">Relevent experience </div>
+            <div className="col-8"> {form.getInputProps('relevent_experience').value} </div>        
+          </div>
+        </div>
+        <div className="education row mt-4">    
+          <div className="col-12 row mx-auto">
+            <div className="col-4">It skils</div>
+            <div className="col-8"> {form.getInputProps('itskills') .value} </div>
+           
+          </div>
+        </div>
+        <div className="education row mt-4">    
+          <div className="col-12 row mx-auto">
+            <div className="col-4"> Key skills </div>
+            <div className="col-8"> {form.getInputProps('keyskills').value} </div>
+            
+          </div>
+        </div>
+        {/* <div className="education row mt-4">    
+          <div className="col-10 row mx-auto">
+            <div className="col-6"> education </div>
+           <div className="col-6"> {form.getInputProps('education').value} </div>
+            <div className="col-6"> {form.getInputProps('profile_summary').value} </div>
+            <div className="col-6"> {form.getInputProps('total_experience').value} </div>
+            <div className="col-6"> {form.getInputProps('relevent_experience').value} </div>
+            <div className="col-6"> {form.getInputProps('resume_headline').value} </div>
+            <div className="col-6"> {form.getInputProps('itskills').value.item} </div>
+            <div className="col-6"> {form.getInputProps('relevent_experience').value} </div>
+            
+          </div>
+        </div>
         <div className="education row mt-4">    
           <div className="col-10 row mx-auto">
             <div className="col-6"> education </div>
-
-            <div className="col-6"> {form.getInputProps('education').value} </div>
+           <div className="col-6"> {form.getInputProps('education').value} </div>
+            <div className="col-6"> {form.getInputProps('profile_summary').value} </div>
+            <div className="col-6"> {form.getInputProps('total_experience').value} </div>
+            <div className="col-6"> {form.getInputProps('relevent_experience').value} </div>
+            <div className="col-6"> {form.getInputProps('resume_headline').value} </div>
+            <div className="col-6"> {form.getInputProps('itskills').value.item} </div>
+            <div className="col-6"> {form.getInputProps('relevent_experience').value} </div>
+            
           </div>
-        </div>
-
-
+        </div> */}
       </div>
+     
     </Box>
   );
 }
