@@ -84,6 +84,7 @@ const ExperienceDetails = () => {
                     handleChange("total_experience", e.target.value)
                   }
                 /> */}
+                <div>Total Experience
               <Select
                 placeholder="select years"
                 searchable
@@ -93,7 +94,9 @@ const ExperienceDetails = () => {
                 data={data}
                 value={formData.total_experience}
               />
+              </div>
               <Select
+               mt={23}
                 placeholder="select months"
                 searchable
                 nothingFound="No options"
@@ -102,6 +105,7 @@ const ExperienceDetails = () => {
                 data={releventmonths}
                 value={formData.total_experience_months}
               />
+              
               <div>
            Total Relevant Experience
                 {/* <Textarea

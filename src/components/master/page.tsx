@@ -84,7 +84,7 @@ export default function Master() {
         <Stepper.Step label="Enter IT Skills" description="">
           <ItSkills />
         </Stepper.Step>
-        <Stepper.Step label="Education" description="">
+        <Stepper.Step label="Highest Education" description="">
           <Education />
         </Stepper.Step>
         <Stepper.Step label="Enter Resume Headline" description="">
