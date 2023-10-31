@@ -107,6 +107,7 @@ const PROFILE_USER = gql`
         id
       }
       education
+      resume
     }
   }
 `;
@@ -131,7 +132,8 @@ export default function View(props: IAppProps) {
       total_experience: "",
       relevent_experience: "",
       photograph: "",
-      name:""
+      name:"",
+      resume:"",
     },
     validate: {
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -193,7 +195,8 @@ export default function View(props: IAppProps) {
       total_experience: user.profileUser.total_experience,
       relevent_experience: user.profileUser.relevent_experience,
       photograph: user.profileUser.photograph,
-      name:user?.profileUser?.user.name
+      name:user?.profileUser?.user.name,
+      resume:user.profileUser?.resume,
     });
   };
 
@@ -255,7 +258,7 @@ export default function View(props: IAppProps) {
       },
       data: {
         total_experience: values.total_experience,
-
+resume:values.resume,
         resume_headline: values.resume_headline,
         relevent_experience: values.relevant_experience,
         profile_summary: values.profile_summary,
@@ -352,32 +355,13 @@ export default function View(props: IAppProps) {
             
           </div>
         </div>
-        {/* <div className="education row mt-4">    
+        <div className="education row mt-4">    
           <div className="col-10 row mx-auto">
-            <div className="col-6"> education </div>
-           <div className="col-6"> {form.getInputProps('education').value} </div>
-            <div className="col-6"> {form.getInputProps('profile_summary').value} </div>
-            <div className="col-6"> {form.getInputProps('total_experience').value} </div>
-            <div className="col-6"> {form.getInputProps('relevent_experience').value} </div>
-            <div className="col-6"> {form.getInputProps('resume_headline').value} </div>
-            <div className="col-6"> {form.getInputProps('itskills').value.item} </div>
-            <div className="col-6"> {form.getInputProps('relevent_experience').value} </div>
+            <div className="col-6">Resume </div>
+            <a className="col-6"> {form.getInputProps('resume').value} </a>
             
           </div>
         </div>
-        <div className="education row mt-4">    
-          <div className="col-10 row mx-auto">
-            <div className="col-6"> education </div>
-           <div className="col-6"> {form.getInputProps('education').value} </div>
-            <div className="col-6"> {form.getInputProps('profile_summary').value} </div>
-            <div className="col-6"> {form.getInputProps('total_experience').value} </div>
-            <div className="col-6"> {form.getInputProps('relevent_experience').value} </div>
-            <div className="col-6"> {form.getInputProps('resume_headline').value} </div>
-            <div className="col-6"> {form.getInputProps('itskills').value.item} </div>
-            <div className="col-6"> {form.getInputProps('relevent_experience').value} </div>
-            
-          </div>
-        </div> */}
       </div>
      
     </Box>
