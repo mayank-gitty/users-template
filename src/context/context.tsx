@@ -19,7 +19,8 @@ export const ThemeContextProvider = ({ children }) => {
         relevent_experience:"",
         total_relevant_months:"",
         photograph:"",
-        resume:""
+        resume:"",
+
         
         // university: "",
         // course: null,

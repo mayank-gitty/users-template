@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import { useSearchParams } from "next/navigation";
+import { Anchor } from "@mantine/core";
 import {
   TextInput,
   Checkbox,
@@ -72,6 +73,8 @@ const PROFILE_USER = gql`
       profile_summary
       photograph
       keyskillsCount
+      active
+      open_to_work
       keyskills {
         name
         id
@@ -90,6 +93,7 @@ export interface IAppProps {}
 export default function View(props: IAppProps) {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
+  const [checked, setChecked] = useState(false);
 
   const router = useRouter();
 
@@ -105,6 +109,8 @@ export default function View(props: IAppProps) {
       total_experience: "",
       relevent_experience: "",
       photograph: "",
+      status: null,
+      work: null,
     },
     validate: {
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -118,8 +124,7 @@ export default function View(props: IAppProps) {
       setImage(i);
       setCreateObjectURL(URL.createObjectURL(i));
 
-
-        uploadToServer(i)
+      uploadToServer(i);
     }
   };
 
@@ -166,7 +171,9 @@ export default function View(props: IAppProps) {
       profile_summary: user.profileUser.profile_summary,
       total_experience: user.profileUser.total_experience,
       relevent_experience: user.profileUser.relevent_experience,
-      photograph:  user.profileUser.photograph,
+      photograph: user.profileUser.photograph,
+      status: user?.profileUser?.active,
+      work: user?.profileUser?.open_to_work,
     });
   };
 
@@ -228,7 +235,6 @@ export default function View(props: IAppProps) {
       },
       data: {
         total_experience: values.total_experience,
-
         resume_headline: values.resume_headline,
         relevent_experience: values.relevant_experience,
         profile_summary: values.profile_summary,
@@ -248,14 +254,14 @@ export default function View(props: IAppProps) {
           }),
         },
         education: values.education,
-        
-            createdAt: new Date()
-        
-        
+        active:values.status,
+        open_to_work:values.work,
+        createdAt: new Date(),
+
       },
     });
 
-    console.log("updated", user);
+    console.log("updated", form.getInputProps(''));
 
     setTimeout(() => {
       router.push("/profileUsers");
@@ -263,7 +269,7 @@ export default function View(props: IAppProps) {
   };
 
   return (
-    <Box maw={340} mx="auto"  >
+    <Box maw={340} mx="auto">
       <form onSubmit={form.onSubmit((values) => sendAll(values))}>
         <Select
           value={form.getInputProps("education").value}
@@ -317,6 +323,19 @@ export default function View(props: IAppProps) {
           {...form.getInputProps("resume_headline")}
         />
 
+        <Checkbox
+          className="mt-2"
+          label={<>active</>}
+          checked={form.getInputProps("status").value ? true : false}
+          onChange={(event) =>   form.setFieldValue('status', event.currentTarget.checked) }
+        />
+
+        <Checkbox
+          label={<>open to work</>}
+          checked={form.getInputProps("work").value ? true : false}
+          onChange={(event) =>form.setFieldValue('work', event.currentTarget.checked) }
+        />
+
         <div>
           <div>
             <div className="profile-upload">
@@ -325,6 +344,7 @@ export default function View(props: IAppProps) {
 
             <h4> Select Image </h4>
             <input type="file" name="myImage" onChange={uploadToClient} />
+
             {/* <button
               className="btn btn-primary"
               type="button"
