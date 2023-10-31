@@ -112,6 +112,7 @@ const KeySkills = () => {
                   onChange={(e) => handleChange(e)}
                   value={formData.keyskills}
                   data={DefaultSkills}
+                  
                 />
               </Grid.Col>
               {/* <Grid.Col span={6}>

@@ -155,6 +155,12 @@ const DatatablePage = () => {
           width: 100,
         },
         {
+          label: "Resume",
+          field: "resume",
+          sort: "disabled",
+          width: 100,
+        },
+        {
           label: "view",
           field: "view",
           sort: "disabled",

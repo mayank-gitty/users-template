@@ -26,12 +26,17 @@
 }
 
 .profile-upload {
-  width: 5rem;
-  height: 5rem;
+  width: 6rem;
+  height: 6rem;
 }
 
-.resume {
-  color: blue !important;
+.profile-upload img {
+  width: 100%;
+  height: 100%;
+}
+
+.resume-link {
+  color: #007bff !important;
 }
 
 .resume-link {

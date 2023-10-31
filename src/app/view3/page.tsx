@@ -195,7 +195,7 @@ export default function View(props: IAppProps) {
       total_experience: user.profileUser.total_experience,
       relevent_experience: user.profileUser.relevent_experience,
       photograph: user.profileUser.photograph,
-      name:user?.profileUser?.user.name,
+      name:user?.profileUser?.user?.name,
       resume:user.profileUser?.resume,
     });
   };
@@ -358,7 +358,7 @@ resume:values.resume,
         <div className="education row mt-4">    
           <div className="col-10 row mx-auto">
             <div className="col-6">Resume </div>
-            <a className="col-6"> {form.getInputProps('resume').value} </a>
+            <a  download className="col-6"  href={form.getInputProps('resume').value} > view resume </a>
             
           </div>
         </div>

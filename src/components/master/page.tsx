@@ -96,7 +96,7 @@ export default function Master() {
         <Stepper.Step label="Enter Expererience" >
           <ExperienceDetails />
         </Stepper.Step>
-        <Stepper.Step label="upload resume" >
+        <Stepper.Step label="Upload Resume" >
           <Resume/>
         </Stepper.Step>
         <Stepper.Step label="Enter Profile Summary" description="">

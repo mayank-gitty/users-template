@@ -97,11 +97,14 @@ const ItSkills = () => {
             <Grid>
               <Grid.Col span={12}>
                 <MultiSelect
+                
                   label="select skill"
                   placeholder="Pick value"
                   onChange={(e) => handleChange(e)}
-                  value={formData.itskills}
+             
+                  // value={formData.itskills}
                   data={DefaultSkills}
+                  maxSelectedValues={5} 
                 />
               </Grid.Col>
               {/* <Grid.Col span={6}>
