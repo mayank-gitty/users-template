@@ -19,17 +19,10 @@ import {
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { serialize } from "v8";
+import { IT_SKILLS,KEY_SKILLS,EDIT_MASTER } from "@/util/queries";
+import { updateUser } from "@/util/mutationQueries";
 
-const updateUser = gql`
-  mutation Mutation(
-    $where: ProfileUserWhereUniqueInput!
-    $data: ProfileUserUpdateInput!
-  ) {
-    updateProfileUser(where: $where, data: $data) {
-      total_experience
-    }
-  }
-`;
+
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -40,53 +33,7 @@ const options = [
   { value: "below10th", label: "Below 10th" },
 ];
 
-const IT_SKILLS = gql`
-  query ItSkills {
-    itSkills {
-      name
-      id
-    }
-  }
-`;
 
-// Define mutation
-const KEY_SKILLS = gql`
-  query KeySkills {
-    keySkills {
-      name
-      id
-    }
-  }
-`;
-
-const PROFILE_USER = gql`
-  query ProfileUser($where: ProfileUserWhereUniqueInput!) {
-    profileUser(where: $where) {
-      user {
-        name
-        id
-        email
-      }
-      total_experience
-      resume_headline
-      relevent_experience
-      profile_summary
-      photograph
-      keyskillsCount
-      active
-      open_to_work
-      keyskills {
-        name
-        id
-      }
-      itskills {
-        name
-        id
-      }
-      education
-    }
-  }
-`;
 
 export interface IAppProps {}
 
@@ -155,13 +102,13 @@ export default function View(props: IAppProps) {
   const getData = async (search: any) => {
     console.log("id", search);
 
-    const user: any = await client.request(PROFILE_USER, {
+    const user: any = await client.request(EDIT_MASTER, {
       where: {
         id: search,
       },
     });
 
-    console.log("user", user);
+    // console.log("user", user);
 
     form.setValues({
       itskills: user?.profileUser?.itskills.map((item: any) => item.id),

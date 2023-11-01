@@ -10,7 +10,7 @@ import ItSkills from "../components/itskill/page";
 import ProjectForm from "./project/page";
 import KeySkills from "./keyskill/page";
 import SideBar from "./Sidebar/page";
-import ResumeUpload from "./upload-resume/page";
+
 import ProfileImageUpload from "../components/photograph/page";
 import DatatablePage from "./profileUsers/page";
 import Profile from "../components/profile/page";
@@ -20,6 +20,10 @@ import { useRouter } from "next/navigation";
 import useThemeContext from "@/context/context";
 import { gql } from "graphql-request";
 import client from "../../helpers/request";
+import {HAS_MASTER} from "@/util/queries";
+
+
+
 
 export default function Home() {
   const {
@@ -29,62 +33,26 @@ export default function Home() {
     setActive,
     hasMaster,
     sethasMaster,
-
   }: any = useThemeContext();
 
   const router = useRouter();
 
   useEffect(() => {
-    console.log("kkkkkkkkkkkkkkk");
+    // console.log("kkkkkkkkkkkkkkk");
     const id = localStorage.getItem("id");
-
 
     if (id) {
       // setLoggedIn(true);
       getData();
+    } else {
+      router.push("/login");
     }
-
-    else {
-
-      router.push('/login')
-
-    }
-
- 
   }, []);
 
-  //getProfileUser
-  const PROFILE_USER = gql`
-    query ProfileUsers($where: ProfileUserWhereInput!) {
-      profileUsers(where: $where) {
-        user {
-          name
-          id
-          email
-        }
-        total_experience
-        resume_headline
-        relevent_experience
-        profile_summary
-        photograph
-        keyskillsCount
-        active
-        open_to_work
-        keyskills {
-          name
-          id
-        }
-        itskills {
-          name
-          id
-        }
-        education
-      }
-    }
-  `;
 
   const getData = async () => {
-    const user: any = await client.request(PROFILE_USER, {
+
+    const user: any = await client.request(HAS_MASTER, {
       where: {
         user: {
           id: {
@@ -94,15 +62,16 @@ export default function Home() {
       },
     });
 
-    console.log("checking master", user);
+    // console.log("checking master", user);
 
     if (user?.profileUsers.length > 0) {
       sethasMaster(true);
     }
+
   };
 
   const logOut = () => {
-    console.log("logout");
+    // console.log("logout");
 
     localStorage.removeItem("token");
     localStorage.removeItem("id");
@@ -120,13 +89,13 @@ export default function Home() {
     });
     setActive(0);
     sethasMaster(false);
-    router.push('/login')
+    router.push("/login");
   };
 
   return (
     <>
       <MantineProvider>
-        {(
+        {
           <div className="d-flex justify-content-end">
             {/* <button className="btn btn-warning"  onClick={()=> router.push('/multi_users_table') } >
                multi users
@@ -135,7 +104,7 @@ export default function Home() {
             <button
               className="btn btn-info"
               onClick={() =>
-                router.push(`/view4?id=${localStorage.getItem("id")}`)
+                router.push(`/profile?id=${localStorage.getItem("id")}`)
               }
             >
               view profile
@@ -152,28 +121,11 @@ export default function Home() {
               logout{" "}
             </button>
           </div>
-        )}
-
-        {/* 
-      <ProfileUser/> */}
-        {/* <AddTimeLine/> */}
+        }
 
 
 
-        {/* <Profile/>
-      <ResumeHeadline/> */}
-        {/* <ProfileImageUpload/> */}
-        {/* <SideBar/> */}
-        {/* <Education/> */}
-        {/* <ResumeForm/> */}
-        {/* <ItSkills/> */}
-        {/* <ProjectForm/> */}
-        {/* <ResumeUpload/> */}
-        {/* <KeySkills/> */}
-        {/* < DatatablePage/>
-     <AddTimeLine/> */}
-
-        {  !hasMaster && <Master />}
+        {<Master />}
       </MantineProvider>
     </>
   );

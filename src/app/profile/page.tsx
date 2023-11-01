@@ -16,6 +16,7 @@ import {
   MultiSelect,
   Select,
 } from "@mantine/core";
+import { PROFILE_USER } from "@/util/queries";
 
 import {
   IconPhoto,
@@ -27,16 +28,6 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { serialize } from "v8";
 
-const updateUser = gql`
-  mutation Mutation(
-    $where: ProfileUserWhereUniqueInput!
-    $data: ProfileUserUpdateInput!
-  ) {
-    updateProfileUser(where: $where, data: $data) {
-      total_experience
-    }
-  }
-`;
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -66,35 +57,6 @@ const KEY_SKILLS = gql`
   }
 `;
 
-const PROFILE_USER = gql`
-  query ProfileUsers($where: ProfileUserWhereInput!) {
-    profileUsers(where: $where) {
-      user {
-        name
-        id
-        email
-      }
-      total_experience
-      resume_headline
-      relevent_experience
-      profile_summary
-      photograph
-      keyskillsCount
-      active
-      open_to_work
-      keyskills {
-        name
-        id
-      }
-      itskills {
-        name
-        id
-      }
-      education
-    }
-  }
-`;
-
 export interface IAppProps {}
 
 export default function View(props: IAppProps) {
@@ -118,8 +80,8 @@ export default function View(props: IAppProps) {
       relevent_experience: "",
       photograph: "",
       name: "",
-      status:"",
-      work:""
+      status: "",
+      work: "",
     },
     validate: {
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -189,10 +151,10 @@ export default function View(props: IAppProps) {
       profile_summary: user.profileUsers[0]?.profile_summary,
       total_experience: user.profileUsers[0]?.total_experience,
       relevent_experience: user.profileUsers[0]?.relevent_experience,
-      photograph: user.profileUsers[0]?.photograph, 
+      photograph: user.profileUsers[0]?.photograph,
       name: user?.profileUsers[0]?.user.name,
-      status:user?.profileUsers[0]?.active,
-      work:user?.profileUsers[0]?.open_to_work
+      status: user?.profileUsers[0]?.active,
+      work: user?.profileUsers[0]?.open_to_work,
     });
   };
 
@@ -227,13 +189,13 @@ export default function View(props: IAppProps) {
   };
 
   useEffect(() => {
-    console.log("useEffect", typeof search, search);
+    // console.log("useEffect", typeof search, search);
 
     // getDatas();
 
     getData(search);
 
-    console.log("kas", form.getInputProps("education"));
+    // console.log("kas", form.getInputProps("education"));
   }, [search]);
 
   // console.log("all-it", form.getInputProps("itskills").value);
@@ -245,46 +207,7 @@ export default function View(props: IAppProps) {
     form.setFieldValue(field, e);
   };
 
-  const sendAll = async (values: any) => {
-    console.log("mcom", values);
 
-    const user: any = await client.request(updateUser, {
-      where: {
-        id: search,
-      },
-      data: {
-        total_experience: values.total_experience,
-
-        resume_headline: values.resume_headline,
-        relevent_experience: values.relevant_experience,
-        profile_summary: values.profile_summary,
-        photograph: values.photograph,
-        keyskills: {
-          connect: values.keyskills.map((item: any) => {
-            return {
-              id: item,
-            };
-          }),
-        },
-        itskills: {
-          connect: values.itskills.map((item: any) => {
-            return {
-              id: item,
-            };
-          }),
-        },
-        education: values.education,
-
-        createdAt: new Date(),
-      },
-    });
-
-    console.log("updated", user);
-
-    setTimeout(() => {
-      router.push("/profileUsers");
-    }, 2000);
-  };
 
   console.log("f", form.getInputProps("photograph").value);
 
@@ -311,11 +234,17 @@ export default function View(props: IAppProps) {
           </div>
 
           <div className="right-section d-flex flex-column">
+            <p className="status">
+              {" "}
+              {form.getInputProps("status").value ? "active" : "in active"}{" "}
+            </p>
 
-            <p  className="status" >  {form.getInputProps('status').value ? 'active' : 'in active' }  </p> 
-
-             <p  className="work" >   {form.getInputProps('work').value ? 'open to work' : 'engaged' }  </p> 
-
+            <p className="work">
+              {" "}
+              {form.getInputProps("work").value
+                ? "open to work"
+                : "engaged"}{" "}
+            </p>
           </div>
         </div>
 

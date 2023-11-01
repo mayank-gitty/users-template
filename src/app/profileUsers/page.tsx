@@ -6,36 +6,10 @@ import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import { link } from "fs";
 import { useRouter } from "next/navigation";
+import { PROFILE_USERS } from "@/util/queries";
 
 // Define mutation
-const PROFILE_USERS = gql`
-query ProfileUsers($orderBy: [ProfileUserOrderByInput!]!) {
-  profileUsers (orderBy: $orderBy) {
-    id
-    total_experience
-    resume_headline
-    relevent_experience
-    profile_summary
-    keyskillsCount
-    user{
-      name
-      company {
-        name
-      }
-    }
 
-    keyskills {
-      name
-    }
-    photograph 
-    itskillsCount
-    resume 
-    itskills {
-      name
-    }
-  }
-}
-`;
 
 const DatatablePage = () => {
   const [main, setMain] = useState();
@@ -65,8 +39,8 @@ const DatatablePage = () => {
         // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
         itskills: item.itskills.map((u: any) => u.name).join(", "),
-        action:<button className="btn btn-primary" onClick={()=>router.push(`/view?id=${item.id}`)} > edit </button>,
-        view:<button className="btn btn-primary" onClick={()=>router.push(`/view3?id=${item.id}`)} > view </button>,
+        action:<button className="btn btn-primary" onClick={()=>router.push(`/edit_master?id=${item.id}`)} > edit </button>,
+        view:<button className="btn btn-primary" onClick={()=>router.push(`/view_master?id=${item.id}`)} > view </button>,
         resume:item.resume ? <a  className="resume-link"   download  href={item.resume} > view  resume </a> : ''        
         // education: item.education.course,
         // user: item?.user?.name,

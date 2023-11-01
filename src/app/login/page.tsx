@@ -9,32 +9,10 @@ import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";
 
 
-const AUTH_MUTATION = gql`
-  mutation signin($email: String!, $password: String!) {
-    authenticateUserWithPassword(email: $email, password: $password) {
-      ... on UserAuthenticationWithPasswordSuccess {
-        item {
-          id
-          name
-          email
-          role
-        }
-        sessionToken
-      }
-      ... on UserAuthenticationWithPasswordFailure {
-        message
-      }
-    }
-  }
-`;
 const Login = () => {
+  const { loggedIn, setLoggedIn }: any = useThemeContext();
 
-
-  const { loggedIn, setLoggedIn}: any = useThemeContext();
-
-
-  const router = useRouter()
-
+  const router = useRouter();
 
   const form = useForm({
     initialValues: {
@@ -50,10 +28,6 @@ const Login = () => {
   });
 
   const getLogin = async () => {
-
-
-
-
     console.log(form.getInputProps("password").value);
 
     const user: any = await client.request(AUTH_MUTATION, {
@@ -71,15 +45,15 @@ const Login = () => {
         user?.authenticateUserWithPassword?.sessionToken
       );
       localStorage.setItem("id", user?.authenticateUserWithPassword?.item?.id);
-      localStorage.setItem("name", user?.authenticateUserWithPassword?.item?.name);
+      localStorage.setItem(
+        "name",
+        user?.authenticateUserWithPassword?.item?.name
+      );
 
-      setLoggedIn(true)
-      setTimeout(()=>{
-
-        router.push('/')
-
-      },1000)
-
+      setLoggedIn(true);
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
     }
   };
 
