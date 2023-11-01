@@ -18,20 +18,88 @@ import ResumeHeadline from "../components/resume-headline/page";
 import Master from "../components/master/page";
 import { useRouter } from "next/navigation";
 import useThemeContext from "@/context/context";
+import { gql } from "graphql-request";
+import client from "../../helpers/request";
 
 export default function Home() {
+  const {
+    loggedIn,
+    setLoggedIn,
+    setFormData,
+    setActive,
+    hasMaster,
+    sethasMaster,
 
- const   {loggedIn, setLoggedIn ,setFormData,setActive}:any  = useThemeContext()
+  }: any = useThemeContext();
 
   const router = useRouter();
 
   useEffect(() => {
+    console.log("kkkkkkkkkkkkkkk");
     const id = localStorage.getItem("id");
 
+
     if (id) {
-      setLoggedIn(true);
+      // setLoggedIn(true);
+      getData();
     }
+
+    else {
+
+      router.push('/login')
+
+    }
+
+ 
   }, []);
+
+  //getProfileUser
+  const PROFILE_USER = gql`
+    query ProfileUsers($where: ProfileUserWhereInput!) {
+      profileUsers(where: $where) {
+        user {
+          name
+          id
+          email
+        }
+        total_experience
+        resume_headline
+        relevent_experience
+        profile_summary
+        photograph
+        keyskillsCount
+        active
+        open_to_work
+        keyskills {
+          name
+          id
+        }
+        itskills {
+          name
+          id
+        }
+        education
+      }
+    }
+  `;
+
+  const getData = async () => {
+    const user: any = await client.request(PROFILE_USER, {
+      where: {
+        user: {
+          id: {
+            equals: localStorage.getItem("id"),
+          },
+        },
+      },
+    });
+
+    console.log("checking master", user);
+
+    if (user?.profileUsers.length > 0) {
+      sethasMaster(true);
+    }
+  };
 
   const logOut = () => {
     console.log("logout");
@@ -40,34 +108,44 @@ export default function Home() {
     localStorage.removeItem("id");
     localStorage.removeItem("name");
 
-    setLoggedIn(false)
+    setLoggedIn(false);
     setFormData({
-      itskills:[],
+      itskills: [],
       education: null,
-      keyskills:[],
-      resume_headline:"",
-      profile_summary:"",
-      total_experience:"",
-      relevent_experience:"", } )
-    setActive(0)
-      
+      keyskills: [],
+      resume_headline: "",
+      profile_summary: "",
+      total_experience: "",
+      relevent_experience: "",
+    });
+    setActive(0);
+    sethasMaster(false);
+    router.push('/login')
   };
 
   return (
     <>
       <MantineProvider>
-        {loggedIn && (
+        {(
           <div className="d-flex justify-content-end">
             {/* <button className="btn btn-warning"  onClick={()=> router.push('/multi_users_table') } >
                multi users
             </button> */}
 
-            <button className="btn btn-info" onClick={()=> router.push(`/view4?id=${localStorage.getItem('id')}`) }  >
+            <button
+              className="btn btn-info"
+              onClick={() =>
+                router.push(`/view4?id=${localStorage.getItem("id")}`)
+              }
+            >
               view profile
             </button>
 
-            <button className="btn btn-warning"  onClick={()=> router.push('/multipleuser') } >
-                create users
+            <button
+              className="btn btn-warning"
+              onClick={() => router.push("/multipleuser")}
+            >
+              create users
             </button>
             <button className="btn btn-warning" onClick={() => logOut()}>
               {" "}
@@ -80,7 +158,7 @@ export default function Home() {
       <ProfileUser/> */}
         {/* <AddTimeLine/> */}
 
-        {!loggedIn && <Login />}
+
 
         {/* <Profile/>
       <ResumeHeadline/> */}
@@ -95,7 +173,7 @@ export default function Home() {
         {/* < DatatablePage/>
      <AddTimeLine/> */}
 
-        {loggedIn && <Master />}
+        {  !hasMaster && <Master />}
       </MantineProvider>
     </>
   );

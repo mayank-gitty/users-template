@@ -119,7 +119,7 @@ const DatatablePage = () => {
           width: 200,
         },
         {
-          label: "Keyskills",
+          label: "Key skills",
           field: "keyskills",
           sort: "disabled",
           width: 100,
@@ -127,12 +127,15 @@ const DatatablePage = () => {
         // {
         //   label: "Education",
         //   field: "education",
+        
         //   sort: "asc",
+
         //   width: 150,
         // },
         {
-          label: "Itskills",
+          label: "It Skills",
           field: "itskills",
+
           sort: "disabled",
           width: 100,
         },
@@ -161,7 +164,7 @@ const DatatablePage = () => {
           width: 100,
         },
         {
-          label: "view",
+          label: "View",
           field: "view",
           sort: "disabled",
           width: 100,

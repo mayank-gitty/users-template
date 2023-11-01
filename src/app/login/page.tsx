@@ -8,6 +8,7 @@ import { useTransition } from "react";
 import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";
 
+
 const AUTH_MUTATION = gql`
   mutation signin($email: String!, $password: String!) {
     authenticateUserWithPassword(email: $email, password: $password) {
@@ -30,6 +31,9 @@ const Login = () => {
 
 
   const { loggedIn, setLoggedIn}: any = useThemeContext();
+
+
+  const router = useRouter()
 
 
   const form = useForm({
@@ -70,8 +74,12 @@ const Login = () => {
       localStorage.setItem("name", user?.authenticateUserWithPassword?.item?.name);
 
       setLoggedIn(true)
+      setTimeout(()=>{
 
-      
+        router.push('/')
+
+      },1000)
+
     }
   };
 
