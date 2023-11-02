@@ -7,6 +7,7 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import { useTransition } from "react";
 import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";
+import { AUTH_MUTATION } from "@/util/mutationQueries";
 
 
 const Login = () => {

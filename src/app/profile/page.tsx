@@ -17,17 +17,22 @@ import {
   Select,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle, faVideo } from "@fortawesome/free-solid-svg-icons";
 
 import {
   IconPhoto,
   IconMessageCircle,
   IconSettings,
+  IconCircleCheckFilled,
+  IconVideo,
+  IconCircleOff,
+  IconVideoOff
 } from "@tabler/icons-react";
 
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { serialize } from "v8";
-
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -207,33 +212,57 @@ export default function View(props: IAppProps) {
     form.setFieldValue(field, e);
   };
 
-
-
   console.log("f", form.getInputProps("photograph").value);
 
   return (
     <Box mx="auto" className="view-profile-page">
-      <div className="upper-section">
+      <div
+        className="upper-section"
+        style={{ alignItems: "center", justifyContent: "center" }}
+      >
         <div className="upper-layer-section d-flex">
-          <div className="left-section d-flex">
-            <div className="img">
-              <img src={form.getInputProps("photograph").value} />
+          <div className="d-flex">
+            <div style={{width:'200px', height:'200px', }}>
+              <img src={form.getInputProps("photograph").value} style={{width:'170px', height:'170px',border:'8px solid gray' }} />
             </div>
-
-            <div className="attached-section">
-              <h4>
+            <div className="ml-6">
+              <h3 style={{ color: "#4833b5" }}>
                 {" "}
                 {form.getInputProps("name").value ||
                   localStorage.getItem("name")}{" "}
-              </h4>
+              </h3>
 
-              <h6> {form.getInputProps("resume_headline").value} </h6>
+              <h6 style={{ color: "gray" }}>
+                {" "}
+                {form.getInputProps("resume_headline").value}{" "}
+              </h6>
 
               {/* <h6> {form.getInputProps("profile_summary").value}  </h6> */}
-            </div>
-          </div>
+              <p className="status" style={{alignItems:'center', justifyContent:'center'}}>
+                {form.getInputProps("status").value ? (
+                  <span className="active" style={{display:'flex', alignItems:'center', justifyContent:'center',}}>
+                    <IconCircleCheckFilled size={18} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20}} /> Active
+                  </span>
+                ) : (
+                  <span className="inactive" style={{display:'flex', alignItems:'center', justifyContent:'center',color:'red',border:'1px solid red',  borderRadius:'30px', padding:'3px'}}>
+                    <IconCircleOff size={20} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20, color:'red'}}/> Inactive
+                  </span>
+                )}
+              </p>
 
-          <div className="right-section d-flex flex-column">
+              <p className="work">
+                {form.getInputProps("work").value ? (
+                  <span className="open" style={{display:'flex', alignItems:'center', justifyContent:'center',backgroundColor:'green', borderRadius:'30px',padding:'3px' }}>
+                    <IconVideo size={20} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20}} /> Open to Work
+                  </span>
+                ) : (
+                  <span className="engaged" style={{display:'flex', alignItems:'center', justifyContent:'center',backgroundColor:'red', borderRadius:'30px', padding:'3px'}}>
+                    <IconVideoOff size={20} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20,}}/> Engaged
+                  </span>
+                )}
+              </p>
+            </div>
+            {/* <div className=" flex-column mx-auto">
             <p className="status">
               {" "}
               {form.getInputProps("status").value ? "active" : "in active"}{" "}
@@ -245,6 +274,7 @@ export default function View(props: IAppProps) {
                 ? "open to work"
                 : "engaged"}{" "}
             </p>
+          </div> */}
           </div>
         </div>
 

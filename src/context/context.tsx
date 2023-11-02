@@ -39,9 +39,10 @@ export const ThemeContextProvider = ({ children }) => {
       const [loggedIn, setLoggedIn] = useState(false);
 
       const [hasMaster,sethasMaster] = useState(false);
+      const [role, setRole] = useState("");
 
     return (
-        <ThemeContext.Provider value={{formData,setFormData,active, setActive,loggedIn, setLoggedIn ,hasMaster,sethasMaster }} >
+        <ThemeContext.Provider value={{formData,setFormData,active, setActive,loggedIn, setLoggedIn ,hasMaster,sethasMaster, role, setRole }} >
             {children}
         </ThemeContext.Provider>
     )
