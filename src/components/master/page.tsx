@@ -23,7 +23,7 @@ export default function Master() {
     console.log(active);
 
     if (!formData.photograph  && active === 0) {
-      return alert("please select img file and upload photograph");
+      return alert("please select only img file and then upload ");
     }
     if (formData.itskills.length === 0 && active === 1) {
       return alert("please select it skills");
