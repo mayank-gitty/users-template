@@ -94,10 +94,11 @@ margin-top: 4rem;
 
 .view-profile-page .status {
 
-  background:green;
-  border-radius: 20px;
-  padding: 3px 8px;
-  color: white;
+  background:rgb(232, 232, 232);
+  /* border: 1px solid green; */
+  border-radius: 30px;
+  /* padding: 3px 8px; */
+  color: rgb(0, 188, 41);
   text-align: center;
   font-size: 0.8em;
 
@@ -105,9 +106,9 @@ margin-top: 4rem;
 
 .view-profile-page .work {
 
-  background:green;
+  /* background:green; */
   border-radius: 20px;
-  padding: 3px 8px;
+  padding: 3px 5px;
   color: white;
   text-align: center;
 

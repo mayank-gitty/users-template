@@ -66,6 +66,7 @@ const PROFILE_USER = gql`
         name
         id
         email
+        role
       }
       total_experience
       resume_headline
@@ -163,6 +164,13 @@ const VIEW_MASTER = gql`
     }
   }
 `;
+const GET_USER = gql`
+query Query($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    role
+  }
+}
+`;
 
 export {
   HAS_MASTER,
@@ -171,5 +179,6 @@ export {
   KEY_SKILLS,
   EDIT_MASTER,
   VIEW_MASTER,
-  PROFILE_USERS
+  PROFILE_USERS,
+  GET_USER
 };

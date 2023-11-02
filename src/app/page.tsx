@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 import useThemeContext from "@/context/context";
 import { gql } from "graphql-request";
 import client from "../../helpers/request";
-import {HAS_MASTER} from "@/util/queries";
+import {GET_USER, HAS_MASTER, PROFILE_USER} from "@/util/queries";
 
 
 
@@ -33,6 +33,8 @@ export default function Home() {
     setActive,
     hasMaster,
     sethasMaster,
+    role, 
+    setRole,
   }: any = useThemeContext();
 
   const router = useRouter();
@@ -67,7 +69,14 @@ export default function Home() {
     if (user?.profileUsers.length > 0) {
       sethasMaster(true);
     }
+    const profile: any = await client.request(GET_USER, {
+        where: {
+          id: localStorage.getItem("id"),
+        }
+    });
 
+console.log(profile,"profilefile")
+setRole(profile?.user?.role)
   };
 
   const logOut = () => {
@@ -98,25 +107,28 @@ export default function Home() {
       <MantineProvider>
         {
           <div className="d-flex justify-content-end">
-            {/* <button className="btn btn-warning"  onClick={()=> router.push('/multi_users_table') } >
-               multi users
-            </button> */}
+            { role !== "employee" &&
+            <button className="btn btn-warning"  onClick={()=> router.push('/profileUsers') } >
+               users
+            </button>
+            }
 
             <button
               className="btn btn-info"
-              onClick={() =>
+              onClick={() =>+
                 router.push(`/profile?id=${localStorage.getItem("id")}`)
               }
             >
               view profile
             </button>
 
+           { role !== 'employee' &&
             <button
               className="btn btn-warning"
               onClick={() => router.push("/multipleuser")}
             >
               create users
-            </button>
+            </button>}
             <button className="btn btn-warning" onClick={() => logOut()}>
               {" "}
               logout{" "}
