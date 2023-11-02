@@ -101,6 +101,7 @@ setRole(profile?.user?.role)
     router.push("/login");
   };
 
+
   return (
     <>
       <MantineProvider>
@@ -137,7 +138,7 @@ setRole(profile?.user?.role)
 
 
 
-        {<Master />}
+        { !hasMaster && <Master />}
       </MantineProvider>
     </>
   );

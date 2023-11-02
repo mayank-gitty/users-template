@@ -9,7 +9,22 @@ const Resume = () => {
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
 
-    console.log("filiiiiiiiiiiiiiiiii", file.name);
+    // console.log("filiiiiiiiiiiiiiiiii", file.type);
+
+    // Allowing file type
+    var allowedTypes = ['application/pdf'];
+
+    if (!allowedTypes.includes(file.type)) {
+      setFormData((prevData:any) => ({
+        ...prevData,
+        ["resume"]: ``,
+      }));
+      return  alert('Invalid file type. Please upload a  PDF file.');
+      //  document.getElementById('fileInput').value = '';
+    }
+
+    console.log('below')
+
     const resumeData = new FormData();
     resumeData.append("file", file);
 

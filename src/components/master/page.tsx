@@ -23,7 +23,7 @@ export default function Master() {
     console.log(active);
 
     if (!formData.photograph  && active === 0) {
-      return alert("please select and upload photograph");
+      return alert("please select only img file and then upload ");
     }
     if (formData.itskills.length === 0 && active === 1) {
       return alert("please select it skills");
@@ -59,7 +59,7 @@ export default function Master() {
       return alert("please add relevant experience months");
     }
     if (!formData.resume && active === 6) {
-      return alert("please upload resume");
+      return alert("please upload resume in pdf format");
     }
 
     setActive((current) => (current < 8 ? current + 1 : current));

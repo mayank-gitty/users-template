@@ -30,10 +30,10 @@ const DatatablePage = () => {
     const users = user.profileUsers.map((item: any) => {
       return {
         user:item?.user?.name,  
-        resume_headline: item.resume_headline,
-        total_experience: item.total_experience,
-        relevant_experience: item.relevent_experience,
-        profile_summary: item.profile_summary,
+        // resume_headline: item.resume_headline,
+        // total_experience: item.total_experience,
+        // relevant_experience: item.relevent_experience,
+        // profile_summary: item.profile_summary,
         company:item?.user?.company?.name,
         photograph: <img src={item?.photograph} />,
         // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
@@ -41,7 +41,7 @@ const DatatablePage = () => {
         itskills: item.itskills.map((u: any) => u.name).join(", "),
         action:<button className="btn btn-primary" onClick={()=>router.push(`/edit_master?id=${item.id}`)} > edit </button>,
         view:<button className="btn btn-primary" onClick={()=>router.push(`/view_master?id=${item.id}`)} > view </button>,
-        resume:item.resume ? <a  className="resume-link"   download  href={item.resume} > view  resume </a> : ''        
+        resume:item.resume ? <a  target="_blank"  className="resume-link"   href={item.resume} > view  resume </a> : ''        
         // education: item.education.course,
         // user: item?.user?.name,
         // company: item?.user?.company?.map((u: any) => u.name).join(", "),
@@ -74,24 +74,24 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 200,
         },
-        {
-          label: "Photograph",
-          field: "photograph",
-          sort: "disabled",
-          width: 200,
-        },
+        // {
+        //   label: "Photograph",
+        //   field: "photograph",
+        //   sort: "disabled",
+        //   width: 200,
+        // },
         {
           label: "Company",
           field: "company",
           sort: "disabled",
           width: 200,
         },
-        {
-          label: "Resume Headline",
-          field: "resume_headline",
-          sort: "disabled",
-          width: 200,
-        },
+        // {
+        //   label: "Resume Headline",
+        //   field: "resume_headline",
+        //   sort: "disabled",
+        //   width: 200,
+        // },
         {
           label: "Key skills",
           field: "keyskills",
@@ -113,12 +113,12 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 100,
         },
-        {
-          label: "Total Experience",
-          field: "total_experience",
-          sort: "disabled",
-          width: 100,
-        },
+        // {
+        //   label: "Total Experience",
+        //   field: "total_experience",
+        //   sort: "disabled",
+        //   width: 100,
+        // },
         // {
         //   label: "Relevant Experience",
         //   field: "relevant_experience",
