@@ -92,6 +92,7 @@ export default function Home() {
     router.push("/login");
   };
 
+
   return (
     <>
       <MantineProvider>
@@ -125,7 +126,7 @@ export default function Home() {
 
 
 
-        {<Master />}
+        { !hasMaster && <Master />}
       </MantineProvider>
     </>
   );

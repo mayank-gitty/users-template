@@ -11,14 +11,15 @@ const upload = multer({
 
     },
   }),
-  //   fileFilter: (req, file, cb) => {
-  //     if (file.mimetype === 'application/msword' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-  //       cb(null, true);
-  //     } else {
-  //       cb(null, false);
-  //       return cb(new Error('Only DOC files are allowed'));
-  //     }
-  //   },
+    fileFilter: (req, file, cb) => {
+      if (file.mimetype !== 'application/pdf') {
+        console.log('not pdf')
+        cb(new Error('Only PDF files are allowed'));
+      } else {
+        console.log('pdf')
+        cb(null, true);
+      }
+    },
   // The destination directory for uploaded files
 });
 
@@ -33,6 +34,7 @@ export default async function handler(req, res, next) {
     //   }
   } catch (error) {
 
+    console.log('err',error)
     res.status(500).json({ success: false, message: "File upload failed." });
   }
 }

@@ -12,14 +12,24 @@ export default function PhotoUpload(props) {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
 
+      var allowedTypes = ["image/jpeg", "image/png", "image/svg", "image/jpg"];
+
+      if (!allowedTypes.includes(i.type)) {
+        setFormData((prevData: any) => ({
+          ...prevData,
+          ["resume"]: ``,
+        }));
+        return alert("Invalid file type. Please upload a  image");
+        //  document.getElementById('fileInput').value = '';
+      }
+
       setImage(i);
       setCreateObjectURL(URL.createObjectURL(i));
-    }
-    else {
+    } else {
       setFormData((prevData) => ({
         ...prevData,
         ["photograph"]: ``,
-      }))
+      }));
     }
   };
 
