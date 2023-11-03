@@ -138,7 +138,7 @@ setRole(profile?.user?.role)
 
 
 
-        { !hasMaster && <Master />}
+        { <Master />}
       </MantineProvider>
     </>
   );

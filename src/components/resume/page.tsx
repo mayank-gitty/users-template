@@ -12,7 +12,7 @@ const Resume = () => {
     // console.log("filiiiiiiiiiiiiiiiii", file.type);
 
     // Allowing file type
-    var allowedTypes = ['application/pdf'];
+    var allowedTypes = [ 'application/pdf' ,"application/msword" ,"application/vnd.openxmlformats-officedocument.wordprocessingml.document" ];
 
     if (!allowedTypes.includes(file.type)) {
       setFormData((prevData:any) => ({
