@@ -58,6 +58,7 @@ export default function View(props: IAppProps) {
       photograph: "",
       status: null,
       work: null,
+      user:''
     },
     validate: {
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -121,6 +122,7 @@ export default function View(props: IAppProps) {
       photograph: user.profileUser.photograph,
       status: user?.profileUser?.active,
       work: user?.profileUser?.open_to_work,
+      user:user?.profileUser?.user?.name
     });
   };
 
@@ -216,9 +218,16 @@ export default function View(props: IAppProps) {
   };
 
   return (
-    <Box maw={340} mx="auto">
+    <Box maw={340} mx="auto" className="mt-4" >
       <form onSubmit={form.onSubmit((values) => sendAll(values))}>
+
+<h6> name:  <span style={{
+  
+  fontWeight:700
+}} >  {form.getInputProps('user').value}   </span> </h6>
+
         <Select
+                  label="education"
           value={form.getInputProps("education").value}
           onChange={(value) => handleChange("education", value)}
           data={options}
