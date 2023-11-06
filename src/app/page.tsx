@@ -20,10 +20,7 @@ import { useRouter } from "next/navigation";
 import useThemeContext from "@/context/context";
 import { gql } from "graphql-request";
 import client from "../../helpers/request";
-import {GET_USER, HAS_MASTER, PROFILE_USER} from "@/util/queries";
-
-
-
+import { GET_USER, HAS_MASTER, PROFILE_USER } from "@/util/queries";
 
 export default function Home() {
   const {
@@ -33,7 +30,7 @@ export default function Home() {
     setActive,
     hasMaster,
     sethasMaster,
-    role, 
+    role,
     setRole,
   }: any = useThemeContext();
 
@@ -51,9 +48,7 @@ export default function Home() {
     }
   }, []);
 
-
   const getData = async () => {
-
     const user: any = await client.request(HAS_MASTER, {
       where: {
         user: {
@@ -70,13 +65,13 @@ export default function Home() {
       sethasMaster(true);
     }
     const profile: any = await client.request(GET_USER, {
-        where: {
-          id: localStorage.getItem("id"),
-        }
+      where: {
+        id: localStorage.getItem("id"),
+      },
     });
 
-console.log(profile,"profilefile")
-setRole(profile?.user?.role)
+    // console.log(profile, "profilefile");
+    setRole(profile?.user?.role);
   };
 
   const logOut = () => {
@@ -101,34 +96,37 @@ setRole(profile?.user?.role)
     router.push("/login");
   };
 
-
   return (
     <>
       <MantineProvider>
         {
           <div className="d-flex justify-content-end">
-            { role !== "employee" &&
-            <button className="btn btn-warning"  onClick={()=> router.push('/profileUsers') } >
-               users
-            </button>
-            }
+            {role !== "employee" && (
+              <button
+                className="btn btn-warning"
+                onClick={() => router.push("/profileUsers")}
+              >
+                users
+              </button>
+            )}
 
             <button
               className="btn btn-info"
-              onClick={() =>+
-                router.push(`/profile?id=${localStorage.getItem("id")}`)
+              onClick={() =>
+                +router.push(`/profile?id=${localStorage.getItem("id")}`)
               }
             >
               view profile
             </button>
 
-           { role !== 'employee' &&
-            <button
-              className="btn btn-warning"
-              onClick={() => router.push("/multipleuser")}
-            >
-              create users
-            </button>}
+            {role !== "employee" && (
+              <button
+                className="btn btn-warning"
+                onClick={() => router.push("/multipleuser")}
+              >
+                create users
+              </button>
+            )}
             <button className="btn btn-warning" onClick={() => logOut()}>
               {" "}
               logout{" "}
@@ -136,9 +134,7 @@ setRole(profile?.user?.role)
           </div>
         }
 
-
-
-        { !hasMaster && <Master />}
+        {<Master />}
       </MantineProvider>
     </>
   );

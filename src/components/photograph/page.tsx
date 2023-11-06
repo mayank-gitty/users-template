@@ -9,10 +9,14 @@ export default function PhotoUpload(props) {
   const { setFormData, formData }: any = useThemeContext();
 
   const uploadToClient = (event) => {
+
+
+
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
+      // console.log(i.type)
 
-      var allowedTypes = ["image/jpeg", "image/png", "image/svg", "image/jpg"];
+      var allowedTypes = ["image/jpeg", "image/png", "image/svg+xml", "image/jpg"];
 
       if (!allowedTypes.includes(i.type)) {
         setFormData((prevData: any) => ({

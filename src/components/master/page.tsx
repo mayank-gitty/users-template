@@ -5,14 +5,12 @@ import Education from "../education/page";
 import Profile from "../profile/page";
 import ResumeHeadline from "../resume-headline/page";
 
-
 import ExperienceDetails from "../experience/page";
 import useThemeContext from "@/context/context";
 import { useRouter } from "next/navigation";
 import PhotoUpload from "../photograph/page";
 import KeySkills from "../keyskills/page";
 import Resume from "../resume/page";
-
 
 export default function Master() {
   const { setFormData, formData, active, setActive }: any = useThemeContext();
@@ -22,11 +20,11 @@ export default function Master() {
   const nextStep = () => {
     console.log(active);
 
-    if (!formData.photograph  && active === 0) {
+    if (!formData.photograph && active === 0) {
       return alert("please select only img file and then upload ");
     }
-    if (formData.itskills.length === 0 && active === 1) {
-      return alert("please select it skills");
+    if (formData.keyskills.length === 0 && active === 1) {
+      return alert("please select key skills");
     }
 
     if (!formData.education && active === 2) {
@@ -37,29 +35,38 @@ export default function Master() {
       return alert("please enter resume headline");
     }
 
-    if (formData.keyskills.length === 0 && active === 4) {
-      return alert("please select key skills");
-    }
-
-
-    if (!formData.total_experience && active === 5) {
+    if (!formData.total_experience && active === 4) {
       return alert("please add total experience ");
     }
 
-    if (!formData.total_experience && active === 5) {
-      return alert("please add total experience ");
-    }
-    if (!formData.total_experience_months && active === 5) {
+    if (!formData.total_experience_months && active === 4) {
       return alert("please add experience months");
     }
-    if (!formData.relevent_experience && active === 5) {
+    if (!formData.relevent_experience && active === 4) {
       return alert("please add relevant experience");
     }
-    if (!formData.total_relevant_months && active === 5) {
+    if (!formData.total_relevant_months && active === 4) {
       return alert("please add relevant experience months");
     }
-    if (!formData.resume && active === 6) {
-      return alert("please upload resume in pdf format");
+
+    const totalExperience =   parseInt(formData.total_experience) + '.' + parseInt(formData.total_experience_months)
+
+    const totalRelevant =   parseInt(formData.relevent_experience) + '.' + parseInt(formData.total_relevant_months)
+
+    // console.log('exp',totalRelevant)
+
+    if( parseFloat(totalRelevant)  > parseFloat(totalExperience)  )  {
+
+      return alert('relevant experience can not greater than total experience')
+
+    }
+
+    if (!formData.resume && active === 5) {
+      return alert("please upload resume in pdf or docx format");
+    }
+
+    if (formData.itskills.length === 0 && active === 6) {
+      return alert("please select it skills");
     }
 
     setActive((current) => (current < 8 ? current + 1 : current));
@@ -68,50 +75,49 @@ export default function Master() {
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
 
-
-
   return (
     <div className="employee-details">
-  
       <div className="text-center mb-10">
         <h4> Fill up Your Details </h4>
       </div>
 
       <Stepper active={active}>
-        {/* <Stepper.Step label="Upload Photo" description="">
-          <PhotoUpload/>
+        <Stepper.Step label="Upload Photo" description="">
+          <PhotoUpload />
         </Stepper.Step>
-        <Stepper.Step label="Enter IT Skills" description="">
-          <ItSkills />
+        <Stepper.Step label="Enter Key Skills" description="">
+          <KeySkills />
         </Stepper.Step>
+
         <Stepper.Step label="Highest Education" description="">
           <Education />
         </Stepper.Step>
         <Stepper.Step label="Enter Resume Headline" description="">
           <ResumeHeadline />
         </Stepper.Step>
-        <Stepper.Step label="Enter Key Skills" description="">
-          <KeySkills />
-        </Stepper.Step>
-        <Stepper.Step label="Enter Expererience" >
+
+        <Stepper.Step label="Enter Expererience">
           <ExperienceDetails />
         </Stepper.Step>
-        <Stepper.Step label="Upload Resume" >
-          <Resume/>
-        </Stepper.Step> */}
+        <Stepper.Step label="Upload Resume">
+          <Resume />
+        </Stepper.Step>
+        <Stepper.Step label="Enter IT Skills" description="">
+          <ItSkills />
+        </Stepper.Step>
         <Stepper.Step label="Enter Profile Summary" description="">
           <Profile />
         </Stepper.Step>
       </Stepper>
 
       <Group position="center" mt="xl">
-        {active !== 9 && active !== 0 &&  active !== 8 && (
+        {active !== 9 && active !== 0 && active !== 8 && (
           <Button variant="default" onClick={prevStep}>
-            Back 
+            Back
           </Button>
         )}
 
-        {active !== 9 && active !== 7 &&  active !== 8 && (
+        {active !== 9 && active !== 7 && active !== 8 && (
           <button className="btn btn-primary" onClick={nextStep}>
             Next step
           </button>

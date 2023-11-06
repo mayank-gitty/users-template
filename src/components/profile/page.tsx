@@ -132,6 +132,7 @@ const Profile = () => {
     console.log("profile-user", user);
 
     setActive(8);
+    setFormSubmitted(true);
 
     setTimeout(() => {
       router.push("/thanku");
@@ -143,7 +144,7 @@ const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setFormSubmitted(true);
+
   };
 
   const handleCancel = () => {
