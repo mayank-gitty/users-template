@@ -31,6 +31,14 @@ const AUTH_MUTATION = gql`
     }
   }
 `;
+const UPDATE_PASSWORD = gql`
+mutation Mutation($where: UserWhereUniqueInput!, $data: UserUpdateInput!) {
+  updateUser(where: $where, data: $data) {
+    email
+    
+  }
+}
+`;
 
 
-export {updateUser,AUTH_MUTATION}
+export {updateUser,AUTH_MUTATION,UPDATE_PASSWORD}

@@ -138,7 +138,7 @@ const Profile = () => {
       router.push("/thanku");
     }, 500);
 
-    alert('details submitted')
+    // alert('details submitted')
   };
 
   const handleSubmit = (e) => {
