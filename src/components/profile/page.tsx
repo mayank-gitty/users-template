@@ -14,6 +14,9 @@ import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";
 import { useRouter } from "next/navigation";
+import { useDisclosure } from '@mantine/hooks';
+import { Modal,  } from '@mantine/core';
+import Thanku from "@/app/thanku/page";
 
 // Define mutation
 const PROFILE_USER = gql`
@@ -55,7 +58,7 @@ const PROFILE_USERS = gql`
 
 const Profile = () => {
   const router = useRouter();
-
+  const [opened, { open, close }] = useDisclosure(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const { setFormData, formData, active, setActive }: any = useThemeContext();
@@ -131,10 +134,10 @@ const Profile = () => {
     setActive(8);
 
     setTimeout(() => {
-      router.push("/profileUsers");
+      router.push("/thanku");
     }, 500);
 
-    // alert('details submitted')
+    alert('details submitted')
   };
 
   const handleSubmit = (e) => {
@@ -199,6 +202,7 @@ const Profile = () => {
                 }}
               >
                 <Group position="right" mt="md">
+                
                   <Button
                     type="submit"
                     style={{
@@ -215,17 +219,22 @@ const Profile = () => {
                   >
                     Save All Details
                   </Button>
+               
+                  <>
+    
+
+    </>
                 </Group>
               </Grid.Col>
             </Grid>
           </form>
-          {formSubmitted && (
-            <div
-              style={{ color: "green", textAlign: "center", marginTop: "10px" }}
-            >
-              Your Details submitted successfully!
-            </div>
-          )}
+          {/* {formSubmitted && (
+            
+              <Modal opened={opened} onClose={close} title="Authentication">
+             <Thanku/>
+            </Modal>
+            
+          )} */}
         </Paper>
       </Container>
     </div>

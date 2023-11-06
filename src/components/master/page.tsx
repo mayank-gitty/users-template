@@ -78,7 +78,7 @@ export default function Master() {
       </div>
 
       <Stepper active={active}>
-        <Stepper.Step label="Upload Photo" description="">
+        {/* <Stepper.Step label="Upload Photo" description="">
           <PhotoUpload/>
         </Stepper.Step>
         <Stepper.Step label="Enter IT Skills" description="">
@@ -98,7 +98,7 @@ export default function Master() {
         </Stepper.Step>
         <Stepper.Step label="Upload Resume" >
           <Resume/>
-        </Stepper.Step>
+        </Stepper.Step> */}
         <Stepper.Step label="Enter Profile Summary" description="">
           <Profile />
         </Stepper.Step>

@@ -101,7 +101,7 @@ const ItSkills = () => {
                   label="select skill"
                   placeholder="Pick value"
                   onChange={(e) => handleChange(e)}
-             
+                  searchable
                   // value={formData.itskills}
                   data={DefaultSkills}
                   maxSelectedValues={5} 
