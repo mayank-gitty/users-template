@@ -9,6 +9,8 @@ export default list({
     mobilenumber: text(),
     email: text(),
     address: text(),
+    password:text(),
+    company:text(),
     role: select({
       options: [
         { label: 'Admin', value: 'admin' },

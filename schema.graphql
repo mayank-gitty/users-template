@@ -158,6 +158,8 @@ type MultipleUser {
   mobilenumber: String
   email: String
   address: String
+  password: String
+  company: String
   role: String
 }
 
@@ -174,6 +176,8 @@ input MultipleUserWhereInput {
   mobilenumber: StringFilter
   email: StringFilter
   address: StringFilter
+  password: StringFilter
+  company: StringFilter
   role: StringNullableFilter
 }
 
@@ -183,6 +187,8 @@ input MultipleUserOrderByInput {
   mobilenumber: OrderDirection
   email: OrderDirection
   address: OrderDirection
+  password: OrderDirection
+  company: OrderDirection
   role: OrderDirection
 }
 
@@ -191,6 +197,8 @@ input MultipleUserUpdateInput {
   mobilenumber: String
   email: String
   address: String
+  password: String
+  company: String
   role: String
 }
 
@@ -204,6 +212,8 @@ input MultipleUserCreateInput {
   mobilenumber: String
   email: String
   address: String
+  password: String
+  company: String
   role: String
 }
 

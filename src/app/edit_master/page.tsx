@@ -19,10 +19,8 @@ import {
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { serialize } from "v8";
-import { IT_SKILLS,KEY_SKILLS,EDIT_MASTER } from "@/util/queries";
+import { IT_SKILLS, KEY_SKILLS, EDIT_MASTER } from "@/util/queries";
 import { updateUser } from "@/util/mutationQueries";
-
-
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -32,8 +30,6 @@ const options = [
   { value: "10th", label: "10th" },
   { value: "below10th", label: "Below 10th" },
 ];
-
-
 
 export interface IAppProps {}
 
@@ -58,7 +54,7 @@ export default function View(props: IAppProps) {
       photograph: "",
       status: null,
       work: null,
-      user:''
+      user: "",
     },
     validate: {
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -122,7 +118,7 @@ export default function View(props: IAppProps) {
       photograph: user.profileUser.photograph,
       status: user?.profileUser?.active,
       work: user?.profileUser?.open_to_work,
-      user:user?.profileUser?.user?.name
+      user: user?.profileUser?.user?.name,
     });
   };
 
@@ -203,14 +199,13 @@ export default function View(props: IAppProps) {
           }),
         },
         education: values.education,
-        active:values.status,
-        open_to_work:values.work,
+        active: values.status,
+        open_to_work: values.work,
         createdAt: new Date(),
-
       },
     });
 
-    console.log("updated", form.getInputProps(''));
+    console.log("updated", form.getInputProps(""));
 
     setTimeout(() => {
       router.push("/profileUsers");
@@ -218,16 +213,23 @@ export default function View(props: IAppProps) {
   };
 
   return (
-    <Box maw={340} mx="auto" className="mt-4" >
+    <Box maw={340} mx="auto" className="mt-4">
       <form onSubmit={form.onSubmit((values) => sendAll(values))}>
-
-<h6> name:  <span style={{
-  
-  fontWeight:700
-}} >  {form.getInputProps('user').value}   </span> </h6>
+        <h6>
+          {" "}
+          name:{" "}
+          <span
+            style={{
+              fontWeight: 700,
+            }}
+          >
+            {" "}
+            {form.getInputProps("user").value}{" "}
+          </span>{" "}
+        </h6>
 
         <Select
-                  label="education"
+          label="education"
           value={form.getInputProps("education").value}
           onChange={(value) => handleChange("education", value)}
           data={options}
@@ -283,13 +285,17 @@ export default function View(props: IAppProps) {
           className="mt-2"
           label={<>active</>}
           checked={form.getInputProps("status").value ? true : false}
-          onChange={(event) =>   form.setFieldValue('status', event.currentTarget.checked) }
+          onChange={(event) =>
+            form.setFieldValue("status", event.currentTarget.checked)
+          }
         />
 
         <Checkbox
           label={<>open to work</>}
           checked={form.getInputProps("work").value ? true : false}
-          onChange={(event) =>form.setFieldValue('work', event.currentTarget.checked) }
+          onChange={(event) =>
+            form.setFieldValue("work", event.currentTarget.checked)
+          }
         />
 
         <div>
