@@ -5,14 +5,15 @@ import { useForm } from "@mantine/form";
 import {
   Textarea,
   NumberInput,
-  Select,
   Button,
   TextInput,
+  Select,
 } from "@mantine/core";
 // import "react-datepicker/dist/react-datepicker.css";
 import Navbar from "../../components/Navbar";
 import { randomId } from "@mantine/hooks";
 import { Manrope } from "next/font/google";
+
 import { dropDown, projectsData } from "../../utils/data";
 // import { useSession } from "next-auth/react";
 import {
@@ -38,17 +39,26 @@ import { createMultipleUsers } from "../../utils/serverMutations";
 import { useTransition } from "react";
 import client from "../../../helpers/request";
 
-
 // import { User_data } from "../context/context";
 
 // Define mutation
-const ADD_MULTIPLE_USER = gql`
-  mutation CreateMultipleUsers($data: [MultipleUserCreateInput!]!) {
-    createMultipleUsers(data: $data) {
-      email
+
+const COMPANIES = gql`
+  query Query {
+    companies {
+      name
       id
-      mobilenumber
-      name  
+    }
+  }
+`;
+
+const ADD_MULTIPLE_USER = gql`
+  mutation Mutation($data: [UserCreateInput!]!) {
+    createUsers(data: $data) {
+      role
+      password {
+        isSet
+      }
     }
   }
 `;
@@ -63,12 +73,14 @@ const AddTimeLine = ({ AllProjects }: any) => {
   const form = useForm({
     initialValues: {
       userId: "",
+      companies: [],
       entries: [
         {
           userName: "",
           mobileNumber: "",
           email: "",
           address: "",
+          company: "",
           key: 0,
         },
       ],
@@ -78,12 +90,29 @@ const AddTimeLine = ({ AllProjects }: any) => {
     validate: {
       entries: {
         userName: (value) => (value ? null : "select userName"),
-        mobileNumber: (value) => (value ? null : "select mobileNumber" ),
+        mobileNumber: (value) => (value ? null : "select mobileNumber"),
         email: (value) => (value ? null : "select email"),
         address: (value) => (value ? null : "add address"),
       },
     },
   });
+
+  const getComapanies = async () => {
+    const users: any = await client.request(COMPANIES);
+
+    console.log("usersaa", users);
+
+    const DefaultSkills = users?.companies?.map((item: any) => {
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    });
+
+    // setDefaultSkills(DefaultSkills);
+
+    form.setFieldValue("companies", DefaultSkills);
+  };
 
   const addEntry = () => {
     // console.log('form',form.values)
@@ -96,12 +125,13 @@ const AddTimeLine = ({ AllProjects }: any) => {
       address: "",
       key: randomId(),
     });
-
-
   };
 
+  useEffect(() => {
+    getComapanies();
+  }, []);
+
   // const saveAll = async () => {
-    
 
   //   const Mutatedata = form.values.entries.map((item) => {
   //     return {
@@ -112,17 +142,12 @@ const AddTimeLine = ({ AllProjects }: any) => {
   //     };
   //   });
 
-
-    
   //   console.log(Mutatedata);
-
 
   //   const user = await client.request(ADD_MULTIPLE_USER, {
   //     data: Mutatedata,
   //   });
   //   console.log(user);
-
-    
 
   //   if (form.username === 'demo' && form.mobileNumber === 'password' && form.email === 'password' && form.address === 'password') {
   //     // Successful login, you can redirect or perform other actions here
@@ -133,18 +158,186 @@ const AddTimeLine = ({ AllProjects }: any) => {
   // }
   // };
 
+  function generateSecurePassword(length, username) {
+    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numberChars = "0123456789";
+    const specialChars = "!@#$%^&*()_-+=<>?";
+
+    const allChars =
+      lowercaseChars + uppercaseChars + numberChars + specialChars;
+
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      const charSet = i % 4;
+      switch (charSet) {
+        case 0:
+          password += lowercaseChars.charAt(
+            Math.floor(Math.random() * lowercaseChars.length)
+          );
+          break;
+        case 1:
+          password += uppercaseChars.charAt(
+            Math.floor(Math.random() * uppercaseChars.length)
+          );
+          break;
+        case 2:
+          password += numberChars.charAt(
+            Math.floor(Math.random() * numberChars.length)
+          );
+          break;
+        case 3:
+          password += specialChars.charAt(
+            Math.floor(Math.random() * specialChars.length)
+          );
+          break;
+      }
+    }
+
+    return username + password;
+  }
+
+  // const password = generateSecurePassword(12); // Change the number to set the desired password length
+  // console.log(password);
+
+  // function generatePassword(length,username) {
+  //   // const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=<>?";
+
+  //   // let password = "";
+  //   // for (let i = 0; i < length; i++) {
+  //   //   const randomIndex = Math.floor(Math.random() * charset.length);
+  //   //   password += charset[randomIndex];
+  //   // }
+
+  //   return username + password;
+  // }
+
+  // const password = generatePassword(8); // Change the number to set the desired password length
+  // console.log(password);
+
+  function generateSecurePassword5(inputString, length, company) {
+    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numberChars = "0123456789";
+
+    // Ensure the password length is at least as long as the input string
+    if (length < inputString.length) {
+      throw new Error(
+        "Password length must be greater than or equal to the length of the input string."
+      );
+    }
+
+    const remainingLength = length - inputString.length;
+    const halfLength = Math.floor(remainingLength / 2);
+
+    // Create a random portion with uppercase, numbers, and special characters
+    let randomPart = "";
+    for (let i = 0; i < 4; i++) {
+      const charSet = i % 3;
+      switch (charSet) {
+        case 0:
+          randomPart += uppercaseChars.charAt(
+            Math.floor(Math.random() * uppercaseChars.length)
+          );
+          break;
+        case 1:
+          randomPart += numberChars.charAt(
+            Math.floor(Math.random() * numberChars.length)
+          );
+          break;
+      }
+    }
+
+    // Create the final password by combining the input string, underscores, and the random portion
+    const underscores = "_".repeat(remainingLength - randomPart.length);
+    const password = inputString + randomPart + "@" + company;
+
+    return password;
+  }
+
+  // const inputString = "example"; // Replace with your desired input string
+  // const passwordLength = 12; // Specify the desired password length
+  // const password = generateSecurePassword(inputString, passwordLength);
+  // console.log(password);
+
+  function generateSecurePassword3(inputString) {
+    // Define a set of special characters
+    const specialChars = "!@#$%^&*()_-+=<>?";
+
+    // Add a random number
+    const randomNum = Math.floor(Math.random() * 10);
+
+    // Add a random uppercase letter
+    const randomUpper = String.fromCharCode(
+      65 + Math.floor(Math.random() * 26)
+    );
+
+    // Select a random special character
+    const randomSpecial = specialChars.charAt(
+      Math.floor(Math.random() * specialChars.length)
+    );
+
+    // Concatenate all the elements to the input string
+    const password =
+      inputString + randomNum + randomUpper + "_" + randomSpecial;
+
+    return password;
+  }
+
+  // const inputString = "example"; // Replace with your desired input string
+  // const password = generateSecurePassword(inputString);
+  // console.log(password);
+
+  function generatePasswordFromUsername(username) {
+    // Function to shuffle an array randomly
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    // Convert the username into a password
+    let password = username;
+
+    // Add a random number
+    password += Math.floor(Math.random() * 10);
+
+    // Add a random uppercase letter
+    password += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+    // Add a random lowercase letter
+    password += String.fromCharCode(97 + Math.floor(Math.random() * 26));
+
+    // Define a set of special characters
+    const specialChars = "!@#$%^&*()_-+=<>?";
+
+    // Add a random special character
+    password += specialChars[Math.floor(Math.random() * specialChars.length)];
+
+    // Convert the password string into an array for shuffling
+    const passwordArray = password.split("");
+
+    // Shuffle the characters randomly
+    shuffleArray(passwordArray);
+
+    // Convert the shuffled array back to a string
+    password = passwordArray.join("");
+
+    return password;
+  }
+
+  const username = "exampleUser"; // Replace with your username
+  const password = generatePasswordFromUsername(username);
+  console.log(password);
+
+  // const seedString = "YourSeedString"; // Replace with your own seed string
+  // const password = generateSecurePassword(seedString, 12); // Change the number to set the desired password length
+  // console.log(password);
+
   const saveAll = async () => {
-      const Mutatedata = form.values.entries.map((item) => {
-      return {
-        name: item.userName,
-        mobilenumber: item.mobileNumber,
-        email: item.email,
-        address: item.address,
-      };
-    });
-    const user = await client.request(ADD_MULTIPLE_USER, {
-         data: Mutatedata,
-        });
+    console.log("fv", form.values);
+
     const validationErrors: FormErrors = {};
 
     // if (!form.values.date) {
@@ -156,7 +349,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
         validationErrors[`entries.${index}.userName`] = "User Name is required";
       }
       if (!entry.mobileNumber) {
-        validationErrors[`entries.${index}.mobileNumber`] = "Mobile Number is required";
+        validationErrors[`entries.${index}.mobileNumber`] =
+          "Mobile Number is required";
       }
       if (!entry.email) {
         validationErrors[`entries.${index}.email`] = "Email is required";
@@ -168,10 +362,33 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
     if (Object.keys(validationErrors).length === 0) {
       // Form is valid, submit the data
-      // ...
 
-      // Redirect or perform other actions
-      router.push('/multi_users_table');
+      const Mutatedata = form.values.entries.map((item) => {
+        return {
+          name: item.userName,
+          // role:['Admin'],
+          // mobilenumber: item.mobileNumber,
+          email: item.email,
+          // address: item.address,
+          company: {
+            connect: {
+              id: item.company,
+            },
+          },
+          password: generateSecurePassword5(item.userName, 12, item.company),
+        };
+      });
+
+      console.log("pw", Mutatedata);
+
+      const user = await client.request(ADD_MULTIPLE_USER, {
+        data: Mutatedata,
+      });
+
+      if (user.createUsers) {
+        // Redirect or perform other actions
+        router.push("/multi_users_table");
+      }
     } else {
       // Form is invalid, show validation errors
       setFormErrors(validationErrors);
@@ -179,7 +396,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
   };
   const clickS = "bg-secondary text-white";
   const notClickS = "bg-gray-100 text-black";
-  
+
   return (
     <>
       <form onSubmit={form.onSubmit((values) => {})}>
@@ -245,7 +462,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" className="px-6 py-3">
-                      Name
+                        Name
                       </th>
                       <th scope="col" className="px-6 py-3">
                         Mobile Number
@@ -255,6 +472,9 @@ const AddTimeLine = ({ AllProjects }: any) => {
                       </th>
                       <th scope="col" className="px-6 py-3">
                         Address
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Company
                       </th>
                     </tr>
                   </thead>
@@ -297,6 +517,13 @@ const AddTimeLine = ({ AllProjects }: any) => {
                           {...form.getInputProps(`entries.${0}.address`)}
                         />
                       </td>
+                      <td>
+                        <Select
+                          {...form.getInputProps(`entries.${0}.company`)}
+                          placeholder="Please Select Company"
+                          data={form.getInputProps("companies").value}
+                        />
+                      </td>
                     </tr>
 
                     {form.values.entries.length > 1 &&
@@ -337,6 +564,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                 <TextInput
                                   //   label="Name"
                                   //   description="Input description"
+
                                   className="border border-gray-300 rounded-lg h-10 w-48 p-2"
                                   placeholder="Email"
                                   {...form.getInputProps(
@@ -353,6 +581,16 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                   {...form.getInputProps(
                                     `entries.${index}.address`
                                   )}
+                                />
+                              </td>
+                              <td className="px-6 py-4">
+                                <Select
+                                  // label="Please select company"
+                                  placeholder="Please select company"
+                                  {...form.getInputProps(
+                                    `entries.${index}.company`
+                                  )}
+                                  data={form.getInputProps("companies").value}
                                 />
                               </td>
                               <td>

@@ -32,6 +32,8 @@ model MultipleUser {
   mobilenumber String  @default("")
   email        String  @default("")
   address      String  @default("")
+  password     String  @default("")
+  company      String  @default("")
   role         String?
 }
 
