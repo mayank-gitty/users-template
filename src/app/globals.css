@@ -115,3 +115,29 @@ margin-top: 4rem;
   font-size: 0.8em;
 
 }
+.responsive-image {
+  flex: 0 0 100%; /* Initially, both images take up 100% of the container width */
+
+  /* Add padding or margin if needed for spacing */
+  /* padding: 10px; */
+}
+
+@media (min-width: 900px) {
+  /* On screens wider than 768px, each image takes up 60% of the container width */
+  .responsive-image {
+      flex: 0 0 60%;
+  }
+}
+.responsive-image1 {
+  flex: 0 0 100%; /* Initially, both images take up 100% of the container width */
+
+  /* Add padding or margin if needed for spacing */
+  /* padding: 10px; */
+}
+
+@media (min-width: 900px) {
+  /* On screens wider than 768px, each image takes up 60% of the container width */
+  .responsive-image1 {
+      flex: 0 0 40%;
+  }
+}

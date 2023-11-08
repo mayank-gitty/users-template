@@ -6,15 +6,14 @@ import { useEffect } from "react";
 import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import { useSearchParams } from "next/navigation";
-import { Tabs, rem } from "@mantine/core";
 import {
-  TextInput,
-  Checkbox,
   Button,
   Group,
   Box,
   MultiSelect,
   Select,
+  Image,
+  Tabs, rem,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,7 +26,7 @@ import {
   IconCircleCheckFilled,
   IconVideo,
   IconCircleOff,
-  IconVideoOff
+  IconVideoOff,
 } from "@tabler/icons-react";
 
 import { useForm } from "@mantine/form";
@@ -215,69 +214,74 @@ export default function View(props: IAppProps) {
   console.log("f", form.getInputProps("photograph").value);
 
   return (
-    <Box mx="auto" className="view-profile-page">
+    <Box mx="auto" className="view-profile-page bg-[#F3F7FB] h-screen pl-[4%]">
       <div
-        className="upper-section"
+        className=""
         style={{ alignItems: "center", justifyContent: "center" }}
       >
-        <div className="upper-layer-section d-flex">
-          <div className="d-flex">
-            <div style={{width:'200px', height:'200px', }}>
-              <img src={form.getInputProps("photograph").value} style={{width:'170px', height:'170px',border:'8px solid gray' }} />
+        <div className="text-black text-2xl py-4  font-semibold">Profile</div>
+        <div className="flex items-star justify-start gap-4">
+        <div className=" w-[280px] px-3 py-4 h-full rounded-sm bg-white">
+        <div className="flex items-center justify-center flex-col bg-white">
+          <div className="">
+            <img
+              src={form.getInputProps("photograph").value}
+              style={{ width: "242px", height: "140px", borderRadius: "7px" }}
+              alt="User Photograph"
+            />
+          </div>
+          
+          <div className="">
+            <div className="text-black text-[28px] font-semibold pt-3 flex items-center justify-center">
+              {form.getInputProps("name").value || localStorage.getItem("name")}
             </div>
-            <div className="ml-6">
-              <h3 style={{ color: "#4833b5" }}>
-                {" "}
-                {form.getInputProps("name").value ||
-                  localStorage.getItem("name")}{" "}
-              </h3>
-
-              <h6 style={{ color: "gray" }}>
-                {" "}
-                {form.getInputProps("resume_headline").value}{" "}
-              </h6>
-
-              {/* <h6> {form.getInputProps("profile_summary").value}  </h6> */}
-              <p className="status" style={{alignItems:'center', justifyContent:'center'}}>
-                {form.getInputProps("status").value ? (
-                  <span className="active" style={{display:'flex', alignItems:'center', justifyContent:'center',}}>
-                    <IconCircleCheckFilled size={18} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20}} /> Active
-                  </span>
-                ) : (
-                  <span className="inactive" style={{display:'flex', alignItems:'center', justifyContent:'center',color:'red',border:'1px solid red',  borderRadius:'30px', padding:'3px'}}>
-                    <IconCircleOff size={20} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20, color:'red'}}/> Inactive
-                  </span>
-                )}
-              </p>
-
-              <p className="work">
-                {form.getInputProps("work").value ? (
-                  <span className="open" style={{display:'flex', alignItems:'center', justifyContent:'center',backgroundColor:'green', borderRadius:'30px',padding:'3px' }}>
-                    <IconVideo size={20} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20}} /> Open to Work
-                  </span>
-                ) : (
-                  <span className="engaged" style={{display:'flex', alignItems:'center', justifyContent:'center',backgroundColor:'red', borderRadius:'30px', padding:'3px'}}>
-                    <IconVideoOff size={20} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20,}}/> Engaged
-                  </span>
-                )}
-              </p>
+            <div className="text-[#ABABAB] text-base font-medium flex items-center justify-center">
+              {form.getInputProps("resume_headline").value}
             </div>
-            {/* <div className=" flex-column mx-auto">
-            <p className="status">
-              {" "}
-              {form.getInputProps("status").value ? "active" : "in active"}{" "}
-            </p>
-
-            <p className="work">
-              {" "}
-              {form.getInputProps("work").value
-                ? "open to work"
-                : "engaged"}{" "}
-            </p>
-          </div> */}
+            <div className="text-[#797878] text-xs font-medium flex items-center justify-center">
+              {form.getInputProps("profile_summary").value}
+            </div>
+          
+         
+          </div>
+         
+          <Group  spacing={8} style={{display:'flex', alignItems:'start', justifyContent:'left'}}>
+          <Image
+              src="./images/Icon-Skill.svg"
+              alt="Google"
+              style={{width:'28px', height:'28px'}}
+            />    
+          <div className="text-black text-base font-semibold ml-1">Skills</div>
+          <Group  spacing={6} ml={24}>
+          <Image
+              src="./images/Icon-Skill.svg"
+              alt="Google"
+              style={{width:'24px', height:'24px'}}
+            />   
+            </Group>
+          </Group>
+          <div className="flex items-start justify-between gap-2">
+          <div className="w-28 flex  border">
+          <div className=" bg-[#5847C3] w-3 flex items-start justify-start"></div>
+          <div className=" px-4 py-2 text-black text-base font-semibold">Skills</div>
+          </div>
+          <div className="w-28 flex  border">
+          <div className=" bg-[#5847C3] w-3 flex items-start justify-start"></div>
+          <div className=" px-4 py-2 text-black text-base font-semibold">Skills</div>
+          </div>
           </div>
         </div>
-
+        </div>
+        <div className=" w-[600px] px-3 py-4 h-full rounded-sm bg-white">
+        <Group position="apart">
+        <Group position='left'>
+          <div>hello</div>
+          <div>hello</div>
+          </Group>
+          <div>hello</div>
+        </Group>
+        </div>
+        </div>
         <div className="tabs-section">
           <Tabs defaultValue="gallery">
             <Tabs.List>
