@@ -8,8 +8,9 @@ import {
   Grid,
   Group,
   Divider,
+  Select
 } from "@mantine/core";
-import Select from "react-select";
+// import Select from "react-select";
 import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";
@@ -41,16 +42,24 @@ const gradingSystemOptions = [
   { value: "8", label: "8" },
 ];
 
-const customStyles = {
-  control: (provided) => ({
-    ...provided,
-    height: "55px",
-    borderRadius: "8px",
-    border: "2px solid #ccc",
-    boxShadow: "none",
-  }),
-  // Add more custom styles as needed
-};
+// const customStyles = {
+  
+//     input: {
+//       height:"100%"
+//     },
+//     values:{
+//     height:"100%"
+//     },
+//     wrapper:{
+//       height:"50px"
+//     },
+
+//     leftIcon: {
+//       marginRight: theme.spacing.md,
+//     },
+//   }
+//   // Add more custom styles as needed
+// };
 
 const Education1: React.FC = () => {
   // const initialFormData: any = {
@@ -84,7 +93,6 @@ const Education1: React.FC = () => {
   const [errors, setErrors] = useState(initialErrors);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [isFormCancelled, setIsFormCancelled] = useState(false);
-
 
   function generateYearOptions() {
     const currentYear = new Date().getFullYear();
@@ -172,31 +180,31 @@ const Education1: React.FC = () => {
   };
 
   const save = async () => {
-    console.log("---", formData);
-    const fm = formData.skills.map((item: any) => {
-     return {
-      id:item
-     }
-    });
-    console.log("fm", fm);
+    // console.log("---", formData);
+    // const fm = formData.skills.map((item: any) => {
+    //   return {
+    //     id: item,
+    //   };
+    // });
+    // console.log("fm", fm);
 
-    const user = await client.request(PROFILE_USER, {
-      data: {
-        keyskills: {
-          connect: fm,
-        },
-        courseDuration: `startYear: ${formData?.startingYear?.value}  endYear : ${formData?.endingYear?.value}`,
-        course_type: formData.coursetype,
-        education: formData.education?.value,
-        gradingSystem: formData.gradingsystem,
-        course: formData.course.value,
-        marks: formData.marks,
-        specialization: formData.specialization.value,
-        university: formData.university,
-      },
-    });
+    // const user = await client.request(PROFILE_USER, {
+    //   data: {
+    //     keyskills: {
+    //       connect: fm,
+    //     },
+    //     courseDuration: `startYear: ${formData?.startingYear?.value}  endYear : ${formData?.endingYear?.value}`,
+    //     course_type: formData.coursetype,
+    //     education: formData.education?.value,
+    //     gradingSystem: formData.gradingsystem,
+    //     course: formData.course.value,
+    //     marks: formData.marks,
+    //     specialization: formData.specialization.value,
+    //     university: formData.university,
+    //   },
+    // });
 
-    console.log("profile-user", user);
+    // console.log("profile-user", user);
   };
 
   const handleCancel = () => {
@@ -212,18 +220,20 @@ const Education1: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop:"2rem",
+        marginTop: "2rem",
         height: "auto",
-
       }}
     >
       <Container size="xs" px="xs">
-        <Paper shadow="xl" p="md" style={{
-          width:"30rem"
-        }} >
-          <h2 style={{ textAlign: "center", fontSize: "30px" }}>
-            Education Form
-          </h2>
+        <Paper
+          shadow="xl"
+          p="md"
+          style={{
+            width: "30rem",
+          }}
+        >
+          <h6 className="box-heading"> Add education </h6>
+          <p className="box-sub-heading">Select your highest education</p>
 
           {submissionSuccess ? (
             <p
@@ -245,13 +255,12 @@ const Education1: React.FC = () => {
             </p>
           ) : null}
 
-          <Divider my="sm" />
+        
 
           <form onSubmit={handleSubmit}>
             <Grid>
               <Grid.Col span={12}>
                 <Input.Wrapper
-                  label="Education"
                   styles={() => ({
                     label: {
                       color: "#01041b",
@@ -265,9 +274,23 @@ const Education1: React.FC = () => {
                   <Select
                     value={formData.education}
                     onChange={(value) => handleChange("education", value)}
-                    options={options}
+                    data={options}
                     placeholder="Select Education"
-                    styles={customStyles}
+                    styles={(theme) => ({
+                      input: {
+                        height:"100%"
+                      },
+                      values:{
+                      height:"100%"
+                      },
+                      wrapper:{
+                        height:"50px"
+                      },
+            
+                      leftIcon: {
+                        marginRight: theme.spacing.md,
+                      },
+                    })}
                   />
                   {errors.education && (
                     <p style={{ color: "red", fontSize: "0.8em" }}>

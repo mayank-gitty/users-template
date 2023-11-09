@@ -84,27 +84,46 @@ const ItSkills = () => {
       }}
     >
       <Container size="xs" px="xs">
-        <Paper shadow="xl" p="md">
-          <h6 style={{ textAlign: "left", fontSize: "20px" }}>IT Skills</h6>
-          <p style={{ color: "GrayText" }}>
+        <Paper
+          style={{
+            width: "30rem",
+          }}
+          shadow="xl"
+          p="md"
+        >
+          <h6 className="box-heading">IT Skills</h6>
+          <p className="box-sub-heading">
             Specify details about programming languages (such as Java, Python,
             C/C++, Oracle, SQL etc.) or any other software-related knowledge.
           </p>
 
-          <Divider my="sm" />
+
 
           <form onSubmit={handleSubmit}>
             <Grid>
               <Grid.Col span={12}>
                 <MultiSelect
-                 searchable
-                  label="select skill"
+                  searchable
+                  // label="select skill"
                   placeholder="Pick value"
                   onChange={(e) => handleChange(e)}
-             
-                  // value={formData.itskills}
+                  value={formData.itskills}
                   data={DefaultSkills}
-          
+                  styles={(theme) => ({
+                    input: {
+                      height: "100%",
+                    },
+                    values: {
+                      height: "100%",
+                    },
+                    wrapper: {
+                      height: "50px",
+                    },
+
+                    leftIcon: {
+                      marginRight: theme.spacing.md,
+                    },
+                  })}
                 />
               </Grid.Col>
               {/* <Grid.Col span={6}>

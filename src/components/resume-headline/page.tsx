@@ -61,11 +61,13 @@ const ResumeHeadline = () => {
             width: "30rem",
           }}
         >
-          <h6 style={{ textAlign: "left", fontSize: "20px" }}>
-            Resume Headline
-          </h6>
 
-          <Divider my="sm" />
+<h6  className="box-heading" > Resume Headline </h6>
+          <p className="box-sub-heading" >
+            Write the resume headline
+          </p>
+    
+
 
           <form onSubmit={handleSubmit}>
             <Grid>

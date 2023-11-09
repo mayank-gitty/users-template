@@ -161,7 +161,13 @@ const Profile = () => {
         marginTop: "2rem",
       }}
     >
-      <Container size="xs" px="xs">
+    
+      <Container size="xs" px="xs" style={{
+        // width:"100%",
+        // position:"relative"
+      }} >
+        
+ 
         <Paper
           shadow="xl"
           p="md"
@@ -169,14 +175,13 @@ const Profile = () => {
             width: "30rem",
           }}
         >
-          <h6 style={{ textAlign: "left", fontSize: "20px" }}>
+          <h6  className="box-heading" >
             Profile summary
           </h6>
           {/* <p style={{ color: "GrayText" }}>
           This form is designed to help individuals and organizations evaluate their educational and experiential requirements. By gathering pertinent information, we aim to tailor educational or training programs and career development plans to meet your unique needs.
           </p> */}
 
-          <Divider my="sm" />
 
           <form onSubmit={handleSubmit}>
             <Grid>
@@ -201,20 +206,21 @@ const Profile = () => {
               >
                 <Group position="right" mt="md">
                   <Button
+                  className="next-button"
                     type="submit"
                     style={{
-                      height: "50px",
-                      width: "190px",
-                      borderRadius: "8px",
-                      backgroundColor: "red",
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      fontSize: "16px",
-                      color: "#FFFFFF",
+                      // height: "50px",
+                      // width: "190px",
+                      // borderRadius: "8px",
+                      // backgroundColor: "red",
+                      // textAlign: "center",
+                      // fontWeight: "bold",
+                      // fontSize: "16px",
+                      // color: "#FFFFFF",
                     }}
                     onClick={() => save()}
                   >
-                    Save All Details
+                    next
                   </Button>
                 </Group>
               </Grid.Col>

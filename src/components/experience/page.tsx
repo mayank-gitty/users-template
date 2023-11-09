@@ -1,4 +1,4 @@
-import { SimpleGrid, Textarea } from "@mantine/core";
+import { Textarea } from "@mantine/core";
 import React, { useState } from "react";
 import {
   Button,
@@ -18,15 +18,12 @@ const ExperienceDetails = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleChange = (field, value) => {
-
-    console.log('field',field,value)
+    console.log("field", field, value);
 
     setFormData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
-
-
   };
 
   const handleSubmit = (e) => {
@@ -34,9 +31,6 @@ const ExperienceDetails = () => {
 
     setFormSubmitted(true);
   };
-
-
-
 
   const handleCancel = () => {
     // Reset the form
@@ -48,13 +42,11 @@ const ExperienceDetails = () => {
   const data = Array(20)
     .fill(0)
     .map((_, index) => `${index} years`);
-    const releventmonths = Array(13)
+  const releventmonths = Array(13)
     .fill(0)
     .map((_, index) => `${index} months`);
 
-
-    console.log('data',data)
-
+  console.log("data", data);
 
   return (
     <div
@@ -67,79 +59,136 @@ const ExperienceDetails = () => {
       }}
     >
       <Container size="xs" px="xs">
-        <Paper shadow="xl" p="md">
-          <h6 style={{ textAlign: "left", fontSize: "20px" }}>
-            Experience Details
-          </h6>
-
-          <Divider my="sm" />
+        <Paper
+          style={{
+            width: "30rem",
+          }}
+          shadow="xl"
+          p="md"
+        >
+          <h6 className="box-heading"> Add experience details </h6>
+          <p className="box-sub-heading">
+            Specify total experience and relevant experience
+          </p>
 
           <form onSubmit={handleSubmit}>
-            <SimpleGrid cols={2}>
-              {/* <Textarea
-                  placeholder="enter total experience"
-                  size="md"
-                  value={formData.total_experience}
-                  onChange={(e) =>
-                    handleChange("total_experience", e.target.value)
-                  }
-                /> */}
-                <div>Total Experience
-              <Select
-                placeholder="select years"
-                searchable
-                nothingFound="No options"
-                maxDropdownHeight={280}
-                onChange={(e)=>handleChange('total_experience',e)}
-                data={data}
-                value={formData.total_experience}
-              />
-              </div>
-              <Select
-               mt={23}
-                placeholder="select months"
-                searchable
-                nothingFound="No options"
-                maxDropdownHeight={280}
-                onChange={(e)=>handleChange('total_experience_months',e)}
-                data={releventmonths}
-                value={formData.total_experience_months}
-              />
-              
-              <div>
-           Total Relevant Experience
-                {/* <Textarea
-                  placeholder="select years"
-                  size="md"
-                  value={formData.relevent_experience}
-                  onChange={(e) =>
-                    handleChange("relevent_experience", e.target.value)
-                  }
-                /> */}
+            <Grid>
+              <Grid.Col span={12}>
+                <h6 className="experience-label">Total Experience</h6>
+              </Grid.Col>
 
+              <Grid.Col span={6}>
                 <Select
-                  placeholder="select months"
-                  searchable
+                  placeholder="Years"
+              
                   nothingFound="No options"
                   maxDropdownHeight={280}
-                  onChange={(e)=>handleChange('relevent_experience',e)}
+                  onChange={(e) => handleChange("total_experience", e)}
+                  data={data}
+                  value={formData.total_experience}
+                  styles={(theme) => ({
+                    input: {
+                      height: "100%",
+                    },
+                    values: {
+                      height: "100%",
+                    },
+                    wrapper: {
+                      height: "50px",
+                    },
+
+                    leftIcon: {
+                      marginRight: theme.spacing.md,
+                    },
+                  })}
+                />
+              </Grid.Col>
+
+              <Grid.Col span={6}>
+                <Select
+                  placeholder="Months"
+                
+                  nothingFound="No options"
+                  maxDropdownHeight={280}
+                  onChange={(e) => handleChange("total_experience_months", e)}
+                  data={releventmonths}
+                  value={formData.total_experience_months}
+                  styles={(theme) => ({
+                    input: {
+                      height: "100%",
+                    },
+                    values: {
+                      height: "100%",
+                    },
+                    wrapper: {
+                      height: "50px",
+                    },
+
+                    leftIcon: {
+                      marginRight: theme.spacing.md,
+                    },
+                  })}
+                />
+              </Grid.Col>
+
+              <Grid.Col span={12}>
+                <h6 className="experience-label">Relevant Experience</h6>
+              </Grid.Col>
+
+              <Grid.Col span={6}>
+                <Select
+                  placeholder="Years"
+                
+                  nothingFound="No options"
+                  maxDropdownHeight={280}
+                  onChange={(e) => handleChange("relevent_experience", e)}
                   data={data}
                   value={formData.relevent_experience}
-                  />
-               
-              </div>
-              <Select
-              mt={23}
-                  placeholder="select months"
-                  searchable
+                  styles={(theme) => ({
+                    input: {
+                      height: "100%",
+                    },
+                    values: {
+                      height: "100%",
+                    },
+                    wrapper: {
+                      height: "50px",
+                    },
+
+                    leftIcon: {
+                      marginRight: theme.spacing.md,
+                    },
+                  })}
+                />
+              </Grid.Col>
+
+              <Grid.Col span={6}>
+                <Select
+                  placeholder="Months"
+            
                   nothingFound="No options"
                   maxDropdownHeight={280}
-                  onChange={(e)=>handleChange('total_relevant_months',e)}
+                  onChange={(e) => handleChange("total_relevant_months", e)}
                   data={releventmonths}
                   value={formData.total_relevant_months}
-                />
+                  styles={(theme) => ({
+                    input: {
+                      height: "100%",
+                    },
+                    values: {
+                      height: "100%",
+                    },
+                    wrapper: {
+                      height: "50px",
+                    },
 
-            </SimpleGrid>
+                    leftIcon: {
+                      marginRight: theme.spacing.md,
+                    },
+                  })}
+                />
+              </Grid.Col>
+            </Grid>
           </form>
           {formSubmitted && (
             <div

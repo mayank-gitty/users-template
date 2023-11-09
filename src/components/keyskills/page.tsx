@@ -18,12 +18,12 @@ import client from "../../../helpers/request";
 
 // Define mutation
 const KEY_SKILLS = gql`
-query KeySkills {
-  keySkills {
-    name
-    id
+  query KeySkills {
+    keySkills {
+      name
+      id
+    }
   }
-}
 `;
 
 const KeySkills = () => {
@@ -95,24 +95,36 @@ const KeySkills = () => {
             width: "30rem",
           }}
         >
-          <h6 style={{ textAlign: "left", fontSize: "20px" }}>Key Skills</h6>
-          <p style={{ color: "GrayText" }}>
+          <h6 className="box-heading"> Add your key skills </h6>
+          <p className="box-sub-heading">
             Specify key skills that your have strong command
           </p>
-
-          <Divider my="sm" />
 
           <form onSubmit={handleSubmit}>
             <Grid>
               <Grid.Col span={12}>
                 <MultiSelect
-                  label="select skill"
-                  placeholder="Pick value"
+                  styles={(theme) => ({
+                    input: {
+                      height: "100%",
+                    },
+                    values: {
+                      height: "100%",
+                    },
+                    wrapper: {
+                      height: "50px",
+                    },
+
+                    leftIcon: {
+                      marginRight: theme.spacing.md,
+                    },
+                  })}
+                  // label="select skill"
+                  placeholder="Select your skills"
                   maxSelectedValues={5}
                   onChange={(e) => handleChange(e)}
                   value={formData.keyskills}
                   data={DefaultSkills}
-                  
                 />
               </Grid.Col>
               {/* <Grid.Col span={6}>

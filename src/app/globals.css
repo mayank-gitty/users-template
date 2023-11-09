@@ -26,8 +26,13 @@
 }
 
 .profile-upload {
-  width: 6rem;
-  height: 6rem;
+  width: 8rem;
+  height: 8rem;
+  position: absolute;
+  left: 15%;
+  top: 50%;
+  transform: translateY(-25%);
+  /* top: 10%; */
 }
 
 .profile-upload img {
@@ -62,22 +67,20 @@
 }
 
 .upper-layer-section {
-    width: 90%;
-    margin: auto;
-    /* background:blue; */
+  width: 90%;
+  margin: auto;
+  /* background:blue; */
 }
 
-
 .tabs-section {
-  padding-top : 2rem;
+  padding-top: 2rem;
   width: 90%;
   margin: auto;
   /* background: blueviolet; */
 }
 
-
 .view-profile-page .upper-section {
-margin-top: 4rem;
+  margin-top: 4rem;
 }
 
 .view-profile-page img {
@@ -93,19 +96,16 @@ margin-top: 4rem;
 }
 
 .view-profile-page .status {
-
-  background:rgb(232, 232, 232);
+  background: rgb(232, 232, 232);
   /* border: 1px solid green; */
   border-radius: 30px;
   /* padding: 3px 8px; */
   color: rgb(0, 188, 41);
   text-align: center;
   font-size: 0.8em;
-
 }
 
 .view-profile-page .work {
-
   /* background:green; */
   border-radius: 20px;
   padding: 3px 5px;
@@ -113,5 +113,73 @@ margin-top: 4rem;
   text-align: center;
 
   font-size: 0.8em;
-
 }
+
+/* common  */
+
+.next-button {
+  width: 30rem;
+  height: 47.816px;
+  border-radius: 7.288px;
+  background: #4d47c3;
+  color: #fff;
+  /* font-family: Poppins; */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding-top: 0px;
+  margin-top: 24px;
+}
+
+.back-btn {
+  color: #4d47c3;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border: none;
+  padding-left: 0rem;
+  padding-right: 0rem;
+  margin-top:2rem;
+}
+
+.mantine-Paper-root {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
+.box-heading {
+  color: #000;
+  /* font-family: Inter; */
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.box-sub-heading {
+  color: #b5b5b5;
+  /* font-family: Inter; */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.no-margin {
+  margin-top: 0px;
+}
+
+.experience-label {
+  color: #000;
+  /* font-family: Inter; */
+  font-size: 16px;
+
+  font-weight: 600;
+  line-height: normal;
+}
+
+/* common */
