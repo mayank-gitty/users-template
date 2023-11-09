@@ -13,7 +13,8 @@ import {
   Group,
   Box,
   MultiSelect,
-  Select,
+  Image,
+  Stack,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
@@ -191,109 +192,150 @@ export default function View(props: IAppProps) {
   // console.log("f", form.getInputProps("photograph").value);
 
   return (
-    <Box
-      mx="auto"
-      className="view-master-page"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <div style={cardStyle}>
-        <div className="">
-          <div className="mt-2 d-flex justify-content-center align-items-center">
-            <div className="view-profile-img text-center">
-              <img
-                src={form.getInputProps("photograph").value}
-                style={{ borderRadius: "100%" }}
-              />
-            </div>
+   
+       <div className="flex items-center justify-center border ">
+        
+        <Stack>
+          <div className="p-4 h-full w-full rounded bg-white">
+            <Group position="apart" className=" pb-3">
+              <Group position="left">
+                <div>
+                  <img
+                    src={form.getInputProps("photograph").value}
+                    style={{
+                      width: "100%",
+                      maxWidth: "180px",
+                      height: "160px",
+                      borderRadius: "7px",
+                    }}
+                    alt="User Photograph"
+                  />
+                </div>
+                <Stack spacing={5}>
+                  <div className="text-black text-[28px] font-semibold">
+                    {" "}
+                    {form.getInputProps("name").value ||
+                      localStorage.getItem("name")}
+                  </div>
+                  <div className="text-neutral-400 text-base font-medium ">
+                    {form.getInputProps("resume_headline").value}
+                  </div>
+                  <div className="w-[220.29px] text-neutral-500 text-[12px] font-medium">
+                    {form.getInputProps("profile_summary").value}
+                  </div>
+                </Stack>
+              </Group>      
+            </Group>
+            <Group position="apart" className="w-full lg:w-[60%]" py={12}>
+              <Group position="left" style={{ alignItems: "flex-start" }}>
+                <Image
+                  src="./images/resume.svg"
+                  alt="Google"
+                  style={{ width: "24px", height: "24px" }}
+                />
+
+                <Stack spacing={3}>
+                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                    Education
+                  </div>
+                  <div className="text-black text-base font-semibold">
+                    {" "}
+                    {form.getInputProps("education").value}{" "}
+                  </div>
+                </Stack>
+              </Group>
+              <Group position="left" style={{ alignItems: "flex-start" }}>
+                <Image
+                  src="./images/resume.svg"
+                  alt="Google"
+                  style={{ width: "24px", height: "24px" }}
+                />
+
+                <Stack spacing={3}>
+                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                    Education
+                  </div>
+                  <div className="text-black text-base font-semibold">
+                    {" "}
+                    {form.getInputProps("total_experience").value}
+                  </div>
+                  <div className="text-black text-base font-semibold">
+                    {" "}
+                    {form.getInputProps("relevent_experience").value}{" "}
+                  </div>
+                </Stack>
+              </Group>
+              <Group position="left" style={{ alignItems: "flex-start" }}>
+                <Image
+                  src="./images/resume.svg"
+                  alt="Google"
+                  style={{ width: "24px", height: "24px" }}
+                />
+
+                <Stack spacing={3}>
+                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                    Education
+                  </div>
+                  <div className="text-black text-base font-semibold">
+                    {" "}
+                    {form.getInputProps("itskills").value}{" "}
+                  </div>
+                </Stack>
+              </Group>
+              <Group position="left" style={{ alignItems: "flex-start" }}>
+                <Image
+                  src="./images/resume.svg"
+                  alt="Google"
+                  style={{ width: "24px", height: "24px" }}
+                />
+                <Stack spacing={3}>
+                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                    Education
+                  </div>
+                  <div className="text-black text-base font-semibold">
+                    {" "}
+                    {form.getInputProps("keyskills").value}{" "}
+                  </div>
+                </Stack>
+              </Group>
+              <Group position="left" style={{ alignItems: "flex-start" }}>
+                <Image
+                  src="./images/resume.svg"
+                  alt="Google"
+                  style={{ width: "24px", height: "24px" }}
+                />
+
+                <Stack spacing={3}>
+                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                    Education
+                  </div>
+                  <div className="text-black text-base font-semibold ">
+                    {" "}
+                    {form.getInputProps("resume").value}{" "}
+                  </div>
+                </Stack>
+              </Group>
+              <Group position="left" style={{ alignItems: "flex-start" }}>
+                <Image
+                  src="./images/resume.svg"
+                  alt="Google"
+                  style={{ width: "24px", height: "24px" }}
+                />
+
+                <Stack spacing={3}>
+                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                   Location
+                  </div>
+                  <div className="text-black text-base font-semibold">
+                    Noida
+                  </div>
+                </Stack>
+              </Group>
+            </Group>
+           
           </div>
-        </div>
-        <div className="education row mt-4">
-          <div className="col-12 row mx-auto">
-            <div className="col-4">Name</div>
-            <div className="col-8">{form.getInputProps("name").value} </div>
-          </div>
-        </div>
-        <div className="education row mt-4">
-          <div className="col-12 row mx-auto">
-            <div className="col-4">Education </div>
-            <div className="col-8">
-              {" "}
-              {form.getInputProps("education").value}{" "}
-            </div>
-          </div>
-        </div>
-        <div className="education row mt-4">
-          <div className="col-12 row mx-auto">
-            <div className="col-4">Resume headline </div>
-            <div className="col-8">
-              {" "}
-              {form.getInputProps("resume_headline").value}{" "}
-            </div>
-          </div>
-        </div>
-        <div className="education row mt-4">
-          <div className="col-12 row mx-auto">
-            <div className="col-4"> Profile summary </div>
-            <div className="col-8">
-              {" "}
-              {form.getInputProps("profile_summary").value}{" "}
-            </div>
-          </div>
-        </div>
-        <div className="education row mt-4">
-          <div className="col-12 row mx-auto">
-            <div className="col-4"> Total experience</div>
-            <div className="col-8">
-              {" "}
-              {form.getInputProps("total_experience").value}{" "}
-            </div>
-          </div>
-        </div>
-        <div className="education row mt-4">
-          <div className="col-12 row mx-auto">
-            <div className="col-4">Relevent experience </div>
-            <div className="col-8">
-              {" "}
-              {form.getInputProps("relevent_experience").value}{" "}
-            </div>
-          </div>
-        </div>
-        <div className="education row mt-4">
-          <div className="col-12 row mx-auto">
-            <div className="col-4">It skils</div>
-            <div className="col-8">
-              {" "}
-              {form.getInputProps("itskills").value}{" "}
-            </div>
-          </div>
-        </div>
-        <div className="education row mt-4">
-          <div className="col-12 row mx-auto">
-            <div className="col-4"> Key skills </div>
-            <div className="col-8">
-              {" "}
-              {form.getInputProps("keyskills").value}{" "}
-            </div>
-          </div>
-        </div>
-        <div className="education row mt-4">
-          <div className="col-10 row mx-auto">
-            <div className="col-6">Resume </div>
-            <a
-              download
-              className="col-6"
-              href={form.getInputProps("resume").value}
-            >
-              {" "}
-              view resume{" "}
-            </a>
-          </div>
-        </div>
+        </Stack>
       </div>
-    </Box>
+ 
   );
 }

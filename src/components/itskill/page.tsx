@@ -107,7 +107,12 @@ const ItSkills = () => {
                   // label="select skill"
                   placeholder="Pick value"
                   onChange={(e) => handleChange(e)}
+<<<<<<< HEAD
                   value={formData.itskills}
+=======
+                  searchable
+                  // value={formData.itskills}
+>>>>>>> img-adding
                   data={DefaultSkills}
                   styles={(theme) => ({
                     input: {

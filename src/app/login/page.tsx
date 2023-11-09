@@ -1,12 +1,13 @@
 "use client";
 import { useEffect } from "react";
-import { Group, TextInput } from "@mantine/core";
+import { Button, Group, PasswordInput, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { useTransition } from "react";
 import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";
+import { IconEyeCheck, IconEyeOff } from '@tabler/icons-react';
 import { AUTH_MUTATION } from "@/util/mutationQueries";
 
 
@@ -67,83 +68,119 @@ const Login = () => {
   };
 
   useEffect(() => {
-    // Code that runs on the client side
-    // You can use form here
-  }, []); // Empty dependency array ensures this runs only on client side
+ 
+  }, []); 
 
   return (
-    <div
-      className="flex items-center justify-center "
-      style={{ marginTop: "5%" }}
-    >
-      <div className="p-5 w-[56%] h-2/3">
-        <div className="form-box login-bg rounded-lg p-8 ">
-          <form>
-            <h2 className="text-white mb-4 text-[34px] items-center justify-center flex font-semibold">
-              Sign In
-            </h2>
-            <p className="text-white mb-8 flex items-center justify-center">
-              Login to stay connected
-            </p>
-            <div className="mb-6">
-              <TextInput
-                withAsterisk
-                placeholder="Email"
-                styles={(theme) => ({
-                  input: {
-                    padding: "22px !important",
-                    borderRadius: "12px !important",
-                  },
-                })}
-                {...form.getInputProps("email")}
-              />
-            </div>
-            <div className="mb-8">
-              <TextInput
-                withAsterisk
-                radius="md"
-                className="rounded"
-                placeholder="Password"
-                type="password"
-                styles={(theme) => ({
-                  input: {
-                    padding: "22px !important",
-                    borderRadius: "12px !important",
-                  },
-                })}
-                {...form.getInputProps("password")}
-              />
-            </div>
-            <div className="flex mt-2">
-              <input
-                {...form.getInputProps("termsOfService", { type: "checkbox" })}
-                id="checked-checkbox"
-                type="checkbox"
-                className="mr-3 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label className="checkbox text-white mb-2 -translate-y-1">
-                Remember me
-              </label>
-            </div>
-            <Group position="left" mt="md">
-              <button
-                type="submit"
-                className="text-gray-800 bg-gray-200  px-4 py-2 w-full  font-semibold rounded-[8px] text-sm hover:bg-violet-100"
-                onClick={(e) => signIn(e)}
-              >
-                Sign in
-              </button>
-            </Group>
-            <h6 className="text-white mt-4 flex items-center justify-center">
-              Create an Account Signup
-            </h6>
-          </form>
+    <div className="flex flex-wrap justify-between h-screen">
+    <div className="responsive-image h-full relative">
+      <img
+        src="./images/login.png"
+        alt="Your Image"
+        className="h-full w-full object-cover"
+      />
+      <div className="absolute  bottom-40 -left-10 lg:bottom-0 lg:left-0 mb-4 flex flex-col items-start justify-start">
+        <h1 className="text-[50px] font-extrabold text-white pl-28">
+          Sign in to
+        </h1>
+        <div className="text-[35px] font-semibold text-white pl-28">
+          Lorem Ipsum is simply
         </div>
-        {/* <div className="image-box rounded-r-[18px] bg-white flex items-center">
-          <Image src={boy} alt="image" className={`h-80 w-full`} />
-        </div> */}
+        <div className="text-[16px] font-bold text-white pl-28">
+          If you don’t have an account, register
+        </div>
+        <div className="text-[16px] font-bold text-white pl-28">
+          You can <span className="text-[#DAFF70]">Register here !</span>
+        </div>
       </div>
     </div>
+  
+    <div className="responsive-image1 mt-4">
+      <div className="p-8 lg:p-24 flex items-center justify-center">
+        <form className="w-full">
+          <h2 className="mb-4 text-[40px] items-start justify-start flex font-medium">
+            Sign In
+          </h2>
+          <div className="mb-6">
+            <TextInput
+              withAsterisk
+              size="lg"
+              placeholder="Enter Email or username"
+              styles={(theme) => ({
+                input: {
+                  padding: "22px !important",
+                  borderRadius: "6px !important",
+                },
+              })}
+              {...form.getInputProps("email")}
+            />
+          </div>
+          <div className="mb-8">
+            <PasswordInput
+              withAsterisk
+              radius="md"
+              size="lg"
+              className="rounded"
+              placeholder="Password"
+              type="password"
+              visibilityToggleIcon={({ reveal, size }) =>
+        reveal ? <IconEyeOff size={size} /> : <IconEyeCheck size={size} />
+      }
+              styles={(theme) => ({
+                input: {
+                  padding: "22px !important",
+                  borderRadius: "6px !important",
+                },
+              })}
+              defaultValue="password"
+              {...form.getInputProps("password")}
+            />
+          </div>
+          
+          <div className="flex justify-end items-end text-[#B0B0B0] text-sm">
+            Forgot password?
+          </div>
+          <Group position="left" mt="md">
+            <button
+              type="submit"
+              style={{ boxShadow: "0px 3.99645px 60.94586px 0px rgba(77, 71, 195, 0.40)" }}
+              className="text-white bg-[#4D47C3]  px-40 py-3 w-full  font-semibold rounded-[8px] text-sm hover-bg-[#7973ef]"
+              onClick={(e) => signIn(e)}
+            >
+              Login
+            </button>
+          </Group>
+          <h6 className="text-[#B0B0B0] font-medium mt-10 flex items-center justify-center">
+            or continue with
+          </h6>
+          <Group mt="md">
+            <Button variant="light"
+              leftIcon={<img
+                src="./images/google.png"
+                alt="Google"
+                className="mr-2 "
+              />}
+              className="text-[#4285F4] bg-[#E9F1FF] px-8 h-[55px] font-semibold rounded-[8px] text-md hover-bg-[#d7d8db]"
+            >
+             Sign in with Google
+            </Button>
+            <img
+              src="./images/facebook.png"
+              alt="Google"
+              className="mr-1 ml-0 md:mr-2 md:ml-3"
+            />
+            <img
+              src="./images/apple.png"
+              alt="Google"
+              className="mr-0 md:mr-2"
+            />
+          </Group>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
   );
 };
 

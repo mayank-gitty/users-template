@@ -6,15 +6,14 @@ import { useEffect } from "react";
 import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import { useSearchParams } from "next/navigation";
-import { Tabs, rem } from "@mantine/core";
 import {
-  TextInput,
-  Checkbox,
   Button,
   Group,
   Box,
   MultiSelect,
   Select,
+  Image,
+  Tabs, rem, Stack,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -27,7 +26,7 @@ import {
   IconCircleCheckFilled,
   IconVideo,
   IconCircleOff,
-  IconVideoOff
+  IconVideoOff,
 } from "@tabler/icons-react";
 
 import { useForm } from "@mantine/form";
@@ -215,68 +214,274 @@ export default function View(props: IAppProps) {
   console.log("f", form.getInputProps("photograph").value);
 
   return (
-    <Box mx="auto" className="view-profile-page">
+    <Box mx="auto" className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] xl:pl-[7%]">
       <div
-        className="upper-section"
-        style={{ alignItems: "center", justifyContent: "center" }}
+        className=""
+        // style={{ alignItems: "center", justifyContent: "center" }}
       >
-        <div className="upper-layer-section d-flex">
-          <div className="d-flex">
-            <div style={{width:'200px', height:'200px', }}>
-              <img src={form.getInputProps("photograph").value} style={{width:'170px', height:'170px',border:'8px solid gray' }} />
-            </div>
-            <div className="ml-6">
-              <h3 style={{ color: "#4833b5" }}>
-                {" "}
-                {form.getInputProps("name").value ||
-                  localStorage.getItem("name")}{" "}
-              </h3>
+        <div className="text-black text-2xl py-4  font-semibold">Profile</div>
+        <div className="flex flex-col lg:flex-row items-center justify-center  gap-5 xl:12">
 
-              <h6 style={{ color: "gray" }}>
-                {" "}
-                {form.getInputProps("resume_headline").value}{" "}
-              </h6>
-
-              {/* <h6> {form.getInputProps("profile_summary").value}  </h6> */}
-              <p className="status" style={{alignItems:'center', justifyContent:'center'}}>
-                {form.getInputProps("status").value ? (
-                  <span className="active" style={{display:'flex', alignItems:'center', justifyContent:'center',}}>
-                    <IconCircleCheckFilled size={18} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20}} /> Active
-                  </span>
-                ) : (
-                  <span className="inactive" style={{display:'flex', alignItems:'center', justifyContent:'center',color:'red',border:'1px solid red',  borderRadius:'30px', padding:'3px'}}>
-                    <IconCircleOff size={20} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20, color:'red'}}/> Inactive
-                  </span>
-                )}
-              </p>
-
-              <p className="work">
-                {form.getInputProps("work").value ? (
-                  <span className="open" style={{display:'flex', alignItems:'center', justifyContent:'center',backgroundColor:'green', borderRadius:'30px',padding:'3px' }}>
-                    <IconVideo size={20} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20}} /> Open to Work
-                  </span>
-                ) : (
-                  <span className="engaged" style={{display:'flex', alignItems:'center', justifyContent:'center',backgroundColor:'red', borderRadius:'30px', padding:'3px'}}>
-                    <IconVideoOff size={20} style={{display:'flex', alignItems:'center', justifyContent:'center', marginRight:20,}}/> Engaged
-                  </span>
-                )}
-              </p>
-            </div>
-            {/* <div className=" flex-column mx-auto">
-            <p className="status">
-              {" "}
-              {form.getInputProps("status").value ? "active" : "in active"}{" "}
-            </p>
-
-            <p className="work">
-              {" "}
-              {form.getInputProps("work").value
-                ? "open to work"
-                : "engaged"}{" "}
-            </p>
-          </div> */}
-          </div>
+  <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
+    <div className="flex items-center justify-center flex-col bg-white">
+      <div>
+        <img
+          src={form.getInputProps("photograph").value}
+          style={{ width: "100%", maxWidth: "242px", height: "auto", borderRadius: "7px" }}
+          alt="User Photograph"
+        />
+      </div>
+      <div>
+        <div className="text-black text-[28px] font-semibold pt-3 flex items-center justify-center">
+          {form.getInputProps("name").value || localStorage.getItem("name")}
         </div>
+        <div className="text-[#ABABAB] text-base font-medium flex items-center justify-center">
+          {form.getInputProps("resume_headline").value}
+        </div>
+        <div className="text-[#797878] text-xs font-medium flex items-center justify-center">
+          {form.getInputProps("profile_summary").value}
+        </div>
+      </div>
+      <Group spacing={8} style={{ display: 'flex', alignItems: 'start', justifyContent: 'left' }}>
+        <Image
+          src="./images/Icon-Skill.svg"
+          alt="Google"
+          style={{ width: '28px', height: '28px' }}
+        />
+        <div className="text-black text-base font-semibold ml-1">Skills</div>
+        <Group spacing={6} ml={24}>
+          <Image
+            src="./images/Icon-Skill.svg"
+            alt="Google"
+            style={{ width: '24px', height: '24px' }}
+          />
+        </Group>
+      </Group>
+      <div className="flex items-start justify-between gap-2">
+        <div className="w-28 flex border">
+          <div className="bg-[#5847C3] w-3 flex items-start justify-start"></div>
+          <div className="px-4 py-2 text-black text-base font-semibold">Skills</div>
+        </div>
+        <div className="w-28 flex border">
+          <div className="bg-[#5847C3] w-3 flex items-start justify-start"></div>
+          <div className="px-4 py-2 text-black text-base font-semibold">Skills</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <Stack>
+    <div className="p-4 h-full w-full xl:w-[520px] rounded bg-white">
+      <Group position="apart" className="border-b pb-3">
+        <Group position='left'>
+          <Image
+            src="./images/profile.svg"
+            alt="Google"
+            style={{ width: '32px', height: '32px' }}
+          />
+          <div className="text-black text-base font-semibold">Basic Information</div>
+        </Group>
+        <Image
+          src="./images/profileicon.png"
+          alt="Google"
+          style={{ width: '32px', height: '32px' }}
+        />
+      </Group>
+      <Group position="apart" py={12}>
+        <div>
+          <Stack>
+            <div className="text-blue-950 text-opacity-50 text-xs font-medium">Mobile Number:</div>
+          </Stack>
+          <Stack>
+            <div className="text-black text-base font-semibold">31233616359612</div>
+          </Stack>
+        </div>
+        <div>
+          <Stack>
+            <div className="text-blue-950 text-opacity-50 text-xs font-medium">Email:</div>
+          </Stack>
+          <Stack>
+            <div className="text-black text-base font-semibold">31233616359612</div>
+          </Stack>
+        </div>
+        <div>
+          <Stack>
+            <div className="text-blue-950 text-opacity-50 text-xs font-medium">Address:</div>
+          </Stack>
+          <Stack>
+            <div className="text-black text-base font-semibold">Noida</div>
+          </Stack>
+        </div>
+      </Group>
+      <Group position="left" mt={'3%'}>
+        <p style={{ alignItems: 'center', justifyContent: 'center' }}>
+          {form.getInputProps("status").value ? (
+            <span className="px-4 py-2 bg-emerald-100 rounded-sm text-green-600 text-xs font-medium">
+              Active
+            </span>
+          ) : (
+            <span className="px-4 py-2 bg-rose-100 rounded-sm text-red-600 text-xs font-medium">
+              Inactive
+            </span>
+          )}
+        </p>
+        <p className="work">
+          {form.getInputProps("work").value ? (
+            <span className="px-4 py-2 bg-violet-100 rounded-sm text-indigo-500 text-xs font-medium">
+              Open to Work
+            </span>
+          ) : (
+            <span className="bg-rose-100 rounded-sm text-red-700 text-xs font-medium">
+              Engaged
+            </span>
+          )}
+        </p>
+      </Group>
+    </div>
+    <div className="p-4 h-full rounded bg-white">
+      <Group position="apart" className="border-b pb-3">
+        <Group position='left'>
+          <Image
+            src="./images/experience.svg"
+            alt="Google"
+            style={{ width: '24px', height: '24px' }}
+          />
+          <div className="text-black text-base font-semibold">Experience</div>
+        </Group>
+        <Image
+          src="./images/profileicon.png"
+          alt="Google"
+          style={{ width: '32px', height: '32px' }}
+        />
+      </Group>
+      <Group position="apart" py={12}>
+        <div>
+          <Stack spacing={8}>
+            <div className="text-indigo-950 text-sm font-bold">Manager</div>
+            <div className="text-gray-600 text-xs font-normal">Amazon Inc</div>
+            <div className="text-gray-600 text-xs font-normal">Jan 2015 - Feb 2022 . 5 years</div>
+          </Stack>
+        </div>
+        <Image
+          src="./images/Edit.svg"
+          alt="Google"
+          style={{ width: '24px', height: '24px' }}
+        />
+      </Group>
+      <Group position="apart" py={12}>
+        <div>
+          <Stack spacing={8}>
+            <div className="text-indigo-950 text-sm font-bold">Manager</div>
+            <div className="text-gray-600 text-xs font-normal">Amazon Inc</div>
+            <div className="text-gray-600 text-xs font-normal">Jan 2015 - Feb 2022 . 5 years</div>
+          </Stack>
+        </div>
+        <Image
+          src="./images/Edit.svg"
+          alt="Google"
+          style={{ width: '24px', height: '24px' }}
+        />
+      </Group>
+    </div>
+  </Stack>
+  <Stack>
+    <div className="p-4 h-full xl:w-[420px] rounded bg-white">
+      <Group position="apart" className="border-b pb-3">
+        <Group position='left'>
+          <Image
+            src="./images/education.svg"
+            alt="Google"
+            style={{ width: '32px', height: '32px' }}
+          />
+          <div className="text-black text-base font-semibold">Education</div>
+        </Group>
+        <Image
+          src="./images/profileicon.png"
+          alt="Google"
+          style={{ width: '32px', height: '32px' }}
+        />
+      </Group>
+      <Group position="apart" py={12}>
+        <div>
+          <Stack spacing={8}>
+            <div className="text-indigo-950 text-sm font-bold">Information Technology</div>
+            <div className="text-gray-600 text-xs font-normal">University of Oxford</div>
+            <div className="text-gray-600 text-xs font-normal">Jan 2015 - Feb 2022 . 5 years</div>
+          </Stack>
+        </div>
+        <Image
+          src="./images/Edit.svg"
+          alt="Google"
+          style={{ width: '24px', height: '24px' }}
+        />
+      </Group>
+      <Group position="apart" py={12}>
+        <div>
+          <Stack spacing={8}>
+          <div className="text-indigo-950 text-sm font-bold">Information Technology</div>
+            <div className="text-gray-600 text-xs font-normal">University of Oxford</div>
+            <div className="text-gray-600 text-xs font-normal">Jan 2015 - Feb 2022 . 5 years</div>
+          </Stack>
+        </div>
+        <Image
+          src="./images/Edit.svg"
+          alt="Google"
+          style={{ width: '24px', height: '24px' }}
+        />
+      </Group>
+      
+    </div>
+    <div className="p-4 h-full rounded bg-white">
+      <Group position="apart" className="border-b pb-3">
+        <Group position='left'>
+          <Image
+            src="./images/resume.svg"
+            alt="Google"
+            style={{ width: '24px', height: '24px' }}
+          />
+          <div className="text-black text-base font-semibold">Resume</div>
+        </Group>
+        <Image
+          src="./images/profileicon.png"
+          alt="Google"
+          style={{ width: '32px', height: '32px' }}
+        />
+      </Group>
+      <Group position="apart" py={12}>
+        <Group position="left">
+        <Image
+          src="./images/Edit.svg"
+          alt="Google"
+          style={{ width: '24px', height: '24px' }}
+        />
+        <Stack spacing={8}>
+            <div className="text-indigo-950 text-sm font-bold">Ankit.pdf</div>   
+            <div className="text-gray-600 text-xs font-normal">867 Kb. Feb 2022</div>
+          </Stack>
+        </Group>
+     
+       
+        <Image
+          src="./images/Edit.svg"
+          alt="Google"
+          style={{ width: '24px', height: '24px' }}
+        />
+      </Group>
+      <Group position="apart" py={12}>
+        <div>
+          <Stack spacing={8}>
+            <div className="text-indigo-950 text-sm font-bold">ankit-k.pdf</div>
+            <div className="text-gray-600 text-xs font-normal">867 Kb. Feb 2022</div>
+          </Stack>
+        </div>
+        <Image
+          src="./images/Edit.svg"
+          alt="Google"
+          style={{ width: '24px', height: '24px' }}
+        />
+      </Group>
+    </div>
+  </Stack>
+</div>
 
         <div className="tabs-section">
           <Tabs defaultValue="gallery">
