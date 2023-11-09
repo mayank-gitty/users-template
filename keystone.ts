@@ -8,7 +8,7 @@ export default config(
   withAuth({
     db: {
       provider: 'postgresql',
-      url: "postgres://postgres:Cloud@123@localhost:5432/resource", // next.js requires an absolute path for sqlite
+      url: "postgres://postgres:welcome@localhost:5432/newnext1", // next.js requires an absolute path for sqlite
       onConnect: async (context: Context) => {
         await seedDemoData(context);
 

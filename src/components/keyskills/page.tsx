@@ -84,7 +84,7 @@ const KeySkills = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "2rem",
+        marginTop: "1.5rem",
       }}
     >
       <Container size="xs" px="xs">
@@ -96,7 +96,7 @@ const KeySkills = () => {
           }}
         >
           <h6 className="box-heading"> Add your key skills </h6>
-          <p className="box-sub-heading">
+          <p className="box-sub-heading mb-8">
             Specify key skills that your have strong command
           </p>
 
@@ -104,15 +104,60 @@ const KeySkills = () => {
             <Grid>
               <Grid.Col span={12}>
                 <MultiSelect
+                  // clearButtonProps={
+                  //   <p> jj</p>
+                  // }
                   styles={(theme) => ({
                     input: {
-                      height: "100%",
+                      // height: "50px",
+                      padding: "6px 8px",
                     },
                     values: {
                       height: "100%",
+                      bg: "red",
                     },
+
                     wrapper: {
-                      height: "50px",
+                      height: "auto",
+                      ".mantine-MultiSelect-value": {
+                        background: "#FFFFFF",
+                        boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.18)",
+                        border: "1px solid #DCDCDC",
+                        borderLeft: "5px solid #478FC3",
+                        color: "#000",
+                        // font-family: Inter;
+                        fontSize: "12px",
+
+                        fontWeight: 500,
+
+                        padding: "14px 0px",
+                        "::before": {
+                          content: '""',
+                        },
+                      },
+                      ".mantine-MultiSelect-defaultValueLabel": {
+                        paddingLeft: "6px",
+                      },
+                      ".mantine-CloseButton-root": {
+                        // margin:"0 10px",
+                        marginRight: "4px",
+                        marginLeft: "18px",
+                        background: "#2E3A59",
+                        borderRadius: "50%",
+                        height: "14px",
+                        minHeight: "18px",
+                        minWidth: "18px",
+
+                        svg: {
+                          color: "#fff",
+                          height: "12px !important",
+                          width: "10px !important",
+                        },
+                      },
+                    },
+                    pill: {
+                      color: "red",
+                      background: "red",
                     },
 
                     leftIcon: {

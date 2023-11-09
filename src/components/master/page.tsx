@@ -28,6 +28,7 @@ import PhotoUpload from "../photograph/page";
 import KeySkills from "../keyskills/page";
 import Resume from "../resume/page";
 import CustomizedSteppers from "@/app/stepper/page";
+import Thanku from "../../app/thanku/page";
 
 export default function Master() {
   const { setFormData, formData, active, setActive }: any = useThemeContext();
@@ -107,6 +108,9 @@ export default function Master() {
       <div className="text-center mb-10">
         <h4> Fill up Your Details </h4>
       </div>
+
+  {/* 
+        <Thanku/> */}
 
       <CustomizedSteppers />
 
@@ -376,6 +380,9 @@ export default function Master() {
           Completed, click back button to get to previous step
         </Stepper.Completed>
       </Stepper> */}
+
+
+
     </div>
   );
 }

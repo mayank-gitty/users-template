@@ -113,7 +113,8 @@ export default function Home() {
             <button
               className="btn btn-info"
               onClick={() =>
-                +router.push(`/profile?id=${localStorage.getItem("id")}`)
+                router.push(`/profile?id=${localStorage.getItem("id")
+              }`)
               }
             >
               view profile

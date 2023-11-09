@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useEffect } from "react";
 import { Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -9,16 +10,14 @@ import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";
 import { AUTH_MUTATION } from "@/util/mutationQueries";
 import {
-    IconPhoto,
-    IconMessageCircle,
-    IconSettings,
-    IconCircleCheckFilled,
-    IconVideo,
-    IconCircleOff,
-    IconVideoOff
-  } from "@tabler/icons-react";
-import Link from "next/link";
-  
+  IconPhoto,
+  IconMessageCircle,
+  IconSettings,
+  IconCircleCheckFilled,
+  IconVideo,
+  IconCircleOff,
+  IconVideoOff,
+} from "@tabler/icons-react";
 
 const Thanku = () => {
   const { loggedIn, setLoggedIn }: any = useThemeContext();
@@ -83,13 +82,16 @@ const Thanku = () => {
 
   return (
     <div
-    className="flex items-center justify-center"
-    style={{ marginTop: "5%" }}
-  >
-    <div className="p-5 w-[56%] h-2/3">
-      <div className="form-box bg-black rounded-lg p-16">
-        <form>
-            <div  className="items-center justify-center flex text-white font-extrabold ">
+      className="flex items-center justify-center"
+      style={{ marginTop: "0%" }}
+    >
+      <div className="p-5 w-[56%] h-2/3">
+        <div className="form-box bg-cream rounded-lg p-16">
+          <div className="d-flex justify-content-center">
+            <Image alt="" src="assets/register.svg" width={275} height={261} />
+          </div>
+
+          {/* <div  className="items-center justify-center flex text-white font-extrabold ">
             <IconCircleCheckFilled size={90} className="items-center justify-center flex text-white font-extrabold"/>
             </div>
           <h2 className="text-white mb-4 text-[34px] items-center justify-center flex font-semibold mt-3">
@@ -98,33 +100,41 @@ const Thanku = () => {
           <p className="text-white mb-8 flex items-center justify-center">
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </p>
-  
-          <div className="flex space-x-4">
+   */}
+
+          <div className="d-flex justify-content-center flex-column align-items-center mt-4">
+            <h6 className="thank-you"> Thank You ! </h6>
+
+            <h4 className="thank-you-message"> Registration Successfull </h4>
+          </div>
+
+          <div className="flex space-x-4 mt-4">
             <div className="w-1/2">
               <button
                 type="submit"
                 className="text-gray-800 bg-gray-200 flex items-center justify-center px-4 py-2 w-full  font-semibold rounded-[8px] text-sm hover:bg-violet-100"
+                onClick={() => {
+                  router.push(`/profile?id=${localStorage.getItem("id")}`);
+                }}
               >
                 Go back
               </button>
             </div>
             <div className="w-1/2">
-              <Link href="/profile">
               <button
                 type="submit"
-                
                 className="text-gray-800 bg-gray-200 flex items-center justify-center px-4 py-2 w-full font-semibold rounded-[8px] text-sm hover:bg-violet-100"
+                onClick={() => {
+                  router.push(`/profile?id=${localStorage.getItem("id")}`);
+                }}
               >
                 View profile
               </button>
-              </Link>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
-  </div>
-  
   );
 };
 

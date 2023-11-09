@@ -80,7 +80,7 @@ const ItSkills = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "2rem",
+        marginTop: "1.5rem",
       }}
     >
       <Container size="xs" px="xs">
@@ -97,8 +97,6 @@ const ItSkills = () => {
             C/C++, Oracle, SQL etc.) or any other software-related knowledge.
           </p>
 
-
-
           <form onSubmit={handleSubmit}>
             <Grid>
               <Grid.Col span={12}>
@@ -107,27 +105,73 @@ const ItSkills = () => {
                   // label="select skill"
                   placeholder="Pick value"
                   onChange={(e) => handleChange(e)}
-<<<<<<< HEAD
                   value={formData.itskills}
-=======
-                  searchable
-                  // value={formData.itskills}
->>>>>>> img-adding
                   data={DefaultSkills}
                   styles={(theme) => ({
+                    // ".mantine-MultiSelect-value mantine-u656bh":{
+                    //    backgroundColor:"red !important"
+                    // },
                     input: {
-                      height: "100%",
+                      padding: "6px 8px",
+                      ".mantine-MultiSelect-value": {
+                        background: "#FFFFFF",
+                        boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.18)",
+                        border: "1px solid #DCDCDC",
+                        borderLeft: "5px solid #478FC3",
+                        color: "#000",
+                        // font-family: Inter;
+                        fontSize: "12px",
+
+                        fontWeight: 500,
+
+                        padding: "14px 0px",
+                        "::before": {
+                          content: '""',
+                        },
+                      },
+                      ".mantine-MultiSelect-defaultValueLabel": {
+                        paddingLeft: "6px",
+                      },
+                      ".mantine-CloseButton-root": {
+                        // margin:"0 10px",
+                        marginRight: "4px",
+                        marginLeft: "18px",
+                        background: "#2E3A59",
+                        borderRadius: "50%",
+                        height: "14px",
+                        minHeight: "18px",
+                        minWidth: "18px",
+
+                        svg: {
+                          color: "#fff",
+                          height: "12px !important",
+                          width: "10px !important",
+                        },
+                      },
                     },
                     values: {
                       height: "100%",
+                      // color:"red",
+                      // background:"red"
                     },
                     wrapper: {
-                      height: "50px",
+                      // height: "50px",
+                      // background:"red",
+                      height: "auto",
+               
                     },
 
                     leftIcon: {
                       marginRight: theme.spacing.md,
+                      background:"red"
                     },
+                    pill :{
+                      background:"red",
+                      color:"yellow"
+                    },
+                    option:{
+                      background:"red"
+                    }
                   })}
                 />
               </Grid.Col>

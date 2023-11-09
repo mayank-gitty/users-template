@@ -220,7 +220,7 @@ const Education1: React.FC = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "2rem",
+        marginTop: "1.5rem",
         height: "auto",
       }}
     >

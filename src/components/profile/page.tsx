@@ -14,9 +14,9 @@ import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";
 import { useRouter } from "next/navigation";
-import { useDisclosure } from '@mantine/hooks';
-import { Modal,  } from '@mantine/core';
-import Thanku from "@/app/thanku/page";
+import { useDisclosure } from "@mantine/hooks";
+import { Modal } from "@mantine/core";
+import Thanku from "../../app/thanku/page";
 
 // Define mutation
 const PROFILE_USER = gql`
@@ -143,8 +143,6 @@ const Profile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-
   };
 
   const handleCancel = () => {
@@ -161,16 +159,19 @@ const Profile = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "auto",
-        marginTop: "2rem",
+        marginTop: "1.5rem",
       }}
     >
-    
-      <Container size="xs" px="xs" style={{
-        // width:"100%",
-        // position:"relative"
-      }} >
-        
- 
+      <Container
+        size="xs"
+        px="xs"
+        style={
+          {
+            // width:"100%",
+            // position:"relative"
+          }
+        }
+      >
         <Paper
           shadow="xl"
           p="md"
@@ -178,13 +179,10 @@ const Profile = () => {
             width: "30rem",
           }}
         >
-          <h6  className="box-heading" >
-            Profile summary
-          </h6>
+          <h6 className="box-heading">Profile summary</h6>
           {/* <p style={{ color: "GrayText" }}>
           This form is designed to help individuals and organizations evaluate their educational and experiential requirements. By gathering pertinent information, we aim to tailor educational or training programs and career development plans to meet your unique needs.
           </p> */}
-
 
           <form onSubmit={handleSubmit}>
             <Grid>
@@ -208,29 +206,27 @@ const Profile = () => {
                 }}
               >
                 <Group position="right" mt="md">
-                
                   <Button
-                  className="next-button"
+                    className="next-button"
                     type="submit"
-                    style={{
-                      // height: "50px",
-                      // width: "190px",
-                      // borderRadius: "8px",
-                      // backgroundColor: "red",
-                      // textAlign: "center",
-                      // fontWeight: "bold",
-                      // fontSize: "16px",
-                      // color: "#FFFFFF",
-                    }}
+                    style={
+                      {
+                        // height: "50px",
+                        // width: "190px",
+                        // borderRadius: "8px",
+                        // backgroundColor: "red",
+                        // textAlign: "center",
+                        // fontWeight: "bold",
+                        // fontSize: "16px",
+                        // color: "#FFFFFF",
+                      }
+                    }
                     onClick={() => save()}
                   >
                     next
                   </Button>
-               
-                  <>
-    
 
-    </>
+                  <></>
                 </Group>
               </Grid.Col>
             </Grid>

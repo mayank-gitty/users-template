@@ -182,6 +182,26 @@
   line-height: normal;
 }
 
+
+.thank-you {
+  color: #34A853;
+  /* font-family: Inter; */
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.thank-you-message {
+  color: #000;
+  /* font-family: Inter; */
+  font-size: 34.447px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+}
+
 /* common */
 
 .responsive-image {
