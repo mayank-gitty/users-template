@@ -300,7 +300,7 @@ export default function View(props: IAppProps) {
 
         <div>
           <div>
-            <div className="profile-upload">
+            <div className="profile-view-box">
               <img src={form.getInputProps("photograph").value} />
             </div>
 

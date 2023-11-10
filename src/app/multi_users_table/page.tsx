@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { use, useEffect, useState } from "react";
 import { MDBDataTable } from "mdbreact";
@@ -8,14 +8,14 @@ import { link } from "fs";
 
 // Define mutation
 const PROFILE_USERS = gql`
-query MultipleUsers {
-  multipleUsers {
-    name
-    mobilenumber
-    email
-    address
+  query MultipleUsers {
+    multipleUsers {
+      name
+      mobilenumber
+      email
+      address
+    }
   }
-}
 `;
 
 const DatatablePage = () => {
@@ -122,8 +122,10 @@ const DatatablePage = () => {
   }, []);
 
   return (
-    <div className="profile-table">
-      <MDBDataTable bordered small data={main} />
+    <div className="table-wrapper">
+      <div className="profile-table">
+        <MDBDataTable bordered small data={main} />
+      </div>
     </div>
   );
 };
