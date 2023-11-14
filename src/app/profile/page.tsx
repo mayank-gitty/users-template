@@ -140,7 +140,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    console.log("user", user);
+    // console.log("user", user);
 
     form.setValues({
       itskills: user?.profileUsers[0]?.itskills
@@ -214,7 +214,7 @@ export default function View(props: IAppProps) {
   console.log("f", form.getInputProps("photograph").value);
 
   return (
-    <Box mx="auto" className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] xl:pl-[7%]">
+    <Box mx="auto" className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]">
       <div
         className=""
         // style={{ alignItems: "center", justifyContent: "center" }}
@@ -227,7 +227,7 @@ export default function View(props: IAppProps) {
       <div>
         <img
           src={form.getInputProps("photograph").value}
-          style={{ width: "100%", maxWidth: "242px", height: "auto", borderRadius: "7px" }}
+          style={{ width: "100%", maxWidth: "242px", height: "400px", borderRadius: "7px" }}
           alt="User Photograph"
         />
       </div>
@@ -270,7 +270,7 @@ export default function View(props: IAppProps) {
     </div>
   </div>
   <Stack>
-    <div className="p-4 h-full w-full xl:w-[520px] rounded bg-white">
+    <div className="p-4 h-full w-full  rounded bg-white">
       <Group position="apart" className="border-b pb-3">
         <Group position='left'>
           <Image
@@ -483,7 +483,7 @@ export default function View(props: IAppProps) {
   </Stack>
 </div>
 
-        <div className="tabs-section">
+        {/* <div className="tabs-section">
           <Tabs defaultValue="gallery">
             <Tabs.List>
               <Tabs.Tab
@@ -536,7 +536,7 @@ export default function View(props: IAppProps) {
                 : "no keyskills added"}
             </Tabs.Panel>
           </Tabs>
-        </div>
+        </div> */}
       </div>
     </Box>
   );

@@ -44,7 +44,7 @@ const DatatablePage = () => {
             onClick={() => router.push(`/edit_master?id=${item.id}`)}
           >
             {" "}
-            table{" "}
+            edit {" "}
           </button>
         ),
         view: (
@@ -57,7 +57,7 @@ const DatatablePage = () => {
           </button>
         ),
         resume: item.resume ? (
-          <a target="_blank" className="resume-link" href={item.resume}>
+          <a   download={ ( item.resume.includes('docx' ) || item.resume.includes('doc')  ) ? true : false } target="_blank" className="resume-link" href={item.resume}>
             {" "}
             view resume{" "}
           </a>
@@ -192,7 +192,7 @@ const DatatablePage = () => {
   }, []);
 
   return (
-    <div className="table-wrapper">
+    <div className="table-wrapper ">
       <div className="profile-table">
         <MDBDataTable bordered small data={main} />
       </div>

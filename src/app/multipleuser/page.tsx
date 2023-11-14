@@ -400,7 +400,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
   return (
     <>
       <form onSubmit={form.onSubmit((values) => {})}>
-        <div className="px-5 py-6 bg-green-600">
+        <div className="px-5 py-6 ">
           {/* Second Navbar */}
           <div className="p-5 bg-white drop-shadow-md rounded-xl">
             <div className="flex items-center justify-between">
@@ -413,17 +413,17 @@ const AddTimeLine = ({ AllProjects }: any) => {
                 <div className="relative"></div>
 
                 <div className="relative">
-                  <button
+                  {/* <button
                     type="button"
                     className={`${clickS} px-3 py-2 rounded-lg capitalize mr-2`}
                     onClick={() => router.push("/")}
                   >
                     Go Back
-                  </button>
+                  </button> */}
                   <button
                     onClick={() => saveAll()}
                     type="submit"
-                    className={`${clickS} px-3 py-2 rounded-lg capitalize bg-green-600`}
+                    className={`${clickS} px-3 py-2 rounded-lg capitalize `}
                   >
                     Save Users Entry
                   </button>
@@ -433,7 +433,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
           </div>
         </div>
 
-        <div className="px-5 py-6 bg-green-600">
+        <div className="px-5 py-6 ">
           <div className="p-5 bg-white drop-shadow-md rounded-xl">
             <div className="mb-4">
               <div className="flex mx-5 my-4">

@@ -9,6 +9,7 @@ import "mdbreact/dist/css/mdb.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ThemeContextProvider } from "@/context/context";
+import SideBar from "@/components/Sidebar/page";
 
 import { MantineProvider } from "@mantine/core";
 
@@ -39,7 +40,18 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeContextProvider>
         <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>
-           {children}
+        <div className="d-flex">
+          <SideBar />
+
+          <div className="w-70">
+
+              
+          {children}
+
+          </div>
+
+        </div>
+
            </ThemeProvider>
 
         </ThemeContextProvider>

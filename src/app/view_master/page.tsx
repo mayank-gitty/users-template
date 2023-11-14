@@ -15,6 +15,7 @@ import {
   MultiSelect,
   Image,
   Stack,
+  Grid,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
@@ -127,7 +128,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    // console.log("user", user);
+    console.log("user", user);
 
     form.setValues({
       itskills: user?.profileUser?.itskills.map((item: any) => item.name),
@@ -192,26 +193,24 @@ export default function View(props: IAppProps) {
   // console.log("f", form.getInputProps("photograph").value);
 
   return (
-   
-       <div className="flex items-center justify-center border ">
-        
+    <div className="bg-wrapper">
+      <div className="flex items-center justify-center view-master-card">
         <Stack>
-          <div className="p-4 h-full w-full rounded bg-white">
+          <div className="view-box h-full w-full rounded bg-white">
             <Group position="apart" className=" pb-3">
               <Group position="left">
-                <div>
+                <div className="profile-img-master-view">
                   <img
                     src={form.getInputProps("photograph").value}
                     style={{
                       width: "100%",
-                      maxWidth: "180px",
-                      height: "160px",
+                      height: "100%",
                       borderRadius: "7px",
                     }}
                     alt="User Photograph"
                   />
                 </div>
-                <Stack spacing={5}>
+                <Stack spacing={5} className="view-master-info-section">
                   <div className="text-black text-[28px] font-semibold">
                     {" "}
                     {form.getInputProps("name").value ||
@@ -224,118 +223,139 @@ export default function View(props: IAppProps) {
                     {form.getInputProps("profile_summary").value}
                   </div>
                 </Stack>
-              </Group>      
-            </Group>
-            <Group position="apart" className="w-full lg:w-[60%]" py={12}>
-              <Group position="left" style={{ alignItems: "flex-start" }}>
-                <Image
-                  src="./images/resume.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-
-                <Stack spacing={3}>
-                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                    Education
-                  </div>
-                  <div className="text-black text-base font-semibold">
-                    {" "}
-                    {form.getInputProps("education").value}{" "}
-                  </div>
-                </Stack>
-              </Group>
-              <Group position="left" style={{ alignItems: "flex-start" }}>
-                <Image
-                  src="./images/resume.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-
-                <Stack spacing={3}>
-                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                    Education
-                  </div>
-                  <div className="text-black text-base font-semibold">
-                    {" "}
-                    {form.getInputProps("total_experience").value}
-                  </div>
-                  <div className="text-black text-base font-semibold">
-                    {" "}
-                    {form.getInputProps("relevent_experience").value}{" "}
-                  </div>
-                </Stack>
-              </Group>
-              <Group position="left" style={{ alignItems: "flex-start" }}>
-                <Image
-                  src="./images/resume.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-
-                <Stack spacing={3}>
-                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                    Education
-                  </div>
-                  <div className="text-black text-base font-semibold">
-                    {" "}
-                    {form.getInputProps("itskills").value}{" "}
-                  </div>
-                </Stack>
-              </Group>
-              <Group position="left" style={{ alignItems: "flex-start" }}>
-                <Image
-                  src="./images/resume.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-                <Stack spacing={3}>
-                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                    Education
-                  </div>
-                  <div className="text-black text-base font-semibold">
-                    {" "}
-                    {form.getInputProps("keyskills").value}{" "}
-                  </div>
-                </Stack>
-              </Group>
-              <Group position="left" style={{ alignItems: "flex-start" }}>
-                <Image
-                  src="./images/resume.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-
-                <Stack spacing={3}>
-                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                    Education
-                  </div>
-                  <div className="text-black text-base font-semibold ">
-                    {" "}
-                    {form.getInputProps("resume").value}{" "}
-                  </div>
-                </Stack>
-              </Group>
-              <Group position="left" style={{ alignItems: "flex-start" }}>
-                <Image
-                  src="./images/resume.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-
-                <Stack spacing={3}>
-                  <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                   Location
-                  </div>
-                  <div className="text-black text-base font-semibold">
-                    Noida
-                  </div>
-                </Stack>
               </Group>
             </Group>
-           
+            <Group position="apart" className="w-full lg:w-[100%]" py={12}>
+              <Grid>
+                <Grid.Col span={4}>
+                  <Group position="left" style={{ alignItems: "flex-start" }}>
+                    <Image
+                      src="./images/resume.svg"
+                      alt="Google"
+                      style={{ width: "24px", height: "24px" }}
+                    />
+
+                    <Stack spacing={3}>
+                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                        Education
+                      </div>
+                      <div className="text-black text-base font-semibold">
+                        {" "}
+                        {form.getInputProps("education").value}{" "}
+                      </div>
+                    </Stack>
+                  </Group>
+                </Grid.Col>
+
+                <Grid.Col span={4}>
+                  <Group position="left" style={{ alignItems: "flex-start" }}>
+                    <Image
+                      src="./images/resume.svg"
+                      alt="Google"
+                      style={{ width: "24px", height: "24px" }}
+                    />
+
+                    <Stack spacing={3}>
+                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                        Experience
+                      </div>
+                      <div className="text-black text-base font-semibold">
+                        {" "}
+                        {form.getInputProps("total_experience").value}
+                      </div>
+                      <div className="text-black text-base font-semibold">
+                        {" "}
+                        {form.getInputProps("relevent_experience").value}{" "}
+                      </div>
+                    </Stack>
+                  </Group>
+                </Grid.Col>
+
+                <Grid.Col span={4}>
+                  <Group position="left" style={{ alignItems: "flex-start" }}>
+                    <Image
+                      src="./images/resume.svg"
+                      alt="Google"
+                      style={{ width: "24px", height: "24px" }}
+                    />
+
+                    <Stack spacing={3}>
+                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                        It skills
+                      </div>
+                      <div className="text-black text-base font-semibold">
+                        {" "}
+                        {form.getInputProps("itskills").value?.join(",")}{" "}
+                      </div>
+                    </Stack>
+                  </Group>
+                </Grid.Col>
+
+                <Grid.Col span={4}>
+                  <Group position="left" style={{ alignItems: "flex-start" }}>
+                    <Image
+                      src="./images/resume.svg"
+                      alt="Google"
+                      style={{ width: "24px", height: "24px" }}
+                    />
+                    <Stack spacing={3}>
+                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                        Key Skills
+                      </div>
+                      <div className="text-black text-base font-semibold">
+                        {" "}
+                        {form.getInputProps("keyskills").value?.join(",")}{" "}
+                      </div>
+                    </Stack>
+                  </Group>
+                </Grid.Col>
+
+                <Grid.Col span={4}>
+                  <Group position="left" style={{ alignItems: "flex-start" }}>
+                    <Image
+                      src="./images/resume.svg"
+                      alt="Google"
+                      style={{ width: "24px", height: "24px" }}
+                    />
+
+                    <Stack spacing={3}>
+                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                        Resume
+                      </div>
+                      <div className="text-black text-base font-semibold ">
+                        {" "}
+                        <a  target="_blank"   download={ ( form.getInputProps("resume")?.value.includes('docx' ) || form.getInputProps("resume")?.value.includes('doc')  ) ? true : false }  href={form.getInputProps("resume")?.value}>
+                          view resume
+                        </a>
+                        {/* {form.getInputProps("resume").value}{" "} */}
+                      </div>
+                    </Stack>
+                  </Group>
+                </Grid.Col>
+
+                <Grid.Col span={4}>
+                  <Group position="left" style={{ alignItems: "flex-start" }}>
+                    <Image
+                      src="./images/resume.svg"
+                      alt="Google"
+                      style={{ width: "24px", height: "24px" }}
+                    />
+
+                    <Stack spacing={3}>
+                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                        Location
+                      </div>
+                      <div className="text-black text-base font-semibold">
+                        Noida
+                      </div>
+                    </Stack>
+                  </Group>
+                </Grid.Col>
+              </Grid>
+            </Group>
           </div>
         </Stack>
       </div>
- 
+    </div>
   );
 }

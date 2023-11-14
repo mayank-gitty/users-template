@@ -27,13 +27,34 @@ const IT_SKILLS = gql`
 const ItSkills = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [DefaultSkills, setDefaultSkills] = useState([]);
+  const [visibleSkills, setVisibleSkills] = useState([]);
 
   const { setFormData, formData }: any = useThemeContext();
 
-  const handleChange = (field) => {
-    console.log("field", field);
+  const handleChange = (field: any) => {
+    // console.log("field", field);
+
+    console.log("-----", formData?.itskills);
+
+    // const VisibleSkills:any = []
+
+    // console.log('vs',VisibleSkills)
+
+    const FS = field?.map((id: any) => {
+      return DefaultSkills.filter((item: any) => {
+        if (item.value === id) {
+          console.log("id", item.label);
+
+          return item.label;
+        }
+      });
+    });
+
+    console.log("FS", FS);
 
     setFormData({ ...formData, ["itskills"]: field });
+
+    setVisibleSkills(FS);
   };
 
   const getSkills = async () => {
@@ -56,6 +77,8 @@ const ItSkills = () => {
   }, []);
 
   // form.getInputProps('skills')
+
+  console.log("ds", DefaultSkills);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -105,7 +128,7 @@ const ItSkills = () => {
                   // label="select skill"
                   placeholder="Pick value"
                   onChange={(e) => handleChange(e)}
-                  value={formData.itskills}
+                  // value={formData.itskills}
                   data={DefaultSkills}
                   styles={(theme) => ({
                     // ".mantine-MultiSelect-value mantine-u656bh":{
@@ -158,22 +181,27 @@ const ItSkills = () => {
                       // height: "50px",
                       // background:"red",
                       height: "auto",
-               
                     },
 
                     leftIcon: {
                       marginRight: theme.spacing.md,
-                      background:"red"
+                      background: "red",
                     },
-                    pill :{
-                      background:"red",
-                      color:"yellow"
+                    pill: {
+                      background: "red",
+                      color: "yellow",
                     },
-                    option:{
-                      background:"red"
-                    }
+                    option: {
+                      background: "red",
+                    },
                   })}
                 />
+              </Grid.Col>
+
+              <Grid.Col span={12}>
+                {visibleSkills.map((item: any) => (
+                  <p> {item[0].label} </p>
+                ))}
               </Grid.Col>
               {/* <Grid.Col span={6}>
                 <Input.Wrapper

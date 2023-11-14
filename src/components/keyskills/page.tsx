@@ -166,6 +166,7 @@ const KeySkills = () => {
                   })}
                   // label="select skill"
                   placeholder="Select your skills"
+                  searchable
                   maxSelectedValues={5}
                   onChange={(e) => handleChange(e)}
                   value={formData.keyskills}
