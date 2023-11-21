@@ -68,6 +68,7 @@ const PROFILE_USER = gql`
         email
         role
       }
+      resume
       total_experience
       resume_headline
       relevent_experience

@@ -80,46 +80,11 @@ export default function Home() {
     <>
       <MantineProvider>
         {
-          // <div className="d-flex justify-content-end">
-          //   {role !== "employee" && (
-          //     <button
-          //       className="btn btn-warning"
-          //       onClick={() => router.push("/profileUsers")}
-          //     >
-          //       users
-          //     </button>
-          //   )}
+          
+          !hasMaster &&
 
-          //   <button
-          //     className="btn btn-info"
-          //     onClick={() =>
-          //       router.push(`/profile?id=${localStorage.getItem("id")}`)
-          //     }
-          //   >
-          //     view profile
-          //   </button>
-
-
-          //   {role !== "employee" && (
-          //     <button
-          //       className="btn btn-warning"
-          //       onClick={() => router.push("/multipleuser")}
-          //     >
-          //       create users
-          //     </button>
-          //   )}
-          //   <button className="btn btn-warning" onClick={() => logOut()}>
-          //     {" "}
-          //     logout{" "}
-          //   </button>
-          // </div>
-
+            <Master/>
          
-
-          <Master/>
-         
-
-
         }
 
  

@@ -198,11 +198,11 @@ const ItSkills = () => {
                 />
               </Grid.Col>
 
-              <Grid.Col span={12}>
+              {/* <Grid.Col span={12}>
                 {visibleSkills.map((item: any) => (
                   <p> {item[0].label} </p>
                 ))}
-              </Grid.Col>
+              </Grid.Col> */}
               {/* <Grid.Col span={6}>
                 <Input.Wrapper
                   label="Software Version"

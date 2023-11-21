@@ -278,7 +278,7 @@ export default function PhotoUpload(props) {
           ["photograph"]: `images/${file.name}`,
         }));
 
-        alert("photogarph uploaded successfully");
+        alert("photograph uploaded successfully");
       } else {
         console.error("File upload failed.");
       }
