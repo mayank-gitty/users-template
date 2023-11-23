@@ -89,6 +89,7 @@ export default function View(props: IAppProps) {
       name: "",
       status: "",
       work: "",
+      email:"",
     },
     validate: {
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -161,6 +162,8 @@ export default function View(props: IAppProps) {
       status: user?.profileUsers[0]?.active,
       resume: user?.profileUsers[0]?.resume,
       work: user?.profileUsers[0]?.open_to_work,
+      email:user?.profileUsers[0]?.user?.email
+
     });
   };
 
@@ -224,20 +227,24 @@ export default function View(props: IAppProps) {
         className=""
         // style={{ alignItems: "center", justifyContent: "center" }}
       >
-        <div className="text-black text-2xl py-4  font-semibold">Profile</div>
-        <div className="flex flex-col lg:flex-row items-center justify-center  gap-5 xl:12">
+        <div className="text-black text-2xl py-3  font-semibold">Profile</div>
+        <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
           <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
             <div className="flex items-center justify-center flex-col bg-white">
-              <div>
+              <div
+                style={{
+                  width: "242.215px",
+                  height: "138.913px",
+                  borderRadius: "7px",
+                }}
+              >
                 <img
                   src={form.getInputProps("photograph").value}
+                  alt="User Photograph"
                   style={{
                     width: "100%",
-                    maxWidth: "242.215px",
-                    height: " 138.913px;",
-                    borderRadius: "7px",
+                    height: "100%",
                   }}
-                  alt="User Photograph"
                 />
               </div>
               <div>
@@ -252,30 +259,48 @@ export default function View(props: IAppProps) {
                   {form.getInputProps("profile_summary").value}
                 </div>
               </div>
+
               <Group
                 spacing={8}
                 style={{
                   display: "flex",
-                  alignItems: "start",
-                  justifyContent: "left",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: "1em",
+                  marginTop: "1em",
+
+                  // background:"red",
+                  width: "100%",
                 }}
               >
-                <Image
-                  src="./images/Icon-Skill.svg"
-                  alt="Google"
-                  style={{ width: "28px", height: "28px" }}
-                />
-                <div className="text-black text-base font-semibold ml-1">
-                  Skills
-                </div>
-                <Group spacing={6} ml={24}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    // background:"blue",
+                    // width:"100%"
+                  }}
+                >
                   <Image
                     src="./images/Icon-Skill.svg"
+                    alt="Google"
+                    style={{ width: "28px", height: "28px" }}
+                  />
+                  <div className="text-black text-base font-semibold ml-1">
+                    Skills
+                  </div>
+                </div>
+
+                <Group>
+                  <Image
+                    src="./images/profileicon.png"
                     alt="Google"
                     style={{ width: "24px", height: "24px" }}
                   />
                 </Group>
               </Group>
+
               <div
                 style={{
                   display: "flex",
@@ -288,9 +313,9 @@ export default function View(props: IAppProps) {
               >
                 {form.getInputProps("keyskills")?.value?.map((item: any) => {
                   return (
-                    <div className="w-28 flex border">
+                    <div className="w-28 flex border m-1 skill-chip">
                       <div className="bg-[#5847C3] w-3 flex items-start justify-start"></div>
-                      <div className="px-2 py-1 text-black text-base font-semibold">
+                      <div className="px-2  text-black text-base font-semibold chip-inside">
                         {item}
                       </div>
                     </div>
@@ -299,271 +324,242 @@ export default function View(props: IAppProps) {
               </div>
             </div>
           </div>
-          <Stack>
-            <div className="p-4 h-full   rounded bg-white">
-              <Group position="apart" className="border-b pb-3">
-                <Group position="left">
-                  <Image
-                    src="./images/profile.svg"
-                    alt="Google"
-                    style={{ width: "32px", height: "32px" }}
-                  />
-                  <div className="text-black text-base font-semibold">
-                    Basic Information
-                  </div>
-                </Group>
-                <Image
-                  src="./images/profileicon.png"
-                  alt="Google"
-                  style={{ width: "32px", height: "32px" }}
-                />
-              </Group>
-              <Group position="apart" py={12}>
-                <div>
-                  <Stack>
-                    <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                      {/* Mobile Number: */}
-                    </div>
-                  </Stack>
-                  <Stack>
-                    <div className="text-black text-base font-semibold">
-                      {/* 31233616359612 */}
-                    </div>
-                  </Stack>
-                </div>
-                <div>
-                  <Stack>
-                    <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                      {/* Email: */}
-                    </div>
-                  </Stack>
-                  <Stack>
-                    <div className="text-black text-base font-semibold">
-                      {/* 31233616359612 */}
-                    </div>
-                  </Stack>
-                </div>
-                <div>
-                  <Stack>
-                    <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                      {/* Address: */}
-                    </div>
-                  </Stack>
-                  <Stack>
-                    <div className="text-black text-base font-semibold">
-                      {/* Noida */}
-                    </div>
-                  </Stack>
-                </div>
-              </Group>
-              <Group position="left" mt={"3%"}>
-                <p style={{ alignItems: "center", justifyContent: "center" }}>
-                  {form.getInputProps("status").value ? (
-                    <span className="px-4 py-2 bg-emerald-100 rounded-sm text-green-600 text-xs font-medium">
-                      Active
-                    </span>
-                  ) : (
-                    <span className="px-4 py-2 bg-rose-100 rounded-sm text-red-600 text-xs font-medium">
-                      Inactive
-                    </span>
-                  )}
-                </p>
-                <p className="work">
-                  {form.getInputProps("work").value ? (
-                    <span className="px-4 py-2 bg-violet-100 rounded-sm text-indigo-500 text-xs font-medium">
-                      Open to Work
-                    </span>
-                  ) : (
-                    <span className="bg-rose-100 rounded-sm text-red-700 text-xs font-medium">
-                      Engaged
-                    </span>
-                  )}
-                </p>
-              </Group>
-            </div>
-            <div className="p-4 h-full rounded bg-white">
-              <Group position="apart" className="border-b pb-3">
-                <Group position="left">
-                  <Image
-                    src="./images/experience.svg"
-                    alt="Google"
-                    style={{ width: "24px", height: "24px" }}
-                  />
-                  <div className="text-black text-base font-semibold">
-                    Experience
-                  </div>
-                </Group>
-                <Image
-                  src="./images/profileicon.png"
-                  alt="Google"
-                  style={{ width: "32px", height: "32px" }}
-                />
-              </Group>
-              <Group position="apart" py={12}>
-                <div>
-                  <Stack spacing={8}>
-                    <div className="text-indigo-950 text-sm font-bold">
-                      Total Experience
-                    </div>
-                    {/* <div className="text-gray-600 text-xs font-normal">
-                      Amazon Inc  
-                    </div> */}
-                    <div className="text-gray-600 text-xs font-normal">
-                      {form.getInputProps("total_experience")?.value}
-                    </div>
-                  </Stack>
-                </div>
-                <Image
-                  src="./images/Edit.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-              </Group>
-              <Group position="apart" py={12}>
-                <div>
-                  <Stack spacing={8}>
-                    <div className="text-indigo-950 text-sm font-bold">
-                      Relevant Experience
-                    </div>
-                    {/* <div className="text-gray-600 text-xs font-normal">
-                      Amazon Inc
-                    </div> */}
-                    <div className="text-gray-600 text-xs font-normal">
-                      {form.getInputProps("relevent_experience")?.value}
-                    </div>
-                  </Stack>
-                </div>
-                <Image
-                  src="./images/Edit.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-              </Group>
-            </div>
-          </Stack>
-          <Stack>
-            <div className="p-4 h-full xl:w-[420px] rounded bg-white">
-              <Group position="apart" className="border-b pb-3">
-                <Group position="left">
-                  <Image
-                    src="./images/education.svg"
-                    alt="Google"
-                    style={{ width: "32px", height: "32px" }}
-                  />
-                  <div className="text-black text-base font-semibold">
-                    Education
-                  </div>
-                </Group>
-                <Image
-                  src="./images/profileicon.png"
-                  alt="Google"
-                  style={{ width: "32px", height: "32px" }}
-                />
-              </Group>
-              <Group position="apart" py={12}>
-                <div>
-                  <Stack spacing={8}>
-                    <div className="text-indigo-950 text-sm font-bold">
-                      Information Technology
-                    </div>
-                    <div className="text-gray-600 text-xs font-normal">
-                      University of Oxford
-                    </div>
-                    <div className="text-gray-600 text-xs font-normal">
-                      Jan 2015 - Feb 2022 . 5 years
-                    </div>
-                  </Stack>
-                </div>
-                <Image
-                  src="./images/Edit.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-              </Group>
-              <Group position="apart" py={12}>
-                <div>
-                  <Stack spacing={8}>
-                    <div className="text-indigo-950 text-sm font-bold">
-                      Information Technology
-                    </div>
-                    <div className="text-gray-600 text-xs font-normal">
-                      University of Oxford
-                    </div>
-                    <div className="text-gray-600 text-xs font-normal">
-                      Jan 2015 - Feb 2022 . 5 years
-                    </div>
-                  </Stack>
-                </div>
-                <Image
-                  src="./images/Edit.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-              </Group>
-            </div>
-            <div className="p-4 h-full rounded bg-white">
-              <Group position="apart" className="border-b pb-3">
-                <Group position="left">
-                  <Image
-                    src="./images/resume.svg"
-                    alt="Google"
-                    style={{ width: "24px", height: "24px" }}
-                  />
-                  <div className="text-black text-base font-semibold">
-                    Resume
-                  </div>
-                </Group>
-                <Image
-                  src="./images/profileicon.png"
-                  alt="Google"
-                  style={{ width: "32px", height: "32px" }}
-                />
-              </Group>
-              <Group position="apart" py={12}>
-                <Group position="left">
-                  <Image
-                    src="./images/Edit.svg"
-                    alt="Google"
-                    style={{ width: "24px", height: "24px" }}
-                  />
-                  <Stack spacing={8}>
-                    <div className="text-indigo-950 text-sm font-bold"></div>
-                    <div className="text-gray-600 text-xs font-normal">
-                      867 Kb. Feb 2022
-                    </div>
-                  </Stack>
-                </Group>
 
-                <Image
-                  src="./images/Edit.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-              </Group>
-              <Group position="apart" py={12}>
-                <div>
-                  <Stack spacing={8}>
-                    <div className="text-indigo-950 text-sm font-bold">
-                      {form
-                        .getInputProps("resume")
-                        ?.value?.substr(
-                          6,
-                          form.getInputProps("resume")?.value.length
-                        )}
+          <div className="w-full lg:w-3/4 px-3 h-full rounded ">
+            <Stack>
+              <div className="p-4 h-full rounded bg-white">
+                <Group position="apart" className="border-b pb-[10px]">
+                  <Group position="left">
+                    <Image
+                      src="./images/profile.svg"
+                      alt="Google"
+                      style={{ width: "32px", height: "32px" }}
+                    />
+                    <div className="text-black text-base font-semibold">
+                      Basic Information
                     </div>
-                    <div className="text-gray-600 text-xs font-normal">
-                      867 Kb. Feb 2022
-                    </div>
-                  </Stack>
-                </div>
-                <Image
-                  src="./images/Edit.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
-              </Group>
+                  </Group>
+                  <Image
+                    src="./images/profileicon.png"
+                    alt="Google"
+                    style={{ width: "32px", height: "32px" }}
+                  />
+                </Group>
+                <Group position="apart" py={12}>
+           
+                  <div>
+                    <Stack>
+                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                        Email:
+                      </div>
+                    </Stack>
+                    <Stack>
+                      <div className="text-black text-base font-semibold">
+                      {form.getInputProps("email").value}
+                      </div>
+                    </Stack>
+                  </div>
+                  <div>
+                    <Stack>
+                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                        {/* Address: */}
+                      </div>
+                    </Stack>
+                    <Stack>
+                      <div className="text-black text-base font-semibold">
+                        {/* Noida */}
+                      </div>
+                    </Stack>
+                  </div>
+                </Group>
+                <Group position="left" mt={"3%"}>
+                  <p style={{ alignItems: "center", justifyContent: "center" }}>
+                    {form.getInputProps("status").value ? (
+                      <span className="px-4 py-2 bg-emerald-100 rounded-sm text-green-600 text-xs font-medium">
+                        Active
+                      </span>
+                    ) : (
+                      <span className="px-4 py-2 bg-rose-100 rounded-sm text-red-600 text-xs font-medium">
+                        Inactive
+                      </span>
+                    )}
+                  </p>
+                  <p className="work">
+                    {form.getInputProps("work").value ? (
+                      <span className="px-4 py-2 bg-violet-100 rounded-sm text-indigo-500 text-xs font-medium">
+                        Open to Work
+                      </span>
+                    ) : (
+                      <span className="bg-rose-100 rounded-sm text-red-700 text-xs font-medium">
+                        Engaged
+                      </span>
+                    )}
+                  </p>
+                </Group>
+              </div>
+            </Stack>
+
+            <div className="flex flex-col lg:flex-row mt-3  justify-center  gap-5 xl:12 ">
+              <div className="lg:w-1/2">
+                <Stack>
+                  <div className="p-4 h-full rounded bg-white">
+                    <Group position="apart" className="border-b pb-[10px]">
+                      <Group position="left">
+                        <Image
+                          src="./images/experience.svg"
+                          alt="Google"
+                          style={{ width: "24px", height: "24px" }}
+                        />
+                        <div className="text-black text-base font-semibold">
+                          Experience
+                        </div>
+                      </Group>
+                      <Image
+                        src="./images/profileicon.png"
+                        alt="Google"
+                        style={{ width: "32px", height: "32px" }}
+                      />
+                    </Group>
+                    <Group position="apart" py={12}>
+                      <div>
+                        <Stack spacing={8}>
+                          <div className="text-indigo-950 text-sm font-bold">
+                            Total Experience
+                          </div>
+                          {/* <div className="text-gray-600 text-xs font-normal">
+    Amazon Inc  
+  </div> */}
+                          <div className="text-gray-600 text-xs font-normal">
+                            {form.getInputProps("total_experience")?.value}
+                          </div>
+                        </Stack>
+                      </div>
+                      <Image
+                        src="./images/Edit.svg"
+                        alt="Google"
+                        style={{ width: "24px", height: "24px" }}
+                      />
+                    </Group>
+                    <Group position="apart" py={12}>
+                      <div>
+                        <Stack spacing={8}>
+                          <div className="text-indigo-950 text-sm font-bold">
+                            Relevant Experience
+                          </div>
+                          {/* <div className="text-gray-600 text-xs font-normal">
+    Amazon Inc
+  </div> */}
+                          <div className="text-gray-600 text-xs font-normal">
+                            {form.getInputProps("relevent_experience")?.value}
+                          </div>
+                        </Stack>
+                      </div>
+                      <Image
+                        src="./images/Edit.svg"
+                        alt="Google"
+                        style={{ width: "24px", height: "24px" }}
+                      />
+                    </Group>
+                  </div>
+                </Stack>
+              </div>
+
+              <div className="lg:w-1/2">
+                <Stack>
+                  <div className="p-4 h-full rounded bg-white">
+                    <Group position="apart" className="border-b pb-[10px]">
+                      <Group position="left">
+                          <Image
+                          src="./images/educationIcon.svg"
+                          alt="Google"
+                          style={{ width: "24px", height: "24px" }}
+                        />
+                        <div className="text-black text-base font-semibold">
+                          Education
+                        </div>
+                      </Group>
+                      <Image
+                        src="./images/profileicon.png"
+                        alt="Google"
+                        style={{ width: "32px", height: "32px" }}
+                      />
+                    </Group>
+                    <Group position="apart" py={12}>
+                      <div>
+                        <Stack spacing={8}>
+                          <div className="text-indigo-950 text-sm font-bold">
+                            Highest Education
+                          </div>
+                          {/* <div className="text-gray-600 text-xs font-normal">
+    Amazon Inc  
+  </div> */}
+                          <div className="text-gray-600 text-xs font-normal">
+                            {form.getInputProps("education")?.value}
+                          </div>
+                        </Stack>
+                      </div>
+                      <Image
+                        src="./images/Edit.svg"
+                        alt="Google"
+                        style={{ width: "24px", height: "24px" }}
+                      />
+                    </Group>
+       
+                  </div>
+                </Stack>
+              </div>
             </div>
-          </Stack>
+
+            <div className="flex flex-col lg:flex-row justify-center  gap-5 xl:12 mt-3">
+              <div className="w-full">
+                <Stack>
+                  {/* <div className="p-4 h-full xl:w-[420px] rounded "></div> */}
+                  <div className="p-4 h-full rounded bg-white">
+                    <Group position="apart" className="border-b pb-[10px]">
+                      <Group position="left">
+                        <Image
+                          src="./images/resume.svg"
+                          alt="Google"
+                          style={{ width: "24px", height: "24px" }}
+                        />
+                        <div className="text-black text-base font-semibold">
+                          Resume
+                        </div>
+                      </Group>
+                      <Image
+                        src="./images/profileicon.png"
+                        alt="Google"
+                        style={{ width: "32px", height: "32px" }}
+                      />
+                    </Group>
+          
+                    <Group position="apart" py={12}>
+                      <div>
+                        <Stack spacing={8}>
+                          <div className="text-indigo-950 text-sm font-bold">
+                            {form
+                              .getInputProps("resume")
+                              ?.value?.substr(
+                                6,
+                                form.getInputProps("resume")?.value.length
+                              )}
+                          </div>
+                          <div className="text-gray-600 text-xs font-normal">
+                            867 Kb. Feb 2022
+                          </div>
+                        </Stack>
+                      </div>
+                      <Image
+                        src="./images/Edit.svg"
+                        alt="Google"
+                        style={{ width: "24px", height: "24px" }}
+                      />
+                    </Group>
+                  </div>
+                </Stack>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Box>

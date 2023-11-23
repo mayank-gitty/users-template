@@ -115,7 +115,7 @@ const Profile = () => {
         // courseDuration: `startYear: ${formData?.startingYear?.value}  endYear : ${formData?.endingYear?.value}`,
         // course_type: formData.coursetype,
         photograph: formData.photograph,
-        education: formData.education?.value,
+        education: formData.education,
         resume_headline: formData.resume_headline,
         relevent_experience: `${formData.relevent_experience}  ${formData.total_relevant_months} `,
         total_experience: ` ${formData.total_experience}  ${formData.total_experience_months}  `,
@@ -223,7 +223,7 @@ const Profile = () => {
                     }
                     onClick={() => save()}
                   >
-                    next
+                    submit 
                   </Button>
 
                   <></>

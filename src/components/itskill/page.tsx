@@ -32,13 +32,7 @@ const ItSkills = () => {
   const { setFormData, formData }: any = useThemeContext();
 
   const handleChange = (field: any) => {
-    // console.log("field", field);
 
-    console.log("-----", formData?.itskills);
-
-    // const VisibleSkills:any = []
-
-    // console.log('vs',VisibleSkills)
 
     const FS = field?.map((id: any) => {
       return DefaultSkills.filter((item: any) => {
@@ -125,6 +119,7 @@ const ItSkills = () => {
               <Grid.Col span={12}>
                 <MultiSelect
                   searchable
+                  value={formData.itskills}
                   // label="select skill"
                   placeholder="Pick value"
                   onChange={(e) => handleChange(e)}

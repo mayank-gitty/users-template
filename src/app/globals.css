@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* global styling*/
+
+
+.skill-chip {
+
+  height: 30px;
+
+}
+
+
+.skill-chip .chip-inside {
+
+  display: flex;
+  align-items: center;
+  
+
+}
+
+/* global styling*/
+
 .profile-table {
   width: 96%;
   margin: auto;
@@ -380,9 +401,9 @@ a.page-link {
   height: 100vh;
 }
 
-.view-master-card {
+/* .view-master-card {
   padding-top: 52px;
-}
+} */
 
 .view-master-card .view-box {
   padding: 47px 40px;

@@ -81,7 +81,7 @@ export default function Home() {
       <MantineProvider>
         {
           
-          !hasMaster &&
+          !hasMaster && 
 
             <Master/>
          

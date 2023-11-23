@@ -138,13 +138,7 @@ export default function CustomizedSteppers() {
 
   return (
     <Stack sx={{ width: "100%" }} spacing={4}>
-      {/* <Stepper alternativeLabel activeStep={1} connector={<QontoConnector />}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper> */}
+
       <Stepper
         alternativeLabel
         activeStep={active}
@@ -165,9 +159,7 @@ export default function CustomizedSteppers() {
           "& .MuiStepLabel-label.Mui-active": {
             color: "#4D47C3",
           },
-          //   "& .MuiStepper-root.MuiStepper-horizontal" :{
-          //     width:"100% !important"
-          //   }
+   
         }}
       >
         {steps.map((label) => (

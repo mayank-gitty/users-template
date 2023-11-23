@@ -193,10 +193,12 @@ export default function View(props: IAppProps) {
   // console.log("f", form.getInputProps("photograph").value);
 
   return (
-    <div className="bg-wrapper">
-      <div className="flex items-center justify-center view-master-card">
+    <div className="bg-wrapper  pt-[64px] ">
+       <div className="text-black text-2xl py-3  ml-[63px]  font-semibold "> View User </div>
+      <div className="flex  items-center justify-start ml-[63px] view-master-card">
+     
         <Stack>
-          <div className="view-box h-full w-full rounded bg-white">
+          <div className="view-box h-full w-full rounded bg-white  mt-[20px] ">
             <Group position="apart" className=" pb-3">
               <Group position="left">
                 <div className="profile-img-master-view">
@@ -227,10 +229,13 @@ export default function View(props: IAppProps) {
             </Group>
             <Group position="apart" className="w-full lg:w-[100%]" py={12}>
               <Grid>
-                <Grid.Col span={4}>
+                <Grid.Col span={4} style={{
+                  marginTop:"2em",
+                  marginBottom:"3em"
+                }} >
                   <Group position="left" style={{ alignItems: "flex-start" }}>
                     <Image
-                      src="./images/resume.svg"
+                      src="./images/education.svg"
                       alt="Google"
                       style={{ width: "24px", height: "24px" }}
                     />
@@ -247,10 +252,13 @@ export default function View(props: IAppProps) {
                   </Group>
                 </Grid.Col>
 
-                <Grid.Col span={4}>
+                <Grid.Col span={4} style={{
+                  marginTop:"2em",
+                  marginBottom:"3em"
+                }} >
                   <Group position="left" style={{ alignItems: "flex-start" }}>
                     <Image
-                      src="./images/resume.svg"
+                      src="./images/experience.svg"
                       alt="Google"
                       style={{ width: "24px", height: "24px" }}
                     />
@@ -271,10 +279,13 @@ export default function View(props: IAppProps) {
                   </Group>
                 </Grid.Col>
 
-                <Grid.Col span={4}>
+                <Grid.Col span={4} style={{
+                  marginTop:"2em",
+                  marginBottom:"3em"
+                }} >
                   <Group position="left" style={{ alignItems: "flex-start" }}>
                     <Image
-                      src="./images/resume.svg"
+                      src="./images/Icon-Skill.svg"
                       alt="Google"
                       style={{ width: "24px", height: "24px" }}
                     />
@@ -294,7 +305,7 @@ export default function View(props: IAppProps) {
                 <Grid.Col span={4}>
                   <Group position="left" style={{ alignItems: "flex-start" }}>
                     <Image
-                      src="./images/resume.svg"
+                      src="./images/Icon-Skill.svg"
                       alt="Google"
                       style={{ width: "24px", height: "24px" }}
                     />

@@ -69,6 +69,7 @@ const PROFILE_USER = gql`
         role
       }
       resume
+      education
       total_experience
       resume_headline
       relevent_experience
@@ -85,7 +86,7 @@ const PROFILE_USER = gql`
         name
         id
       }
-      education
+
     }
   }
 `;
