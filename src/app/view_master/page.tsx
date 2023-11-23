@@ -254,7 +254,8 @@ export default function View(props: IAppProps) {
 
                 <Grid.Col span={4} style={{
                   marginTop:"2em",
-                  marginBottom:"3em"
+                  marginBottom:"3em",
+                  // background:"red"
                 }} >
                   <Group position="left" style={{ alignItems: "flex-start" }}>
                     <Image
@@ -269,11 +270,14 @@ export default function View(props: IAppProps) {
                       </div>
                       <div className="text-black text-base font-semibold">
                         {" "}
-                        {form.getInputProps("total_experience").value}
+
+                      
+                     Total  {form.getInputProps("total_experience").value}
                       </div>
                       <div className="text-black text-base font-semibold">
                         {" "}
-                        {form.getInputProps("relevent_experience").value}{" "}
+                        
+                      Relevant  {form.getInputProps("relevent_experience").value}{" "}
                       </div>
                     </Stack>
                   </Group>
@@ -281,7 +285,7 @@ export default function View(props: IAppProps) {
 
                 <Grid.Col span={4} style={{
                   marginTop:"2em",
-                  marginBottom:"3em"
+                  marginBottom:"3em",
                 }} >
                   <Group position="left" style={{ alignItems: "flex-start" }}>
                     <Image
@@ -356,9 +360,9 @@ export default function View(props: IAppProps) {
                       <div className="text-blue-950 text-opacity-50 text-xs font-medium">
                         Location
                       </div>
-                      <div className="text-black text-base font-semibold">
+                      {/* <div className="text-black text-base font-semibold">
                         Noida
-                      </div>
+                      </div> */}
                     </Stack>
                   </Group>
                 </Grid.Col>

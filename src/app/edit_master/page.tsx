@@ -15,6 +15,9 @@ import {
   Box,
   MultiSelect,
   Select,
+  Image,
+  Stack,
+  Grid,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
@@ -213,117 +216,155 @@ export default function View(props: IAppProps) {
   };
 
   return (
-    <Box maw={340} mx="auto" className="mt-4">
-      <form onSubmit={form.onSubmit((values) => sendAll(values))}>
-        <h6>
-          {" "}
-          name:{" "}
-          <span
-            style={{
-              fontWeight: 700,
-            }}
-          >
-            {" "}
-            {form.getInputProps("user").value}{" "}
-          </span>{" "}
-        </h6>
+    <div className="bg-wrapper ">
+      <div className="text-black text-2xl py-1  ml-[63px]  font-semibold ">
+        {" "}
+        Edit User{" "}
+      </div>
+      <div className="flex  items-center justify-start ml-[63px] ">
+        <Stack>
+        <form onSubmit={form.onSubmit((values) => sendAll(values))}>
+          <div className="edit_master h-full w-full rounded bg-white  mt-[6px] ">
+            <Grid>
+              <Grid.Col
+                span={4}
+                style={{
+                  marginTop: "2em",
+                  marginBottom: "3em",
+                }}
+              >
+                <Group position="apart" className=" pb-3">
+                  <Group position="left">
+                    <div className="profile-img-master-view">
+                      <div className="edit-master-profle edit-icon">
+                      <input type="file" name="myImage" onChange={uploadToClient} />
+                      {/* <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+  <path d="M12.0539 4.97535L2.94803 14.0813L2.75092 16.2496C2.70541 16.7501 3.12477 17.1695 3.62534 17.124L5.79363 16.9269L14.8995 7.82095L12.0539 4.97535Z" fill="#4D47C3"/>
+  <path d="M15.4687 7.25183L17.176 5.54446C17.4904 5.23015 17.4904 4.72054 17.176 4.40622L15.4687 2.69886C15.1544 2.38454 14.6448 2.38455 14.3304 2.69886L12.6231 4.40623L15.4687 7.25183Z" fill="#4D47C3"/>
+</svg> */}
 
-        <Select
-          label="education"
-          value={form.getInputProps("education").value}
-          onChange={(value) => handleChange("education", value)}
-          data={options}
-          // options={options}
-          placeholder="Select Education"
-          // styles={customStyles}
-        />
-        <MultiSelect
-          label="it skills"
-          placeholder="Pick value"
-          onChange={(e) => handleChange("itskills", e)}
-          value={form.getInputProps("itskills").value}
-          data={form.getInputProps("allItskills").value}
-        />
+                      </div>
+                      <img
+                        src={form.getInputProps("photograph")?.value}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "7px",
+                        }}
+                        alt="User Photograph"
+                      />
+                    </div>
+                    
+                    <Stack
+                      spacing={5}
+                      className="view-master-info-section"
+                    ></Stack>
+                  </Group>
+                </Group>
+              </Grid.Col>
 
-        <MultiSelect
-          label="key skills"
-          placeholder="Pick value"
-          onChange={(e) => handleChange("keyskills", e)}
-          value={form.getInputProps("keyskills").value}
-          data={form.getInputProps("allKeyskills").value}
-        />
+              <Grid.Col span={8} style={{
+                    paddingRight:"6em",
+              }} >
+                <Grid>
+                  <Grid.Col span={6}>
+                    {" "}
+                    <TextInput
+                      withAsterisk
+                      disabled
+                      label="Name"
+                      {...form.getInputProps("user")}
+                      placeholder="write"
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={6}>
+                    <Select
+                      label="education"
+                      value={form.getInputProps("education").value}
+                      onChange={(value) => handleChange("education", value)}
+                      data={options}
+                      // options={options}
+                      placeholder="Select Education"
+                      // styles={customStyles}
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={12}>
+                    <MultiSelect
+                      label="it skills"
+                      placeholder="Pick value"
+                      onChange={(e) => handleChange("itskills", e)}
+                      value={form.getInputProps("itskills").value}
+                      data={form.getInputProps("allItskills").value}
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={12}>
+                    <MultiSelect
+                      label="key skills"
+                      placeholder="Pick value"
+                      onChange={(e) => handleChange("keyskills", e)}
+                      value={form.getInputProps("keyskills").value}
+                      data={form.getInputProps("allKeyskills").value}
+                    />
+                  </Grid.Col>
 
-        <TextInput
-          withAsterisk
-          label="profile_summary"
-          {...form.getInputProps("profile_summary")}
-          placeholder="write"
-        />
+                  <Grid.Col span={12}>
+                    <TextInput
+                      withAsterisk
+                      label="profile_summary"
+                      {...form.getInputProps("profile_summary")}
+                      placeholder="write"
+                    />
+                  </Grid.Col>
 
-        <TextInput
-          withAsterisk
-          label="relevent_experience"
-          placeholder="experience"
-          {...form.getInputProps("relevent_experience")}
-        />
+                  <Grid.Col span={6}>
+                    <TextInput
+                      withAsterisk
+                      label="relevent_experience"
+                      placeholder="experience"
+                      {...form.getInputProps("relevent_experience")}
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={6}>
+                    <TextInput
+                      withAsterisk
+                      label="total experience"
+                      placeholder="experience"
+                      {...form.getInputProps("total_experience")}
+                    />
+                  </Grid.Col>
 
-        <TextInput
-          withAsterisk
-          label="total experience"
-          placeholder="experience"
-          {...form.getInputProps("total_experience")}
-        />
+                  <Grid.Col>
+                    <TextInput
+                      withAsterisk
+                      label="resume_headline"
+                      placeholder="education"
+                      {...form.getInputProps("resume_headline")}
+                    />
+                  </Grid.Col>
 
-        <TextInput
-          withAsterisk
-          label="resume_headline"
-          placeholder="education"
-          {...form.getInputProps("resume_headline")}
-        />
+                  <Grid.Col>
+                    <Checkbox
+                      label={<>open to work</>}
+                      checked={form.getInputProps("work").value ? true : false}
+                      onChange={(event) =>
+                        form.setFieldValue("work", event.currentTarget.checked)
+                      }
+                    />
+                  </Grid.Col>
 
-        <Checkbox
-          className="mt-2"
-          label={<>active</>}
-          checked={form.getInputProps("status").value ? true : false}
-          onChange={(event) =>
-            form.setFieldValue("status", event.currentTarget.checked)
-          }
-        />
-
-        <Checkbox
-          label={<>open to work</>}
-          checked={form.getInputProps("work").value ? true : false}
-          onChange={(event) =>
-            form.setFieldValue("work", event.currentTarget.checked)
-          }
-        />
-
-        <div>
-          <div>
-            <div className="profile-view-box">
-              <img src={form.getInputProps("photograph").value} />
-            </div>
-
-            <h4> Select Image </h4>
-            <input type="file" name="myImage" onChange={uploadToClient} />
-
-            {/* <button
-              className="btn btn-primary"
-              type="button"
-              onClick={uploadToServer}
-            >
-              upload
-            </button> */}
+                  <Grid.Col>
+                    <div className="d-flex justify-content-end ">
+                      <button className="edit-master-btn"> save </button>
+                    </div>
+                  </Grid.Col>
+                </Grid>
+              </Grid.Col>
+            </Grid>
           </div>
+          </form>
+        </Stack>
 
-          <Group justify="center" mt="md">
-            <button type="submit" className="btn btn-primary">
-              {" "}
-              submit{" "}
-            </button>
-          </Group>
-        </div>
-      </form>
-    </Box>
+      </div>
+    </div>
   );
 }

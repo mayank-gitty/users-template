@@ -2,23 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* global styling*/
 
-
 .skill-chip {
-
   height: 30px;
-
 }
 
-
 .skill-chip .chip-inside {
-
   display: flex;
   align-items: center;
-  
-
 }
 
 /* global styling*/
@@ -89,13 +81,11 @@
   /* background: gray; */
 }
 
-.last-list-item  {
-
+.last-list-item {
   /* background: #000; */
   position: absolute;
   bottom: 0;
   right: 0;
-
 }
 
 .sidebar-wrapper {
@@ -414,6 +404,7 @@ a.page-link {
 .profile-img-master-view {
   width: 242.215px;
   height: 138.913px;
+  position: relative;
   /* flex-shrink: 0; */
 }
 
@@ -455,7 +446,42 @@ a.page-link {
 }
 
 .w-70 {
-  width:82.2% !important
+  width: 82.2% !important;
+}
+
+.edit_master {
+  padding: 40px 40px;
+  width: 90%;
+}
+
+.edit-master-profle.edit-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f8fe;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 100.463px;
+  height: 33.463px;
+  border-radius: 50%;
+}
+
+.edit-master-btn {
+  width: 143.388px;
+  height: 31.072px;
+  border-radius: 7.288px;
+  background: #4d47c3;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* font-family: Poppins; */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding-top: 0px;
 }
 
 /* sidebar  */
