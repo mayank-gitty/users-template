@@ -432,11 +432,17 @@ const AddTimeLine = ({ AllProjects }: any) => {
             
       const values = await Promise.all(Mutatedata);
 
-      console.log('valuessssssssssss',values)
+      console.log('valuessssssssssss0',values)
 
-      if(values.length > 0 && values[0] !== undefined){
 
-      return   toast(`${values[0]} already registered`, {
+      const checkDuplicatesMail = values.filter((item)=>item !== undefined)
+
+
+      console.log('valuessssssssssssinngg',checkDuplicatesMail)
+
+      if(checkDuplicatesMail.length > 0){
+
+      return   toast(`${checkDuplicatesMail[0]} already registered`, {
           className: "black-background",
           bodyClassName: "grow-font-size",  
           progressClassName: "fancy-progress-bar",
@@ -457,6 +463,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
             },
           },
           password: generateSecurePassword5(item.userName, 12, item.company),
+          address:item.address,
+          phone:item.mobileNumber
         };
       });
 
@@ -465,8 +473,18 @@ const AddTimeLine = ({ AllProjects }: any) => {
       });
 
       if (user.createUsers) {
+        toast("users registered ", {
+          className: "green-background",
+          bodyClassName: "grow-font-size",
+          progressClassName: "fancy-progress-bar",
+        });
         // Redirect or perform other actions
-        router.push("/multi_users_table");
+        setTimeout(()=>{
+
+          router.push("/multi_users_table");
+
+        },1000)
+     
       } else {
         // console.log("ve");
         // setFormErrors(validationErrors);

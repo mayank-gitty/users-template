@@ -20,6 +20,8 @@ model User {
   company               Company?      @relation("User_company", fields: [companyId], references: [id])
   companyId             String?       @map("company")
   createdAt             DateTime?     @default(now())
+  address               String        @default("")
+  phone                 String        @unique @default("")
   role                  String?
   from_ProfileUser_user ProfileUser[] @relation("ProfileUser_user")
 

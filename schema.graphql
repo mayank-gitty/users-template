@@ -8,6 +8,8 @@ type User {
   password: PasswordState
   company: Company
   createdAt: DateTime
+  address: String
+  phone: String
   role: String
 }
 
@@ -20,6 +22,7 @@ scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339
 input UserWhereUniqueInput {
   id: ID
   email: String
+  phone: String
 }
 
 input UserWhereInput {
@@ -31,6 +34,8 @@ input UserWhereInput {
   email: StringFilter
   company: CompanyWhereInput
   createdAt: DateTimeNullableFilter
+  address: StringFilter
+  phone: StringFilter
   role: StringNullableFilter
 }
 
@@ -110,6 +115,8 @@ input UserOrderByInput {
   name: OrderDirection
   email: OrderDirection
   createdAt: OrderDirection
+  address: OrderDirection
+  phone: OrderDirection
   role: OrderDirection
 }
 
@@ -124,6 +131,8 @@ input UserUpdateInput {
   password: String
   company: CompanyRelateToOneForUpdateInput
   createdAt: DateTime
+  address: String
+  phone: String
   role: String
 }
 
@@ -144,6 +153,8 @@ input UserCreateInput {
   password: String
   company: CompanyRelateToOneForCreateInput
   createdAt: DateTime
+  address: String
+  phone: String
   role: String
 }
 

@@ -1,5 +1,5 @@
 import { list } from '@keystone-6/core';
-import { text, password, select, timestamp, file,  relationship } from '@keystone-6/core/fields';
+import { text, password, select, timestamp, file,  relationship  } from '@keystone-6/core/fields';
 import { allowAll } from '@keystone-6/core/access';
 
 type Session = {
@@ -48,6 +48,8 @@ export default list({
     createdAt: timestamp({
       defaultValue: { kind: 'now' },
     }),
+    address: text({ validation: { isRequired: true } } ),
+    phone: text({validation: { isRequired: true } }  ),
     role: select({
       options: [
         { label: 'Admin', value: 'admin' },
