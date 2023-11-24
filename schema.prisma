@@ -21,7 +21,7 @@ model User {
   companyId             String?       @map("company")
   createdAt             DateTime?     @default(now())
   address               String        @default("")
-  phone                 String        @unique @default("")
+  phone                 String        @default("")
   role                  String?
   from_ProfileUser_user ProfileUser[] @relation("ProfileUser_user")
 

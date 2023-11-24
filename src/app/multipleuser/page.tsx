@@ -53,6 +53,21 @@ const COMPANIES = gql`
   }
 `;
 
+const USERS = gql`
+  query Users {
+    users {
+      name
+      company {
+        name
+      }
+      role
+      email
+      phone
+      address
+    }
+  }
+`;
+
 const ADD_MULTIPLE_USER = gql`
   mutation Mutation($data: [UserCreateInput!]!) {
     createUsers(data: $data) {
@@ -71,24 +86,19 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
   //   const { data: session }: any = useSession();
 
-  const checkExistingUser= async (email)=>{
+  const checkExistingUser = async (email) => {
+    console.log("checking email", email);
 
-
-    console.log('checking email',email)
-
-     const  checking =  await  client.request(GET_USER, {
+    const checking = await client.request(GET_USER, {
       where: {
         email: email,
       },
-    })
+    });
 
+    console.log("response", checking?.user?.email);
 
-    console.log('response',checking?.user?.email)
-
-    return checking?.user?.email
-
-  }
-
+    return checking?.user?.email;
+  };
 
   const form = useForm({
     initialValues: {
@@ -133,9 +143,9 @@ const AddTimeLine = ({ AllProjects }: any) => {
             return "The mobile number is not valid.";
           }
         },
-      
-        email:  (value) => {
-      //     console.log("index", value);
+
+        email: (value) => {
+          //     console.log("index", value);
 
           if (!value) {
             return "please enter mail";
@@ -145,21 +155,20 @@ const AddTimeLine = ({ AllProjects }: any) => {
             return "please enter valid mail";
           }
 
+          //  const found =  await client.request(GET_USER, {
+          //       where: {
+          //         email: value,
+          //       },
+          //     })
 
-      //  const found =  await client.request(GET_USER, {
-      //       where: {
-      //         email: value,
-      //       },
-      //     })
+          //     console.log('found',found)
 
-      //     console.log('found',found)
+          //     if(found.user !== null){
 
-      //     if(found.user !== null){
+          //       return 'this email already registered'
 
-      //       return 'this email already registered'
+          //     }
 
-      //     }
-    
           const check = form?.values?.entries.filter(
             (item) => item.email === value
           );
@@ -168,8 +177,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
             return "duplicate mail";
           }
 
-          return null
-
+          return null;
         },
         address: (value) => (value ? null : "add address"),
         company: (value) => (value ? null : "please select company"),
@@ -418,36 +426,61 @@ const AddTimeLine = ({ AllProjects }: any) => {
   // }
 
   const saveAll = async () => {
-
-    console.log('form enteries', form.values.entries)
+    console.log("form enteries", form.values.entries);
 
     if (form.validate().hasErrors) {
-      console.log("yes",form.errors);
+      console.log("yes", form.errors);
       return;
     } else {
+      const users: any = await client.request(USERS);
+
+      console.log("users", users);
+
+      const checkDuplicatePhone = form.values.entries.map((item) => {
+        const flag = users.users.filter(
+          (phone) => phone.phone === item.mobileNumber
+        );
+
+        if (flag.length > 0) {
+          return flag;
+        }
+      });
+
+      const filterDuplicatesNumbers = checkDuplicatePhone.filter(
+        (item) => item !== undefined
+      );
+
+      console.log("duplicatePhone", checkDuplicatePhone);
 
       const Mutatedata = form.values.entries.map(async (item) => {
-          return  checkExistingUser(item.email)
-      })
-            
+        return checkExistingUser(item.email);
+      });
+
       const values = await Promise.all(Mutatedata);
 
-      console.log('valuessssssssssss0',values)
+      console.log("valuessssssssssss0", values);
 
+      const checkDuplicatesMail = values.filter((item) => item !== undefined);
 
-      const checkDuplicatesMail = values.filter((item)=>item !== undefined)
+      console.log("valuessssssssssssinngg", checkDuplicatesMail);
 
-
-      console.log('valuessssssssssssinngg',checkDuplicatesMail)
-
-      if(checkDuplicatesMail.length > 0){
-
-      return   toast(`${checkDuplicatesMail[0]} already registered`, {
+      if (checkDuplicatesMail.length > 0) {
+        return toast(`${checkDuplicatesMail[0]} already registered`, {
           className: "black-background",
-          bodyClassName: "grow-font-size",  
+          bodyClassName: "grow-font-size",
           progressClassName: "fancy-progress-bar",
         });
+      }
 
+      if (filterDuplicatesNumbers.length > 0) {
+        return toast(
+          `${filterDuplicatesNumbers[0][0].phone} already registered`,
+          {
+            className: "black-background",
+            bodyClassName: "grow-font-size",
+            progressClassName: "fancy-progress-bar",
+          }
+        );
       }
 
       const MutatedataForSending = form.values.entries.map((item) => {
@@ -463,8 +496,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
             },
           },
           password: generateSecurePassword5(item.userName, 12, item.company),
-          address:item.address,
-          phone:item.mobileNumber
+          address: item.address,
+          phone: item.mobileNumber,
         };
       });
 
@@ -479,12 +512,9 @@ const AddTimeLine = ({ AllProjects }: any) => {
           progressClassName: "fancy-progress-bar",
         });
         // Redirect or perform other actions
-        setTimeout(()=>{
-
+        setTimeout(() => {
           router.push("/multi_users_table");
-
-        },1000)
-     
+        }, 1000);
       } else {
         // console.log("ve");
         // setFormErrors(validationErrors);
@@ -496,7 +526,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
   return (
     <>
-{/*     
+      {/*     
     <ToastContainer/> */}
       <form onSubmit={form.onSubmit((values) => {})}>
         <div className="px-5 py-6 ">
