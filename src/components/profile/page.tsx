@@ -71,26 +71,18 @@ const Profile = () => {
   };
 
   const save = async () => {
-    // console.log("---", formData.itskills);
 
-    // console.log("---", formData.keyskills);
-
-    // console.log("---", formData.photograph);
 
     if (!formData.profile_summary) {
       return alert("please enter profile summaary");
     }
-
-    // const all_users = await client.request(PROFILE_USERS)
-
-    // const check = all_users.filter((item)=>item.)
 
     const itskills = formData?.itskills?.map((item: any) => {
       return {
         id: item,
       };
     });
-    // console.log("fm", itskills);
+
 
     const keyskills = formData?.keyskills?.map((item: any) => {
       return {
@@ -211,14 +203,7 @@ const Profile = () => {
                     type="submit"
                     style={
                       {
-                        // height: "50px",
-                        // width: "190px",
-                        // borderRadius: "8px",
-                        // backgroundColor: "red",
-                        // textAlign: "center",
-                        // fontWeight: "bold",
-                        // fontSize: "16px",
-                        // color: "#FFFFFF",
+                
                       }
                     }
                     onClick={() => save()}
@@ -231,13 +216,7 @@ const Profile = () => {
               </Grid.Col>
             </Grid>
           </form>
-          {/* {formSubmitted && (
-            
-              <Modal opened={opened} onClose={close} title="Authentication">
-             <Thanku/>
-            </Modal>
-            
-          )} */}
+     
         </Paper>
       </Container>
     </div>

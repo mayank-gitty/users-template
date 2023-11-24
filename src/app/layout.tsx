@@ -1,5 +1,6 @@
 // import "@mantine/core/styles.css";
 "use client";
+import 'react-toastify/dist/ReactToastify.css';
 import "./globals.css";
 
 import { usePathname } from "next/navigation";
@@ -15,6 +16,7 @@ import SideBar from "@/components/Sidebar/page";
 import { MantineProvider } from "@mantine/core";
 
 import { ThemeProvider, THEME_ID, createTheme } from "@mui/material/styles";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,12 +42,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+      <ToastContainer  />
         <ThemeContextProvider>
           <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>
             <div className="d-flex">
               {pathname !== "/login" && <SideBar />}
 
               <div className={pathname === "/login" ? "w-100" : "w-70"}>
+             
                 {children}
               </div>
             </div>

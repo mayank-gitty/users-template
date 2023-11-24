@@ -170,6 +170,8 @@ const GET_USER = gql`
 query Query($where: UserWhereUniqueInput!) {
   user(where: $where) {
     role
+    name
+    email
   }
 }
 `;
@@ -182,5 +184,6 @@ export {
   EDIT_MASTER,
   VIEW_MASTER,
   PROFILE_USERS,
-  GET_USER
+  GET_USER,
+  
 };

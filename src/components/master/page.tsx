@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "react-toastify";
 
 import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
@@ -35,36 +36,68 @@ export default function Master() {
 
   const router = useRouter();
 
-  const nextStep = () => {
-    console.log(active);
 
+
+  const nextStep = () => {
     if (!formData.photograph && active === 0) {
-      return alert("please upload photo");
+      return toast("please upload photo", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
     if (formData.keyskills.length === 0 && active === 1) {
-      return alert("please select key skills");
+      return toast("please select key skills", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
 
     if (!formData.education && active === 2) {
-      return alert("please select education");
+      return toast("please select education", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
 
     if (!formData.resume_headline && active === 3) {
-      return alert("please enter resume headline");
+      return toast("please enter resume headline", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
 
     if (!formData.total_experience && active === 4) {
-      return alert("please add total experience ");
+      return toast("please add total experience ", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
 
     if (!formData.total_experience_months && active === 4) {
-      return alert("please add experience months");
+      return toast("please add experience months", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
     if (!formData.relevent_experience && active === 4) {
-      return alert("please add relevant experience");
+      return toast("please add relevant experience", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
     if (!formData.total_relevant_months && active === 4) {
-      return alert("please add relevant experience months");
+      return toast("please add relevant experience months", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
 
     const totalExperience =
@@ -80,22 +113,37 @@ export default function Master() {
     // console.log('exp',totalRelevant)
 
     if (parseFloat(totalRelevant) > parseFloat(totalExperience)) {
-      return alert("relevant experience can not greater than total experience");
+      return toast(
+        "relevant experience can not greater than total experience",
+        {
+          className: "black-background",
+          bodyClassName: "grow-font-size",
+          progressClassName: "fancy-progress-bar",
+        }
+      );
     }
 
     if (!formData.resume && active === 5) {
-      return alert("please upload resume in pdf or docx format");
+      return toast("please upload resume in pdf or docx format", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
 
     if (formData.itskills.length === 0 && active === 6) {
-      return alert("please select it skills");
+      return toast("please select it skills", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
 
-    setActive((current) => (current < 8 ? current + 1 : current));
+    setActive((current:number) => (current < 8 ? current + 1 : current));
   };
 
   const prevStep = () =>
-    setActive((current) => (current > 0 ? current - 1 : current));
+    setActive((current:number) => (current > 0 ? current - 1 : current));
 
   const steps = [
     "Select campaign settings",
@@ -115,6 +163,17 @@ export default function Master() {
         {active !== 9 && active !== 7 && active !== 8 && (
           <button className="next-button" onClick={nextStep}>
             Next
+          </button>
+        )}
+      </Group>
+      <Group className="no-margin" position="left" mt="xl" style={{
+        position:"absolute",
+        left:"35%",
+        transform:'translateY(-47px)'
+      }} >
+        {active !== 9  && active !== 8 && active !== 0 && (
+          <button className=" below-back-button" onClick={prevStep}>
+            Previous
           </button>
         )}
       </Group>

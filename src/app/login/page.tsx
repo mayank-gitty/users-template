@@ -80,15 +80,7 @@ const Login = () => {
           <h1 className="text-[50px] font-extrabold text-white pl-28">
             Sign in 
           </h1>
-          {/* <div className="text-[35px] font-semibold text-white pl-28">
-            Lorem Ipsum is simply
-          </div> */}
-          <div className="text-[16px] font-bold text-white pl-28">
-            If you don’t have an account, register
-          </div>
-          <div className="text-[16px] font-bold text-white pl-28">
-            You can <span className="text-[#DAFF70]">Register here !</span>
-          </div>
+    
         </div>
       </div>
 

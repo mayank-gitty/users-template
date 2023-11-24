@@ -14,6 +14,8 @@ import Navbar from "../../components/Navbar";
 import { randomId } from "@mantine/hooks";
 import { Manrope } from "next/font/google";
 
+import { toast, ToastContainer } from "react-toastify";
+
 import { dropDown, projectsData } from "../../utils/data";
 // import { useSession } from "next-auth/react";
 import {
@@ -35,13 +37,12 @@ import {
   getProjectManagerId,
   getReportingManagerId,
 } from "../../utils/serverQueries";
+
+import { GET_USER } from "@/util/queries";
 import { createMultipleUsers } from "../../utils/serverMutations";
 import { useTransition } from "react";
 import client from "../../../helpers/request";
-
-// import { User_data } from "../context/context";
-
-// Define mutation
+import { Console } from "console";
 
 const COMPANIES = gql`
   query Query {
@@ -70,6 +71,25 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
   //   const { data: session }: any = useSession();
 
+  const checkExistingUser= async (email)=>{
+
+
+    console.log('checking email',email)
+
+     const  checking =  await  client.request(GET_USER, {
+      where: {
+        email: email,
+      },
+    })
+
+
+    console.log('response',checking?.user?.email)
+
+    return checking?.user?.email
+
+  }
+
+
   const form = useForm({
     initialValues: {
       userId: "",
@@ -90,9 +110,69 @@ const AddTimeLine = ({ AllProjects }: any) => {
     validate: {
       entries: {
         userName: (value) => (value ? null : "select userName"),
-        mobileNumber: (value) => (value ? null : "select mobileNumber"),
-        email: (value) => (value ? null : "select email"),
+        mobileNumber: (value) => {
+          if (!value) {
+            return "please select number";
+          }
+
+          const mobileNumber = value;
+
+          const check = form?.values?.entries.filter(
+            (item) => item.mobileNumber === value
+          );
+
+          if (check.length > 1) {
+            return "duplicate phone";
+          }
+
+          if (/^[0-9]{10}$/.test(mobileNumber)) {
+            console.log("inside", mobileNumber);
+            return null;
+          } else {
+            console.log("outside", mobileNumber);
+            return "The mobile number is not valid.";
+          }
+        },
+      
+        email:  (value) => {
+      //     console.log("index", value);
+
+          if (!value) {
+            return "please enter mail";
+          }
+
+          if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+            return "please enter valid mail";
+          }
+
+
+      //  const found =  await client.request(GET_USER, {
+      //       where: {
+      //         email: value,
+      //       },
+      //     })
+
+      //     console.log('found',found)
+
+      //     if(found.user !== null){
+
+      //       return 'this email already registered'
+
+      //     }
+    
+          const check = form?.values?.entries.filter(
+            (item) => item.email === value
+          );
+
+          if (check.length > 1) {
+            return "duplicate mail";
+          }
+
+          return null
+
+        },
         address: (value) => (value ? null : "add address"),
+        company: (value) => (value ? null : "please select company"),
       },
     },
   });
@@ -197,24 +277,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
     return username + password;
   }
 
-  // const password = generateSecurePassword(12); // Change the number to set the desired password length
-  // console.log(password);
-
-  // function generatePassword(length,username) {
-  //   // const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=<>?";
-
-  //   // let password = "";
-  //   // for (let i = 0; i < length; i++) {
-  //   //   const randomIndex = Math.floor(Math.random() * charset.length);
-  //   //   password += charset[randomIndex];
-  //   // }
-
-  //   return username + password;
-  // }
-
-  // const password = generatePassword(8); // Change the number to set the desired password length
-  // console.log(password);
-
   function generateSecurePassword5(inputString, length, company) {
     const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -249,7 +311,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
     }
 
     // Create the final password by combining the input string, underscores, and the random portion
-    const underscores = "_".repeat(remainingLength - randomPart.length);
+    // const underscores = "_".repeat(remainingLength - randomPart.length);
     const password = inputString + randomPart + "@" + company;
 
     return password;
@@ -283,10 +345,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
     return password;
   }
-
-  // const inputString = "example"; // Replace with your desired input string
-  // const password = generateSecurePassword(inputString);
-  // console.log(password);
 
   function generatePasswordFromUsername(username) {
     // Function to shuffle an array randomly
@@ -335,35 +393,58 @@ const AddTimeLine = ({ AllProjects }: any) => {
   // const password = generateSecurePassword(seedString, 12); // Change the number to set the desired password length
   // console.log(password);
 
-  const saveAll = async () => {
-    console.log("fv", form.values);
+  function findDuplicateObjects(array, property) {
+    console.log(array, property);
+    const seen = {};
+    const duplicates = [];
 
-    const validationErrors: FormErrors = {};
+    array.forEach((item) => {
+      const value = item[property];
 
-    // if (!form.values.date) {
-    //   validationErrors.date = "Date is required";
-    // }
-
-    form.values.entries.forEach((entry, index) => {
-      if (!entry.userName) {
-        validationErrors[`entries.${index}.userName`] = "User Name is required";
-      }
-      if (!entry.mobileNumber) {
-        validationErrors[`entries.${index}.mobileNumber`] =
-          "Mobile Number is required";
-      }
-      if (!entry.email) {
-        validationErrors[`entries.${index}.email`] = "Email is required";
-      }
-      if (!entry.address) {
-        validationErrors[`entries.${index}.address`] = "Address is required";
+      if (seen[value]) {
+        duplicates.push(item);
+      } else {
+        seen[value] = true;
       }
     });
 
-    if (Object.keys(validationErrors).length === 0) {
-      // Form is valid, submit the data
+    return duplicates;
+  }
 
-      const Mutatedata = form.values.entries.map((item) => {
+  // const CheckUserExist= async (mail)=>{
+
+  //   console.log(users)
+
+  // }
+
+  const saveAll = async () => {
+
+    console.log('form enteries', form.values.entries)
+
+    if (form.validate().hasErrors) {
+      console.log("yes",form.errors);
+      return;
+    } else {
+
+      const Mutatedata = form.values.entries.map(async (item) => {
+          return  checkExistingUser(item.email)
+      })
+            
+      const values = await Promise.all(Mutatedata);
+
+      console.log('valuessssssssssss',values)
+
+      if(values.length > 0 && values[0] !== undefined){
+
+      return   toast(`${values[0]} already registered`, {
+          className: "black-background",
+          bodyClassName: "grow-font-size",  
+          progressClassName: "fancy-progress-bar",
+        });
+
+      }
+
+      const MutatedataForSending = form.values.entries.map((item) => {
         return {
           name: item.userName,
           // role:['Admin'],
@@ -379,19 +460,17 @@ const AddTimeLine = ({ AllProjects }: any) => {
         };
       });
 
-      console.log("pw", Mutatedata);
-
       const user = await client.request(ADD_MULTIPLE_USER, {
-        data: Mutatedata,
+        data: MutatedataForSending,
       });
 
       if (user.createUsers) {
         // Redirect or perform other actions
         router.push("/multi_users_table");
+      } else {
+        // console.log("ve");
+        // setFormErrors(validationErrors);
       }
-    } else {
-      // Form is invalid, show validation errors
-      setFormErrors(validationErrors);
     }
   };
   const clickS = "bg-secondary text-white";
@@ -399,6 +478,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
   return (
     <>
+{/*     
+    <ToastContainer/> */}
       <form onSubmit={form.onSubmit((values) => {})}>
         <div className="px-5 py-6 ">
           {/* Second Navbar */}
@@ -413,13 +494,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
                 <div className="relative"></div>
 
                 <div className="relative">
-                  {/* <button
-                    type="button"
-                    className={`${clickS} px-3 py-2 rounded-lg capitalize mr-2`}
-                    onClick={() => router.push("/")}
-                  >
-                    Go Back
-                  </button> */}
                   <button
                     onClick={() => saveAll()}
                     type="submit"
@@ -486,7 +560,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                       >
                         <TextInput
                           className="border border-gray-300 rounded-lg h-10 w-48 p-2"
-                          placeholder="User Name"
+                          placeholder="Name"
                           {...form.getInputProps(`entries.${0}.userName`)}
                         />
                       </th>

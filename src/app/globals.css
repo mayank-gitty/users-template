@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
 /* global styling*/
 
 .skill-chip {
@@ -223,6 +226,22 @@
   padding-left: 0rem;
   padding-right: 0rem;
   margin-top: 2rem;
+  
+}
+
+.below-back-button {
+  height: 47.816px;
+  border-radius: 7.288px;
+  background: #4d47c3;
+  color: #fff;
+  /* font-family: Poppins; */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding: 6px 16px;
+
+  /* margin-top: 24px; */
 }
 
 .mantine-Paper-root {
@@ -391,14 +410,17 @@ a.page-link {
   height: 100vh;
 }
 
-/* .view-master-card {
-  padding-top: 52px;
-} */
+.skills-container-view-master {
+  /* background:red; */
+  width: 160px;
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .view-master-card .view-box {
   padding: 47px 40px;
-  width: 864.836px;
-  height: 474.071px;
+  width: 900.836px;
+  height: auto;
 }
 
 .profile-img-master-view {
@@ -483,6 +505,35 @@ a.page-link {
   line-height: normal;
   padding-top: 0px;
 }
+
+/* toast styling */
+
+.black-background {
+  background: red !important;
+  color: white !important;
+}
+
+.grow-font-size {
+  /* background: red; */
+  color: white !important;
+}
+
+.green-background {
+  background: green !important;
+  color: white !important;
+}
+
+.fancy-progress-bar {
+  background: white !important;
+  color: yellow !important;
+}
+
+.Toastify__close-button {
+  color: white !important;
+  opacity: 1 !important;
+}
+
+/* toast styling */
 
 /* sidebar  */
 

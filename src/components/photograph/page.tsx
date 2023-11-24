@@ -8,6 +8,8 @@ import { Dropzone } from "@mantine/dropzone";
 
 import { Container, Paper } from "@mantine/core";
 
+import { toast } from "react-toastify";
+
 import {
   createStyles,
   getStylesRef,
@@ -43,16 +45,7 @@ const useStyles = createStyles((theme, props: any) => ({
     width: "30rem",
     height: "201px",
     border: "none",
-    // backgroundPosition:  "0 0, 0 0, 100% 0, 0 100%",
-    // backgroundSize: "3px 100%, 100% 3px, 3px 100% , 100% 3px",
-    // backgroundRepeat: "no-repeat",
-    // // borderRadius: "6px",
-    // backgroundImage:"linear-gradient(to bottom, #000 10%, rgba(255, 255, 255, 0) 0%)",
 
-    // backgroundPosition: "left",
-    // backgroundSize: "3px 10px",
-    // backgroundRepeat: "repeat-y",
-    // border: "3px dashed #000",
     outlineWidth: "2px",
 
     outlineStyle: "dashed !important",
@@ -235,8 +228,6 @@ export default function PhotoUpload(props) {
 
     const i = e?.name;
 
-    // console.log(file,i,e)
-
     console.log("e", e);
 
     var allowedTypes = [
@@ -251,13 +242,15 @@ export default function PhotoUpload(props) {
         ...prevData,
         ["photograph"]: ``,
       }));
-      return alert("Invalid file type. Please upload a  image");
-      //  document.getElementById('fileInput').value = '';
+
+      toast("Invalid file type. Please upload a  image", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
 
     setImage(i);
-
-    // console.log('below')
 
     const resumeData = new FormData();
     resumeData.append("file", file);
@@ -277,14 +270,22 @@ export default function PhotoUpload(props) {
           ...prevData,
           ["photograph"]: `images/${file.name}`,
         }));
-
-        alert("photograph uploaded successfully");
+        toast("photograph uploaded successfully", {
+          className: "green-background",
+          bodyClassName: "grow-font-size",
+          progressClassName: "fancy-progress-bar",
+        });
       } else {
-        console.error("File upload failed.");
+        // console.error("File upload failed.");
       }
     } catch (error) {
       console.error("An error occurred while uploading the file:", error);
-      alert("please upload from your pc directory");
+
+      toast("An error occurred while uploading the file:", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
   };
 
@@ -343,12 +344,6 @@ export default function PhotoUpload(props) {
                     inner: classes.inner,
                     root: classes.dropZoneRoot,
                   }}
-                  // accept={[
-                  //   "image/png",
-                  //   "image/jpeg",
-                  //   "image/sgv+xml",
-                  //   "image/gif",
-                  // ]}
                 >
                   <div>
                     <div>
@@ -367,7 +362,6 @@ export default function PhotoUpload(props) {
                       <FileInput
                         name="myImage"
                         icon={
-                   
                           <Image
                             alt=""
                             src="assets/camera.svg"
@@ -391,25 +385,13 @@ export default function PhotoUpload(props) {
                           required: classes.required,
                           placeholder: classes.placeholder,
                         }}
-                        placeholder={image ? image.slice(0,22) : "Upload Photo"}
+                        placeholder={
+                          image ? image.slice(0, 17) : "Upload Photo"
+                        }
                       />
                     </div>
                   </div>
                 </Dropzone>
-
-                {/*
-     
-        <h4> Select Image </h4>
-        <input type="file" name="myImage" onChange={uploadToClient} />
-
-
-        <button
-          className="btn btn-primary"
-          type="submit"
-          onClick={uploadToServer}
-        >
-          upload
-        </button> */}
               </Paper>
             </div>
           </Container>

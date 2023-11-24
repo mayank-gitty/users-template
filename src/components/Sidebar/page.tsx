@@ -50,6 +50,7 @@ function Sidebar() {
     sethasMaster,
     role,
     setRole,
+    image, setImage
   }: any = useThemeContext();
 
   
@@ -79,12 +80,15 @@ function Sidebar() {
       itskills: [],
       education: null,
       keyskills: [],
+      photograph:"",
       resume_headline: "",
       profile_summary: "",
       total_experience: "",
       relevent_experience: "",
     });
     setActive(0);
+    setImage(null)
+    setRole('')
     sethasMaster(false);
     router.push("/login");
   };

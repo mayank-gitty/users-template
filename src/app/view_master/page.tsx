@@ -149,9 +149,7 @@ export default function View(props: IAppProps) {
 
     const keyskills: any = await client.request(KEY_SKILLS);
 
-    // console.log('allItskills',itskills.itSkills)
-
-    // console.log('allKeyskills',keyskills.keySkills)
+  
 
     form.setFieldValue(
       "allItskills",
@@ -175,13 +173,11 @@ export default function View(props: IAppProps) {
   };
 
   useEffect(() => {
-    // console.log("useEffect", typeof search, search);
 
-    // getDatas();
 
     getData(search);
 
-    // console.log("kas", form.getInputProps("education"));
+   
   }, [search]);
 
   const handleChange = (field: any, e: any) => {
@@ -190,7 +186,7 @@ export default function View(props: IAppProps) {
     form.setFieldValue(field, e);
   };
 
-  // console.log("f", form.getInputProps("photograph").value);
+
 
   return (
     <div className="bg-wrapper  pt-[64px] ">
@@ -272,12 +268,12 @@ export default function View(props: IAppProps) {
                         {" "}
 
                       
-                     Total  {form.getInputProps("total_experience").value}
+                     Total-  {form.getInputProps("total_experience").value}
                       </div>
                       <div className="text-black text-base font-semibold">
                         {" "}
                         
-                      Relevant  {form.getInputProps("relevent_experience").value}{" "}
+                      Relevant-  {form.getInputProps("relevent_experience").value}{" "}
                       </div>
                     </Stack>
                   </Group>
@@ -298,9 +294,11 @@ export default function View(props: IAppProps) {
                       <div className="text-blue-950 text-opacity-50 text-xs font-medium">
                         It skills
                       </div>
-                      <div className="text-black text-base font-semibold">
+                      <div className="text-black text-base font-semibold skills-container-view-master">
                         {" "}
-                        {form.getInputProps("itskills").value?.join(",")}{" "}
+                        {form.getInputProps("itskills")?.value?.map((item:any,index:number)=>{
+                          return <span> {item} {  (index + 1 ) !==   form.getInputProps("itskills")?.value?.length  ? ',' : '' }  </span> 
+                        })}
                       </div>
                     </Stack>
                   </Group>
@@ -317,9 +315,11 @@ export default function View(props: IAppProps) {
                       <div className="text-blue-950 text-opacity-50 text-xs font-medium">
                         Key Skills
                       </div>
-                      <div className="text-black text-base font-semibold">
+                      <div className="text-black text-base font-semibold skills-container-view-master">
                         {" "}
-                        {form.getInputProps("keyskills").value?.join(",")}{" "}
+                        {form.getInputProps("keyskills")?.value?.map((item:any,index:number)=>{
+                          return <span> {item}{(index + 1 ) !==  form.getInputProps("keyskills")?.value?.length  ? ',' : '' }  </span> 
+                        })}
                       </div>
                     </Stack>
                   </Group>

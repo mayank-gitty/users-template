@@ -172,9 +172,6 @@ export default function View(props: IAppProps) {
 
     const keyskills: any = await client.request(KEY_SKILLS);
 
-    // console.log('allItskills',itskills.itSkills)
-
-    // console.log('allKeyskills',keyskills.keySkills)
 
     form.setFieldValue(
       "allItskills",
@@ -198,17 +195,13 @@ export default function View(props: IAppProps) {
   };
 
   useEffect(() => {
-    // console.log("useEffect", typeof search, search);
-
-    // getDatas();
 
     getData(search);
 
     // console.log("kas", form.getInputProps("education"));
   }, [search]);
 
-  // console.log("all-it", form.getInputProps("itskills").value);
-  // console.log("all-it-ley", form.getInputProps("allItskills").value);
+
 
   const handleChange = (field: any, e: any) => {
     console.log("hitting", e);
@@ -216,7 +209,7 @@ export default function View(props: IAppProps) {
     form.setFieldValue(field, e);
   };
 
-  console.log("f", form.getInputProps("photograph").value);
+
 
   return (
     <Box

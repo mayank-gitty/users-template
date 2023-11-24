@@ -1,4 +1,6 @@
 "use client";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import AddTimeLine from "./multipleuser/page";
@@ -37,11 +39,9 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // console.log("kkkkkkkkkkkkkkk");
     const id = localStorage.getItem("id");
 
     if (id) {
-      // setLoggedIn(true);
       getData();
     } else {
       router.push("/login");
@@ -59,8 +59,6 @@ export default function Home() {
       },
     });
 
-    // console.log("checking master", user);
-
     if (user?.profileUsers.length > 0) {
       sethasMaster(true);
     }
@@ -70,25 +68,13 @@ export default function Home() {
       },
     });
 
-    // console.log(profile, "profilefile");
     setRole(profile?.user?.role);
   };
 
-
-
   return (
     <>
-      <MantineProvider>
-        {
-          
-          !hasMaster && 
-
-            <Master/>
-         
-        }
-
- 
-      </MantineProvider>
+      {/* <ToastContainer /> */}
+      <MantineProvider>{!hasMaster && <Master />}</MantineProvider>
     </>
   );
 }

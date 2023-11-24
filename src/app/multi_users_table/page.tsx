@@ -7,38 +7,40 @@ import client from "../../../helpers/request";
 import { link } from "fs";
 
 // Define mutation
-const PROFILE_USERS = gql`
-  query MultipleUsers {
-    multipleUsers {
+const USERS = gql`
+query Users {
+  users {
+    name
+    company {
       name
-      mobilenumber
-      email
-      address
     }
+    role
+    email
   }
+}
 `;
 
 const DatatablePage = () => {
   const [main, setMain] = useState();
 
   const getData = async () => {
-    const user: any = await client.request(PROFILE_USERS);
+    const user: any = await client.request(USERS);
 
-    // console.log("mm", user);
+    console.log("mm", user);
 
-    const users = user?.multipleUsers.map((item: any) => {
+    const users = user?.users.map((item: any) => {
       return {
         name: item.name,
         email: item.email,
-        address: item.address,
-        mobilenumber: item.mobilenumber,
+        // address: item.address,
+        // mobilenumber: item.mobilenumber,
         // photograph: <img src={item?.photograph?.url} />,
         // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         // keyskills: item.keyskills.map((u: any) => u.name).join(", "),
         // itskills: item.itskills.map((u: any) => u.name).join(", "),
         // education: item.education.course,
         // user: item?.user?.name,
-        // company: item?.user?.company?.map((u: any) => u.name).join(", "),
+        company: item?.company?.name,
       };
     });
 
@@ -50,24 +52,24 @@ const DatatablePage = () => {
           sort: "asc",
           width: 150,
         },
-        {
-          label: "Mobile Number",
-          field: "mobilenumber",
-          sort: "asc",
-          width: 150,
-        },
+        // {
+        //   label: "Mobile Number",
+        //   field: "mobilenumber",
+        //   sort: "asc",
+        //   width: 150,
+        // },
         {
           label: "Email",
           field: "email",
           sort: "asc",
           width: 270,
         },
-        {
-          label: "Address",
-          field: "address",
-          sort: "asc",
-          width: 200,
-        },
+        // {
+        //   label: "Address",
+        //   field: "address",
+        //   sort: "asc",
+        //   width: 200,
+        // },
         // {
         //   label: "Keyskills",
         //   field: "keyskills",
@@ -104,7 +106,12 @@ const DatatablePage = () => {
         //   sort: "asc",
         //   width: 100,
         // },
-        // {
+        {
+          label: "Company",
+          field: "company",
+          sort: "asc",
+          width: 100,
+        },
         //   label: "Resume",
         //   field: "resume",
         //   sort: "asc",

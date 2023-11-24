@@ -17,6 +17,8 @@ import {
   FileInput,
 } from "@mantine/core";
 
+import { toast } from 'react-toastify';
+
 const useStyles = createStyles((theme, props: any) => ({
   inner: {
     width: "90%",
@@ -236,8 +238,13 @@ const Resume = (props) => {
         ...prevData,
         ["resume"]: ``,
       }));
-      return alert("Invalid file type. Please upload a  PDF file.");
-      //  document.getElementById('fileInput').value = '';
+
+      return toast("Invalid file type. Please upload a  PDF file.", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+
     }
 
     console.log("below");
@@ -261,7 +268,12 @@ const Resume = (props) => {
           ["resume"]: `files/${file.name}`,
         }));
 
-        alert("resume uploaded successfully");
+        return toast("resume uploaded successfully", {
+          className: "green-background",
+          bodyClassName: "grow-font-size",
+          progressClassName: "fancy-progress-bar",
+        });
+
       } else {
         console.error("File upload failed.");
       }
@@ -359,21 +371,7 @@ const Resume = (props) => {
               </div>
             </Dropzone>
 
-            {/* <div className="profile-upload">
-          {formData.photograph && <img src={formData.photograph} />}
-        </div>
-
-        <h4> Select Image </h4>
-        <input type="file" name="myImage" onChange={uploadToClient} />
-
-
-        <button
-          className="btn btn-primary"
-          type="submit"
-          onClick={uploadToServer}
-        >
-          upload
-        </button> */}
+      
           </Paper>
         </Container>
       </Group>
