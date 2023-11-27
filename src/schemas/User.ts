@@ -60,4 +60,23 @@ export default list({
     }),
     // Add other fields here if needed
   },
+  hooks: {
+    afterOperation: async ({
+      listKey,
+      fieldKey,
+      operation,
+      inputData,
+      originalItem,
+      item,
+      resolvedData,
+      context,
+    }) => {
+      console.log(item, operation);
+
+      if (operation === "create") {
+        console.log("users", item);
+
+      }
+    },
+  },
 });

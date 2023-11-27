@@ -155,20 +155,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
             return "please enter valid mail";
           }
 
-          //  const found =  await client.request(GET_USER, {
-          //       where: {
-          //         email: value,
-          //       },
-          //     })
-
-          //     console.log('found',found)
-
-          //     if(found.user !== null){
-
-          //       return 'this email already registered'
-
-          //     }
-
           const check = form?.values?.entries.filter(
             (item) => item.email === value
           );
@@ -246,63 +232,24 @@ const AddTimeLine = ({ AllProjects }: any) => {
   // }
   // };
 
-  function generateSecurePassword(length, username) {
-    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
-    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const numberChars = "0123456789";
-    const specialChars = "!@#$%^&*()_-+=<>?";
-
-    const allChars =
-      lowercaseChars + uppercaseChars + numberChars + specialChars;
-
-    let password = "";
-    for (let i = 0; i < length; i++) {
-      const charSet = i % 4;
-      switch (charSet) {
-        case 0:
-          password += lowercaseChars.charAt(
-            Math.floor(Math.random() * lowercaseChars.length)
-          );
-          break;
-        case 1:
-          password += uppercaseChars.charAt(
-            Math.floor(Math.random() * uppercaseChars.length)
-          );
-          break;
-        case 2:
-          password += numberChars.charAt(
-            Math.floor(Math.random() * numberChars.length)
-          );
-          break;
-        case 3:
-          password += specialChars.charAt(
-            Math.floor(Math.random() * specialChars.length)
-          );
-          break;
-      }
-    }
-
-    return username + password;
-  }
-
   function generateSecurePassword5(inputString, length, company) {
     const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const numberChars = "0123456789";
 
     // Ensure the password length is at least as long as the input string
-    if (length < inputString.length) {
-      throw new Error(
-        "Password length must be greater than or equal to the length of the input string."
-      );
-    }
+    // if (length < inputString.length) {
+    //   throw new Error(
+    //     "Password length must be greater than or equal to the length of the input string."
+    //   );
+    // }
 
-    const remainingLength = length - inputString.length;
-    const halfLength = Math.floor(remainingLength / 2);
+    // const remainingLength = length - inputString.length;
+    // const halfLength = Math.floor(remainingLength / 2);
 
     // Create a random portion with uppercase, numbers, and special characters
     let randomPart = "";
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       const charSet = i % 3;
       switch (charSet) {
         case 0:
@@ -318,9 +265,11 @@ const AddTimeLine = ({ AllProjects }: any) => {
       }
     }
 
+    console.log("c", randomPart);
+
     // Create the final password by combining the input string, underscores, and the random portion
     // const underscores = "_".repeat(remainingLength - randomPart.length);
-    const password = inputString + randomPart + "@" + company;
+    const password = inputString + randomPart + "@" + "cloud";
 
     return password;
   }
@@ -329,30 +278,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
   // const passwordLength = 12; // Specify the desired password length
   // const password = generateSecurePassword(inputString, passwordLength);
   // console.log(password);
-
-  function generateSecurePassword3(inputString) {
-    // Define a set of special characters
-    const specialChars = "!@#$%^&*()_-+=<>?";
-
-    // Add a random number
-    const randomNum = Math.floor(Math.random() * 10);
-
-    // Add a random uppercase letter
-    const randomUpper = String.fromCharCode(
-      65 + Math.floor(Math.random() * 26)
-    );
-
-    // Select a random special character
-    const randomSpecial = specialChars.charAt(
-      Math.floor(Math.random() * specialChars.length)
-    );
-
-    // Concatenate all the elements to the input string
-    const password =
-      inputString + randomNum + randomUpper + "_" + randomSpecial;
-
-    return password;
-  }
 
   function generatePasswordFromUsername(username) {
     // Function to shuffle an array randomly
@@ -419,11 +344,43 @@ const AddTimeLine = ({ AllProjects }: any) => {
     return duplicates;
   }
 
-  // const CheckUserExist= async (mail)=>{
+  const sendEmails = async (users) => {
+    console.log("rec", users);
 
-  //   console.log(users)
+    const recipients = users.map((item) => {
+      return {
+        to: item.email,
+        subject: "Resource management credentails",
+        text: `welcome ${item?.name} your password is ${item?.password}`,
+      };
+    });
 
-  // }
+    console.log("rec", recipients);
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          recipients: recipients,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("Emails sent successfully");
+        return true;
+      } else {
+        console.error("Failed to send emails");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error sending emails:", error.message);
+    }
+  };
+
+  // Trigger the email sending
 
   const saveAll = async () => {
     console.log("form enteries", form.values.entries);
@@ -432,6 +389,12 @@ const AddTimeLine = ({ AllProjects }: any) => {
       console.log("yes", form.errors);
       return;
     } else {
+      console.log("form valuess ", form.values);
+
+      //   const values = await Promise.all(sendingEmails);
+
+      //   console.log('vpa',values)
+
       const users: any = await client.request(USERS);
 
       console.log("users", users);
@@ -501,26 +464,39 @@ const AddTimeLine = ({ AllProjects }: any) => {
         };
       });
 
+      console.log("generate", MutatedataForSending);
+
       const user = await client.request(ADD_MULTIPLE_USER, {
         data: MutatedataForSending,
       });
 
       if (user.createUsers) {
-        toast("users registered ", {
+        toast("users registered", {
           className: "green-background",
           bodyClassName: "grow-font-size",
           progressClassName: "fancy-progress-bar",
         });
+        const check = await sendEmails(MutatedataForSending);
+
+        if (check) {
+          toast("credentials sent", {
+            className: "green-background",
+            bodyClassName: "grow-font-size",
+            progressClassName: "fancy-progress-bar",
+          });
+        }
+
         // Redirect or perform other actions
         setTimeout(() => {
           router.push("/multi_users_table");
         }, 1000);
       } else {
-        // console.log("ve");
+        // console.log("error",);
         // setFormErrors(validationErrors);
       }
     }
   };
+
   const clickS = "bg-secondary text-white";
   const notClickS = "bg-gray-100 text-black";
 
@@ -549,6 +525,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
                   >
                     Save Users Entry
                   </button>
+
+                  <button onClick={() => sendEmail()}>send mail</button>
                 </div>
               </div>
             </div>
