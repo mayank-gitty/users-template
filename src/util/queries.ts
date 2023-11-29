@@ -9,9 +9,9 @@ const HAS_MASTER = gql`
         id
         email
       }
-      total_experience
+    
       resume_headline
-      relevent_experience
+    
       profile_summary
       photograph
       keyskillsCount
@@ -34,9 +34,9 @@ const PROFILE_USERS = gql`
   query ProfileUsers($orderBy: [ProfileUserOrderByInput!]!) {
     profileUsers(orderBy: $orderBy) {
       id
-      total_experience
+      
       resume_headline
-      relevent_experience
+    
       profile_summary
       keyskillsCount
       user {
@@ -70,9 +70,24 @@ const PROFILE_USER = gql`
       }
       resume
       education
-      total_experience
+      experience {
+
+        title
+      
+        location_type
+        location,
+        start_year
+        start_year_month
+        end_year
+        end_year_month
+        employment_type
+        currently_working
+        company
+
+      }
+      
       resume_headline
-      relevent_experience
+    
       profile_summary
       photograph
       keyskillsCount
@@ -118,9 +133,9 @@ const EDIT_MASTER = gql`
         id
         email
       }
-      total_experience
+    
       resume_headline
-      relevent_experience
+      
       profile_summary
       photograph
       keyskillsCount
@@ -147,9 +162,9 @@ const VIEW_MASTER = gql`
         id
         email
       }
-      total_experience
+  
       resume_headline
-      relevent_experience
+      
       profile_summary
       photograph
       keyskillsCount

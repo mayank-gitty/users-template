@@ -451,6 +451,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
           name: item.userName,
           // role:['Admin'],
           // mobilenumber: item.mobileNumber,
+          role:'employee',
           email: item.email,
           // address: item.address,
           company: {
@@ -526,7 +527,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
                     Save Users Entry
                   </button>
 
-                  <button onClick={() => sendEmail()}>send mail</button>
                 </div>
               </div>
             </div>

@@ -22,8 +22,9 @@ import Thanku from "../../app/thanku/page";
 const PROFILE_USER = gql`
   mutation CreateProfileUser($data: ProfileUserCreateInput!) {
     createProfileUser(data: $data) {
-      total_experience
-      resume_headline
+      experience {
+        title
+      }
     }
   }
 `;
@@ -109,8 +110,11 @@ const Profile = () => {
         photograph: formData.photograph,
         education: formData.education,
         resume_headline: formData.resume_headline,
-        relevent_experience: `${formData.relevent_experience}  ${formData.total_relevant_months} `,
-        total_experience: ` ${formData.total_experience}  ${formData.total_experience_months}  `,
+        // relevent_experience: `${formData.relevent_experience}  ${formData.total_relevant_months} `,
+        // total_experience: ` ${formData.total_experience}  ${formData.total_experience_months}  `,
+        experience:{
+          "create":formData.experiences
+        },
         profile_summary: formData.profile_summary,
         resume: formData.resume,
         // gradingSystem: formData.gradingsystem,
@@ -177,7 +181,11 @@ const Profile = () => {
           </p> */}
 
           <form onSubmit={handleSubmit}>
+
+
             <Grid>
+
+            
               <Grid.Col span={12}>
                 <Textarea
                   placeholder="enter here"

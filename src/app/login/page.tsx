@@ -15,6 +15,27 @@ const Login = () => {
 
   const router = useRouter();
 
+
+  const showPassword = ()=>{
+
+  
+    console.log('hitting')
+
+      var x:any = document.getElementById("myInput");
+
+
+      console.log('xxxxxx',x)
+
+
+
+      if (x.type === "password") {
+        x.type = "text";
+      } else {
+        x.type = "password";
+      }
+  
+    }
+
   const form = useForm({
     initialValues: {
       email: "",
@@ -105,18 +126,20 @@ const Login = () => {
               />
             </div>
             <div className="mb-8">
-              <PasswordInput
+              <PasswordInput 
+                // id="myInput"
                 withAsterisk
                 radius="md"
                 size="lg"
                 className="rounded"
                 placeholder="Password"
                 type="password"
+
                 visibilityToggleIcon={({ reveal, size }) =>
                   reveal ? (
-                    <IconEyeOff size={size} />
+                    <IconEyeOff  onClick={()=> showPassword() } size={size} />
                   ) : (
-                    <IconEyeCheck size={size} />
+                    <IconEyeCheck onClick={()=> showPassword()} size={size} />
                   )
                 }
                 styles={(theme) => ({

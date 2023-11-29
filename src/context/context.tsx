@@ -14,10 +14,11 @@ export const ThemeContextProvider = ({ children }) => {
         keyskills:[],
         resume_headline:"",
         profile_summary:"",
-        total_experience:"",
+        // total_experience:"",
         total_experience_months:"",
-        relevent_experience:"",
+        // relevent_experience:"",
         total_relevant_months:"",
+        experiences:[],
         photograph:"",
         resume:"",
 

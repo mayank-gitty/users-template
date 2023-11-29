@@ -240,8 +240,8 @@ type ProfileUser {
   open_to_work: Boolean
   keyskills(where: KeySkillWhereInput! = {}, orderBy: [KeySkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: KeySkillWhereUniqueInput): [KeySkill!]
   keyskillsCount(where: KeySkillWhereInput! = {}): Int
-  total_experience: String
-  relevent_experience: String
+  experience(where: AddExperienceWhereInput! = {}, orderBy: [AddExperienceOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AddExperienceWhereUniqueInput): [AddExperience!]
+  experienceCount(where: AddExperienceWhereInput! = {}): Int
   profile_summary: String
   createdAt: DateTime
 }
@@ -264,8 +264,7 @@ input ProfileUserWhereInput {
   active: BooleanFilter
   open_to_work: BooleanFilter
   keyskills: KeySkillManyRelationFilter
-  total_experience: StringFilter
-  relevent_experience: StringFilter
+  experience: AddExperienceManyRelationFilter
   profile_summary: StringFilter
   createdAt: DateTimeNullableFilter
 }
@@ -287,6 +286,12 @@ input KeySkillManyRelationFilter {
   none: KeySkillWhereInput
 }
 
+input AddExperienceManyRelationFilter {
+  every: AddExperienceWhereInput
+  some: AddExperienceWhereInput
+  none: AddExperienceWhereInput
+}
+
 input ProfileUserOrderByInput {
   id: OrderDirection
   photograph: OrderDirection
@@ -295,8 +300,6 @@ input ProfileUserOrderByInput {
   education: OrderDirection
   active: OrderDirection
   open_to_work: OrderDirection
-  total_experience: OrderDirection
-  relevent_experience: OrderDirection
   profile_summary: OrderDirection
   createdAt: OrderDirection
 }
@@ -311,8 +314,7 @@ input ProfileUserUpdateInput {
   active: Boolean
   open_to_work: Boolean
   keyskills: KeySkillRelateToManyForUpdateInput
-  total_experience: String
-  relevent_experience: String
+  experience: AddExperienceRelateToManyForUpdateInput
   profile_summary: String
   createdAt: DateTime
 }
@@ -337,6 +339,13 @@ input KeySkillRelateToManyForUpdateInput {
   connect: [KeySkillWhereUniqueInput!]
 }
 
+input AddExperienceRelateToManyForUpdateInput {
+  disconnect: [AddExperienceWhereUniqueInput!]
+  set: [AddExperienceWhereUniqueInput!]
+  create: [AddExperienceCreateInput!]
+  connect: [AddExperienceWhereUniqueInput!]
+}
+
 input ProfileUserUpdateArgs {
   where: ProfileUserWhereUniqueInput!
   data: ProfileUserUpdateInput!
@@ -352,8 +361,7 @@ input ProfileUserCreateInput {
   active: Boolean
   open_to_work: Boolean
   keyskills: KeySkillRelateToManyForCreateInput
-  total_experience: String
-  relevent_experience: String
+  experience: AddExperienceRelateToManyForCreateInput
   profile_summary: String
   createdAt: DateTime
 }
@@ -371,6 +379,11 @@ input ItSkillRelateToManyForCreateInput {
 input KeySkillRelateToManyForCreateInput {
   create: [KeySkillCreateInput!]
   connect: [KeySkillWhereUniqueInput!]
+}
+
+input AddExperienceRelateToManyForCreateInput {
+  create: [AddExperienceCreateInput!]
+  connect: [AddExperienceWhereUniqueInput!]
 }
 
 type Education {
@@ -718,8 +731,11 @@ input CompanyCreateInput {
 
 type AddEducation {
   id: ID!
-  name: String
-  education: String
+  title: String
+  employment_type: String
+  company_name: String
+  location: String
+  location_type: String
   course: String
   university: String
   course_type: String
@@ -738,8 +754,11 @@ input AddEducationWhereInput {
   OR: [AddEducationWhereInput!]
   NOT: [AddEducationWhereInput!]
   id: IDFilter
-  name: StringFilter
-  education: StringFilter
+  title: StringFilter
+  employment_type: StringNullableFilter
+  company_name: StringFilter
+  location: StringFilter
+  location_type: StringNullableFilter
   course: StringFilter
   university: StringFilter
   course_type: StringNullableFilter
@@ -751,8 +770,11 @@ input AddEducationWhereInput {
 
 input AddEducationOrderByInput {
   id: OrderDirection
-  name: OrderDirection
-  education: OrderDirection
+  title: OrderDirection
+  employment_type: OrderDirection
+  company_name: OrderDirection
+  location: OrderDirection
+  location_type: OrderDirection
   course: OrderDirection
   university: OrderDirection
   course_type: OrderDirection
@@ -763,8 +785,11 @@ input AddEducationOrderByInput {
 }
 
 input AddEducationUpdateInput {
-  name: String
-  education: String
+  title: String
+  employment_type: String
+  company_name: String
+  location: String
+  location_type: String
   course: String
   university: String
   course_type: String
@@ -780,8 +805,11 @@ input AddEducationUpdateArgs {
 }
 
 input AddEducationCreateInput {
-  name: String
-  education: String
+  title: String
+  employment_type: String
+  company_name: String
+  location: String
+  location_type: String
   course: String
   university: String
   course_type: String
@@ -789,6 +817,86 @@ input AddEducationCreateInput {
   courseDuration: String
   gradingSystem: String
   marks: String
+}
+
+type AddExperience {
+  id: ID!
+  title: String
+  employment_type: String
+  company: String
+  location: String
+  location_type: String
+  currently_working: Boolean
+  start_year: String
+  start_year_month: String
+  end_year: String
+  end_year_month: String
+}
+
+input AddExperienceWhereUniqueInput {
+  id: ID
+}
+
+input AddExperienceWhereInput {
+  AND: [AddExperienceWhereInput!]
+  OR: [AddExperienceWhereInput!]
+  NOT: [AddExperienceWhereInput!]
+  id: IDFilter
+  title: StringFilter
+  employment_type: StringNullableFilter
+  company: StringFilter
+  location: StringFilter
+  location_type: StringNullableFilter
+  currently_working: BooleanFilter
+  start_year: StringNullableFilter
+  start_year_month: StringNullableFilter
+  end_year: StringNullableFilter
+  end_year_month: StringNullableFilter
+}
+
+input AddExperienceOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+  employment_type: OrderDirection
+  company: OrderDirection
+  location: OrderDirection
+  location_type: OrderDirection
+  currently_working: OrderDirection
+  start_year: OrderDirection
+  start_year_month: OrderDirection
+  end_year: OrderDirection
+  end_year_month: OrderDirection
+}
+
+input AddExperienceUpdateInput {
+  title: String
+  employment_type: String
+  company: String
+  location: String
+  location_type: String
+  currently_working: Boolean
+  start_year: String
+  start_year_month: String
+  end_year: String
+  end_year_month: String
+}
+
+input AddExperienceUpdateArgs {
+  where: AddExperienceWhereUniqueInput!
+  data: AddExperienceUpdateInput!
+}
+
+input AddExperienceCreateInput {
+  title: String
+  employment_type: String
+  company: String
+  location: String
+  location_type: String
+  currently_working: Boolean
+  start_year: String
+  start_year_month: String
+  end_year: String
+  end_year_month: String
 }
 
 """
@@ -851,6 +959,12 @@ type Mutation {
   updateAddEducations(data: [AddEducationUpdateArgs!]!): [AddEducation]
   deleteAddEducation(where: AddEducationWhereUniqueInput!): AddEducation
   deleteAddEducations(where: [AddEducationWhereUniqueInput!]!): [AddEducation]
+  createAddExperience(data: AddExperienceCreateInput!): AddExperience
+  createAddExperiences(data: [AddExperienceCreateInput!]!): [AddExperience]
+  updateAddExperience(where: AddExperienceWhereUniqueInput!, data: AddExperienceUpdateInput!): AddExperience
+  updateAddExperiences(data: [AddExperienceUpdateArgs!]!): [AddExperience]
+  deleteAddExperience(where: AddExperienceWhereUniqueInput!): AddExperience
+  deleteAddExperiences(where: [AddExperienceWhereUniqueInput!]!): [AddExperience]
   endSession: Boolean!
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
@@ -901,6 +1015,9 @@ type Query {
   addEducations(where: AddEducationWhereInput! = {}, orderBy: [AddEducationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AddEducationWhereUniqueInput): [AddEducation!]
   addEducation(where: AddEducationWhereUniqueInput!): AddEducation
   addEducationsCount(where: AddEducationWhereInput! = {}): Int
+  addExperiences(where: AddExperienceWhereInput! = {}, orderBy: [AddExperienceOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AddExperienceWhereUniqueInput): [AddExperience!]
+  addExperience(where: AddExperienceWhereUniqueInput!): AddExperience
+  addExperiencesCount(where: AddExperienceWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }

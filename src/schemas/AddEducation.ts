@@ -7,8 +7,25 @@ import { calendarDay } from '@keystone-6/core/fields';
 export default list({
   access: allowAll,
   fields: {
-    name: text(),
-    education:text(),
+    title: text(),
+    employment_type: select({
+      options: [
+        { label: 'FullTime', value: 'fullTime' },
+        { label: 'PartTime', value: 'partTime' },
+        { label: 'Correspondence', value: 'correspondence' },
+        // Add more roles as needed
+      ],
+    }),
+    company_name:text(),  
+    location:text(),
+    location_type: select({
+      options: [
+        { label: 'FullTime', value: 'fullTime' },
+        { label: 'PartTime', value: 'partTime' },
+        { label: 'Correspondence', value: 'correspondence' },
+        // Add more roles as needed
+      ],
+    }),
     course:text(),
     university: text(),
     course_type: select({

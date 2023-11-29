@@ -70,35 +70,43 @@ export default function Master() {
       });
     }
 
-    if (!formData.total_experience && active === 4) {
-      return toast("please add total experience ", {
+    if (formData.experiences.length === 0  && active === 4) {
+      return toast("please add experience", {
         className: "black-background",
         bodyClassName: "grow-font-size",
         progressClassName: "fancy-progress-bar",
       });
     }
 
-    if (!formData.total_experience_months && active === 4) {
-      return toast("please add experience months", {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
-    if (!formData.relevent_experience && active === 4) {
-      return toast("please add relevant experience", {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
-    if (!formData.total_relevant_months && active === 4) {
-      return toast("please add relevant experience months", {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
+    // if (!formData.total_experience && active === 4) {
+    //   return toast("please add total experience ", {
+    //     className: "black-background",
+    //     bodyClassName: "grow-font-size",
+    //     progressClassName: "fancy-progress-bar",
+    //   });
+    // }
+
+    // if (!formData.total_experience_months && active === 4) {
+    //   return toast("please add experience months", {
+    //     className: "black-background",
+    //     bodyClassName: "grow-font-size",
+    //     progressClassName: "fancy-progress-bar",
+    //   });
+    // }
+    // if (!formData.relevent_experience && active === 4) {
+    //   return toast("please add relevant experience", {
+    //     className: "black-background",
+    //     bodyClassName: "grow-font-size",
+    //     progressClassName: "fancy-progress-bar",
+    //   });
+    // }
+    // if (!formData.total_relevant_months && active === 4) {
+    //   return toast("please add relevant experience months", {
+    //     className: "black-background",
+    //     bodyClassName: "grow-font-size",
+    //     progressClassName: "fancy-progress-bar",
+    //   });
+    // }
 
     const totalExperience =
       parseInt(formData.total_experience) +

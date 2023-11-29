@@ -89,7 +89,8 @@ export default function View(props: IAppProps) {
       name: "",
       status: "",
       work: "",
-      email:"",
+      email: "",
+      experience: [],
     },
     validate: {
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -155,15 +156,15 @@ export default function View(props: IAppProps) {
       // .join(","),
       resume_headline: user?.profileUsers[0]?.resume_headline,
       profile_summary: user.profileUsers[0]?.profile_summary,
-      total_experience: user.profileUsers[0]?.total_experience,
-      relevent_experience: user.profileUsers[0]?.relevent_experience,
+      // total_experience: user.profileUsers[0]?.total_experience,
+      // relevent_experience: user.profileUsers[0]?.relevent_experience,
       photograph: user.profileUsers[0]?.photograph,
       name: user?.profileUsers[0]?.user.name,
       status: user?.profileUsers[0]?.active,
       resume: user?.profileUsers[0]?.resume,
       work: user?.profileUsers[0]?.open_to_work,
-      email:user?.profileUsers[0]?.user?.email
-
+      email: user?.profileUsers[0]?.user?.email,
+      experience: user?.profileUsers[0]?.experience,
     });
   };
 
@@ -171,7 +172,6 @@ export default function View(props: IAppProps) {
     const itskills: any = await client.request(IT_SKILLS);
 
     const keyskills: any = await client.request(KEY_SKILLS);
-
 
     form.setFieldValue(
       "allItskills",
@@ -195,21 +195,16 @@ export default function View(props: IAppProps) {
   };
 
   useEffect(() => {
-
     getData(search);
 
     // console.log("kas", form.getInputProps("education"));
   }, [search]);
-
-
 
   const handleChange = (field: any, e: any) => {
     console.log("hitting", e);
 
     form.setFieldValue(field, e);
   };
-
-
 
   return (
     <Box
@@ -339,7 +334,6 @@ export default function View(props: IAppProps) {
                   />
                 </Group>
                 <Group position="apart" py={12}>
-           
                   <div>
                     <Stack>
                       <div className="text-blue-950 text-opacity-50 text-xs font-medium">
@@ -348,7 +342,7 @@ export default function View(props: IAppProps) {
                     </Stack>
                     <Stack>
                       <div className="text-black text-base font-semibold">
-                      {form.getInputProps("email").value}
+                        {form.getInputProps("email").value}
                       </div>
                     </Stack>
                   </div>
@@ -416,35 +410,44 @@ export default function View(props: IAppProps) {
                     <Group position="apart" py={12}>
                       <div>
                         <Stack spacing={8}>
-                          <div className="text-indigo-950 text-sm font-bold">
-                            Total Experience
-                          </div>
-                          {/* <div className="text-gray-600 text-xs font-normal">
-    Amazon Inc  
-  </div> */}
+                          {form.getInputProps("experience")?.value?.length > 0 &&
+                            form
+                              .getInputProps("experience")
+                              ?.value.map((item: any) => {
+                                return (
+                                  <div className="">
+                                    <div className="text-indigo-950 text-sm font-bold">
+                                      <h6> {item.title} </h6>
+                                      <h6
+                                        style={{
+                                          fontWeight: "400",
+                                        }}
+                                      >
+                                        {" "}
+                                        {item.company} ,{" "}
+                                        <span> {item.employment_type} </span>{" "}
+                                      </h6>
+
+                                      <p style={{
+                                        marginBottom:"0.5rem"
+                                      }} >
+                                        {" "}
+                                        <span> {item.start_year} - </span>{" "}
+                                        <span> {item.end_year} </span> ,
+                                        {item.end_year -
+                                          item.start_year +
+                                          "yrs"}{" "}
+                                      </p>
+
+                                      <p> {item.location} </p>
+                                    </div>
+                                    {/*                
                           <div className="text-gray-600 text-xs font-normal">
                             {form.getInputProps("total_experience")?.value}
-                          </div>
-                        </Stack>
-                      </div>
-                      <Image
-                        src="./images/Edit.svg"
-                        alt="Google"
-                        style={{ width: "24px", height: "24px" }}
-                      />
-                    </Group>
-                    <Group position="apart" py={12}>
-                      <div>
-                        <Stack spacing={8}>
-                          <div className="text-indigo-950 text-sm font-bold">
-                            Relevant Experience
-                          </div>
-                          {/* <div className="text-gray-600 text-xs font-normal">
-    Amazon Inc
-  </div> */}
-                          <div className="text-gray-600 text-xs font-normal">
-                            {form.getInputProps("relevent_experience")?.value}
-                          </div>
+                          </div> */}
+                                  </div>
+                                );
+                              })}
                         </Stack>
                       </div>
                       <Image
@@ -462,7 +465,7 @@ export default function View(props: IAppProps) {
                   <div className="p-4 h-full rounded bg-white">
                     <Group position="apart" className="border-b pb-[10px]">
                       <Group position="left">
-                          <Image
+                        <Image
                           src="./images/educationIcon.svg"
                           alt="Google"
                           style={{ width: "24px", height: "24px" }}
@@ -497,7 +500,6 @@ export default function View(props: IAppProps) {
                         style={{ width: "24px", height: "24px" }}
                       />
                     </Group>
-       
                   </div>
                 </Stack>
               </div>
@@ -525,7 +527,7 @@ export default function View(props: IAppProps) {
                         style={{ width: "32px", height: "32px" }}
                       />
                     </Group>
-          
+
                     <Group position="apart" py={12}>
                       <div>
                         <Stack spacing={8}>

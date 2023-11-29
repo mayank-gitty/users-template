@@ -59,8 +59,15 @@ export default list({
         searchFields: ["name", "version"],
       },
     }),
-    total_experience: text(),
-    relevent_experience: text(),
+    experience: relationship({
+      ref: "AddExperience",
+      many: true,
+      // ui: {
+      //   searchFields: ["name", "version"],
+      // },
+    }),
+    // total_experience: text(),
+    // relevent_experience: text(),
     // projects: relationship({ ref: 'Project', many: true, }),
     profile_summary: text(),
     createdAt: timestamp({

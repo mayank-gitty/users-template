@@ -1,5 +1,5 @@
 import { list } from '@keystone-6/core';
-import { text, password, select, timestamp, file,  relationship  } from '@keystone-6/core/fields';
+import { text, password, select, timestamp, file,  relationship,calendarDay  } from '@keystone-6/core/fields';
 import { allowAll } from '@keystone-6/core/access';
 
 type Session = {

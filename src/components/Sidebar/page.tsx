@@ -16,6 +16,8 @@ function Sidebar() {
   };
 
   const getData = async () => {
+
+
     const user: any = await client.request(HAS_MASTER, {
       where: {
         user: {
@@ -24,7 +26,7 @@ function Sidebar() {
           },
         },
       },
-    });
+    })
 
     // console.log("checking master", user);
 
@@ -37,7 +39,7 @@ function Sidebar() {
       },
     });
 
-    // console.log(profile, "profilefile");
+    console.log(profile, "profilefile");
     setRole(profile?.user?.role);
   };
 

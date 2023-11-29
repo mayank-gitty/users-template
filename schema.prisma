@@ -40,21 +40,20 @@ model MultipleUser {
 }
 
 model ProfileUser {
-  id                  String     @id @default(cuid())
-  user                User?      @relation("ProfileUser_user", fields: [userId], references: [id])
-  userId              String?    @map("user")
-  photograph          String     @default("")
-  resume              String     @default("")
-  resume_headline     String     @default("")
-  itskills            ItSkill[]  @relation("ProfileUser_itskills")
-  education           String     @default("")
-  active              Boolean    @default(true)
-  open_to_work        Boolean    @default(true)
-  keyskills           KeySkill[] @relation("ProfileUser_keyskills")
-  total_experience    String     @default("")
-  relevent_experience String     @default("")
-  profile_summary     String     @default("")
-  createdAt           DateTime?  @default(now())
+  id              String          @id @default(cuid())
+  user            User?           @relation("ProfileUser_user", fields: [userId], references: [id])
+  userId          String?         @map("user")
+  photograph      String          @default("")
+  resume          String          @default("")
+  resume_headline String          @default("")
+  itskills        ItSkill[]       @relation("ProfileUser_itskills")
+  education       String          @default("")
+  active          Boolean         @default(true)
+  open_to_work    Boolean         @default(true)
+  keyskills       KeySkill[]      @relation("ProfileUser_keyskills")
+  experience      AddExperience[] @relation("ProfileUser_experience")
+  profile_summary String          @default("")
+  createdAt       DateTime?       @default(now())
 
   @@index([userId])
 }
@@ -119,8 +118,11 @@ model Company {
 
 model AddEducation {
   id                       String      @id @default(cuid())
-  name                     String      @default("")
-  education                String      @default("")
+  title                    String      @default("")
+  employment_type          String?
+  company_name             String      @default("")
+  location                 String      @default("")
+  location_type            String?
   course                   String      @default("")
   university               String      @default("")
   course_type              String?
@@ -129,4 +131,19 @@ model AddEducation {
   gradingSystem            String      @default("")
   marks                    String      @default("")
   from_Education_education Education[] @relation("Education_education")
+}
+
+model AddExperience {
+  id                          String        @id @default(cuid())
+  title                       String        @default("")
+  employment_type             String?
+  company                     String        @default("")
+  location                    String        @default("")
+  location_type               String?
+  currently_working           Boolean       @default(false)
+  start_year                  String?
+  start_year_month            String?
+  end_year                    String?
+  end_year_month              String?
+  from_ProfileUser_experience ProfileUser[] @relation("ProfileUser_experience")
 }

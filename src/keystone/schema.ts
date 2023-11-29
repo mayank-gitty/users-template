@@ -12,6 +12,7 @@ import Project from '../schemas/Project';
 import AddEducation from '../schemas/AddEducation';
 import Company from '../schemas/Company';
 import KeySkill from '../schemas/KeySkill';
+import AddExperience from '../schemas/AddExperience';
 
 export const lists= {
    User,
@@ -23,4 +24,5 @@ export const lists= {
    Project,
    Company,
    AddEducation,
+   AddExperience
 };

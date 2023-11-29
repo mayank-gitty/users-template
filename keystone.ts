@@ -41,7 +41,6 @@ export default config(
     session, // Use the session configuration from the "auth" module
     ui: {
       isAccessAllowed: (context: any) => !!context.session?.data,
-      
     },
   })
  
