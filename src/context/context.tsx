@@ -9,6 +9,7 @@ const ThemeContext:any = createContext({})
 export const ThemeContextProvider = ({ children }) => {
 
     const initialFormData: any = {
+        profileUserId:"",
         itskills:[],
         education: null,
         keyskills:[],
@@ -35,7 +36,7 @@ export const ThemeContextProvider = ({ children }) => {
     
       const [formData, setFormData] = useState(initialFormData);
 
-      const [active, setActive] = useState(0);
+      const [active, setActive] = useState(4);
 
       const [loggedIn, setLoggedIn] = useState(false);
 

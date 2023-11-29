@@ -8,7 +8,9 @@ import client from '../../../helpers/request';
 import { PROFILE_USER } from '@/util/queries';
 import useThemeContext from '@/context/context';
 import Master from '@/components/master/page';
+import { toast } from "react-toastify";
 import { Group } from '@mantine/core';
+
 
 
 export interface IAppProps {
@@ -64,34 +66,6 @@ export function EditUser (props: IAppProps) {
 
 
     console.log("form data", formData);
-
-
-
-
-   
-
-
-
-
-    // form.setValues({
-    //   itskills: user?.profileUsers[0]?.itskills.map((item: any) => item.name),
-    //   // .join(","),
-    //   education: user?.profileUsers[0]?.education,
-
-    //   keyskills: user?.profileUsers[0]?.keyskills.map((item: any) => item.name),
-    //   // .join(","),
-    //   resume_headline: user?.profileUsers[0]?.resume_headline,
-    //   profile_summary: user.profileUsers[0]?.profile_summary,
-    //   // total_experience: user.profileUsers[0]?.total_experience,
-    //   // relevent_experience: user.profileUsers[0]?.relevent_experience,
-    //   photograph: user.profileUsers[0]?.photograph,
-    //   name: user?.profileUsers[0]?.user.name,
-    //   status: user?.profileUsers[0]?.active,
-    //   resume: user?.profileUsers[0]?.resume,
-    //   work: user?.profileUsers[0]?.open_to_work,
-    //   email: user?.profileUsers[0]?.user?.email,
-    //   experience: user?.profileUsers[0]?.experience,
-    // });
   }
 
   const prevStep = () =>

@@ -69,6 +69,7 @@ export interface IAppProps {}
 export default function View(props: IAppProps) {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
+  const [hasMaster, sethasMaster] = useState(true);
 
   const iconStyle = { width: rem(12), height: rem(12) };
 
@@ -146,6 +147,11 @@ export default function View(props: IAppProps) {
     });
 
     console.log("user profile got", user);
+
+    if (user.profileUsers.length === 0) {
+      // alert('insi')
+      sethasMaster(false);
+    }
 
     form.setValues({
       itskills: user?.profileUsers[0]?.itskills.map((item: any) => item.name),
@@ -281,11 +287,18 @@ export default function View(props: IAppProps) {
                 </div>
 
                 <Group>
-                  <Image
-                    src="./images/profileicon.png"
-                    alt="Google"
-                    style={{ width: "24px", height: "24px" }}
-                  />
+                  {hasMaster && (
+                    <Image
+                      src="./images/profileicon.png"
+                      alt="Google"
+                      style={{ width: "24px", height: "24px" }}
+                      onClick={() =>
+                        router.push(
+                          `/edit_user?id=${localStorage.getItem("id")}`
+                        )
+                      }
+                    />
+                  )}
                 </Group>
               </Group>
 
@@ -327,11 +340,11 @@ export default function View(props: IAppProps) {
                       Basic Information
                     </div>
                   </Group>
-                  <Image
+                  {/* <Image
                     src="./images/profileicon.png"
                     alt="Google"
                     style={{ width: "32px", height: "32px" }}
-                  />
+                  /> */}
                 </Group>
                 <Group position="apart" py={12}>
                   <div>
@@ -401,19 +414,25 @@ export default function View(props: IAppProps) {
                           Experience
                         </div>
                       </Group>
-                      <Image
-                        src="./images/profileicon.png"
-                        alt="Google"
-                        style={{ width: "32px", height: "32px" }}
-                        onClick={() =>
-                          router.push(`/edit_user?id=${localStorage.getItem("id")}`)
-                        }
-                      />
+
+                      {hasMaster && (
+                        <Image
+                          src="./images/profileicon.png"
+                          alt="Google"
+                          style={{ width: "32px", height: "32px" }}
+                          onClick={() =>
+                            router.push(
+                              `/edit_user?id=${localStorage.getItem("id")}`
+                            )
+                          }
+                        />
+                      )}
                     </Group>
                     <Group position="apart" py={12}>
                       <div>
                         <Stack spacing={8}>
-                          {form.getInputProps("experience")?.value?.length > 0 &&
+                          {form.getInputProps("experience")?.value?.length >
+                            0 &&
                             form
                               .getInputProps("experience")
                               ?.value.map((item: any) => {
@@ -431,9 +450,11 @@ export default function View(props: IAppProps) {
                                         <span> {item.employment_type} </span>{" "}
                                       </h6>
 
-                                      <p style={{
-                                        marginBottom:"0.5rem"
-                                      }} >
+                                      <p
+                                        style={{
+                                          marginBottom: "0.5rem",
+                                        }}
+                                      >
                                         {" "}
                                         <span> {item.start_year} - </span>{" "}
                                         <span> {item.end_year} </span> ,
@@ -477,11 +498,19 @@ export default function View(props: IAppProps) {
                           Education
                         </div>
                       </Group>
-                      <Image
-                        src="./images/profileicon.png"
-                        alt="Google"
-                        style={{ width: "32px", height: "32px" }}
-                      />
+
+                      {hasMaster && (
+                        <Image
+                          src="./images/profileicon.png"
+                          alt="Google"
+                          onClick={() =>
+                            router.push(
+                              `/edit_user?id=${localStorage.getItem("id")}`
+                            )
+                          }
+                          style={{ width: "32px", height: "32px" }}
+                        />
+                      )}
                     </Group>
                     <Group position="apart" py={12}>
                       <div>
@@ -497,11 +526,13 @@ export default function View(props: IAppProps) {
                           </div>
                         </Stack>
                       </div>
-                      <Image
-                        src="./images/Edit.svg"
-                        alt="Google"
-                        style={{ width: "24px", height: "24px" }}
-                      />
+                      {
+                        <Image
+                          src="./images/Edit.svg"
+                          alt="Google"
+                          style={{ width: "24px", height: "24px" }}
+                        />
+                      }
                     </Group>
                   </div>
                 </Stack>
@@ -519,16 +550,29 @@ export default function View(props: IAppProps) {
                           src="./images/resume.svg"
                           alt="Google"
                           style={{ width: "24px", height: "24px" }}
+                          onClick={() =>
+                            router.push(
+                              `/edit_user?id=${localStorage.getItem("id")}`
+                            )
+                          }
                         />
                         <div className="text-black text-base font-semibold">
                           Resume
                         </div>
                       </Group>
-                      <Image
-                        src="./images/profileicon.png"
-                        alt="Google"
-                        style={{ width: "32px", height: "32px" }}
-                      />
+
+                      {hasMaster && (
+                        <Image
+                          src="./images/profileicon.png"
+                          alt="Google"
+                          style={{ width: "32px", height: "32px" }}
+                          onClick={() =>
+                            router.push(
+                              `/edit_user?id=${localStorage.getItem("id")}`
+                            )
+                          }
+                        />
+                      )}
                     </Group>
 
                     <Group position="apart" py={12}>

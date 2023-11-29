@@ -14,6 +14,7 @@ import {
 } from "@mantine/core";
 import useThemeContext from "@/context/context";
 import { toast } from "react-toastify";
+import { Console } from "console";
 
 const ExperienceDetails = () => {
   const { setFormData, formData }: any = useThemeContext();
@@ -23,6 +24,7 @@ const ExperienceDetails = () => {
   const [flag, setFlag] = useState(true);
 
   const [experience, setExperience] = useState({
+    id: 'id' + (new Date()).getTime(),
     title: "",
     employment_type: "",
     company: "",
@@ -58,6 +60,25 @@ const ExperienceDetails = () => {
     // }));
 
     setExperience({ ...experience, [field]: value });
+  };
+
+  const deleteExperience = (id: any) => {
+
+
+    console.log('ty',typeof(id))
+
+    console.log("hitting", id);
+
+    console.log("hitting1", formData.experiences);
+
+    const filterExperiences = formData.experiences.filter((item: any) => item.id !== id);
+
+     console.log('d',filterExperiences)
+
+    setFormData((prev: any) => ({
+      ...prev,
+      experiences: filterExperiences,
+    }));
   };
 
   const handleSubmit = (e) => {
@@ -141,6 +162,7 @@ const ExperienceDetails = () => {
     }));
 
     setExperience({
+      id: 'id' + (new Date()).getTime(),
       title: "",
       employment_type: "",
       company: "",
@@ -199,68 +221,65 @@ const ExperienceDetails = () => {
       }}
     >
       <Container size="xs" px="xs">
+        {formData.experiences.length > 0 && (
+          <div className="translateLeft">
+            {" "}
+            <div className="mb-2 font-700">
+              {formData.experiences.length > 0 ? (
+                <span className="mb-2"> total </span>
+              ) : (
+                ""
+              )}
+              {formData.experiences.length > 0 &&
+                formData.experiences.length + " experiences"}{" "}
+            </div>
+            {formData.experiences.length > 0 &&
+              formData.experiences.map((item: any) => {
+                return (
+                  <div className="experience-item text-indigo-950 text-sm font-bold">
+                    <div
+                      className="
+        before"
+                    >
+                      .
+                    </div>
 
-
-{
-
-
-formData.experiences.length > 0 &&
-
-<div className="translateLeft">
-          
-{" "}
-<div className="mb-2 font-700">
-  {formData.experiences.length > 0 ? (
-    <span className="mb-2"  > total </span>
-  ) : (
-    ""
-  )}
-  {formData.experiences.length > 0 &&
-    formData.experiences.length + " experiences"}{" "}
-</div>
-{formData.experiences.length > 0 &&
-  formData.experiences.map((item: any) => {
-    return (
-      <div className="experience-item text-indigo-950 text-sm font-bold">
-
-        <div className="
-        before">.</div>
-
-        <div className="inside">
-
-        <h6  className="font-600" > {item.title} </h6>
-        <h6
-          style={{
-            fontWeight: "400",
-          }}
-        >
-          {" "}
-          {item.company} , <span> {item.employment_type} </span>{" "}
-        </h6>
-
-        <p
-          style={{
-            marginBottom: "0.5rem",
-          }}
-        >
-          {" "}
-          <span> {item.start_year} - </span>{" "}
-          <span> {item.end_year} </span> ,
-          {item.end_year - item.start_year + "yrs"}{" "}
-        </p>
-
-        <p> {item.location} </p>
-        </div>
-  
-      </div>
-    );
-  })}{" "}
-
-</div>
-
-}
-
-      
+                    <div className="inside">
+                      <h6 className="font-600"> {item.title} </h6>{" "}
+                      <span className="delete-experience" >
+                        {" "}
+                         <img  style={{
+                          width:"24px",
+                          cursor:"pointer"
+                         }} src={'assets/bin.png'}
+                         onClick={() => deleteExperience(item.id)}
+                         />
+                      </span>
+                      <h6
+                        style={{
+                          fontWeight: "400",
+                        }}
+                      >
+                        {" "}
+                        {item.company} , <span> {item.employment_type} </span>{" "}
+                      </h6>
+                      <p
+                        style={{
+                          marginBottom: "0.5rem",
+                        }}
+                      >
+                        {" "}
+                        <span> {item.start_year} - </span>{" "}
+                        <span> {item.end_year} </span> ,
+                        {item.end_year - item.start_year + "yrs"}{" "}
+                      </p>
+                      <p> {item.location} </p>
+                    </div>
+                  </div>
+                );
+              })}{" "}
+          </div>
+        )}
 
         {
           <Paper
@@ -498,10 +517,7 @@ formData.experiences.length > 0 &&
                   )}
                 </Grid>
 
-                <button
-                  className="common-btn mt-4"
-                  onClick={() => saveEntry()}
-                >
+                <button className="common-btn mt-4" onClick={() => saveEntry()}>
                   {" "}
                   Save{" "}
                 </button>
@@ -509,10 +525,7 @@ formData.experiences.length > 0 &&
             )}
 
             {!flag && (
-              <button
-                className="common-btn mt-4"
-                onClick={() => setFlag(true)}
-              >
+              <button className="common-btn mt-4" onClick={() => setFlag(true)}>
                 {" "}
                 Add another experience{" "}
               </button>
