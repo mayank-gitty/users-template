@@ -405,6 +405,9 @@ export default function View(props: IAppProps) {
                         src="./images/profileicon.png"
                         alt="Google"
                         style={{ width: "32px", height: "32px" }}
+                        onClick={() =>
+                          router.push(`/edit_user?id=${localStorage.getItem("id")}`)
+                        }
                       />
                     </Group>
                     <Group position="apart" py={12}>

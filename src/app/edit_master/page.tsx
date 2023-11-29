@@ -52,8 +52,9 @@ export default function View(props: IAppProps) {
       keyskills: [],
       resume_headline: "",
       profile_summary: "",
-      total_experience: "",
-      relevent_experience: "",
+      experiences:[],
+      // total_experience: "",
+      // relevent_experience: "",
       photograph: "",
       status: null,
       work: null,
@@ -122,6 +123,7 @@ export default function View(props: IAppProps) {
       status: user?.profileUser?.active,
       work: user?.profileUser?.open_to_work,
       user: user?.profileUser?.user?.name,
+      experiences:user?.profileUser?.experiences
     });
   };
 
@@ -183,8 +185,9 @@ export default function View(props: IAppProps) {
       },
       data: {
         total_experience: values.total_experience,
-        resume_headline: values.resume_headline,
-        relevent_experience: values.relevant_experience,
+        // resume_headline: values.resume_headline,
+        // relevent_experience: values.relevant_experience,
+        experience:values.experience,
         profile_summary: values.profile_summary,
         photograph: values.photograph,
         keyskills: {

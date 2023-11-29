@@ -62,6 +62,7 @@ const PROFILE_USERS = gql`
 const PROFILE_USER = gql`
   query ProfileUsers($where: ProfileUserWhereInput!) {
     profileUsers(where: $where) {
+      id
       user {
         name
         id
@@ -71,7 +72,7 @@ const PROFILE_USER = gql`
       resume
       education
       experience {
-
+        id
         title
       
         location_type

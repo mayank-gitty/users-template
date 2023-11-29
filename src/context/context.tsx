@@ -43,8 +43,10 @@ export const ThemeContextProvider = ({ children }) => {
       const [role, setRole] = useState("");
       const [image, setImage] = useState(null);
 
+      const [inEditPage, setinEditPage] = useState(false);
+
     return (
-        <ThemeContext.Provider value={{formData,setFormData,active, setActive,loggedIn, setLoggedIn ,hasMaster,sethasMaster, role, setRole ,image, setImage}} >
+        <ThemeContext.Provider value={{formData,setFormData,active, setActive,loggedIn, setLoggedIn ,hasMaster,sethasMaster, role, setRole ,image, setImage ,inEditPage, setinEditPage }} >
             {children}
         </ThemeContext.Provider>
     )

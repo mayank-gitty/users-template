@@ -8,7 +8,9 @@ const updateUser = gql`
     $data: ProfileUserUpdateInput!
   ) {
     updateProfileUser(where: $where, data: $data) {
-      total_experience
+      experience {
+        title
+      }
     }
   }
 `;
