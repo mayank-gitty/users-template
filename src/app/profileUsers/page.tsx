@@ -57,7 +57,7 @@ const DatatablePage = () => {
           </button>
         ),
         resume: item.resume ? (
-          <a   download={ ( item.resume.includes('docx' ) || item.resume.includes('doc')  ) ? true : false } target="_blank" className="resume-link" href={item.resume}>
+          <a   download={ ( item.resume.includes('docx' ) || item.resume.includes('doc')  ) ? true : false } target="_blank" className="resume-link" href={item.resume} >
             {" "}
             view resume{" "}
           </a>

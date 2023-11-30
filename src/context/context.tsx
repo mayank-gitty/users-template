@@ -20,6 +20,8 @@ export const ThemeContextProvider = ({ children }) => {
         // relevent_experience:"",
         total_relevant_months:"",
         experiences:[],
+        createdExperiencesOnEdit:[],
+        deletedExperiencesOnEdit:[],
         photograph:"",
         resume:"",
 
@@ -36,7 +38,7 @@ export const ThemeContextProvider = ({ children }) => {
     
       const [formData, setFormData] = useState(initialFormData);
 
-      const [active, setActive] = useState(4);
+      const [active, setActive] = useState(0);
 
       const [loggedIn, setLoggedIn] = useState(false);
 

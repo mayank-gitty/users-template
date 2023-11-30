@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import { useSearchParams } from "next/navigation";
+import useThemeContext from "@/context/context";
 import {
   Button,
   Group,
@@ -35,6 +36,7 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { serialize } from "v8";
 import ProfileUser from "@/schemas/ProfileUser";
+
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -70,6 +72,10 @@ export default function View(props: IAppProps) {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
   const [hasMaster, sethasMaster] = useState(true);
+
+
+  const {setActive }   = useThemeContext()
+
 
   const iconStyle = { width: rem(12), height: rem(12) };
 
@@ -417,13 +423,16 @@ export default function View(props: IAppProps) {
 
                       {hasMaster && (
                         <Image
-                          src="./images/profileicon.png"
+                          src="./assets/addIcon.png"
                           alt="Google"
-                          style={{ width: "32px", height: "32px" }}
+                          style={{ width: "24px", height: "32px" ,"cursor":"pointer" }}
                           onClick={() =>
-                            router.push(
-                              `/edit_user?id=${localStorage.getItem("id")}`
-                            )
+                                 {
+                                  setActive(4)
+                                  router.push(
+                                    `/edit_user?id=${localStorage.getItem("id")}`
+                                  )
+                                 }
                           }
                         />
                       )}
@@ -504,9 +513,13 @@ export default function View(props: IAppProps) {
                           src="./images/profileicon.png"
                           alt="Google"
                           onClick={() =>
+                                        {
+                                 
+                                          setActive(2)
                             router.push(
                               `/edit_user?id=${localStorage.getItem("id")}`
                             )
+                                        }
                           }
                           style={{ width: "32px", height: "32px" }}
                         />
@@ -579,12 +592,13 @@ export default function View(props: IAppProps) {
                       <div>
                         <Stack spacing={8}>
                           <div className="text-indigo-950 text-sm font-bold">
-                            {form
+                      <a     download={ ( form.getInputProps("resume")?.value?.includes('docx' ) || form.getInputProps("resume")?.value?.includes('doc')  ) ? true : false } target="_blank" className="resume-link" href={form.getInputProps("resume")?.value} >       {form
                               .getInputProps("resume")
                               ?.value?.substr(
                                 6,
                                 form.getInputProps("resume")?.value.length
-                              )}
+                              )} </a>
+                       
                           </div>
                           <div className="text-gray-600 text-xs font-normal">
                             867 Kb. Feb 2022

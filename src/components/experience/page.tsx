@@ -35,6 +35,7 @@ const ExperienceDetails = () => {
     end_year: "",
     end_year_month: "",
     currently_working: false,
+    
   });
 
   const type = [
@@ -154,7 +155,7 @@ const ExperienceDetails = () => {
       });
     }
 
-    console.log("entry", experience);
+    console.log("entry", experience,formData);
 
     setFormData((prevData: any) => ({
       ...prevData,
@@ -221,7 +222,7 @@ const ExperienceDetails = () => {
       }}
     >
       <Container size="xs" px="xs">
-        {formData.experiences.length > 0 && (
+        {formData?.experiences?.length > 0 && (
           <div className="translateLeft">
             {" "}
             <div className="mb-2 font-700">

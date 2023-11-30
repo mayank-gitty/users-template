@@ -133,6 +133,8 @@ const EDIT_MASTER = gql`
         name
         id
         email
+        phone
+        address
       }
     
       resume_headline
@@ -162,6 +164,8 @@ const VIEW_MASTER = gql`
         name
         id
         email
+        phone
+        address
       }
   
       resume_headline

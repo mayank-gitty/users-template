@@ -54,7 +54,7 @@ export function EditUser (props: IAppProps) {
         // total_experience_months:"",
         // // relevent_experience:"",
         // total_relevant_months:"",
-        experiences:user.profileUsers[0].experience,
+        experiences:[],
         photograph:user.profileUsers[0].photograph,
         resume:user.profileUsers[0].resume,
       }));

@@ -140,6 +140,7 @@ export default function View(props: IAppProps) {
       relevent_experience: user.profileUser.relevent_experience,
       photograph: user.profileUser.photograph,
       name: user?.profileUser?.user?.name,
+      address: user?.profileUser?.user?.address,
       resume: user.profileUser?.resume,
     });
   };
@@ -360,9 +361,11 @@ export default function View(props: IAppProps) {
                       <div className="text-blue-950 text-opacity-50 text-xs font-medium">
                         Location
                       </div>
-                      {/* <div className="text-black text-base font-semibold">
-                        Noida
-                      </div> */}
+                      <div className="text-black text-base font-semibold">
+                        {
+                          form.getInputProps("address")?.value
+                        }
+                      </div>
                     </Stack>
                   </Group>
                 </Grid.Col>

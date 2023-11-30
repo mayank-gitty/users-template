@@ -71,7 +71,9 @@ const Profile = () => {
     setActive,
     inEditPage,
     setinEditPage,
-  }: any = useThemeContext();
+  }: // createdExperiencesOnEdit,
+  // deletedExperiencesOnEdit
+  any = useThemeContext();
 
   const handleChange = (field, value) => {
     setFormData((prevData) => ({
@@ -84,6 +86,13 @@ const Profile = () => {
     console.log("updateUserProfile", formData.profileUserId);
     console.log("updateUserProfile1", formData.experiences);
 
+    for (var i = 0, len = formData.experiences.length; i < len; i++) {
+      delete formData.experiences[i].id;
+    }
+
+
+    console.log('form',formData.experiences)
+
     const user: any = await client.request(updateUser, {
       where: {
         id: formData.profileUserId,
@@ -93,11 +102,7 @@ const Profile = () => {
         resume_headline: formData.resume_headline,
         // relevent_experience: values.relevant_experience,
         experience: {
-          connect: formData.experiences.map((item: any) => {
-            return {
-              id: item.id,
-            };
-          }),
+          create: formData.experiences
         },
         profile_summary: formData.profile_summary,
         photograph: formData.photograph,
@@ -126,26 +131,23 @@ const Profile = () => {
 
     if (user?.updateProfileUser) {
       setinEditPage(false);
-      setActive(0)
+      setActive(0);
 
       setFormData((prevData) => ({
-        
-        profileUserId:"",
-        itskills:[],
+        profileUserId: "",
+        itskills: [],
         education: null,
-        keyskills:[],
-        resume_headline:"",
-        profile_summary:"",
+        keyskills: [],
+        resume_headline: "",
+        profile_summary: "",
         // total_experience:"",
         // total_experience_months:"",
         // // relevent_experience:"",
         // total_relevant_months:"",
-        experiences:[],
-        photograph:"",
-        resume:"",
+        experiences: [],
+        photograph: "",
+        resume: "",
       }));
-
-
 
       toast("details updated", {
         className: "green-background",
@@ -174,6 +176,12 @@ const Profile = () => {
       };
     });
     // console.log("fm", keyskills);
+
+
+    for (var i = 0, len = formData.experiences.length; i < len; i++) {
+      delete formData.experiences[i].id;
+    }
+
 
     const user = await client.request(PROFILE_USER, {
       data: {
