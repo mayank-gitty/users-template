@@ -78,59 +78,7 @@ export default function Master() {
       });
     }
 
-    // if (!formData.total_experience && active === 4) {
-    //   return toast("please add total experience ", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-
-    // if (!formData.total_experience_months && active === 4) {
-    //   return toast("please add experience months", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-    // if (!formData.relevent_experience && active === 4) {
-    //   return toast("please add relevant experience", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-    // if (!formData.total_relevant_months && active === 4) {
-    //   return toast("please add relevant experience months", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-
-    // const totalExperience =
-    //   parseInt(formData.total_experience) +
-    //   "." +
-    //   parseInt(formData.total_experience_months);
-
-    // const totalRelevant =
-    //   parseInt(formData.relevent_experience) +
-    //   "." +
-    //   parseInt(formData.total_relevant_months);
-
-    // console.log('exp',totalRelevant)
-
-    // if (parseFloat(totalRelevant) > parseFloat(totalExperience)) {
-    //   return toast(
-    //     "relevant experience can not greater than total experience",
-    //     {
-    //       className: "black-background",
-    //       bodyClassName: "grow-font-size",
-    //       progressClassName: "fancy-progress-bar",
-    //     }
-    //   );
-    // }
-
+ 
     if (!formData.resume && active === 5) {
       return toast("please upload resume in pdf or docx format", {
         className: "black-background",

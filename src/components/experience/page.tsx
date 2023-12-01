@@ -162,7 +162,6 @@ const ExperienceDetails = () => {
           "February",
           "March",
           "April",
-
           "May",
           "June",
           "July",
@@ -247,8 +246,6 @@ const ExperienceDetails = () => {
     end_month: any,
     start_month: any
   ) {
-
-
 
     console.log(end_year)
 

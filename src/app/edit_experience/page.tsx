@@ -33,12 +33,20 @@ export function EditUser(props: IAppProps) {
   const search = searchParams.get("id");
 
   const updateUserProfile = async () => {
-    // console.log("updateUserProfile", formData.profileUserId);
-    // console.log("updateUserProfile1", formData.experiences);
 
     for (var i = 0, len = formData.experiences.length; i < len; i++) {
       delete formData.experiences[i].id;
     }
+
+
+    if (formData?.experiences?.length === 0 ) {
+      return toast("please add experience", {
+        className: "black-background",  
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
 
     // console.log('form',formData.experiences)
 
