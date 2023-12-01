@@ -16,7 +16,7 @@ export const ThemeContextProvider = ({ children }) => {
         resume_headline:"",
         profile_summary:"",
         // total_experience:"",
-        total_experience_months:"",
+        total_experience_months:"", 
         // relevent_experience:"",
         total_relevant_months:"",
         experiences:[],
@@ -24,16 +24,6 @@ export const ThemeContextProvider = ({ children }) => {
         deletedExperiencesOnEdit:[],
         photograph:"",
         resume:"",
-
-        
-        // university: "",
-        // course: null,
-        // specialization: null,
-        // coursetype: null,
-        // startingYear: null,
-        // endingYear: null,
-        // gradingsystem: null,
-        // marks: "",
       };
     
       const [formData, setFormData] = useState(initialFormData);

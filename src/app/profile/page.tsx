@@ -17,10 +17,15 @@ import {
   Tabs,
   rem,
   Stack,
+  Grid,
+  Checkbox,
+  TextInput,
+  Input,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faVideo } from "@fortawesome/free-solid-svg-icons";
+import { updateUserExperience, updateUser } from "@/util/mutationQueries";
 
 import {
   IconPhoto,
@@ -36,7 +41,6 @@ import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
 import { serialize } from "v8";
 import ProfileUser from "@/schemas/ProfileUser";
-
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -73,16 +77,84 @@ export default function View(props: IAppProps) {
   const [createObjectURL, setCreateObjectURL] = useState(null);
   const [hasMaster, sethasMaster] = useState(true);
 
+  const { setActive, formData, setFormData } = useThemeContext();
 
-  const {setActive }   = useThemeContext()
-
+  console.log("formdata", formData);
 
   const iconStyle = { width: rem(12), height: rem(12) };
 
   const router = useRouter();
 
+  const [flag, setFlag] = useState(false);
+
+  const [experience, setExperience] = useState({
+    id: "",
+    title: "",
+    employment_type: "",
+    company: "",
+    location: "",
+    location_type: "",
+    start_year: "",
+    start_year_month: "",
+    end_year: "",
+    end_year_month: "",
+    currently_working: false,
+  });
+
+  function generateArrayOfYears() {
+    var max = new Date().getFullYear();
+    var min = max - 30;
+    var years = [];
+
+    for (var i = max; i >= min; i--) {
+      years.push(i.toString());
+    }
+    return years;
+  }
+
+  const options = [
+    { value: "doctorate/phd", label: "Doctorate/Phd" },
+    { value: "masters/post-graduation", label: "Masters/Post-Graduation" },
+    { value: "graduation/diploma", label: "Graduation/Diploma" },
+    { value: "12th", label: "12th" },
+    { value: "10th", label: "10th" },
+    { value: "below10th", label: "Below 10th" },
+  ];
+
+  const yearsData = generateArrayOfYears();
+
+  const releventMonths = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const type = [
+    { label: "FullTime", value: "fullTime" },
+    { label: "PartTime", value: "partTime" },
+    { label: "SelfEmployed", value: "selfEmployed" },
+    { label: "Freelance", value: "freelance" },
+    { label: "Internship", value: "internship" },
+    { label: "Trainee", value: "trainee" },
+  ];
+
+  const locationType = [
+    { label: "remote", value: "remote" },
+    { label: "office", value: "office" },
+  ];
+
   const form: any = useForm({
     initialValues: {
+      profileUserId: "",
       allItskills: [],
       allKeyskills: [],
       itskills: [],
@@ -160,6 +232,7 @@ export default function View(props: IAppProps) {
     }
 
     form.setValues({
+      profileUserId: user.profileUsers[0].id,
       itskills: user?.profileUsers[0]?.itskills.map((item: any) => item.name),
       // .join(","),
       education: user?.profileUsers[0]?.education,
@@ -207,15 +280,78 @@ export default function View(props: IAppProps) {
   };
 
   useEffect(() => {
+    // alert('refresh')
     getData(search);
 
     // console.log("kas", form.getInputProps("education"));
-  }, [search]);
+  }, [search, flag]);
 
   const handleChange = (field: any, e: any) => {
-    console.log("hitting", e);
+    console.log("hitting", field, e);
 
-    form.setFieldValue(field, e);
+    setExperience((prev) => ({
+      ...prev,
+      [field]: e,
+    }));
+  };
+
+  const updateExperience = async () => {
+    console.log("update hitting", experience);
+
+    const user: any = await client.request(updateUserExperience, {
+      data: {
+        title: experience.title,
+        start_year_month: experience.start_year_month,
+        start_year: experience.start_year,
+        location_type: experience.location_type,
+        location: experience.location,
+        end_year_month: experience.end_year_month,
+        end_year: experience.end_year,
+        employment_type: experience.employment_type,
+        currently_working: experience.currently_working,
+        company: experience.company,
+      },
+      where: {
+        id: experience.id,
+      },
+    });
+
+    console.log("updated", user);
+
+    if (user.updateAddExperience) {
+      const button = document.getElementById("modal-close-btn");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+  };
+
+  const updateExperienceEducation = async () => {
+
+
+    const user: any = await client.request(updateUser, {
+      where: {
+        id: form.getInputProps("profileUserId").value,
+      },
+      data: {
+        education: form.getInputProps("education").value,
+      },
+    });
+
+    console.log("updated", user);
+
+    if (user?.updateProfileUser) {
+      const button = document.getElementById("modal-close-btn-education");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
   };
 
   return (
@@ -223,6 +359,345 @@ export default function View(props: IAppProps) {
       mx="auto"
       className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]"
     >
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Edit Experience
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <Grid>
+                <Grid.Col span={12}>
+                  <label htmlFor=" "> Title </label>
+                  <TextInput
+                    placeholder="enter here"
+                    size="md"
+                    value={experience.title}
+                    onChange={(e) => handleChange("title", e.target.value)}
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={12}>
+                  <label htmlFor=" "> Employment Type </label>
+
+                  <Select
+                    value={experience.employment_type}
+                    onChange={(value) => handleChange("employment_type", value)}
+                    data={type}
+                    placeholder="Select type"
+                    styles={(theme) => ({
+                      input: {
+                        height: "100%",
+                      },
+                      values: {
+                        height: "100%",
+                      },
+                      wrapper: {
+                        height: "50px",
+                      },
+
+                      leftIcon: {
+                        marginRight: theme.spacing.md,
+                      },
+                    })}
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={12}>
+                  <label htmlFor=" "> company </label>
+                  <TextInput
+                    placeholder="enter here"
+                    size="md"
+                    value={experience.company}
+                    onChange={(e) => handleChange("company", e.target.value)}
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={12}>
+                  <label htmlFor=" "> location </label>
+                  <TextInput
+                    placeholder="enter here"
+                    size="md"
+                    value={experience.location}
+                    onChange={(e) => handleChange("location", e.target.value)}
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={12}>
+                  <label htmlFor=" "> location type </label>
+                  <Select
+                    value={experience.location_type}
+                    onChange={(value) => handleChange("location_type", value)}
+                    data={locationType}
+                    placeholder="Select type"
+                    styles={(theme) => ({
+                      input: {
+                        height: "100%",
+                      },
+                      values: {
+                        height: "100%",
+                      },
+                      wrapper: {
+                        height: "50px",
+                      },
+
+                      leftIcon: {
+                        marginRight: theme.spacing.md,
+                      },
+                    })}
+                  />
+                </Grid.Col>
+                {/* 
+ <Grid.Col span={12}>
+   <h6 className="experience-label"> Start Year </h6>
+ </Grid.Col> */}
+
+                <Grid.Col span={12}>
+                  <Checkbox
+                    checked={experience.currently_working ? true : false}
+                    label="currently working here"
+                    onChange={(e: any) =>
+                      handleChange("currently_working", e.target.checked)
+                    }
+                  />
+                  {/* 
+                    {experience.currentlyWorking ? "true" : "false"} */}
+                </Grid.Col>
+
+                <Grid.Col span={12}>
+                  <h6 className="experience-label">Start Date</h6>
+                </Grid.Col>
+
+                <Grid.Col span={6}>
+                  <Select
+                    placeholder="Month"
+                    nothingFound="No options"
+                    maxDropdownHeight={280}
+                    onChange={(e) => handleChange("start_year_month", e)}
+                    data={releventMonths}
+                    value={experience.start_year_month}
+                    styles={(theme) => ({
+                      input: {
+                        height: "100%",
+                      },
+                      values: {
+                        height: "100%",
+                      },
+                      wrapper: {
+                        height: "50px",
+                      },
+
+                      leftIcon: {
+                        marginRight: theme.spacing.md,
+                      },
+                    })}
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={6}>
+                  <Select
+                    placeholder="Year"
+                    nothingFound="No options"
+                    maxDropdownHeight={280}
+                    onChange={(e) => handleChange("start_year", e)}
+                    data={yearsData}
+                    value={experience.start_year}
+                    styles={(theme) => ({
+                      input: {
+                        height: "100%",
+                      },
+                      values: {
+                        height: "100%",
+                      },
+                      wrapper: {
+                        height: "50px",
+                      },
+
+                      leftIcon: {
+                        marginRight: theme.spacing.md,
+                      },
+                    })}
+                  />
+                </Grid.Col>
+
+                <Grid.Col span={12}>
+                  <h6 className="experience-label">End Date</h6>
+                </Grid.Col>
+
+                {!experience.currently_working && (
+                  <>
+                    <Grid.Col span={6}>
+                      <Select
+                        placeholder="Month"
+                        nothingFound="No options"
+                        maxDropdownHeight={280}
+                        onChange={(e) => handleChange("end_year_month", e)}
+                        data={releventMonths}
+                        value={experience.end_year_month}
+                        styles={(theme) => ({
+                          input: {
+                            height: "100%",
+                          },
+                          values: {
+                            height: "100%",
+                          },
+                          wrapper: {
+                            height: "50px",
+                          },
+
+                          leftIcon: {
+                            marginRight: theme.spacing.md,
+                          },
+                        })}
+                      />
+                    </Grid.Col>
+
+                    <Grid.Col span={6}>
+                      <Select
+                        placeholder="Year"
+                        nothingFound="No options"
+                        maxDropdownHeight={280}
+                        onChange={(e) => handleChange("end_year", e)}
+                        data={yearsData}
+                        value={experience.end_year}
+                        styles={(theme) => ({
+                          input: {
+                            height: "100%",
+                          },
+                          values: {
+                            height: "100%",
+                          },
+                          wrapper: {
+                            height: "50px",
+                          },
+
+                          leftIcon: {
+                            marginRight: theme.spacing.md,
+                          },
+                        })}
+                      />
+                    </Grid.Col>
+                  </>
+                )}
+              </Grid>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                id="modal-close-btn"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onClick={() => updateExperience()}
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="exampleModalEducation"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Edit Education
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <Grid>
+                <Grid.Col span={12}>
+                  <Input.Wrapper
+                    styles={() => ({
+                      label: {
+                        color: "#01041b",
+                        fontSize: "1.2em",
+                        fontWeight: 500,
+                        lineHeight: 1.2,
+                        marginBottom: 10,
+                      },
+                    })}
+                  >
+                    <Select
+                      value={form.getInputProps("education").value}
+                      onChange={(value) =>
+                        form.setFieldValue("education", value)
+                      }
+                      data={options}
+                      placeholder="Select Education"
+                      styles={(theme) => ({
+                        input: {
+                          height: "100%",
+                        },
+                        values: {
+                          height: "100%",
+                        },
+                        wrapper: {
+                          height: "50px",
+                        },
+
+                        leftIcon: {
+                          marginRight: theme.spacing.md,
+                        },
+                      })}
+                    />
+                  </Input.Wrapper>
+                </Grid.Col>
+              </Grid>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                id="modal-close-btn-education"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onClick={() => updateExperienceEducation()}
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div
         className=""
         // style={{ alignItems: "center", justifyContent: "center" }}
@@ -425,15 +900,19 @@ export default function View(props: IAppProps) {
                         <Image
                           src="./assets/addIcon.png"
                           alt="Google"
-                          style={{ width: "24px", height: "32px" ,"cursor":"pointer" }}
-                          onClick={() =>
-                                 {
-                                  setActive(4)
-                                  router.push(
-                                    `/edit_user?id=${localStorage.getItem("id")}`
-                                  )
-                                 }
-                          }
+                          style={{
+                            width: "24px",
+                            height: "32px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            // setActive(4);
+                            router.push(
+                              `/edit_experience?id=${localStorage.getItem(
+                                "id"
+                              )}`
+                            );
+                          }}
                         />
                       )}
                     </Group>
@@ -446,7 +925,13 @@ export default function View(props: IAppProps) {
                               .getInputProps("experience")
                               ?.value.map((item: any) => {
                                 return (
-                                  <div className="">
+                                  <div
+                                    className="d-flex justify-content-between"
+                                    style={{
+                                      // background:"yellow",
+                                      width: "100%",
+                                    }}
+                                  >
                                     <div className="text-indigo-950 text-sm font-bold">
                                       <h6> {item.title} </h6>
                                       <h6
@@ -474,20 +959,42 @@ export default function View(props: IAppProps) {
 
                                       <p> {item.location} </p>
                                     </div>
-                                    {/*                
-                          <div className="text-gray-600 text-xs font-normal">
-                            {form.getInputProps("total_experience")?.value}
-                          </div> */}
+
+                                    <Image
+                                      onClick={() => {
+                                        setExperience({
+                                          title: item.title,
+                                          employment_type: item.employment_type,
+                                          company: item.company,
+                                          location: item.location,
+                                          location_type: item.location_type,
+                                          start_year: item.start_year,
+                                          start_year_month:
+                                            item.start_year_month,
+                                          end_year: item.end_year,
+                                          end_year_month: item.end_year_month,
+                                          currently_working:
+                                            item.currently_working,
+                                          id: item.id,
+                                        });
+                                      }}
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#exampleModal"
+                                      // data-toggle="modal"
+                                      // data-target="#exampleModalLong"
+                                      src="./images/Edit.svg"
+                                      alt="Google"
+                                      style={{
+                                        width: "24px",
+                                        height: "24px",
+                                        marginLeft: "10rem",
+                                      }}
+                                    />
                                   </div>
                                 );
                               })}
                         </Stack>
                       </div>
-                      <Image
-                        src="./images/Edit.svg"
-                        alt="Google"
-                        style={{ width: "24px", height: "24px" }}
-                      />
                     </Group>
                   </div>
                 </Stack>
@@ -508,22 +1015,20 @@ export default function View(props: IAppProps) {
                         </div>
                       </Group>
 
-                      {hasMaster && (
+                      {/* {hasMaster && (
                         <Image
+                        
                           src="./images/profileicon.png"
                           alt="Google"
-                          onClick={() =>
-                                        {
-                                 
-                                          setActive(2)
-                            router.push(
-                              `/edit_user?id=${localStorage.getItem("id")}`
-                            )
-                                        }
-                          }
+                          onClick={() => {
+                            // setActive(2);
+                            // router.push(
+                            //   `/edit_user?id=${localStorage.getItem("id")}`
+                            // );
+                          }}
                           style={{ width: "32px", height: "32px" }}
                         />
-                      )}
+                      )} */}
                     </Group>
                     <Group position="apart" py={12}>
                       <div>
@@ -531,9 +1036,7 @@ export default function View(props: IAppProps) {
                           <div className="text-indigo-950 text-sm font-bold">
                             Highest Education
                           </div>
-                          {/* <div className="text-gray-600 text-xs font-normal">
-    Amazon Inc  
-  </div> */}
+
                           <div className="text-gray-600 text-xs font-normal">
                             {form.getInputProps("education")?.value}
                           </div>
@@ -541,6 +1044,8 @@ export default function View(props: IAppProps) {
                       </div>
                       {
                         <Image
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModalEducation"
                           src="./images/Edit.svg"
                           alt="Google"
                           style={{ width: "24px", height: "24px" }}
@@ -592,13 +1097,29 @@ export default function View(props: IAppProps) {
                       <div>
                         <Stack spacing={8}>
                           <div className="text-indigo-950 text-sm font-bold">
-                      <a     download={ ( form.getInputProps("resume")?.value?.includes('docx' ) || form.getInputProps("resume")?.value?.includes('doc')  ) ? true : false } target="_blank" className="resume-link" href={form.getInputProps("resume")?.value} >       {form
-                              .getInputProps("resume")
-                              ?.value?.substr(
-                                6,
-                                form.getInputProps("resume")?.value.length
-                              )} </a>
-                       
+                            <a
+                              download={
+                                form
+                                  .getInputProps("resume")
+                                  ?.value?.includes("docx") ||
+                                form
+                                  .getInputProps("resume")
+                                  ?.value?.includes("doc")
+                                  ? true
+                                  : false
+                              }
+                              target="_blank"
+                              className="resume-link"
+                              href={form.getInputProps("resume")?.value}
+                            >
+                              {" "}
+                              {form
+                                .getInputProps("resume")
+                                ?.value?.substr(
+                                  6,
+                                  form.getInputProps("resume")?.value.length
+                                )}{" "}
+                            </a>
                           </div>
                           <div className="text-gray-600 text-xs font-normal">
                             867 Kb. Feb 2022

@@ -131,7 +131,9 @@ const steps = [
 ];
 
 export default function CustomizedSteppers() {
-  const { setFormData, formData, active, setActive }: any = useThemeContext();
+
+
+  const { setFormData, formData, active, setActive   }: any = useThemeContext();
 
   const prevStep = () =>
     setActive((current:any) => (current > 0 ? current - 1 : current));

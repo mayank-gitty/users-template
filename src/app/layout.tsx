@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "bootstrap-css-only/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.min.js"
 import "mdbreact/dist/css/mdb.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";

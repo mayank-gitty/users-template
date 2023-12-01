@@ -83,8 +83,8 @@ const Profile = () => {
   };
 
   const updateUserProfile = async () => {
-    console.log("updateUserProfile", formData.profileUserId);
-    console.log("updateUserProfile1", formData.experiences);
+    // console.log("updateUserProfile", formData.profileUserId);
+    // console.log("updateUserProfile1", formData.experiences);
 
     for (var i = 0, len = formData.experiences.length; i < len; i++) {
       delete formData.experiences[i].id;

@@ -24,7 +24,7 @@ const ExperienceDetails = () => {
   const [flag, setFlag] = useState(true);
 
   const [experience, setExperience] = useState({
-    id: 'id' + (new Date()).getTime(),
+    id: "id" + new Date().getTime(),
     title: "",
     employment_type: "",
     company: "",
@@ -35,13 +35,12 @@ const ExperienceDetails = () => {
     end_year: "",
     end_year_month: "",
     currently_working: false,
-    
   });
 
   const type = [
-    { label: "FullTime", value: "fullTime" },
-    { label: "PartTime", value: "partTime" },
-    { label: "SelfEmployed", value: "selfEmployed" },
+    { label: "Full-time", value: "fullTime" },
+    { label: "Part-time", value: "partTime" },
+    { label: "Self-employed", value: "selfEmployed" },
     { label: "Freelance", value: "freelance" },
     { label: "Internship", value: "internship" },
     { label: "Trainee", value: "trainee" },
@@ -55,26 +54,15 @@ const ExperienceDetails = () => {
   const handleChange = (field, value) => {
     console.log("field", field, value);
 
-    // setFormData((prevData) => ({
-    //   ...prevData,
-    //   [field]: value,
-    // }));
-
     setExperience({ ...experience, [field]: value });
   };
 
   const deleteExperience = (id: any) => {
+    const filterExperiences = formData.experiences.filter(
+      (item: any) => item.id !== id
+    );
 
-
-    console.log('ty',typeof(id))
-
-    console.log("hitting", id);
-
-    console.log("hitting1", formData.experiences);
-
-    const filterExperiences = formData.experiences.filter((item: any) => item.id !== id);
-
-     console.log('d',filterExperiences)
+    // console.log("d", filterExperiences);
 
     setFormData((prev: any) => ({
       ...prev,
@@ -155,7 +143,68 @@ const ExperienceDetails = () => {
       });
     }
 
-    console.log("entry", experience,formData);
+    if (experience.start_year && experience.end_year) {
+      if (experience.end_year < experience.start_year) {
+        return toast(
+          "invalid duration, end year can not be smaller than start year",
+          {
+            className: "black-background",
+            bodyClassName: "grow-font-size",
+
+            progressClassName: "fancy-progress-bar",
+          }
+        );
+      }
+
+      if (experience.end_year === experience.start_year) {
+        const releventMonths = [
+          "January",
+          "February",
+          "March",
+          "April",
+
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ].map((item, index) => ({ label: item, value: index + 1 }));
+
+        const startMonthNumber = releventMonths.filter(
+          (item) => item.label === experience.start_year_month
+        )[0].value;
+
+        const endMonthNumber = releventMonths.filter(
+          (item) => item.label === experience.end_year_month
+        )[0].value;
+
+        console.log("190", startMonthNumber, endMonthNumber);
+
+        if (experience.start_year_month === experience.end_year_month) {
+          return toast(
+            "invalid duration, start date can not be equal to end date",
+            {
+              className: "black-background",
+              bodyClassName: "grow-font-size",
+              progressClassName: "fancy-progress-bar",
+            }
+          );
+        }
+        if (endMonthNumber < startMonthNumber) {
+          return toast(
+            "invalid duration, end date can not be small then start date",
+            {
+              className: "black-background",
+              bodyClassName: "grow-font-size",
+              progressClassName: "fancy-progress-bar",
+            }
+          );
+        }
+      }
+    }
 
     setFormData((prevData: any) => ({
       ...prevData,
@@ -163,7 +212,7 @@ const ExperienceDetails = () => {
     }));
 
     setExperience({
-      id: 'id' + (new Date()).getTime(),
+      id: "id" + new Date().getTime(),
       title: "",
       employment_type: "",
       company: "",
@@ -192,11 +241,88 @@ const ExperienceDetails = () => {
 
   const yearsData = generateArrayOfYears();
 
+  function calculateDuration(
+    end_year: any,
+    start_year: any,
+    end_month: any,
+    start_month: any
+  ) {
+
+
+
+    console.log(end_year)
+
+    console.log(start_year)
+
+    console.log(end_month)
+
+    console.log(start_month)
+
+    // Create Date objects for the selected start and end dates
+    const startDateObj = new Date(start_year, start_month - 1, 1);
+    const endDateObj = new Date(end_year, end_month - 1, 1);
+
+    // Calculate the difference in months
+    const monthsDifference =
+      (endDateObj.getFullYear() - startDateObj.getFullYear()) * 12 +
+      endDateObj.getMonth() -
+      startDateObj.getMonth();
+
+    // Calculate the number of years and remaining months
+    const years = Math.floor(monthsDifference / 12);
+    const remainingMonths = monthsDifference % 12;
+
+    return { years, months: remainingMonths };
+  }
+
+  const formatExperience = (
+    end_year: any,
+    start_year: any,
+    start_month: any,
+    end_month: any
+  ) => {
+    const releventMonthsData = [
+      "January",
+      "February",
+      "March",
+      "April",
+
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ].map((item, index) => ({ label: item, value: index + 1 }));
+
+    const startMonthNumber = releventMonthsData.filter(
+      (item) => item.label === start_month
+    )[0].value;
+
+    const endMonthNumber = releventMonthsData.filter(
+      (item) => item.label === end_month
+    )[0].value;
+
+    const duration = calculateDuration(
+      end_year,
+      start_year,
+      endMonthNumber,
+      startMonthNumber
+    );
+
+    return ` ${duration.years} years and ${duration.months} months`;
+  };
+
+
+
   const releventMonths = [
     "January",
     "February",
     "March",
     "April",
+
     "May",
     "June",
     "July",
@@ -205,11 +331,7 @@ const ExperienceDetails = () => {
     "October",
     "November",
     "December",
-  ];
-
-  console.log("data", formData);
-
-  // console.log('years',data,releventMonths)
+  ]
 
   return (
     <div
@@ -247,14 +369,16 @@ const ExperienceDetails = () => {
 
                     <div className="inside">
                       <h6 className="font-600"> {item.title} </h6>{" "}
-                      <span className="delete-experience" >
+                      <span className="delete-experience">
                         {" "}
-                         <img  style={{
-                          width:"24px",
-                          cursor:"pointer"
-                         }} src={'assets/bin.png'}
-                         onClick={() => deleteExperience(item.id)}
-                         />
+                        <img
+                          style={{
+                            width: "24px",
+                            cursor: "pointer",
+                          }}
+                          src={"assets/bin.png"}
+                          onClick={() => deleteExperience(item.id)}
+                        />
                       </span>
                       <h6
                         style={{
@@ -272,7 +396,12 @@ const ExperienceDetails = () => {
                         {" "}
                         <span> {item.start_year} - </span>{" "}
                         <span> {item.end_year} </span> ,
-                        {item.end_year - item.start_year + "yrs"}{" "}
+                        {formatExperience(
+                          item.end_year,
+                          item.start_year,
+                          item.start_year_month,
+                          item.end_year_month
+                        )}{" "}
                       </p>
                       <p> {item.location} </p>
                     </div>
@@ -293,9 +422,9 @@ const ExperienceDetails = () => {
             {flag && (
               <>
                 <h6 className="box-heading"> Add experience details </h6>
-                <p className="box-sub-heading">
+                {/* <p className="box-sub-heading">
                   Specify total experience and relevant experience
-                </p>
+                </p> */}
               </>
             )}
 
@@ -305,7 +434,7 @@ const ExperienceDetails = () => {
                   <Grid.Col span={12}>
                     <label htmlFor=" "> Title </label>
                     <TextInput
-                      placeholder="enter here"
+                      placeholder="Ex: Retail Sales Manager"
                       size="md"
                       // value={formData.profile_summary}
                       onChange={(e) => handleChange("title", e.target.value)}
@@ -313,7 +442,7 @@ const ExperienceDetails = () => {
                   </Grid.Col>
 
                   <Grid.Col span={12}>
-                    <label htmlFor=" "> Employment Type </label>
+                    <label htmlFor=" "> Employment type </label>
 
                     <Select
                       // value={formData.education}
@@ -321,7 +450,7 @@ const ExperienceDetails = () => {
                         handleChange("employment_type", value)
                       }
                       data={type}
-                      placeholder="Select type"
+                      placeholder="Please select"
                       styles={(theme) => ({
                         input: {
                           height: "100%",
@@ -341,9 +470,9 @@ const ExperienceDetails = () => {
                   </Grid.Col>
 
                   <Grid.Col span={12}>
-                    <label htmlFor=" "> company </label>
+                    <label htmlFor=" "> Company name </label>
                     <TextInput
-                      placeholder="enter here"
+                      placeholder="Ex: Microsoft"
                       size="md"
                       // value={formData.profile_summary}
                       onChange={(e) => handleChange("company", e.target.value)}
@@ -353,7 +482,7 @@ const ExperienceDetails = () => {
                   <Grid.Col span={12}>
                     <label htmlFor=" "> location </label>
                     <TextInput
-                      placeholder="enter here"
+                      placeholder="Ex: London, United Kingdom"
                       size="md"
                       // value={formData.profile_summary}
                       onChange={(e) => handleChange("location", e.target.value)}
@@ -361,12 +490,12 @@ const ExperienceDetails = () => {
                   </Grid.Col>
 
                   <Grid.Col span={12}>
-                    <label htmlFor=" "> location type </label>
+                    <label htmlFor=" "> Location type </label>
                     <Select
                       // value={formData.education}
                       onChange={(value) => handleChange("location_type", value)}
                       data={locationType}
-                      placeholder="Select type"
+                      placeholder="Please select"
                       styles={(theme) => ({
                         input: {
                           height: "100%",
@@ -384,17 +513,13 @@ const ExperienceDetails = () => {
                       })}
                     />
                   </Grid.Col>
-                  {/* 
- <Grid.Col span={12}>
-   <h6 className="experience-label"> Start Year </h6>
- </Grid.Col> */}
 
                   <Grid.Col span={12}>
                     <Checkbox
                       checked={experience.currently_working ? true : false}
-                      label="currently working here"
+                      label="I am currently working in this role"
                       onChange={(e: any) =>
-                        handleChange("currently_Working", e.target.checked)
+                        handleChange("currently_working", e.target.checked)
                       }
                     />
                     {/* 

@@ -42,24 +42,7 @@ const gradingSystemOptions = [
   { value: "8", label: "8" },
 ];
 
-// const customStyles = {
-  
-//     input: {
-//       height:"100%"
-//     },
-//     values:{
-//     height:"100%"
-//     },
-//     wrapper:{
-//       height:"50px"
-//     },
 
-//     leftIcon: {
-//       marginRight: theme.spacing.md,
-//     },
-//   }
-//   // Add more custom styles as needed
-// };
 
 const Education1: React.FC = () => {
   // const initialFormData: any = {

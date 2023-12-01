@@ -11,11 +11,15 @@ import Master from "@/components/master/page";
 import { toast } from "react-toastify";
 import { Group } from "@mantine/core";
 import ExperienceDetails from "@/components/experience/page";
+import { updateUser, updateUserExperience } from "@/util/mutationQueries";
+import { useRouter } from "next/navigation";
 
 export interface IAppProps {}
 
 export function EditUser(props: IAppProps) {
   const searchParams: any = useSearchParams();
+
+  const router = useRouter();
 
   const {
     formData,
@@ -24,9 +28,82 @@ export function EditUser(props: IAppProps) {
     setActive,
     inEditPage,
     setinEditPage,
-  } = useThemeContext();
+  }:any = useThemeContext();
 
   const search = searchParams.get("id");
+
+  const updateUserProfile = async () => {
+    // console.log("updateUserProfile", formData.profileUserId);
+    // console.log("updateUserProfile1", formData.experiences);
+
+    for (var i = 0, len = formData.experiences.length; i < len; i++) {
+      delete formData.experiences[i].id;
+    }
+
+    // console.log('form',formData.experiences)
+
+    const user: any = await client.request(updateUser, {
+      where: {
+        id: formData.profileUserId,
+      },
+      data: {
+  
+        resume_headline: formData.resume_headline,
+ 
+        experience: {
+          create: formData.experiences,
+        },
+        profile_summary: formData.profile_summary,
+        photograph: formData.photograph,
+        keyskills: {
+          connect: formData.keyskills.map((item: any) => {
+            return {
+              id: item,
+            };
+          }),
+        },
+        itskills: {
+          connect: formData.itskills.map((item: any) => {
+            return {
+              id: item,
+            };
+          }),
+        },
+        education: formData.education,
+        // active: formData.status,
+        // // open_to_work: formData.work,
+        // createdAt: new Date(), 
+      },  
+    });
+
+    // console.log("updated", user);
+
+    if (user?.updateProfileUser) {
+      setinEditPage(false);
+      setActive(0);
+
+      setFormData((prevData) => ({
+        profileUserId: "",
+        itskills: [],
+        education: null,
+        keyskills: [],
+        resume_headline: "",
+        profile_summary: "",
+
+        experiences: [],
+        photograph: "",
+        resume: "",
+      }));
+
+      toast("details updated", {
+        className: "green-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+
+      return router.push(`profile?id=${localStorage.getItem("id")}`);
+    }
+  };
 
   const getData = async (search: any) => {
     // console.log("id", search);
@@ -41,7 +118,7 @@ export function EditUser(props: IAppProps) {
       },
     });
 
-    console.log("user profile got in edit profile ", user);
+    // console.log("user profile got in edit profile ", user);
 
     if (user?.profileUsers.length > 0) {
       setFormData((prevData: any) => ({
@@ -51,10 +128,7 @@ export function EditUser(props: IAppProps) {
         keyskills: user.profileUsers[0].keyskills.map((item: any) => item.id),
         resume_headline: user.profileUsers[0].resume_headline,
         profile_summary: user.profileUsers[0].profile_summary,
-        // total_experience:"",
-        // total_experience_months:"",
-        // // relevent_experience:"",
-        // total_relevant_months:"",
+    
         experiences: [],
         photograph: user.profileUsers[0].photograph,
         resume: user.profileUsers[0].resume,
@@ -63,7 +137,7 @@ export function EditUser(props: IAppProps) {
       setinEditPage(true);
     }
 
-    console.log("form data", formData);
+    // console.log("form data", formData);
   };
 
   const prevStep = () =>
@@ -71,8 +145,6 @@ export function EditUser(props: IAppProps) {
 
   useEffect(() => {
     getData(search);
-
-    // console.log("kas", form.getInputProps("education"));
   }, [search]);
 
   const nextStep = () => {
@@ -115,7 +187,6 @@ export function EditUser(props: IAppProps) {
       });
     }
 
-
     if (!formData.resume && active === 5) {
       return toast("please upload resume in pdf or docx format", {
         className: "black-background",
@@ -138,24 +209,18 @@ export function EditUser(props: IAppProps) {
   return (
     <div>
       <div className="text-center">
-        <h6 className="mt-4 mb-4">  </h6>
+        <h6 className="mt-4 mb-4"> </h6>
       </div>
 
       {/* <CustomizedSteppers /> */}
 
-      {
-
-
-             active  === 4 && <ExperienceDetails/>
-
-      }
+      <ExperienceDetails />
 
       <Group className="no-margin" position="center" mt="xl">
-        {active !== 9 && active !== 7 && active !== 8 && (
-          <button className="next-button" onClick={nextStep}>
-            Next
-          </button>
-        )}
+        <button className="next-button" onClick={updateUserProfile}>
+          {" "}
+          submit{" "}
+        </button>
       </Group>
       <Group
         className="no-margin"
@@ -167,16 +232,6 @@ export function EditUser(props: IAppProps) {
           transform: "translateY(-47px)",
         }}
       >
-
-
-
-        {/* {active !== 9 && active !== 8 && active !== 0 && (
-          <button className=" below-back-button" onClick={prevStep}>
-            Previous
-          </button>
-        )} */}
-
-
       </Group>
     </div>
   );
