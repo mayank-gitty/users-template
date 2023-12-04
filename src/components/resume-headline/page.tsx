@@ -30,7 +30,7 @@ const ResumeHeadline = () => {
     }));
   };
 
-  const handleSubmit = (e) => { 
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     setFormSubmitted(true);
@@ -50,7 +50,7 @@ const ResumeHeadline = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "auto",
-        marginTop:"1.5rem"
+        marginTop: "1.5rem",
       }}
     >
       <Container size="xs" px="xs">
@@ -61,13 +61,8 @@ const ResumeHeadline = () => {
             width: "30rem",
           }}
         >
-
-<h6  className="box-heading" > Resume Headline </h6>
-          <p className="box-sub-heading" >
-            Write the resume headline
-          </p>
-    
-
+          <h6 className="box-heading"> Resume Headline </h6>
+          <p className="box-sub-heading">Write the resume headline</p>
 
           <form onSubmit={handleSubmit}>
             <Grid>
@@ -75,6 +70,8 @@ const ResumeHeadline = () => {
                 <Textarea
                   placeholder="write here"
                   size="md"
+                  minLength={5}
+                  maxLength={100}
                   value={formData.resume_headline}
                   onChange={(e) =>
                     handleChange("resume_headline", e.target.value)

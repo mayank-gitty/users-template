@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import useThemeContext from "@/context/context";
 import { toast } from "react-toastify";
-import { Console } from "console";
+import { Console, error } from "console";
 
 const ExperienceDetails = () => {
   const { setFormData, formData }: any = useThemeContext();
@@ -91,9 +91,30 @@ const ExperienceDetails = () => {
         progressClassName: "fancy-progress-bar",
       });
     }
+    if (experience.title.length < 5) {
+      return toast("title should have 5 min characters ", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
 
     if (!experience.employment_type) {
       return toast("please add employment type", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (!experience.company) {
+      return toast("please add company", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (experience.company.length < 5) {
+      return toast("company name should have 5 min characters", {
         className: "black-background",
         bodyClassName: "grow-font-size",
         progressClassName: "fancy-progress-bar",
@@ -247,13 +268,6 @@ const ExperienceDetails = () => {
     start_month: any
   ) {
 
-    console.log(end_year)
-
-    console.log(start_year)
-
-    console.log(end_month)
-
-    console.log(start_month)
 
     // Create Date objects for the selected start and end dates
     const startDateObj = new Date(start_year, start_month - 1, 1);
@@ -329,6 +343,9 @@ const ExperienceDetails = () => {
     "November",
     "December",
   ]
+
+
+
 
   return (
     <div
@@ -428,9 +445,15 @@ const ExperienceDetails = () => {
             {flag && (
               <form onSubmit={handleSubmit}>
                 <Grid>
+      
                   <Grid.Col span={12}>
                     <label htmlFor=" "> Title </label>
                     <TextInput
+                      minLength={5}
+                      maxLength={30}
+                      id="experience-title"
+                      // error={'jjj'}
+         
                       placeholder="Ex: Retail Sales Manager"
                       size="md"
                       // value={formData.profile_summary}
@@ -471,6 +494,8 @@ const ExperienceDetails = () => {
                     <TextInput
                       placeholder="Ex: Microsoft"
                       size="md"
+                      minLength={5}
+                      maxLength={30}
                       // value={formData.profile_summary}
                       onChange={(e) => handleChange("company", e.target.value)}
                     />

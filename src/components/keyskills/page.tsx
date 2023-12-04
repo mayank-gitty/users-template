@@ -172,10 +172,14 @@ const prevStep = () =>
                   value={formData.keyskills}
                   data={DefaultSkills}
                 />
+        
               </Grid.Col>
   
-  
             </Grid>
+            
+            <small  style={{
+              color:'grey'
+            }} > maximum 5 allowed </small>
           </form>
           {formSubmitted && (
             <div

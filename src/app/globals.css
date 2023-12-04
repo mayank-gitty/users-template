@@ -27,48 +27,34 @@
   margin-top: 24px;
 }
 
-
 .experience-item {
-
   display: flex;
   align-items: start;
-
-} 
+}
 
 .experience-item .inside {
-
   margin-left: 1rem;
   /* background: #000; */
   width: 90%;
   position: relative;
 }
 
-
 .delete-experience {
-
-
   /* background: red; */
   position: absolute;
   right: 0;
   top: 0;
-  
-
 }
 
 .experience-item .before {
-
-/* 
+  /* 
   content: "."; */
   font-size: 40px;
   transform: translateY(-10px);
   /* width: 20px;
   height: 20px; */
   /* position: absolute; */
-
-
 }
-
-
 
 /* global styling */
 

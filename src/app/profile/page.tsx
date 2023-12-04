@@ -25,7 +25,11 @@ import {
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faVideo } from "@fortawesome/free-solid-svg-icons";
-import { updateUserExperience, updateUser } from "@/util/mutationQueries";
+import {
+  updateUserExperience,
+  updateUser,
+  deleteExperience,
+} from "@/util/mutationQueries";
 
 import {
   IconPhoto,
@@ -232,7 +236,7 @@ export default function View(props: IAppProps) {
     }
 
     form.setValues({
-      profileUserId: user.profileUsers[0].id,
+      profileUserId: user.profileUsers[0]?.id,
       itskills: user?.profileUsers[0]?.itskills.map((item: any) => item.name),
       // .join(","),
       education: user?.profileUsers[0]?.education,
@@ -241,8 +245,7 @@ export default function View(props: IAppProps) {
       // .join(","),
       resume_headline: user?.profileUsers[0]?.resume_headline,
       profile_summary: user.profileUsers[0]?.profile_summary,
-      // total_experience: user.profileUsers[0]?.total_experience,
-      // relevent_experience: user.profileUsers[0]?.relevent_experience,
+
       photograph: user.profileUsers[0]?.photograph,
       name: user?.profileUsers[0]?.user.name,
       status: user?.profileUsers[0]?.active,
@@ -295,8 +298,31 @@ export default function View(props: IAppProps) {
     }));
   };
 
+  const deleteSpecificExperience = async () => {
+    console.log("delete hitting", experience);
+
+    const user: any = await client.request(deleteExperience, {
+      where: {
+        id: experience.id,
+      },
+    });
+
+    if (user.deleteAddExperience) {
+      const button = document.getElementById("modal-close-btn");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+  };
+
   const updateExperience = async () => {
     console.log("update hitting", experience);
+
+
+    
 
     const user: any = await client.request(updateUserExperience, {
       data: {
@@ -316,7 +342,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    console.log("updated", user);
+    // console.log("updated", user);
 
     if (user.updateAddExperience) {
       const button = document.getElementById("modal-close-btn");
@@ -330,6 +356,7 @@ export default function View(props: IAppProps) {
   };
 
   const updateExperienceEducation = async () => {
+
 
 
     const user: any = await client.request(updateUser, {
@@ -597,6 +624,13 @@ export default function View(props: IAppProps) {
             </div>
             <div class="modal-footer">
               <button
+                className="btn btn-danger"
+                onClick={() => deleteSpecificExperience()}
+              >
+                {" "}
+                delete{" "}
+              </button>
+              <button
                 type="button"
                 id="modal-close-btn"
                 class="btn btn-secondary"
@@ -768,7 +802,7 @@ export default function View(props: IAppProps) {
                 </div>
 
                 <Group>
-                  {hasMaster && (
+                  {/* {hasMaster && (
                     <Image
                       src="./images/profileicon.png"
                       alt="Google"
@@ -779,7 +813,7 @@ export default function View(props: IAppProps) {
                         )
                       }
                     />
-                  )}
+                  )} */}
                 </Group>
               </Group>
 
@@ -1014,21 +1048,6 @@ export default function View(props: IAppProps) {
                           Education
                         </div>
                       </Group>
-
-                      {/* {hasMaster && (
-                        <Image
-                        
-                          src="./images/profileicon.png"
-                          alt="Google"
-                          onClick={() => {
-                            // setActive(2);
-                            // router.push(
-                            //   `/edit_user?id=${localStorage.getItem("id")}`
-                            // );
-                          }}
-                          style={{ width: "32px", height: "32px" }}
-                        />
-                      )} */}
                     </Group>
                     <Group position="apart" py={12}>
                       <div>
@@ -1079,7 +1098,7 @@ export default function View(props: IAppProps) {
                         </div>
                       </Group>
 
-                      {hasMaster && (
+                      {/* {hasMaster && (
                         <Image
                           src="./images/profileicon.png"
                           alt="Google"
@@ -1090,7 +1109,7 @@ export default function View(props: IAppProps) {
                             )
                           }
                         />
-                      )}
+                      )} */}
                     </Group>
 
                     <Group position="apart" py={12}>

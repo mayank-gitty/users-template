@@ -90,8 +90,7 @@ const Profile = () => {
       delete formData.experiences[i].id;
     }
 
-
-    console.log('form',formData.experiences)
+    console.log("form", formData.experiences);
 
     const user: any = await client.request(updateUser, {
       where: {
@@ -102,7 +101,7 @@ const Profile = () => {
         resume_headline: formData.resume_headline,
         // relevent_experience: values.relevant_experience,
         experience: {
-          create: formData.experiences
+          create: formData.experiences,
         },
         profile_summary: formData.profile_summary,
         photograph: formData.photograph,
@@ -161,7 +160,18 @@ const Profile = () => {
 
   const save = async () => {
     if (!formData.profile_summary) {
-      return alert("please enter profile summaary");
+      return toast("please enter profile summaary", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (formData.profile_summary.length < 10) {
+      return toast("please summary should have minimum 10 characters", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
 
     const itskills = formData?.itskills?.map((item: any) => {
@@ -177,11 +187,9 @@ const Profile = () => {
     });
     // console.log("fm", keyskills);
 
-
     for (var i = 0, len = formData.experiences.length; i < len; i++) {
       delete formData.experiences[i].id;
     }
-
 
     const user = await client.request(PROFILE_USER, {
       data: {
@@ -278,6 +286,8 @@ const Profile = () => {
                   placeholder="enter here"
                   size="md"
                   value={formData.profile_summary}
+                  minLength={10}
+                  maxLength={100}
                   onChange={(e) =>
                     handleChange("profile_summary", e.target.value)
                   }
@@ -292,37 +302,20 @@ const Profile = () => {
                   paddingTop: "10px",
                 }}
               >
-                {inEditPage ? (
-                  <div className="">
-                    <Group position="right" mt="md">
-                      <Button
-                        className="next-button"
-                        type="button"
-                        style={{}}
-                        onClick={() => updateUserProfile()}
-                      >
-                        save
-                      </Button>
+                <div className="">
+                  <Group position="right" mt="md">
+                    <Button
+                      className="next-button"
+                      type="submit"
+                      style={{}}
+                      onClick={() => save()}
+                    >
+                      submit
+                    </Button>
 
-                      <></>
-                    </Group>
-                  </div>
-                ) : (
-                  <div className="">
-                    <Group position="right" mt="md">
-                      <Button
-                        className="next-button"
-                        type="submit"
-                        style={{}}
-                        onClick={() => save()}
-                      >
-                        submit
-                      </Button>
-
-                      <></>
-                    </Group>
-                  </div>
-                )}
+                    <></>
+                  </Group>
+                </div>
               </Grid.Col>
             </Grid>
           </form>

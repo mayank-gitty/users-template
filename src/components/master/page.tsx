@@ -36,8 +36,6 @@ export default function Master() {
 
   const router = useRouter();
 
-
-
   const nextStep = () => {
     if (!formData.photograph && active === 0) {
       return toast("please upload photo", {
@@ -69,6 +67,13 @@ export default function Master() {
         progressClassName: "fancy-progress-bar",
       });
     }
+    if (formData.resume_headline.length < 5 && active === 3) {
+      return toast("resume headline should have minimum 5 characters", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
 
     if (formData?.experiences?.length === 0  && active === 4) {
       return toast("please add experience", {
@@ -78,7 +83,6 @@ export default function Master() {
       });
     }
 
- 
     if (!formData.resume && active === 5) {
       return toast("please upload resume in pdf or docx format", {
         className: "black-background",
@@ -125,10 +129,13 @@ export default function Master() {
       <Group className="no-margin" position="left" mt="xl" style={{
         position:"absolute",
         left:"35%",
-        transform:'translateY(-47px)'
+        transform:'translateY(-47px)',
+        marginTop:"0"
       }} >
         {active !== 9  && active !== 8 && active !== 0 && (
-          <button className=" below-back-button" onClick={prevStep}>
+          <button className="below-back-button" onClick={prevStep}  style={{
+            marginTop:"0px !important"
+          }} >
             Previous
           </button>
         )}

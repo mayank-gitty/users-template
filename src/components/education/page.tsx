@@ -139,22 +139,6 @@ const Education1: React.FC = () => {
 
     if (Object.values(newErrors).every((error) => !error)) {
       console.log("Form data submitted:", formData);
-
-      // const user = await client.request(ADD_MULTIPLE_USER, {
-      //   data: {
-      //     courseDuration: `startYear: ${formData.startingYear.value}  endYear : ${formData.endingYear.value}`,
-      //     course_type: formData.coursetype,
-      //     education: formData.education?.value,
-      //     gradingSystem: formData.gradingsystem,
-      //     course: formData.course.value,
-      //     marks: formData.marks,
-      //     specialization: formData.specialization.value,
-      //     university: formData.university,
-      //   },
-      // });
-
-      // console.log("education-created", user);
-
       setSubmissionSuccess(true);
     } else {
       console.log("Form contains errors:", newErrors);
