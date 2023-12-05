@@ -583,6 +583,20 @@ a.page-link {
   opacity: 1 !important;
 }
 
+
+
+.translateLeftEducation {
+
+margin-top: 4rem;
+  transform: translateX(-180%);
+  position: absolute;
+  background: whitesmoke;
+  border-radius: 10px;
+  width: 16rem;
+  padding: 10px 10px;
+
+}
+
 .translateLeft {
   transform: translateX(-140%);
 

@@ -235,7 +235,8 @@ type ProfileUser {
   resume_headline: String
   itskills(where: ItSkillWhereInput! = {}, orderBy: [ItSkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ItSkillWhereUniqueInput): [ItSkill!]
   itskillsCount(where: ItSkillWhereInput! = {}): Int
-  education: String
+  education(where: AddEducationWhereInput! = {}, orderBy: [AddEducationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AddEducationWhereUniqueInput): [AddEducation!]
+  educationCount(where: AddEducationWhereInput! = {}): Int
   active: Boolean
   open_to_work: Boolean
   keyskills(where: KeySkillWhereInput! = {}, orderBy: [KeySkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: KeySkillWhereUniqueInput): [KeySkill!]
@@ -260,7 +261,7 @@ input ProfileUserWhereInput {
   resume: StringFilter
   resume_headline: StringFilter
   itskills: ItSkillManyRelationFilter
-  education: StringFilter
+  education: AddEducationManyRelationFilter
   active: BooleanFilter
   open_to_work: BooleanFilter
   keyskills: KeySkillManyRelationFilter
@@ -273,6 +274,12 @@ input ItSkillManyRelationFilter {
   every: ItSkillWhereInput
   some: ItSkillWhereInput
   none: ItSkillWhereInput
+}
+
+input AddEducationManyRelationFilter {
+  every: AddEducationWhereInput
+  some: AddEducationWhereInput
+  none: AddEducationWhereInput
 }
 
 input BooleanFilter {
@@ -297,7 +304,6 @@ input ProfileUserOrderByInput {
   photograph: OrderDirection
   resume: OrderDirection
   resume_headline: OrderDirection
-  education: OrderDirection
   active: OrderDirection
   open_to_work: OrderDirection
   profile_summary: OrderDirection
@@ -310,7 +316,7 @@ input ProfileUserUpdateInput {
   resume: String
   resume_headline: String
   itskills: ItSkillRelateToManyForUpdateInput
-  education: String
+  education: AddEducationRelateToManyForUpdateInput
   active: Boolean
   open_to_work: Boolean
   keyskills: KeySkillRelateToManyForUpdateInput
@@ -330,6 +336,13 @@ input ItSkillRelateToManyForUpdateInput {
   set: [ItSkillWhereUniqueInput!]
   create: [ItSkillCreateInput!]
   connect: [ItSkillWhereUniqueInput!]
+}
+
+input AddEducationRelateToManyForUpdateInput {
+  disconnect: [AddEducationWhereUniqueInput!]
+  set: [AddEducationWhereUniqueInput!]
+  create: [AddEducationCreateInput!]
+  connect: [AddEducationWhereUniqueInput!]
 }
 
 input KeySkillRelateToManyForUpdateInput {
@@ -357,7 +370,7 @@ input ProfileUserCreateInput {
   resume: String
   resume_headline: String
   itskills: ItSkillRelateToManyForCreateInput
-  education: String
+  education: AddEducationRelateToManyForCreateInput
   active: Boolean
   open_to_work: Boolean
   keyskills: KeySkillRelateToManyForCreateInput
@@ -374,6 +387,11 @@ input UserRelateToOneForCreateInput {
 input ItSkillRelateToManyForCreateInput {
   create: [ItSkillCreateInput!]
   connect: [ItSkillWhereUniqueInput!]
+}
+
+input AddEducationRelateToManyForCreateInput {
+  create: [AddEducationCreateInput!]
+  connect: [AddEducationWhereUniqueInput!]
 }
 
 input KeySkillRelateToManyForCreateInput {
@@ -428,12 +446,6 @@ input EducationWhereInput {
   add_below_10th: StringFilter
 }
 
-input AddEducationManyRelationFilter {
-  every: AddEducationWhereInput
-  some: AddEducationWhereInput
-  none: AddEducationWhereInput
-}
-
 input EducationOrderByInput {
   id: OrderDirection
   university: OrderDirection
@@ -466,13 +478,6 @@ input EducationUpdateInput {
   add_below_10th: String
 }
 
-input AddEducationRelateToManyForUpdateInput {
-  disconnect: [AddEducationWhereUniqueInput!]
-  set: [AddEducationWhereUniqueInput!]
-  create: [AddEducationCreateInput!]
-  connect: [AddEducationWhereUniqueInput!]
-}
-
 input EducationUpdateArgs {
   where: EducationWhereUniqueInput!
   data: EducationUpdateInput!
@@ -492,11 +497,6 @@ input EducationCreateInput {
   add_class_X11: String
   add_class_X: String
   add_below_10th: String
-}
-
-input AddEducationRelateToManyForCreateInput {
-  create: [AddEducationCreateInput!]
-  connect: [AddEducationWhereUniqueInput!]
 }
 
 type ItSkill {
@@ -731,18 +731,16 @@ input CompanyCreateInput {
 
 type AddEducation {
   id: ID!
-  title: String
-  employment_type: String
-  company_name: String
-  location: String
-  location_type: String
-  course: String
-  university: String
-  course_type: String
-  specialization: String
-  courseDuration: String
-  gradingSystem: String
-  marks: String
+  school: String
+  degree: String
+  field_of_study: String
+  grade: String
+  activities: String
+  description: String
+  start_year: String
+  start_year_month: String
+  end_year: String
+  end_year_month: String
 }
 
 input AddEducationWhereUniqueInput {
@@ -754,49 +752,43 @@ input AddEducationWhereInput {
   OR: [AddEducationWhereInput!]
   NOT: [AddEducationWhereInput!]
   id: IDFilter
-  title: StringFilter
-  employment_type: StringNullableFilter
-  company_name: StringFilter
-  location: StringFilter
-  location_type: StringNullableFilter
-  course: StringFilter
-  university: StringFilter
-  course_type: StringNullableFilter
-  specialization: StringFilter
-  courseDuration: StringFilter
-  gradingSystem: StringFilter
-  marks: StringFilter
+  school: StringFilter
+  degree: StringFilter
+  field_of_study: StringFilter
+  grade: StringFilter
+  activities: StringFilter
+  description: StringFilter
+  start_year: StringNullableFilter
+  start_year_month: StringNullableFilter
+  end_year: StringNullableFilter
+  end_year_month: StringNullableFilter
 }
 
 input AddEducationOrderByInput {
   id: OrderDirection
-  title: OrderDirection
-  employment_type: OrderDirection
-  company_name: OrderDirection
-  location: OrderDirection
-  location_type: OrderDirection
-  course: OrderDirection
-  university: OrderDirection
-  course_type: OrderDirection
-  specialization: OrderDirection
-  courseDuration: OrderDirection
-  gradingSystem: OrderDirection
-  marks: OrderDirection
+  school: OrderDirection
+  degree: OrderDirection
+  field_of_study: OrderDirection
+  grade: OrderDirection
+  activities: OrderDirection
+  description: OrderDirection
+  start_year: OrderDirection
+  start_year_month: OrderDirection
+  end_year: OrderDirection
+  end_year_month: OrderDirection
 }
 
 input AddEducationUpdateInput {
-  title: String
-  employment_type: String
-  company_name: String
-  location: String
-  location_type: String
-  course: String
-  university: String
-  course_type: String
-  specialization: String
-  courseDuration: String
-  gradingSystem: String
-  marks: String
+  school: String
+  degree: String
+  field_of_study: String
+  grade: String
+  activities: String
+  description: String
+  start_year: String
+  start_year_month: String
+  end_year: String
+  end_year_month: String
 }
 
 input AddEducationUpdateArgs {
@@ -805,18 +797,16 @@ input AddEducationUpdateArgs {
 }
 
 input AddEducationCreateInput {
-  title: String
-  employment_type: String
-  company_name: String
-  location: String
-  location_type: String
-  course: String
-  university: String
-  course_type: String
-  specialization: String
-  courseDuration: String
-  gradingSystem: String
-  marks: String
+  school: String
+  degree: String
+  field_of_study: String
+  grade: String
+  activities: String
+  description: String
+  start_year: String
+  start_year_month: String
+  end_year: String
+  end_year_month: String
 }
 
 type AddExperience {

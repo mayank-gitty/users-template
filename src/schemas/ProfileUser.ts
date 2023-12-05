@@ -29,7 +29,13 @@ export default list({
         searchFields: ["name", "version"],
       },
     }),
-    education:text(),
+    education:  relationship({
+      ref: "AddEducation",
+      many: true,
+      // ui: {
+      //   searchFields: ["name", "version"],
+      // },
+    }),
     active: checkbox({
       defaultValue: true,
       }),

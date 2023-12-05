@@ -122,7 +122,7 @@ function ColorlibStepIcon(props: StepIconProps) {
 const steps = [
   "Profile photo",
   "Key skills",
-  "Highest education",
+  "education",
   "Resume headline",
   "Expererience",
   "Upload resume",

@@ -62,7 +62,7 @@ const ExperienceDetails = () => {
       (item: any) => item.id !== id
     );
 
-    // console.log("d", filterExperiences);
+
 
     setFormData((prev: any) => ({
       ...prev,
@@ -261,6 +261,23 @@ const ExperienceDetails = () => {
 
   const yearsData = generateArrayOfYears();
 
+  const releventMonths = [
+    "January",
+    "February",
+    "March",
+    "April",
+
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ]
+
+
   function calculateDuration(
     end_year: any,
     start_year: any,
@@ -325,26 +342,6 @@ const ExperienceDetails = () => {
 
     return ` ${duration.years} years and ${duration.months} months`;
   };
-
-
-
-  const releventMonths = [
-    "January",
-    "February",
-    "March",
-    "April",
-
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ]
-
-
 
 
   return (

@@ -52,8 +52,8 @@ export default function Master() {
       });
     }
 
-    if (!formData.education && active === 2) {
-      return toast("please select education", {
+    if (formData?.educations?.length === 0  && active === 2) {
+      return toast("please add education", {
         className: "black-background",
         bodyClassName: "grow-font-size",
         progressClassName: "fancy-progress-bar",

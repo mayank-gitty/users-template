@@ -11,6 +11,7 @@ import Master from "@/components/master/page";
 import { toast } from "react-toastify";
 import { Group } from "@mantine/core";
 import ExperienceDetails from "@/components/experience/page";
+import Education1 from "@/components/education/page";
 import { updateUser, updateUserExperience } from "@/util/mutationQueries";
 import { useRouter } from "next/navigation";
 
@@ -28,34 +29,29 @@ export function EditUser(props: IAppProps) {
     setActive,
     inEditPage,
     setinEditPage,
-  }:any = useThemeContext();
+  }: any = useThemeContext();
 
   const search = searchParams.get("id");
 
   const updateUserProfile = async () => {
-
-    for (var i = 0, len = formData.experiences.length; i < len; i++) {
-      delete formData.experiences[i].id;
+    for (var i = 0, len = formData.educations.length; i < len; i++) {
+      delete formData.educations[i].id;
     }
 
-
-    if (formData?.experiences?.length === 0 ) {
+    if (formData?.educations?.length === 0) {
       return toast("please add experience", {
-        className: "black-background",  
+        className: "black-background",
         bodyClassName: "grow-font-size",
         progressClassName: "fancy-progress-bar",
       });
     }
-
 
     const user: any = await client.request(updateUser, {
       where: {
         id: formData.profileUserId,
       },
       data: {
-  
         resume_headline: formData.resume_headline,
- 
         experience: {
           create: formData.experiences,
         },
@@ -75,14 +71,11 @@ export function EditUser(props: IAppProps) {
             };
           }),
         },
-        education: formData.education,
-        // active: formData.status,
-        // // open_to_work: formData.work,
-        // createdAt: new Date(), 
-      },  
+        education: {
+            create: formData.educations,
+        },
+      },
     });
-
-    // console.log("updated", user);
 
     if (user?.updateProfileUser) {
       setinEditPage(false);
@@ -124,8 +117,6 @@ export function EditUser(props: IAppProps) {
       },
     });
 
-    // console.log("user profile got in edit profile ", user);
-
     if (user?.profileUsers.length > 0) {
       setFormData((prevData: any) => ({
         profileUserId: user.profileUsers[0].id,
@@ -135,6 +126,7 @@ export function EditUser(props: IAppProps) {
         resume_headline: user.profileUsers[0].resume_headline,
         profile_summary: user.profileUsers[0].profile_summary,
         experiences: [],
+        educations: [],
         photograph: user.profileUsers[0].photograph,
         resume: user.profileUsers[0].resume,
       }));
@@ -219,7 +211,7 @@ export function EditUser(props: IAppProps) {
 
       {/* <CustomizedSteppers /> */}
 
-      <ExperienceDetails />
+      <Education1 />
 
       <Group className="no-margin" position="center" mt="xl">
         <button className="next-button" onClick={updateUserProfile}>
@@ -236,8 +228,7 @@ export function EditUser(props: IAppProps) {
           left: "35%",
           transform: "translateY(-47px)",
         }}
-      >
-      </Group>
+      ></Group>
     </div>
   );
 }

@@ -25,7 +25,7 @@ const HAS_MASTER = gql`
         name
         id
       }
-      education
+      education {id } 
     }
   }
 `;
@@ -70,7 +70,19 @@ const PROFILE_USER = gql`
         role
       }
       resume
-      education
+      education { 
+       id
+        school
+        degree
+        field_of_study
+        grade
+        activities
+        description
+        start_year
+        start_year_month
+        end_year
+        end_year_month
+       }
       experience {
         id
         title
@@ -152,7 +164,20 @@ const EDIT_MASTER = gql`
         name
         id
       }
-      education
+      education {
+        id
+        school
+        degree
+        field_of_study
+        grade
+        activities
+        description
+        start_year
+        start_year_month
+        end_year
+        end_year_month
+      
+      }
     }
   }
 `;
@@ -181,7 +206,19 @@ const VIEW_MASTER = gql`
         name
         id
       }
-      education
+      education {
+        id
+        school
+        degree
+        field_of_study
+        grade
+        activities
+        description
+        start_year
+        start_year_month
+        end_year
+        end_year_month
+      }
       resume
     }
   }

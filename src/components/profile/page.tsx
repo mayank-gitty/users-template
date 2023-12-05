@@ -83,14 +83,11 @@ const Profile = () => {
   };
 
   const updateUserProfile = async () => {
-    // console.log("updateUserProfile", formData.profileUserId);
-    // console.log("updateUserProfile1", formData.experiences);
-
     for (var i = 0, len = formData.experiences.length; i < len; i++) {
       delete formData.experiences[i].id;
     }
 
-    console.log("form", formData.experiences);
+    // console.log("form", formData.experiences);
 
     const user: any = await client.request(updateUser, {
       where: {
@@ -120,9 +117,6 @@ const Profile = () => {
           }),
         },
         education: formData.education,
-        // active: formData.status,
-        // // open_to_work: formData.work,
-        // createdAt: new Date(),
       },
     });
 
@@ -191,6 +185,10 @@ const Profile = () => {
       delete formData.experiences[i].id;
     }
 
+    for (var i = 0, len = formData.educations.length; i < len; i++) {
+      delete formData.educations[i].id;
+    }
+
     const user = await client.request(PROFILE_USER, {
       data: {
         keyskills: {
@@ -204,27 +202,19 @@ const Profile = () => {
             id: localStorage.getItem("id"),
           },
         },
-        // courseDuration: `startYear: ${formData?.startingYear?.value}  endYear : ${formData?.endingYear?.value}`,
-        // course_type: formData.coursetype,
+
         photograph: formData.photograph,
-        education: formData.education,
+        education: {
+          create: formData.educations,
+        },
         resume_headline: formData.resume_headline,
-        // relevent_experience: `${formData.relevent_experience}  ${formData.total_relevant_months} `,
-        // total_experience: ` ${formData.total_experience}  ${formData.total_experience_months}  `,
         experience: {
           create: formData.experiences,
         },
         profile_summary: formData.profile_summary,
         resume: formData.resume,
-        // gradingSystem: formData.gradingsystem,
-        // course: formData.course.value,
-        // marks: formData.marks,
-        // specialization: formData.specialization.value,
-        // university: formData.university,
       },
     });
-
-    console.log("profile-user", user);
 
     setActive(8);
     setFormSubmitted(true);
@@ -257,16 +247,7 @@ const Profile = () => {
         marginTop: "1.5rem",
       }}
     >
-      <Container
-        size="xs"
-        px="xs"
-        style={
-          {
-            // width:"100%",
-            // position:"relative"
-          }
-        }
-      >
+      <Container size="xs" px="xs" style={{}}>
         <Paper
           shadow="xl"
           p="md"
@@ -275,9 +256,6 @@ const Profile = () => {
           }}
         >
           <h6 className="box-heading">Profile summary</h6>
-          {/* <p style={{ color: "GrayText" }}>
-          This form is designed to help individuals and organizations evaluate their educational and experiential requirements. By gathering pertinent information, we aim to tailor educational or training programs and career development plans to meet your unique needs.
-          </p> */}
 
           <form onSubmit={handleSubmit}>
             <Grid>

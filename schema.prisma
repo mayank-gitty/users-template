@@ -47,7 +47,7 @@ model ProfileUser {
   resume          String          @default("")
   resume_headline String          @default("")
   itskills        ItSkill[]       @relation("ProfileUser_itskills")
-  education       String          @default("")
+  education       AddEducation[]  @relation("ProfileUser_education")
   active          Boolean         @default(true)
   open_to_work    Boolean         @default(true)
   keyskills       KeySkill[]      @relation("ProfileUser_keyskills")
@@ -117,20 +117,19 @@ model Company {
 }
 
 model AddEducation {
-  id                       String      @id @default(cuid())
-  title                    String      @default("")
-  employment_type          String?
-  company_name             String      @default("")
-  location                 String      @default("")
-  location_type            String?
-  course                   String      @default("")
-  university               String      @default("")
-  course_type              String?
-  specialization           String      @default("")
-  courseDuration           String      @default("")
-  gradingSystem            String      @default("")
-  marks                    String      @default("")
-  from_Education_education Education[] @relation("Education_education")
+  id                         String        @id @default(cuid())
+  school                     String        @default("")
+  degree                     String        @default("")
+  field_of_study             String        @default("")
+  grade                      String        @default("")
+  activities                 String        @default("")
+  description                String        @default("")
+  start_year                 String?
+  start_year_month           String?
+  end_year                   String?
+  end_year_month             String?
+  from_ProfileUser_education ProfileUser[] @relation("ProfileUser_education")
+  from_Education_education   Education[]   @relation("Education_education")
 }
 
 model AddExperience {

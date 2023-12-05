@@ -549,6 +549,10 @@ const Education: React.FC = () => {
                   </Button>
                 </Group>
               </Grid.Col>
+
+
+
+
             </Grid>
           </form>
         </Paper>

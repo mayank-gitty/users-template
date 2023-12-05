@@ -70,10 +70,42 @@ const deleteExperience = gql`
   }
 `;
 
+
+const deleteEducation = gql`
+mutation DeleteAddEducation($where: AddEducationWhereUniqueInput!) {
+  deleteAddEducation(where: $where) {
+    school
+  }
+}
+`;
+
+const updateUserEducation = gql`
+  mutation UpdateAddEducation(
+    $where: AddEducationWhereUniqueInput!
+    $data: AddEducationUpdateInput!
+  ) {
+    updateAddEducation(where: $where, data: $data) {
+      id
+      school
+      degree
+      field_of_study
+      grade
+      activities
+      description
+      start_year
+      start_year_month
+      end_year
+      end_year_month
+    }
+  }
+`;
+
 export {
   updateUser,
   AUTH_MUTATION,
   UPDATE_PASSWORD,
   updateUserExperience,
+  updateUserEducation,
   deleteExperience,
+  deleteEducation
 };

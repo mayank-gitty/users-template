@@ -21,14 +21,18 @@ import {
   Checkbox,
   TextInput,
   Input,
+  Container,
+  Paper,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faVideo } from "@fortawesome/free-solid-svg-icons";
 import {
   updateUserExperience,
+  updateUserEducation,
   updateUser,
   deleteExperience,
+  deleteEducation,
 } from "@/util/mutationQueries";
 
 import {
@@ -83,6 +87,10 @@ export default function View(props: IAppProps) {
 
   const { setActive, formData, setFormData } = useThemeContext();
 
+  const [schoolOther, setSchoolOther] = useState("");
+  const [degreeOther, setDegreeOther] = useState("");
+  const [fieldOther, setFieldOther] = useState("");
+
   console.log("formdata", formData);
 
   const iconStyle = { width: rem(12), height: rem(12) };
@@ -90,6 +98,113 @@ export default function View(props: IAppProps) {
   const router = useRouter();
 
   const [flag, setFlag] = useState(false);
+
+  const indianEducationArray = [
+    // Schools
+    "other",
+    "Delhi Public School (DPS)",
+    "Kendriya Vidyalaya",
+    "Doon School, Dehradun",
+    "Sanskriti School, New Delhi",
+    "The Shri Ram School, Delhi",
+    "St. Xavier's School, Mumbai",
+    "La Martiniere College, Lucknow",
+    "Mayo College, Ajmer",
+    "Modern School, Delhi",
+    "Welham Girls' School, Dehradun",
+    // Add more common schools as needed
+
+    // Universities
+    "University of Delhi",
+    "Jawaharlal Nehru University (JNU)",
+    "Banaras Hindu University (BHU)",
+    "St. Stephen's College, Delhi",
+    "Christ University, Bangalore",
+    "BITS Pilani",
+    "Xavier Labour Relations Institute (XLRI), Jamshedpur",
+    "Indian Statistical Institute (ISI), Kolkata",
+    "Indian Institutes of Technology (IITs)",
+    "Indian Institutes of Management (IIMs)",
+    // Add more common universities as needed
+  ];
+
+  const allDegreesArray = [
+    "other",
+    "Bachelor of Arts (BA)",
+    "Bachelor of Science (BS)",
+    "Bachelor of Fine Arts (BFA)",
+    "Bachelor of Business Administration (BBA)",
+    "Bachelor of Engineering (BEng)",
+    "Bachelor of Computer Science (BCS)",
+    "Bachelor of Nursing (BN)",
+    "Bachelor of Architecture (BArch)",
+    "Bachelor of Education (BEd)",
+    "Bachelor of Music (BMus)",
+    "Bachelor of Social Work (BSW)",
+    "Bachelor of Laws (LLB)",
+    // Add more Bachelor's degrees as needed
+
+    "Master of Arts (MA)",
+    "Master of Science (MS)",
+    "Master of Fine Arts (MFA)",
+    "Master of Business Administration (MBA)",
+    "Master of Engineering (MEng)",
+    "Master of Computer Science (MCS)",
+    "Master of Public Health (MPH)",
+    "Master of Architecture (MArch)",
+    "Master of Education (MEd)",
+    "Master of Music (MMus)",
+    "Master of Social Work (MSW)",
+    "Master of Laws (LLM)",
+    // Add more Master's degrees as needed
+  ];
+
+  const fields = [
+    "other",
+    "Delhi Public",
+    "Computer Science",
+    "Electrical Engineering",
+    "Mechanical Engineering",
+    "Civil Engineering",
+    "Biology",
+    "Chemistry",
+    "Physics",
+    "Mathematics",
+    "Environmental Science",
+    "Psychology",
+    "Economics",
+    "Business Administration",
+    "Marketing",
+    "Finance",
+    "Political Science",
+    "International Relations",
+    "English Literature",
+    "History",
+    "Sociology",
+    "Nursing",
+    "Medicine",
+    "Law",
+    "Education",
+    "Architecture",
+    // Add more common fields of study as needed
+  ];
+
+  const [education, setEducation] = useState({
+    id: "",
+    school: "",
+    // schoolOther: "",
+    degree: "",
+    // degreeOther: "",
+    field_of_study: "",
+    // field_of_studyOther: "",
+    grade: "",
+    activities: "",
+    description: "",
+    start_year: "",
+    start_year_month: "",
+    end_year: "",
+    end_year_month: "",
+  });
 
   const [experience, setExperience] = useState({
     id: "",
@@ -298,6 +413,15 @@ export default function View(props: IAppProps) {
     }));
   };
 
+  const handleChangeEducation = (field: any, e: any) => {
+    // console.log("hitting", field, e);
+
+    setEducation((prev) => ({
+      ...prev,
+      [field]: e,
+    }));
+  };
+
   const deleteSpecificExperience = async () => {
     console.log("delete hitting", experience);
 
@@ -318,11 +442,30 @@ export default function View(props: IAppProps) {
     }
   };
 
+  const deleteSpecificEducation = async () => {
+    console.log("delete education hitting", education);
+
+    const user: any = await client.request(deleteEducation, {
+      where: {
+        id: education.id,
+      },
+    });
+
+    // console.log('delete-user',user)
+
+    if (user.deleteAddEducation) {
+      const button = document.getElementById("modal-close-btn");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+  };
+
   const updateExperience = async () => {
     console.log("update hitting", experience);
-
-
-    
 
     const user: any = await client.request(updateUserExperience, {
       data: {
@@ -357,20 +500,45 @@ export default function View(props: IAppProps) {
 
   const updateExperienceEducation = async () => {
 
+    console.log("educationss", education);
 
+    if (education.school === "other") {
+      education.school = schoolOther;
+    }
 
-    const user: any = await client.request(updateUser, {
+    if (education.degree === "other") {
+      education.school = degreeOther;
+    }
+
+    if (education.field_of_study === "other") {
+      education.school = fieldOther;
+    }
+
+    const user: any = await client.request(updateUserEducation, {
       where: {
-        id: form.getInputProps("profileUserId").value,
+        id: education.id,
       },
       data: {
-        education: form.getInputProps("education").value,
+        // id: "id" + new Date().getTime(),
+        school: education.school,
+        // schoolOther: "",
+        degree: education.degree,
+        // degreeOther: "",
+        field_of_study: education.field_of_study,
+        // field_of_studyOther: "",
+        grade: education.grade,
+        activities: education.activities,
+        description: education.description,
+        start_year: education.start_year,
+        start_year_month: education.start_year_month,
+        end_year: education.end_year,
+        end_year_month: education.end_year_month,
       },
     });
 
     console.log("updated", user);
 
-    if (user?.updateProfileUser) {
+    if (user?.updateAddEducation) {
       const button = document.getElementById("modal-close-btn-education");
 
       setTimeout(() => {
@@ -488,10 +656,6 @@ export default function View(props: IAppProps) {
                     })}
                   />
                 </Grid.Col>
-                {/* 
- <Grid.Col span={12}>
-   <h6 className="experience-label"> Start Year </h6>
- </Grid.Col> */}
 
                 <Grid.Col span={12}>
                   <Checkbox
@@ -501,8 +665,6 @@ export default function View(props: IAppProps) {
                       handleChange("currently_working", e.target.checked)
                     }
                   />
-                  {/* 
-                    {experience.currentlyWorking ? "true" : "false"} */}
                 </Grid.Col>
 
                 <Grid.Col span={12}>
@@ -622,6 +784,7 @@ export default function View(props: IAppProps) {
                 )}
               </Grid>
             </div>
+
             <div class="modal-footer">
               <button
                 className="btn btn-danger"
@@ -673,45 +836,460 @@ export default function View(props: IAppProps) {
             <div class="modal-body">
               <Grid>
                 <Grid.Col span={12}>
-                  <Input.Wrapper
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
-                      },
-                    })}
-                  >
-                    <Select
-                      value={form.getInputProps("education").value}
-                      onChange={(value) =>
-                        form.setFieldValue("education", value)
-                      }
-                      data={options}
-                      placeholder="Select Education"
-                      styles={(theme) => ({
-                        input: {
-                          height: "100%",
-                        },
-                        values: {
-                          height: "100%",
-                        },
-                        wrapper: {
-                          height: "50px",
-                        },
+                  <Container size="xs" px="xs">
+                    <h6 className="box-heading"> Add education </h6>
+                    {/* <p className="box-sub-heading">Select your highest education</p> */}
 
-                        leftIcon: {
-                          marginRight: theme.spacing.md,
-                        },
-                      })}
-                    />
-                  </Input.Wrapper>
+                    <form>
+                      <Grid>
+                        <Grid.Col span={12}>
+                          <Input.Wrapper
+                            styles={() => ({
+                              label: {
+                                color: "#01041b",
+                                fontSize: "1.2em",
+                                fontWeight: 500,
+                                lineHeight: 1.2,
+                                marginBottom: 10,
+                              },
+                            })}
+                          ></Input.Wrapper>
+                        </Grid.Col>
+
+                        <Grid.Col span={12}>
+                          <Input.Wrapper
+                            label="school,University,Institute"
+                            styles={() => ({
+                              label: {
+                                color: "#01041b",
+                                fontSize: "1.2em",
+                                fontWeight: 500,
+                                lineHeight: 1.2,
+                                marginBottom: 10,
+                              },
+                            })}
+                          >
+                            <Select
+                              value={education.school}
+                              onChange={(value) =>
+                                handleChangeEducation("school", value)
+                              }
+                              data={indianEducationArray}
+                              placeholder="Select Insiitue"
+                            />
+                            {/* {errors.university && (
+                    <p style={{ color: "red", fontSize: "0.8em" }}>
+                      {errors.university}
+                    </p>
+                  )} */}
+                          </Input.Wrapper>
+
+                          {education.school === "other" && (
+                            <Grid.Col span={12}>
+                              <Input.Wrapper
+                                label="write here"
+                                styles={() => ({
+                                  label: {
+                                    color: "#01041b",
+                                    fontSize: "1.2em",
+                                    fontWeight: 500,
+                                    lineHeight: 1.2,
+                                    marginBottom: 10,
+                                  },
+                                })}
+                              >
+                                <Input
+                                  placeholder="write other school name here"
+                                  required
+                                  onChange={(e) =>
+                                    setSchoolOther(e.target.value)
+                                  }
+                                  styles={(theme) => ({
+                                    input: {
+                                      height: 50,
+                                      width: "100%",
+                                      fontSize: 16,
+                                      lineHeight: 50,
+                                      borderRadius: 8,
+                                      border: "2px solid #ccc",
+                                    },
+                                  })}
+                                />
+                              </Input.Wrapper>
+                            </Grid.Col>
+                          )}
+                        </Grid.Col>
+
+                        <Grid.Col span={12}>
+                          <Input.Wrapper
+                            label="Course"
+                            styles={() => ({
+                              label: {
+                                color: "#01041b",
+                                fontSize: "1.2em",
+                                fontWeight: 500,
+                                lineHeight: 1.2,
+                                marginBottom: 10,
+                              },
+                            })}
+                          >
+                            <Select
+                              value={education.degree}
+                              onChange={(value) =>
+                                handleChangeEducation("degree", value)
+                              }
+                              data={allDegreesArray}
+                              placeholder="Select Course"
+                            />
+
+                            {/* {errors.course && (
+                    <p style={{ color: "red", fontSize: "0.8em" }}>
+                      {errors.course}
+                    </p>
+                  )} */}
+                          </Input.Wrapper>
+                        </Grid.Col>
+
+                        {education.degree === "other" && (
+                          <Grid.Col span={12}>
+                            <Input.Wrapper
+                              label="write course name here"
+                              styles={() => ({
+                                label: {
+                                  color: "#01041b",
+                                  fontSize: "1.2em",
+                                  fontWeight: 500,
+                                  lineHeight: 1.2,
+                                  marginBottom: 10,
+                                },
+                              })}
+                            >
+                              <Input
+                                placeholder="write here"
+                                required
+                                onChange={(e) => setDegreeOther(e.target.value)}
+                                styles={(theme) => ({
+                                  input: {
+                                    height: 50,
+                                    width: "100%",
+                                    fontSize: 16,
+                                    lineHeight: 50,
+                                    borderRadius: 8,
+                                    border: "2px solid #ccc",
+                                  },
+                                })}
+                              />
+                            </Input.Wrapper>
+                          </Grid.Col>
+                        )}
+
+                        <Grid.Col span={12}>
+                          <Input.Wrapper
+                            label="field of study"
+                            styles={() => ({
+                              label: {
+                                color: "#01041b",
+                                fontSize: "1.2em",
+                                fontWeight: 500,
+                                lineHeight: 1.2,
+                                marginBottom: 10,
+                              },
+                            })}
+                          >
+                            <Select
+                              value={education.field_of_study}
+                              onChange={(value: any) =>
+                                handleChangeEducation("field_of_study", value)
+                              }
+                              data={fields}
+                              placeholder="field of study"
+
+                            />
+                          </Input.Wrapper>
+                        </Grid.Col>
+
+                        {education.field_of_study === "other" && (
+                          <Grid.Col span={12}>
+                            <Input.Wrapper
+                              label="write here"
+                              styles={() => ({
+                                label: {
+                                  color: "#01041b",
+                                  fontSize: "1.2em",
+                                  fontWeight: 500,
+                                  lineHeight: 1.2,
+                                  marginBottom: 10,
+                                },
+                              })}
+                            >
+                              <Input
+                                placeholder="write field name here"
+                                required
+                                onChange={(e) => setFieldOther(e.target.value)}
+                                styles={(theme) => ({
+                                  input: {
+                                    height: "100%",
+                                    width: "100%",
+                                    fontSize: 16,
+                                    lineHeight: 50,
+                                    borderRadius: 8,
+                                    border: "2px solid #ccc",
+                                  },
+                                })}
+                              />
+                            </Input.Wrapper>
+                          </Grid.Col>
+                        )}
+
+                        <Grid.Col span={12}>
+                          <h6 className="experience-label">Start Date</h6>
+                        </Grid.Col>
+
+                        <Grid.Col span={6}>
+                          <Select
+                            placeholder="Month"
+                            nothingFound="No options"
+                            maxDropdownHeight={280}
+                            onChange={(e) =>
+                              handleChangeEducation("start_year_month", e)
+                            }
+                            data={releventMonths}
+                            value={education.start_year_month}
+                            styles={(theme) => ({
+                              input: {
+                                height: "100%",
+                              },
+                              values: {
+                                height: "100%",
+                              },
+                              wrapper: {
+                                height: "50px",
+                              },
+
+                              leftIcon: {
+                                marginRight: theme.spacing.md,
+                              },
+                            })}
+                          />
+                        </Grid.Col>
+
+                        <Grid.Col span={6}>
+                          <Select
+                            placeholder="Year"
+                            nothingFound="No options"
+                            maxDropdownHeight={280}
+                            onChange={(e) =>
+                              handleChangeEducation("start_year", e)
+                            }
+                            data={yearsData}
+                            value={education.start_year}
+                            styles={(theme) => ({
+                              input: {
+                                height: "100%",
+                              },
+                              values: {
+                                height: "100%",
+                              },
+                              wrapper: {
+                                height: "50px",
+                              },
+
+                              leftIcon: {
+                                marginRight: theme.spacing.md,
+                              },
+                            })}
+                          />
+                        </Grid.Col>
+
+                        <Grid.Col span={12}>
+                          <h6 className="experience-label">End Date</h6>
+                        </Grid.Col>
+
+                        <Grid.Col span={6}>
+                          <Select
+                            placeholder="Month"
+                            nothingFound="No options"
+                            maxDropdownHeight={280}
+                            onChange={(e) => handleChange("end_year_month", e)}
+                            data={releventMonths}
+                            value={education.end_year_month}
+                            styles={(theme) => ({
+                              input: {
+                                height: "100%",
+                              },
+                              values: {
+                                height: "100%",
+                              },
+                              wrapper: {
+                                height: "50px",
+                              },
+
+                              leftIcon: {
+                                marginRight: theme.spacing.md,
+                              },
+                            })}
+                          />
+                        </Grid.Col>
+
+                        <Grid.Col span={6}>
+                          <Select
+                            placeholder="Year"
+                            nothingFound="No options"
+                            maxDropdownHeight={280}
+                            onChange={(e) =>
+                              handleChangeEducation("end_year", e)
+                            }
+                            data={yearsData}
+                            value={education.end_year}
+                            styles={(theme) => ({
+                              input: {
+                                height: "100%",
+                              },
+                              values: {
+                                height: "100%",
+                              },
+                              wrapper: {
+                                height: "50px",
+                              },
+
+                              leftIcon: {
+                                marginRight: theme.spacing.md,
+                              },
+                            })}
+                          />
+                        </Grid.Col>
+
+                        <Grid.Col span={12}>
+                          <Input.Wrapper
+                            label="Grade"
+                            styles={() => ({
+                              label: {
+                                color: "#01041b",
+                                fontSize: "1.2em",
+                                fontWeight: 500,
+                                lineHeight: 1.2,
+                                marginBottom: 10,
+                              },
+                            })}
+                          >
+                            <Input
+                              placeholder="grade"
+                              required
+                              onChange={(e) =>
+                                handleChangeEducation("grade", e.target.value)
+                              }
+                              value={education.grade}
+                              styles={(theme) => ({
+                                input: {
+                                  height: 50,
+                                  width: "100%",
+                                  fontSize: 16,
+                                  lineHeight: 50,
+                                  borderRadius: 8,
+                                  border: "2px solid #ccc",
+                                },
+                              })}
+                            />
+                          </Input.Wrapper>
+                        </Grid.Col>
+
+                        <Grid.Col span={12}>
+                          <Input.Wrapper
+                            label="Activities"
+                            styles={() => ({
+                              label: {
+                                color: "#01041b",
+                                fontSize: "1.2em",
+                                fontWeight: 500,
+                                lineHeight: 1.2,
+                                marginBottom: 10,
+                              },
+                            })}
+                          >
+                            <Input
+                              placeholder="activities"
+                              required
+                              value={education.activities}
+                              onChange={(e) =>
+                                handleChangeEducation(
+                                  "activities",
+                                  e.target.value
+                                )
+                              }
+                              styles={(theme) => ({
+                                input: {
+                                  height: 50,
+                                  width: "100%",
+                                  fontSize: 16,
+                                  lineHeight: 50,
+                                  borderRadius: 8,
+                                  border: "2px solid #ccc",
+                                },
+                              })}
+                            />
+
+                            {/* {errors.gradingsystem && (
+                    <p style={{ color: "red", fontSize: "0.8em" }}>
+                      {errors.gradingsystem}
+                    </p>
+                  )} */}
+                          </Input.Wrapper>
+                        </Grid.Col>
+
+                        <Grid.Col span={12}>
+                          <Input.Wrapper
+                            label="Description"
+                            styles={() => ({
+                              label: {
+                                color: "#01041b",
+
+                                fontSize: "1.2em",
+                                fontWeight: 500,
+                                lineHeight: 1.2,
+                                marginBottom: 10,
+                              },
+                            })}
+                          >
+                            <Input
+                              placeholder="description"
+                              required
+                              value={education.description}
+                              onChange={(e) =>
+                                handleChangeEducation(
+                                  "description",
+                                  e.target.value
+                                )
+                              }
+                              styles={(theme) => ({
+                                input: {
+                                  height: 50,
+                                  width: "100%",
+                                  fontSize: 16,
+                                  lineHeight: 50,
+                                  borderRadius: 8,
+                                  border: "2px solid #ccc",
+                                },
+                              })}
+                            />
+                          </Input.Wrapper>
+                        </Grid.Col>
+
+                        {/* Submit button */}
+                      </Grid>
+                    </form>
+                  </Container>
                 </Grid.Col>
               </Grid>
             </div>
             <div class="modal-footer">
+              <button
+                className="btn btn-danger"
+                onClick={() => deleteSpecificEducation()}
+              >
+                {" "}
+                delete{" "}
+              </button>
+
               <button
                 type="button"
                 id="modal-close-btn-education"
@@ -801,20 +1379,7 @@ export default function View(props: IAppProps) {
                   </div>
                 </div>
 
-                <Group>
-                  {/* {hasMaster && (
-                    <Image
-                      src="./images/profileicon.png"
-                      alt="Google"
-                      style={{ width: "24px", height: "24px" }}
-                      onClick={() =>
-                        router.push(
-                          `/edit_user?id=${localStorage.getItem("id")}`
-                        )
-                      }
-                    />
-                  )} */}
-                </Group>
+                <Group></Group>
               </Group>
 
               <div
@@ -1048,28 +1613,122 @@ export default function View(props: IAppProps) {
                           Education
                         </div>
                       </Group>
+                      {hasMaster && (
+                        <Image
+                          src="./assets/addIcon.png"
+                          alt="Google"
+                          style={{
+                            width: "24px",
+                            height: "32px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            // setActive(4);
+                            router.push(
+                              `/edit_education?id=${localStorage.getItem("id")}`
+                            );
+                          }}
+                        />
+                      )}
                     </Group>
                     <Group position="apart" py={12}>
                       <div>
                         <Stack spacing={8}>
                           <div className="text-indigo-950 text-sm font-bold">
                             Highest Education
+                            {form.getInputProps("education")?.value?.length}
                           </div>
 
                           <div className="text-gray-600 text-xs font-normal">
-                            {form.getInputProps("education")?.value}
+                            <div>
+                              <Stack spacing={8}>
+                                {form.getInputProps("education")?.value
+                                  ?.length > 0 &&
+                                  form
+                                    .getInputProps("education")
+                                    ?.value.map((item: any) => {
+                                      return (
+                                        <div
+                                          className="d-flex justify-content-between"
+                                          style={{
+                                            // background:"yellow",
+                                            width: "100%",
+                                          }}
+                                        >
+                                          <div className="text-indigo-950 text-sm font-bold">
+                                            <h6> {item.school} </h6>
+                                            <h6
+                                              style={{
+                                                fontWeight: "400",
+                                              }}
+                                            >
+                                              {" "}
+                                              {item.degree} ,{" "}
+                                              {/* <span> {item.employment_type} </span>{" "} */}
+                                            </h6>
+
+                                            <p
+                                              style={{
+                                                marginBottom: "0.5rem",
+                                              }}
+                                            >
+                                              {" "}
+                                              <span>
+                                                {" "}
+                                                {item.start_year} -{" "}
+                                              </span>{" "}
+                                              <span> {item.end_year} </span> ,
+                                              {item.end_year -
+                                                item.start_year +
+                                                "yrs"}{" "}
+                                            </p>
+
+                                            <p> {item.activities} </p>
+                                            <p> {item.description} </p>
+                                          </div>
+
+                                          <Image
+                                            onClick={() => {
+                                              setEducation({
+                                                id: item.id,
+                                                school: item.school,
+                                                // schoolOther: "",
+                                                degree: item.degree,
+                                                // degreeOther: "",
+                                                field_of_study:
+                                                  item.field_of_study,
+                                                // field_of_studyOther: "",
+                                                grade: item.grade,
+                                                activities: item.activities,
+                                                description: item.description,
+                                                start_year: item.start_year,
+                                                start_year_month:
+                                                  item.start_year_month,
+                                                end_year: item.end_year,
+                                                end_year_month:
+                                                  item.end_year_month,
+                                              });
+                                            }}
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#exampleModalEducation"
+                                            // data-toggle="modal"
+                                            // data-target="#exampleModalLong"
+                                            src="./images/Edit.svg"
+                                            alt="Google"
+                                            style={{
+                                              width: "24px",
+                                              height: "24px",
+                                              marginLeft: "10rem",
+                                            }}
+                                          />
+                                        </div>
+                                      );
+                                    })}
+                              </Stack>
+                            </div>
                           </div>
                         </Stack>
                       </div>
-                      {
-                        <Image
-                          data-bs-toggle="modal"
-                          data-bs-target="#exampleModalEducation"
-                          src="./images/Edit.svg"
-                          alt="Google"
-                          style={{ width: "24px", height: "24px" }}
-                        />
-                      }
                     </Group>
                   </div>
                 </Stack>
@@ -1097,19 +1756,6 @@ export default function View(props: IAppProps) {
                           Resume
                         </div>
                       </Group>
-
-                      {/* {hasMaster && (
-                        <Image
-                          src="./images/profileicon.png"
-                          alt="Google"
-                          style={{ width: "32px", height: "32px" }}
-                          onClick={() =>
-                            router.push(
-                              `/edit_user?id=${localStorage.getItem("id")}`
-                            )
-                          }
-                        />
-                      )} */}
                     </Group>
 
                     <Group position="apart" py={12}>
