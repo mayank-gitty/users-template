@@ -8,7 +8,7 @@ import {
   relationship,
   integer,
   checkbox,
-  timestamp
+  timestamp,
 } from "@keystone-6/core/fields";
 import { allowAll } from "@keystone-6/core/access";
 import { keystoneContext } from "../keystone/context";
@@ -19,9 +19,9 @@ export default list({
   fields: {
     user: relationship({ ref: "User", many: false }),
     photograph: text(),
-    resume:text(),
+    resume: text(),
     resume_headline: text(),
-    
+
     itskills: relationship({
       ref: "ItSkill",
       many: true,
@@ -29,35 +29,24 @@ export default list({
         searchFields: ["name", "version"],
       },
     }),
-    education:  relationship({
+    education: relationship({
       ref: "AddEducation",
       many: true,
       // ui: {
       //   searchFields: ["name", "version"],
       // },
     }),
+    project:relationship({
+      ref: "Project",
+      many: true,
+    }),
     active: checkbox({
       defaultValue: true,
-      }),
+    }),
     open_to_work: checkbox({
       defaultValue: true,
-      }),
-      
-    // course:text(),
-    // university: text(),
-    // course_type: select({
-    //     options: [
-    //       { label: 'FullTime', value: 'fullTime' },
-    //       { label: 'PartTime', value: 'partTime' },
-    //       { label: 'Correspondence', value: 'correspondence' },
-    //       // Add more roles as needed
-    //     ],
-    //   }),
-    // // specialization: text(),
-    // courseDuration: text(),
-    // gradingSystem: text(),
-    // marks: text(),
-    // education: relationship({ ref: "AddEducation", many: false }),
+    }),
+
     keyskills: relationship({
       ref: "KeySkill",
       many: true,
@@ -72,31 +61,15 @@ export default list({
       //   searchFields: ["name", "version"],
       // },
     }),
-    // total_experience: text(),
-    // relevent_experience: text(),
-    // projects: relationship({ ref: 'Project', many: true, }),
+
     profile_summary: text(),
     createdAt: timestamp({
-      defaultValue: { kind: 'now' },
+      defaultValue: { kind: "now" },
     }),
     // resume: file({ storage: "my_local_files" }),
   },
   hooks: {
-    validateInput: async ({ resolvedData, addValidationError, context }) => {
-      // const user = await context.db.ProfileUser.findMany({
-      //   where: {},
-      // });
-
-      // const flag = user?.filter(
-      //   (item) => item.userId === resolvedData?.user?.connect?.id
-      // );
-
-      // console.log("flag", flag);
-      // if (flag.length !== 0) {
-      //   // We call addValidationError to indicate an invalid value.
-      //   addValidationError("this profile is already completed");
-      // }
-    },
+    validateInput: async ({ resolvedData, addValidationError, context }) => {},
   },
   ui: {
     searchFields: [

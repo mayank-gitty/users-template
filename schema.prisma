@@ -48,6 +48,7 @@ model ProfileUser {
   resume_headline String          @default("")
   itskills        ItSkill[]       @relation("ProfileUser_itskills")
   education       AddEducation[]  @relation("ProfileUser_education")
+  project         Project[]       @relation("ProfileUser_project")
   active          Boolean         @default(true)
   open_to_work    Boolean         @default(true)
   keyskills       KeySkill[]      @relation("ProfileUser_keyskills")
@@ -96,18 +97,21 @@ model KeySkill {
 }
 
 model Project {
-  id                   String  @id @default(cuid())
-  project_Title        String  @default("")
-  client               String  @default("")
-  project_status       String?
-  duration             String  @default("")
-  details_of_project   String  @default("")
-  project_site         String?
-  Nature_of_employment String?
-  Team_Size            String  @default("")
-  Role                 String  @default("")
-  Role_Description     String  @default("")
-  Skills_Used          String  @default("")
+  id                       String        @id @default(cuid())
+  projectTitle             String        @default("")
+  client                   String        @default("")
+  workFromYear             String        @default("")
+  workFromMonth            String        @default("")
+  projectStatus            String?
+  detailsOfProject         String        @default("")
+  projectSite              String?
+  projectLocation          String        @default("")
+  natureOfEmployment       String?
+  teamSize                 String        @default("")
+  role                     String        @default("")
+  roleDescription          String        @default("")
+  skillUsed                String        @default("")
+  from_ProfileUser_project ProfileUser[] @relation("ProfileUser_project")
 }
 
 model Company {

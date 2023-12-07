@@ -1,4 +1,3 @@
-//mutation queries
 import { gql } from "graphql-request";
 
 const updateUser = gql`
@@ -62,6 +61,29 @@ const updateUserExperience = gql`
   }
 `;
 
+
+const updateUserProject = gql`
+mutation Mutation($where: ProjectWhereUniqueInput!, $data: ProjectUpdateInput!) {
+  updateProject(where: $where, data: $data) {
+    id
+    projectTitle
+    client
+    workFromYear
+    workFromMonth
+    projectStatus
+    detailsOfProject
+    projectSite
+    projectLocation
+    natureOfEmployment
+    teamSize
+    role
+    roleDescription
+    skillUsed
+  }
+}
+`;
+
+
 const deleteExperience = gql`
   mutation DeleteAddExperience($where: AddExperienceWhereUniqueInput!) {
     deleteAddExperience(where: $where) {
@@ -78,6 +100,28 @@ mutation DeleteAddEducation($where: AddEducationWhereUniqueInput!) {
   }
 }
 `;
+
+
+const deleteProject = gql`
+mutation DeleteProject($where: ProjectWhereUniqueInput!) {
+  deleteProject(where: $where) {
+    id
+    projectTitle
+    client
+    workFromYear
+    workFromMonth
+    projectStatus
+    detailsOfProject
+    projectSite
+    projectLocation
+    natureOfEmployment
+    teamSize
+    role
+    roleDescription
+    skillUsed
+  }
+}
+`
 
 const updateUserEducation = gql`
   mutation UpdateAddEducation(
@@ -107,5 +151,7 @@ export {
   updateUserExperience,
   updateUserEducation,
   deleteExperience,
-  deleteEducation
+  deleteEducation,
+  updateUserProject,
+  deleteProject 
 };

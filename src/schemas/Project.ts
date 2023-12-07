@@ -5,42 +5,45 @@ import { allowAll } from '@keystone-6/core/access';
 export default list({
   access: allowAll,
   fields: {
-    project_Title: text(),
+    projectTitle: text(),
     client: text(),
-    project_status: select({
+    workFromYear: text(),
+    workFromMonth: text(),
+    projectStatus: select({
       options: [
-        { label: 'Inprogress', value: 'inprogress' },
-        { label: 'Finished', value: 'finished' },
+        { label: 'Inprogress', value: 'inprogress' }, 
+        { label: 'Finished', value: 'finished' }, 
         // Add more statuses as needed
       ],
     }),
-    duration: text(),
-    details_of_project: text({
+    detailsOfProject: text({
         ui: {
-          displayMode: 'textarea', // Use displayMode: 'textarea' for multiline input
+          displayMode: 'textarea' // Use displayMode: 'textarea' for multiline input
         },
       }),
-    project_site: select({
+    projectSite: select({
       options: [
         { label: 'Offsite', value: 'offsite' },
         { label: 'Onsite', value: 'onsite' },
         // Add more options as needed
       ],
     }),
-    Nature_of_employment: select({
+    projectLocation: text(),
+    natureOfEmployment: select({
       options: [
         { label: 'FullTime', value: 'fulltime' },
         { label: 'PartTime', value: 'parttime' },
         // Add more options as needed
       ],
     }),
-    Team_Size: text(),
-    Role: text(),
-    Role_Description: text({
+
+    teamSize: text(),
+    role: text(),
+    roleDescription: text({
       ui: {
         displayMode: 'textarea', // Use displayMode: 'textarea' for multiline input
       },
     }),
-    Skills_Used: text(),
+    skillUsed: text(),
   },
 });

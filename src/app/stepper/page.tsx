@@ -14,7 +14,7 @@ import StepConnector, {
 } from "@mui/material/StepConnector";
 import { StepIconProps } from "@mui/material/StepIcon";
 import useThemeContext from "@/context/context";
-import Profile from "@/components/profile/page";
+import Profile from "@/components/profilesummary/page";
 import PhotoUpload from "@/components/photograph/page";
 import KeySkills from "@/components/keyskills/page";
 import Education1 from "@/components/education/page";
@@ -22,6 +22,7 @@ import ResumeHeadline from "@/components/resume-headline/page";
 import ExperienceDetails from "@/components/experience/page";
 import Resume from "@/components/resume/page";
 import ItSkills from "@/components/itskill/page";
+import ProjectForm from "@/components/projects/page";
 
 import { Group } from "@mantine/core";
 
@@ -39,7 +40,7 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-        backgroundImage: "linear-gradient(#34A853, #34A853)",
+      backgroundImage: "linear-gradient(#34A853, #34A853)",
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
@@ -66,7 +67,6 @@ const ColorlibStepIconRoot = styled("div")<{
   // font-style: normal;
   fontWeight: 800,
 
-  // line-height: normal;
 
   width: 50,
   height: 50,
@@ -91,7 +91,7 @@ const ColorlibStepIconRoot = styled("div")<{
     fontSize: "20px",
     // font-style: normal;
     fontWeight: 800,
-    //   'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+
   }),
 }));
 
@@ -107,6 +107,7 @@ function ColorlibStepIcon(props: StepIconProps) {
     6: <span> 6 </span>,
     7: <span> 7 </span>,
     8: <span> 8 </span>,
+    9: <span> 9 </span>,
   };
 
   return (
@@ -127,20 +128,18 @@ const steps = [
   "Expererience",
   "Upload resume",
   "IT skills",
+  "Projects",
   "Profile summary",
 ];
 
 export default function CustomizedSteppers() {
-
-
-  const { setFormData, formData, active, setActive   }: any = useThemeContext();
+  const { setFormData, formData, active, setActive }: any = useThemeContext();
 
   const prevStep = () =>
-    setActive((current:any) => (current > 0 ? current - 1 : current));
+    setActive((current: any) => (current > 0 ? current - 1 : current));
 
   return (
     <Stack sx={{ width: "100%" }} spacing={4}>
-
       <Stepper
         alternativeLabel
         activeStep={active}
@@ -161,7 +160,6 @@ export default function CustomizedSteppers() {
           "& .MuiStepLabel-label.Mui-active": {
             color: "#4D47C3",
           },
-   
         }}
       >
         {steps.map((label) => (
@@ -313,6 +311,7 @@ export default function CustomizedSteppers() {
           <ItSkills />
         </>
       )}
+
       {active === 7 && (
         <>
           <Group
@@ -325,7 +324,30 @@ export default function CustomizedSteppers() {
               margin: "auto",
             }}
           >
-            {active !== 9 && active !== 0 && active !== 8 && (
+            {active !== 10 && active !== 0 && active !== 9 && (
+              <Button className="back-btn" variant="default" onClick={prevStep}>
+                <img src={"./assets/down_arrow.svg"} />
+                Back
+              </Button>
+            )}
+          </Group>
+          <ProjectForm/>
+        </>
+      )}
+
+      {active === 8 && (
+        <>
+          <Group
+            position="left"
+            mx="auto"
+            mt="xl"
+            style={{
+              width: "30rem",
+
+              margin: "auto",
+            }}
+          >
+            {active !== 10 && active !== 0 && active !== 9 && (
               <Button className="back-btn" variant="default" onClick={prevStep}>
                 <img src={"./assets/down_arrow.svg"} />
                 Back
@@ -336,6 +358,8 @@ export default function CustomizedSteppers() {
           <Profile />
         </>
       )}
+
+      {active}
     </Stack>
   );
 }

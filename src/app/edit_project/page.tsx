@@ -11,6 +11,7 @@ import Master from "@/components/master/page";
 import { toast } from "react-toastify";
 import { Group } from "@mantine/core";
 import ExperienceDetails from "@/components/experience/page";
+import ProjectForm from "@/components/projects/page";
 import { updateUser, updateUserExperience } from "@/util/mutationQueries";
 import { useRouter } from "next/navigation";
 
@@ -18,7 +19,6 @@ export interface IAppProps {}
 
 export function EditUser(props: IAppProps) {
   const searchParams: any = useSearchParams();
-
   const router = useRouter();
 
   const {
@@ -32,13 +32,14 @@ export function EditUser(props: IAppProps) {
 
   const search = searchParams.get("id");
 
-  const updateUserProfile = async () => {
-    for (var i = 0, len = formData.experiences.length; i < len; i++) {
-      delete formData.experiences[i].id;
-    }
+  const updateUserProfile = async () => { 
 
-    if (formData?.experiences?.length === 0) {
-      return toast("please add experience", {
+    for (var i = 0, len = formData.projects.length; i < len; i++) {
+      delete formData.projects[i].id;
+    } 
+
+    if (formData?.projects?.length === 0) {
+      return toast("please add project", {
         className: "black-background",
         bodyClassName: "grow-font-size",
         progressClassName: "fancy-progress-bar",
@@ -51,8 +52,9 @@ export function EditUser(props: IAppProps) {
       },
       data: {
         resume_headline: formData.resume_headline,
-        experience: {
-          create: formData.experiences,
+        // experience: formData.experiences,
+        project: {
+          create: formData.projects,
         },
         profile_summary: formData.profile_summary,
         photograph: formData.photograph,
@@ -70,19 +72,13 @@ export function EditUser(props: IAppProps) {
             };
           }),
         },
-        education: formData.education,
-        // active: formData.status,
-        // // open_to_work: formData.work,
-        // createdAt: new Date(),
+        // education: formData.education,
       },
     });
-
-    // console.log("updated", user);
 
     if (user?.updateProfileUser) {
       setinEditPage(false);
       setActive(0);
-
       setFormData((prevData) => ({
         profileUserId: "",
         itskills: [],
@@ -107,7 +103,6 @@ export function EditUser(props: IAppProps) {
   };
 
   const getData = async (search: any) => {
-    // console.log("id", search);
 
     const user: any = await client.request(PROFILE_USER, {
       where: {
@@ -119,8 +114,6 @@ export function EditUser(props: IAppProps) {
       },
     });
 
-    // console.log("user profile got in edit profile ", user);
-
     if (user?.profileUsers.length > 0) {
       setFormData((prevData: any) => ({
         profileUserId: user.profileUsers[0].id,
@@ -130,14 +123,13 @@ export function EditUser(props: IAppProps) {
         resume_headline: user.profileUsers[0].resume_headline,
         profile_summary: user.profileUsers[0].profile_summary,
         experiences: [],
+        projects: [],
         photograph: user.profileUsers[0].photograph,
         resume: user.profileUsers[0].resume,
       }));
 
       setinEditPage(true);
     }
-
-    // console.log("form data", formData);
   };
 
   const prevStep = () =>
@@ -214,7 +206,7 @@ export function EditUser(props: IAppProps) {
 
       {/* <CustomizedSteppers /> */}
 
-      <ExperienceDetails />
+      <ProjectForm />
 
       <Group className="no-margin" position="center" mt="xl">
         <button className="next-button" onClick={updateUserProfile}>

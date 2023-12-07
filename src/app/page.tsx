@@ -14,7 +14,7 @@ import SideBar from "../components/Sidebar/page";
 
 import ProfileImageUpload from "../components/photograph/page";
 import DatatablePage from "./profileUsers/page";
-import Profile from "../components/profile/page";
+import Profile from "../components/profilesummary/page";
 import ResumeHeadline from "../components/resume-headline/page";
 import Master from "../components/master/page";
 import { useRouter } from "next/navigation";

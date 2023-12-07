@@ -10,7 +10,7 @@ import {
   Divider,
   Select,
 } from "@mantine/core";
-// import Select from "react-select";
+
 import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";

@@ -30,6 +30,7 @@
 .experience-item {
   display: flex;
   align-items: start;
+  position: relative;
 }
 
 .experience-item .inside {
@@ -587,7 +588,6 @@ a.page-link {
 
 .translateLeftEducation {
 
-margin-top: 4rem;
   transform: translateX(-180%);
   position: absolute;
   background: whitesmoke;
@@ -607,9 +607,18 @@ margin-top: 4rem;
   padding: 10px 10px;
 }
 
-/* toast styling */
 
-/* sidebar  */
+.ranslateLeftProjects {
+  transform: translateX(-120%);
+  left: 0;
+  position: absolute;
+  background: whitesmoke;
+  border-radius: 10px;
+  width: 16rem;
+  padding: 10px 10px;
+
+}
+
 
 @media (min-width: 900px) {
   /* On screens wider than 768px, each image takes up 60% of the container width */

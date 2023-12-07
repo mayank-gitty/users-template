@@ -237,6 +237,8 @@ type ProfileUser {
   itskillsCount(where: ItSkillWhereInput! = {}): Int
   education(where: AddEducationWhereInput! = {}, orderBy: [AddEducationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AddEducationWhereUniqueInput): [AddEducation!]
   educationCount(where: AddEducationWhereInput! = {}): Int
+  project(where: ProjectWhereInput! = {}, orderBy: [ProjectOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectWhereUniqueInput): [Project!]
+  projectCount(where: ProjectWhereInput! = {}): Int
   active: Boolean
   open_to_work: Boolean
   keyskills(where: KeySkillWhereInput! = {}, orderBy: [KeySkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: KeySkillWhereUniqueInput): [KeySkill!]
@@ -262,6 +264,7 @@ input ProfileUserWhereInput {
   resume_headline: StringFilter
   itskills: ItSkillManyRelationFilter
   education: AddEducationManyRelationFilter
+  project: ProjectManyRelationFilter
   active: BooleanFilter
   open_to_work: BooleanFilter
   keyskills: KeySkillManyRelationFilter
@@ -280,6 +283,12 @@ input AddEducationManyRelationFilter {
   every: AddEducationWhereInput
   some: AddEducationWhereInput
   none: AddEducationWhereInput
+}
+
+input ProjectManyRelationFilter {
+  every: ProjectWhereInput
+  some: ProjectWhereInput
+  none: ProjectWhereInput
 }
 
 input BooleanFilter {
@@ -317,6 +326,7 @@ input ProfileUserUpdateInput {
   resume_headline: String
   itskills: ItSkillRelateToManyForUpdateInput
   education: AddEducationRelateToManyForUpdateInput
+  project: ProjectRelateToManyForUpdateInput
   active: Boolean
   open_to_work: Boolean
   keyskills: KeySkillRelateToManyForUpdateInput
@@ -345,6 +355,13 @@ input AddEducationRelateToManyForUpdateInput {
   connect: [AddEducationWhereUniqueInput!]
 }
 
+input ProjectRelateToManyForUpdateInput {
+  disconnect: [ProjectWhereUniqueInput!]
+  set: [ProjectWhereUniqueInput!]
+  create: [ProjectCreateInput!]
+  connect: [ProjectWhereUniqueInput!]
+}
+
 input KeySkillRelateToManyForUpdateInput {
   disconnect: [KeySkillWhereUniqueInput!]
   set: [KeySkillWhereUniqueInput!]
@@ -371,6 +388,7 @@ input ProfileUserCreateInput {
   resume_headline: String
   itskills: ItSkillRelateToManyForCreateInput
   education: AddEducationRelateToManyForCreateInput
+  project: ProjectRelateToManyForCreateInput
   active: Boolean
   open_to_work: Boolean
   keyskills: KeySkillRelateToManyForCreateInput
@@ -392,6 +410,11 @@ input ItSkillRelateToManyForCreateInput {
 input AddEducationRelateToManyForCreateInput {
   create: [AddEducationCreateInput!]
   connect: [AddEducationWhereUniqueInput!]
+}
+
+input ProjectRelateToManyForCreateInput {
+  create: [ProjectCreateInput!]
+  connect: [ProjectWhereUniqueInput!]
 }
 
 input KeySkillRelateToManyForCreateInput {
@@ -611,17 +634,19 @@ input KeySkillCreateInput {
 
 type Project {
   id: ID!
-  project_Title: String
+  projectTitle: String
   client: String
-  project_status: String
-  duration: String
-  details_of_project: String
-  project_site: String
-  Nature_of_employment: String
-  Team_Size: String
-  Role: String
-  Role_Description: String
-  Skills_Used: String
+  workFromYear: String
+  workFromMonth: String
+  projectStatus: String
+  detailsOfProject: String
+  projectSite: String
+  projectLocation: String
+  natureOfEmployment: String
+  teamSize: String
+  role: String
+  roleDescription: String
+  skillUsed: String
 }
 
 input ProjectWhereUniqueInput {
@@ -633,46 +658,52 @@ input ProjectWhereInput {
   OR: [ProjectWhereInput!]
   NOT: [ProjectWhereInput!]
   id: IDFilter
-  project_Title: StringFilter
+  projectTitle: StringFilter
   client: StringFilter
-  project_status: StringNullableFilter
-  duration: StringFilter
-  details_of_project: StringFilter
-  project_site: StringNullableFilter
-  Nature_of_employment: StringNullableFilter
-  Team_Size: StringFilter
-  Role: StringFilter
-  Role_Description: StringFilter
-  Skills_Used: StringFilter
+  workFromYear: StringFilter
+  workFromMonth: StringFilter
+  projectStatus: StringNullableFilter
+  detailsOfProject: StringFilter
+  projectSite: StringNullableFilter
+  projectLocation: StringFilter
+  natureOfEmployment: StringNullableFilter
+  teamSize: StringFilter
+  role: StringFilter
+  roleDescription: StringFilter
+  skillUsed: StringFilter
 }
 
 input ProjectOrderByInput {
   id: OrderDirection
-  project_Title: OrderDirection
+  projectTitle: OrderDirection
   client: OrderDirection
-  project_status: OrderDirection
-  duration: OrderDirection
-  details_of_project: OrderDirection
-  project_site: OrderDirection
-  Nature_of_employment: OrderDirection
-  Team_Size: OrderDirection
-  Role: OrderDirection
-  Role_Description: OrderDirection
-  Skills_Used: OrderDirection
+  workFromYear: OrderDirection
+  workFromMonth: OrderDirection
+  projectStatus: OrderDirection
+  detailsOfProject: OrderDirection
+  projectSite: OrderDirection
+  projectLocation: OrderDirection
+  natureOfEmployment: OrderDirection
+  teamSize: OrderDirection
+  role: OrderDirection
+  roleDescription: OrderDirection
+  skillUsed: OrderDirection
 }
 
 input ProjectUpdateInput {
-  project_Title: String
+  projectTitle: String
   client: String
-  project_status: String
-  duration: String
-  details_of_project: String
-  project_site: String
-  Nature_of_employment: String
-  Team_Size: String
-  Role: String
-  Role_Description: String
-  Skills_Used: String
+  workFromYear: String
+  workFromMonth: String
+  projectStatus: String
+  detailsOfProject: String
+  projectSite: String
+  projectLocation: String
+  natureOfEmployment: String
+  teamSize: String
+  role: String
+  roleDescription: String
+  skillUsed: String
 }
 
 input ProjectUpdateArgs {
@@ -681,17 +712,19 @@ input ProjectUpdateArgs {
 }
 
 input ProjectCreateInput {
-  project_Title: String
+  projectTitle: String
   client: String
-  project_status: String
-  duration: String
-  details_of_project: String
-  project_site: String
-  Nature_of_employment: String
-  Team_Size: String
-  Role: String
-  Role_Description: String
-  Skills_Used: String
+  workFromYear: String
+  workFromMonth: String
+  projectStatus: String
+  detailsOfProject: String
+  projectSite: String
+  projectLocation: String
+  natureOfEmployment: String
+  teamSize: String
+  role: String
+  roleDescription: String
+  skillUsed: String
 }
 
 type Company {

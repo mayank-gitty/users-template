@@ -62,8 +62,6 @@ const ExperienceDetails = () => {
       (item: any) => item.id !== id
     );
 
-
-
     setFormData((prev: any) => ({
       ...prev,
       experiences: filterExperiences,
@@ -84,6 +82,8 @@ const ExperienceDetails = () => {
   };
 
   const saveEntry = () => {
+
+    
     if (!experience.title) {
       return toast("please add title", {
         className: "black-background",
@@ -275,8 +275,7 @@ const ExperienceDetails = () => {
     "October",
     "November",
     "December",
-  ]
-
+  ];
 
   function calculateDuration(
     end_year: any,
@@ -284,8 +283,6 @@ const ExperienceDetails = () => {
     end_month: any,
     start_month: any
   ) {
-
-
     // Create Date objects for the selected start and end dates
     const startDateObj = new Date(start_year, start_month - 1, 1);
     const endDateObj = new Date(end_year, end_month - 1, 1);
@@ -342,7 +339,6 @@ const ExperienceDetails = () => {
 
     return ` ${duration.years} years and ${duration.months} months`;
   };
-
 
   return (
     <div
@@ -442,7 +438,6 @@ const ExperienceDetails = () => {
             {flag && (
               <form onSubmit={handleSubmit}>
                 <Grid>
-      
                   <Grid.Col span={12}>
                     <label htmlFor=" "> Title </label>
                     <TextInput
@@ -450,7 +445,7 @@ const ExperienceDetails = () => {
                       maxLength={30}
                       id="experience-title"
                       // error={'jjj'}
-         
+
                       placeholder="Ex: Retail Sales Manager"
                       size="md"
                       // value={formData.profile_summary}
@@ -675,6 +670,8 @@ const ExperienceDetails = () => {
                 Add another experience{" "}
               </button>
             )}
+
+
             {formSubmitted && (
               <div
                 style={{

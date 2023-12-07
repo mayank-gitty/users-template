@@ -19,7 +19,7 @@ import { useState } from "react";
 import { Button, Group, rem } from "@mantine/core";
 import ItSkills from "../itskill/page";
 import Education from "../education/page";
-import Profile from "../profile/page";
+import Profile from "../profilesummary/page";
 import ResumeHeadline from "../resume-headline/page";
 
 import ExperienceDetails from "../experience/page";
@@ -120,7 +120,7 @@ export default function Master() {
       <CustomizedSteppers />
 
       <Group className="no-margin" position="center" mt="xl">
-        {active !== 9 && active !== 7 && active !== 8 && (
+        {active !== 10 && active !== 8 && active !== 9 && (
           <button className="next-button" onClick={nextStep}>
             Next
           </button>
@@ -132,7 +132,7 @@ export default function Master() {
         transform:'translateY(-47px)',
         marginTop:"0"
       }} >
-        {active !== 9  && active !== 8 && active !== 0 && (
+        {active !== 10  && active !== 9 && active !== 0 && (
           <button className="below-back-button" onClick={prevStep}  style={{
             marginTop:"0px !important"
           }} >

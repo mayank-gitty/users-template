@@ -33,6 +33,8 @@ import {
   updateUser,
   deleteExperience,
   deleteEducation,
+  updateUserProject,
+  deleteProject,
 } from "@/util/mutationQueries";
 
 import {
@@ -98,6 +100,8 @@ export default function View(props: IAppProps) {
   const router = useRouter();
 
   const [flag, setFlag] = useState(false);
+
+  const [formErrors, setFormErrors] = useState({});
 
   const indianEducationArray = [
     // Schools
@@ -220,6 +224,23 @@ export default function View(props: IAppProps) {
     currently_working: false,
   });
 
+  const [project, setProject] = useState({
+    id: "",
+    projectTitle: "",
+    client: "",
+    projectStatus: "inProgress",
+    workFromYear: "",
+    workFromMonth: "",
+    detailsOfProject: "",
+    projectLocation: "",
+    projectSite: "Offsite",
+    natureOfEmployment: "Full Time",
+    teamSize: "",
+    role: "",
+    roleDescription: "",
+    skillUsed: "",
+  });
+
   function generateArrayOfYears() {
     var max = new Date().getFullYear();
     var min = max - 30;
@@ -289,6 +310,7 @@ export default function View(props: IAppProps) {
       work: "",
       email: "",
       experience: [],
+      project: [],
     },
     validate: {
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -353,14 +375,11 @@ export default function View(props: IAppProps) {
     form.setValues({
       profileUserId: user.profileUsers[0]?.id,
       itskills: user?.profileUsers[0]?.itskills.map((item: any) => item.name),
-      // .join(","),
       education: user?.profileUsers[0]?.education,
-
+      project: user?.profileUsers[0]?.project,
       keyskills: user?.profileUsers[0]?.keyskills.map((item: any) => item.name),
-      // .join(","),
       resume_headline: user?.profileUsers[0]?.resume_headline,
       profile_summary: user.profileUsers[0]?.profile_summary,
-
       photograph: user.profileUsers[0]?.photograph,
       name: user?.profileUsers[0]?.user.name,
       status: user?.profileUsers[0]?.active,
@@ -404,10 +423,10 @@ export default function View(props: IAppProps) {
     // console.log("kas", form.getInputProps("education"));
   }, [search, flag]);
 
-  const handleChange = (field: any, e: any) => {
+  const handleChangeProject = (field: any, e: any) => {
     console.log("hitting", field, e);
 
-    setExperience((prev) => ({
+    setProject((prev) => ({
       ...prev,
       [field]: e,
     }));
@@ -420,6 +439,26 @@ export default function View(props: IAppProps) {
       ...prev,
       [field]: e,
     }));
+  };
+
+  const deleteSpecificProject = async () => {
+    console.log("delete specific project", project);
+
+    const user: any = await client.request(deleteProject, {
+      where: {
+        id: project.id,
+      },
+    });
+
+    if (user.deleteProject) {
+      const button = document.getElementById("modal-close-btn-project");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
   };
 
   const deleteSpecificExperience = async () => {
@@ -485,8 +524,6 @@ export default function View(props: IAppProps) {
       },
     });
 
-    // console.log("updated", user);
-
     if (user.updateAddExperience) {
       const button = document.getElementById("modal-close-btn");
 
@@ -498,8 +535,39 @@ export default function View(props: IAppProps) {
     }
   };
 
-  const updateExperienceEducation = async () => {
+  const updateThisProject = async () => {
+    const user: any = await client.request(updateUserProject, {
+      data: {
+        client: project.client,
+        projectStatus: project.projectStatus,
+        workFromYear: project.workFromYear,
+        workFromMonth: project.workFromMonth,
+        projectTitle: project.projectTitle,
+        projectLocation: project.projectLocation,
+        projectSite: project.projectSite,
+        natureOfEmployment: project.natureOfEmployment,
+        teamSize: project.teamSize,
+        role: project.role,
+        roleDescription: project.roleDescription,
+        skillUsed: project.skillUsed,
+      },
+      where: {
+        id: project.id,
+      },
+    });
 
+    if (user.updateProject) {
+      const button = document.getElementById("modal-close-btn-project");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+  };
+
+  const updateExperienceEducation = async () => {
     console.log("educationss", education);
 
     if (education.school === "other") {
@@ -1003,7 +1071,6 @@ export default function View(props: IAppProps) {
                               }
                               data={fields}
                               placeholder="field of study"
-
                             />
                           </Input.Wrapper>
                         </Grid.Col>
@@ -1302,6 +1369,536 @@ export default function View(props: IAppProps) {
                 type="button"
                 class="btn btn-primary"
                 onClick={() => updateExperienceEducation()}
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="exampleModalProject"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Edit Project
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <Container size="xs" px="xs">
+                <Paper
+                  shadow="xl"
+                  p="md"
+                  style={{ maxHeight: "80vh", overflowY: "auto" }}
+                >
+                  <h6 style={{ textAlign: "left", fontSize: "20px" }}>
+                    Add Project
+                  </h6>
+
+                  <form>
+                    <Grid>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Project Title"
+                          error={formErrors?.projectTitle}
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <Input
+                            placeholder="Project Title"
+                            required
+                            value={project.projectTitle}
+                            onChange={(e) =>
+                              handleChangeProject(
+                                "projectTitle",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Client"
+                          error={formErrors?.client}
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <Input
+                            placeholder="Client"
+                            required
+                            value={project.client}
+                            onChange={(e) =>
+                              handleChangeProject("client", e.target.value)
+                            }
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Project Status"
+                          error={formErrors?.projectStatus}
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <div>
+                            <label style={{ marginRight: "10px" }}>
+                              <input
+                                type="radio"
+                                name="projectStatus"
+                                value="inprogress"
+                                required
+                                checked={project.projectStatus === "inprogress"}
+                                onChange={() =>
+                                  handleChangeProject(
+                                    "projectStatus",
+                                    "inprogress"
+                                  )
+                                }
+                              />
+                              In Progress
+                            </label>
+                            <label style={{ marginRight: "10px" }}>
+                              <input
+                                type="radio"
+                                name="projectStatus"
+                                value="finished"
+                                required
+                                checked={project.projectStatus === "finished"}
+                                onChange={() =>
+                                  handleChangeProject(
+                                    "projectStatus",
+                                    "finished"
+                                  )
+                                }
+                              />
+                              Finished
+                            </label>
+                          </div>
+                        </Input.Wrapper>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <div style={{ flex: 1, marginRight: "10px" }}>
+                            <Input.Wrapper
+                              label="Work From Year"
+                              error={formErrors?.workFromYear}
+                            >
+                              <Select
+                                placeholder="Year"
+                                data={["2022", "2023", "2024"]} // Your list of years
+                                value={project.workFromYear}
+                                onChange={(value) =>
+                                  handleChangeProject("workFromYear", value)
+                                }
+                              />
+                            </Input.Wrapper>
+                          </div>
+                          <div style={{ flex: 1 }}>
+                            <Input.Wrapper
+                              label="Work From Month"
+                              error={formErrors?.workFromMonth}
+                            >
+                              <Select
+                                placeholder="Month"
+                                data={[
+                                  "January",
+                                  "February",
+                                  "March",
+                                  "April",
+                                  "May",
+                                  "June",
+                                  "July",
+                                  "August",
+                                  "September",
+                                  "October",
+                                  "November",
+                                  "December",
+                                ]} // Your list of months
+                                value={project.workFromMonth}
+                                onChange={(value) =>
+                                  handleChangeProject("workFromMonth", value)
+                                }
+                              />
+                            </Input.Wrapper>
+                          </div>
+                        </div>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Details Of Project"
+                          error={formErrors?.detailsOfProject}
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <textarea
+                            placeholder="Type here..."
+                            required
+                            style={{
+                              width: "100%", // Adjust the width as needed
+                              padding: "10px", // Add padding for a consistent look
+                              borderRadius: "4px", // Add rounded corners
+                              border: "1px solid #ccc", // Add a border
+                            }}
+                            value={project.detailsOfProject}
+                            onChange={(e) =>
+                              handleChangeProject(
+                                "detailsOfProject",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Project location"
+                          error={formErrors?.projectLocation}
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <Input
+                            placeholder="Type here.."
+                            required
+                            value={project.projectLocation}
+                            onChange={(e) =>
+                              handleChangeProject(
+                                "projectLocation",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Project Site"
+                          error={formErrors?.projectSite}
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <div>
+                            <label style={{ marginRight: "10px" }}>
+                              <input
+                                type="radio"
+                                name="projectSite"
+                                value="Offsite"
+                                required
+                                checked={project.projectSite === "offsite"}
+                                onChange={() =>
+                                  handleChangeProject("projectSite", "offsite")
+                                }
+                              />
+                              Offsite
+                            </label>
+                            <label style={{ marginRight: "10px" }}>
+                              <input
+                                type="radio"
+                                name="projectSite"
+                                value="finished"
+                                required
+                                checked={project.projectStatus === "onsite"}
+                                onChange={() =>
+                                  handleChangeProject("projectSite", "onsite")
+                                }
+                              />
+                              Onsite
+                            </label>
+                          </div>
+                        </Input.Wrapper>
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Nature Of Employment"
+                          error={formErrors?.natureOfEmployment}
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <div>
+                            <label style={{ marginRight: "10px" }}>
+                              <input
+                                type="radio"
+                                name="natureOfEmployment"
+                                value="fulltime"
+                                required
+                                checked={
+                                  project.natureOfEmployment === "fulltime"
+                                }
+                                onChange={() =>
+                                  handleChangeProject(
+                                    "natureOfEmployment",
+                                    "fulltime"
+                                  )
+                                }
+                              />
+                              Full Time
+                            </label>
+                            <label style={{ marginRight: "10px" }}>
+                              <input
+                                type="radio"
+                                name="natureOfEmployment"
+                                value="parttime"
+                                required
+                                checked={
+                                  project.natureOfEmployment === "parttime"
+                                }
+                                onChange={() =>
+                                  handleChangeProject(
+                                    "natureOfEmployment",
+                                    "parttime"
+                                  )
+                                }
+                              />
+                              Part Time
+                            </label>
+                            <label>
+                              <input
+                                type="radio"
+                                name="natureOfEmployment"
+                                value="contractual"
+                                required
+                                checked={
+                                  project.natureOfEmployment === "contractual"
+                                }
+                                onChange={() =>
+                                  handleChangeProject(
+                                    "natureOfEmployment",
+                                    "contractual"
+                                  )
+                                }
+                              />
+                              Contractual
+                            </label>
+                          </div>
+                        </Input.Wrapper>
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Team Size"
+                          error={formErrors?.teamSize}
+                        >
+                          <Select
+                            placeholder="Select team size"
+                            data={[
+                              "1",
+                              "2",
+                              "3",
+                              "4",
+                              "5",
+                              "6",
+                              "7",
+                              "8",
+                              "9",
+                              "10",
+                              "11",
+                              "12",
+                            ]} // Your list of size
+                            value={project.teamSize}
+                            onChange={(value) =>
+                              handleChangeProject("teamSize", value)
+                            }
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper label="Role" error={formErrors?.role}>
+                          <Select
+                            placeholder="Role"
+                            data={[
+                              "java dev",
+                              "react dev",
+                              "python dev",
+                              "4",
+                              "5",
+                              "6",
+                              "7",
+                              "8",
+                              "9",
+                              "10",
+                              "11",
+                              "12",
+                            ]} // Your list of size
+                            value={project.role}
+                            onChange={(value) =>
+                              handleChangeProject("role", value)
+                            }
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Role description"
+                          error={formErrors?.roleDescription}
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <textarea
+                            placeholder="Role Description"
+                            required
+                            style={{
+                              width: "100%", // Adjust the width as needed
+                              padding: "10px", // Add padding for a consistent look
+                              borderRadius: "4px", // Add rounded corners
+                              border: "1px solid #ccc", // Add a border
+                            }}
+                            value={project.roleDescription}
+                            onChange={(e) =>
+                              handleChangeProject(
+                                "roleDescription",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+
+
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Role description"
+                          error={formErrors?.roleDescription}
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <textarea
+                            placeholder="Role Description"
+                            required
+                            style={{
+                              width: "100%", // Adjust the width as needed
+                              padding: "10px", // Add padding for a consistent look
+                              borderRadius: "4px", // Add rounded corners
+                              border: "1px solid #ccc", // Add a border
+                            }}
+                            value={project.skillUsed}
+                            onChange={(e) =>
+                              handleChangeProject(
+                                "skillUsed",
+                                e.target.value
+                              )
+                            }
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+
+                      <Grid.Col
+                        span={12}
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          paddingTop: "10px",
+                        }}
+                      ></Grid.Col>
+                    </Grid>
+                  </form>
+                </Paper>
+              </Container>
+            </div>
+            <div class="modal-footer">
+              <button
+                className="btn btn-danger"
+                onClick={() => deleteSpecificProject()}
+              >
+                {" "}
+                delete{" "}
+              </button>
+
+              <button
+                type="button"
+                id="modal-close-btn-project"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onClick={() => updateThisProject()}
               >
                 Save changes
               </button>
@@ -1635,8 +2232,8 @@ export default function View(props: IAppProps) {
                       <div>
                         <Stack spacing={8}>
                           <div className="text-indigo-950 text-sm font-bold">
-                            Highest Education
-                            {form.getInputProps("education")?.value?.length}
+                            {/* Highest Education */}
+                            {/* {form.getInputProps("education")?.value?.length} */}
                           </div>
 
                           <div className="text-gray-600 text-xs font-normal">
@@ -1736,7 +2333,7 @@ export default function View(props: IAppProps) {
             </div>
 
             <div className="flex flex-col lg:flex-row justify-center  gap-5 xl:12 mt-3">
-              <div className="w-full">
+              <div className="lg:w-1/2">
                 <Stack>
                   {/* <div className="p-4 h-full xl:w-[420px] rounded "></div> */}
                   <div className="p-4 h-full rounded bg-white">
@@ -1760,7 +2357,7 @@ export default function View(props: IAppProps) {
 
                     <Group position="apart" py={12}>
                       <div>
-                        <Stack spacing={8}>
+                        <Stack spacing={8}> 
                           <div className="text-indigo-950 text-sm font-bold">
                             <a
                               download={
@@ -1787,15 +2384,206 @@ export default function View(props: IAppProps) {
                             </a>
                           </div>
                           <div className="text-gray-600 text-xs font-normal">
-                            867 Kb. Feb 2022
+                            {/* 867 Kb. Feb 2022 */}
                           </div>
                         </Stack>
                       </div>
-                      <Image
+                      {/* <Image
                         src="./images/Edit.svg"
                         alt="Google"
                         style={{ width: "24px", height: "24px" }}
-                      />
+                      /> */}
+                    </Group>
+                  </div>
+                </Stack>
+              </div>
+              <div className="lg:w-1/2">
+                <Stack>
+                  {/* <div className="p-4 h-full xl:w-[420px] rounded "></div> */}
+                  <div className="p-4 h-full rounded bg-white">
+                    <Group position="apart" className="border-b pb-[10px]">
+                      <Group position="left">
+                        <Image
+                          src="./images/educationIcon.svg"
+                          alt="Google"
+                          style={{ width: "24px", height: "24px" }}
+                        />
+                        <div className="text-black text-base font-semibold">
+                          Projects
+                        </div>
+                      </Group>
+                      {hasMaster && (
+                        <Image
+                          src="./assets/addIcon.png"
+                          alt="Google"
+                          style={{
+                            width: "24px",
+                            height: "32px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            router.push(
+                              `/edit_project?id=${localStorage.getItem("id")}`
+                            );
+                          }}
+                        />
+                      )}
+                    </Group>
+                    <Group position="apart" py={12}>
+                      <div>
+                        <Stack spacing={8}>
+                          <div className="text-indigo-950 text-sm font-bold">
+                            {/*                             
+                            {form.getInputProps("project")?.value?.length} */}
+                          </div>
+
+                          <div className="text-gray-600 text-xs font-normal">
+                            <div>
+                              <Stack spacing={8}>
+                                {form.getInputProps("project")?.value?.length >
+                                  0 &&
+                                  form
+                                    .getInputProps("project")
+                                    ?.value.map((item: any) => {
+                                      return (
+                                        <div
+                                          className="d-flex justify-content-between"
+                                          style={{
+                                            // background:"yellow",
+                                            width: "100%",
+                                          }}
+                                        >
+                                          <div className="text-indigo-950 text-sm font-bold">
+                                            <h6>
+                                              {" "}
+                                              project: {item.projectTitle}{" "}
+                                            </h6>
+                                            <h6> role: {item.role} </h6>
+                                            <h6
+                                              style={{
+                                                fontWeight: "400",
+                                              }}
+                                            >
+                                              {" "}
+                                              client: {item.client} ,{" "}
+                                              {/* <span> {item.employment_type} </span>{" "} */}
+                                            </h6>
+
+                                            <h6
+                                              style={{
+                                                marginBottom: "0.5rem",
+                                              }}
+                                            >
+                                              {" "}
+                                              <span>
+                                                {" "}
+                                                {item.workFromMonth} -{" "}
+                                              </span>{" "}
+                                              <span> {item.workFromYear} </span>{" "}
+                                              ,
+                                            </h6>
+
+                                            <h6>
+                                              {" "}
+                                              <span>
+                                                {" "}
+                                                status: {
+                                                  item.projectStatus
+                                                }{" "}
+                                              </span>{" "}
+                                            </h6>
+                                            <h6>
+                                              {" "}
+                                              <span>
+                                                {" "}
+                                                location: {
+                                                  item.projectLocation
+                                                }{" "}
+                                              </span>{" "}
+                                            </h6>
+                                            <h6>
+                                              {" "}
+                                              <span>
+                                                {" "}
+                                                projectSite: {
+                                                  item.projectSite
+                                                }{" "}
+                                              </span>{" "}
+                                            </h6>
+                                            <h6>
+                                              {" "}
+                                              <span>
+                                                {" "}
+                                                natureOfEmployment:{" "}
+                                                {item.natureOfEmployment}{" "}
+                                              </span>{" "}
+                                            </h6>
+
+                                            <h6>
+                                              {" "}
+                                              <span>
+                                                {" "}
+                                                teamSize: {item.teamSize}{" "}
+                                              </span>{" "}
+                                            </h6>
+                                            <h6>
+                                              {" "}
+                                              <span>
+                                                {" "}
+                                                skillUsed: {item.skillUsed}{" "}
+                                              </span>{" "}
+                                            </h6>
+
+                                            {/* <h6>  activity: {item.activities} </h6> */}
+                                            <h6>
+                                              {" "}
+                                              role description:{" "}
+                                              {item.roleDescription}{" "}
+                                            </h6>
+                                          </div>
+
+                                          <Image
+                                            onClick={() => {
+                                              setProject({
+                                                id: item.id,
+                                                projectTitle: item.projectTitle,
+                                                client: item.client,
+                                                projectStatus:
+                                                  item.projectStatus,
+                                                workFromYear: item.workFromYear,
+                                                workFromMonth:
+                                                  item.workFromMonth,
+                                                // detailsOfProject: "",
+                                                projectLocation:
+                                                  item.projectLocation,
+                                                projectSite: item.projectSite,
+                                                natureOfEmployment:
+                                                  item.natureOfEmployment,
+                                                teamSize: item.teamSize,
+                                                role: item.role,
+                                                roleDescription:
+                                                  item.roleDescription,
+                                                skillUsed: item.skillUsed,
+                                              });
+                                            }}
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#exampleModalProject"
+                                            src="./images/Edit.svg"
+                                            alt="Google"
+                                            style={{
+                                              width: "24px",
+                                              height: "24px",
+                                              marginLeft: "10rem",
+                                            }}
+                                          />
+                                        </div>
+                                      );
+                                    })}
+                              </Stack>
+                            </div>
+                          </div>
+                        </Stack>
+                      </div>
                     </Group>
                   </div>
                 </Stack>

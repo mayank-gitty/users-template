@@ -11,12 +11,11 @@ export const ThemeContextProvider = ({ children }) => {
     profileUserId: "",
     itskills: [],
     educations: [],
+    projects:[],
     keyskills: [],
     resume_headline: "",
     profile_summary: "",
-    // total_experience:"",
     total_experience_months: "",
-    // relevent_experience:"",
     total_relevant_months: "",
     experiences: [],
     createdExperiencesOnEdit: [],
@@ -27,7 +26,7 @@ export const ThemeContextProvider = ({ children }) => {
 
   const [formData, setFormData] = useState(initialFormData);
 
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(7);
 
   const [loggedIn, setLoggedIn] = useState(false);
 

@@ -153,6 +153,11 @@ const Profile = () => {
   };
 
   const save = async () => {
+
+
+    console.log(formData,formData)
+
+
     if (!formData.profile_summary) {
       return toast("please enter profile summaary", {
         className: "black-background",
@@ -189,6 +194,10 @@ const Profile = () => {
       delete formData.educations[i].id;
     }
 
+    for (var i = 0, len = formData.educations.length; i < len; i++) {
+      delete formData.projects[i].id;
+    }
+
     const user = await client.request(PROFILE_USER, {
       data: {
         keyskills: {
@@ -210,6 +219,9 @@ const Profile = () => {
         resume_headline: formData.resume_headline,
         experience: {
           create: formData.experiences,
+        },
+        project: {
+          create: formData.projects,
         },
         profile_summary: formData.profile_summary,
         resume: formData.resume,
