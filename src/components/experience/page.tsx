@@ -82,8 +82,6 @@ const ExperienceDetails = () => {
   };
 
   const saveEntry = () => {
-
-    
     if (!experience.title) {
       return toast("please add title", {
         className: "black-background",
@@ -149,14 +147,16 @@ const ExperienceDetails = () => {
         progressClassName: "fancy-progress-bar",
       });
     }
-    if (!experience.end_year && experience.currently_working) {
+
+
+    if (!experience.end_year && !experience.currently_working) {
       return toast("please add end year", {
         className: "black-background",
         bodyClassName: "grow-font-size",
         progressClassName: "fancy-progress-bar",
       });
     }
-    if (!experience.end_year_month && experience.currently_working) {
+    if (!experience.end_year_month && !experience.currently_working) {
       return toast("please add end year month", {
         className: "black-background",
         bodyClassName: "grow-font-size",
@@ -195,11 +195,11 @@ const ExperienceDetails = () => {
 
         const startMonthNumber = releventMonths.filter(
           (item) => item.label === experience.start_year_month
-        )[0].value;
+        )[0]?.value;
 
         const endMonthNumber = releventMonths.filter(
           (item) => item.label === experience.end_year_month
-        )[0].value;
+        )[0]?.value;
 
         console.log("190", startMonthNumber, endMonthNumber);
 
@@ -350,6 +350,7 @@ const ExperienceDetails = () => {
         marginTop: "2rem",
       }}
     >
+      
       <Container size="xs" px="xs">
         {formData?.experiences?.length > 0 && (
           <div className="translateLeft">
@@ -657,7 +658,7 @@ const ExperienceDetails = () => {
                   )}
                 </Grid>
 
-                <button className="common-btn mt-4" onClick={() => saveEntry()}>
+                <button type="button" className="common-btn mt-4" onClick={() => saveEntry()}>
                   {" "}
                   Save{" "}
                 </button>
@@ -670,7 +671,6 @@ const ExperienceDetails = () => {
                 Add another experience{" "}
               </button>
             )}
-
 
             {formSubmitted && (
               <div

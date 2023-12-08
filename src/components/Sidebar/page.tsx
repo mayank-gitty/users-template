@@ -1,13 +1,22 @@
 "use client";
 import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import useThemeContext from "@/context/context";
 import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import { GET_USER, HAS_MASTER, PROFILE_USER } from "@/util/queries";
+import { useSearchParams } from "next/navigation";
 
 function Sidebar() {
   const router = useRouter();
+
+  const { active }: any = useThemeContext();
+
+  const pathname = usePathname();
+
+  // const searchParams:any = useSearchParams()
+
+  // const search = searchParams.get('search')
 
   const sidebarStyles = {
     background: "",
@@ -16,8 +25,6 @@ function Sidebar() {
   };
 
   const getData = async () => {
-
-
     const user: any = await client.request(HAS_MASTER, {
       where: {
         user: {
@@ -26,7 +33,7 @@ function Sidebar() {
           },
         },
       },
-    })
+    });
 
     // console.log("checking master", user);
 
@@ -52,13 +59,12 @@ function Sidebar() {
     sethasMaster,
     role,
     setRole,
-    image, setImage
+    image,
+    setImage,
   }: any = useThemeContext();
 
-  
-
   useEffect(() => {
-    // console.log("kkkkkkkkkkkkkkk");
+    console.log("kkkkkkkkkkkkkkk", pathname, active);
     const id = localStorage.getItem("id");
 
     if (id) {
@@ -68,7 +74,6 @@ function Sidebar() {
       router.push("/login");
     }
   }, []);
-
 
   const logOut = () => {
     // console.log("logout");
@@ -82,21 +87,37 @@ function Sidebar() {
       itskills: [],
       education: null,
       keyskills: [],
-      photograph:"",
+      photograph: "",
       resume_headline: "",
       profile_summary: "",
       total_experience: "",
       relevent_experience: "",
     });
     setActive(0);
-    setImage(null)
-    setRole('')
+    setImage(null);
+    setRole("");
     sethasMaster(false);
     router.push("/login");
   };
 
+  const getHeight = () => {
+
+
+    // alert('g')
+    console.log('ac',active)
+
+    if (pathname === "/profile") {
+      return "h-screen";
+    }
+    // if (active === 2) {
+    //   return "h-screen";
+    // } else {
+      return "h-screen-fit";
+    // }
+  };
+
   return (
-    <div className="sidebar  h-screen" style={sidebarStyles}>
+    <div className={`sidebar  ${getHeight()}`} style={sidebarStyles}>
       <div className="main-icon">
         <div className="">
           <img className="" src="/assets/company-logo.svg" />
@@ -188,7 +209,12 @@ function Sidebar() {
           {/* <div className="icon">
             <img src="/assets/Add.svg" />
           </div> */}
-          <a  onClick={() => logOut()} className="nav-link" aria-current="page" href="#">
+          <a
+            onClick={() => logOut()}
+            className="nav-link"
+            aria-current="page"
+            href="#"
+          >
             {" "}
             logout{" "}
           </a>

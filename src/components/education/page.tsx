@@ -11,6 +11,8 @@ import {
   Select,
 } from "@mantine/core";
 
+
+import { toast } from "react-toastify";
 import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";
@@ -205,7 +207,6 @@ const allDegreesArray = [
 
 const fields = [
   "other",
-  "Delhi Public",
   "Computer Science",
   "Electrical Engineering",
   "Mechanical Engineering",
@@ -355,6 +356,171 @@ const Education1: React.FC = () => {
 
     console.log("formdate", formData);
 
+    if (!education.school) {
+      return toast("please add university", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    if (education.school === 'other' && !schoolOther ) {
+      return toast("please add university", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    if (!education.degree) {
+      return toast("please select course", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    
+    if (education.degree === 'other' && !degreeOther ) {
+      return toast("please add course", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    if (!education.field_of_study) {
+      return toast("please select field of study", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    
+    if (education.field_of_study === 'other' && !fieldOther ) {
+      return toast("please add field of study", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    if (!education.grade) {
+      return toast("please add grade", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (!education.activities) {
+      return toast("please add activities", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    if (!education.description) {
+      return toast("please add  description", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    if (!education.start_year) {
+      return toast("please add start year", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (!education.start_year_month) {
+      return toast("please add start year month", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (!education.end_year ) {
+      return toast("please add end year", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (!education.end_year_month ) {
+      return toast("please add end year month", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    if (education.start_year && education.end_year) {
+      if (education.end_year < education.start_year) {
+        return toast(
+          "invalid duration, end year can not be smaller than start year",
+          {
+            className: "black-background",
+            bodyClassName: "grow-font-size",
+
+            progressClassName: "fancy-progress-bar",
+          }
+        );
+      }
+
+      if (education.end_year === education.start_year) {
+        const releventMonths = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ].map((item, index) => ({ label: item, value: index + 1 }));
+
+        const startMonthNumber = releventMonths.filter(
+          (item) => item.label === education.start_year_month
+        )[0].value;
+
+        const endMonthNumber = releventMonths.filter(
+          (item) => item.label === education.end_year_month
+        )[0].value;
+
+        console.log("190", startMonthNumber, endMonthNumber);
+
+        if (education.start_year_month === education.end_year_month) {
+          return toast(
+            "invalid duration, start date can not be equal to end date",
+            {
+              className: "black-background",
+              bodyClassName: "grow-font-size",
+              progressClassName: "fancy-progress-bar",
+            }
+          );
+        }
+        if (endMonthNumber < startMonthNumber) {
+          return toast(
+            "invalid duration, end date can not be small then start date",
+            {
+              className: "black-background",
+              bodyClassName: "grow-font-size",
+              progressClassName: "fancy-progress-bar",
+            }
+          );
+        }
+      }
+    }
+
+    
     if (education.school === "other") {
       education.school = schoolOther;
     }
@@ -367,147 +533,6 @@ const Education1: React.FC = () => {
       education.school = fieldOther;
     }
 
-    // if (!experience.title) {
-    //   return toast("please add title", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-    // if (experience.title.length < 5) {
-    //   return toast("title should have 5 min characters ", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-
-    // if (!experience.employment_type) {
-    //   return toast("please add employment type", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-    // if (!experience.company) {
-    //   return toast("please add company", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-    // if (experience.company.length < 5) {
-    //   return toast("company name should have 5 min characters", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-
-    // if (!experience.location) {
-    //   return toast("please add  location", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-    // if (!experience.location_type) {
-    //   return toast("please add location type", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-    // if (!experience.start_year) {
-    //   return toast("please add start year", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-    // if (!experience.start_year_month) {
-    //   return toast("please add start year month", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-    // if (!experience.end_year && experience.currently_working) {
-    //   return toast("please add end year", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-    // if (!experience.end_year_month && experience.currently_working) {
-    //   return toast("please add end year month", {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-
-    // if (experience.start_year && experience.end_year) {
-    //   if (experience.end_year < experience.start_year) {
-    //     return toast(
-    //       "invalid duration, end year can not be smaller than start year",
-    //       {
-    //         className: "black-background",
-    //         bodyClassName: "grow-font-size",
-
-    //         progressClassName: "fancy-progress-bar",
-    //       }
-    //     );
-    //   }
-
-    //   if (experience.end_year === experience.start_year) {
-    //     const releventMonths = [
-    //       "January",
-    //       "February",
-    //       "March",
-    //       "April",
-    //       "May",
-    //       "June",
-    //       "July",
-    //       "August",
-    //       "September",
-    //       "October",
-    //       "November",
-    //       "December",
-    //     ].map((item, index) => ({ label: item, value: index + 1 }));
-
-    //     const startMonthNumber = releventMonths.filter(
-    //       (item) => item.label === experience.start_year_month
-    //     )[0].value;
-
-    //     const endMonthNumber = releventMonths.filter(
-    //       (item) => item.label === experience.end_year_month
-    //     )[0].value;
-
-    //     console.log("190", startMonthNumber, endMonthNumber);
-
-    //     if (experience.start_year_month === experience.end_year_month) {
-    //       return toast(
-    //         "invalid duration, start date can not be equal to end date",
-    //         {
-    //           className: "black-background",
-    //           bodyClassName: "grow-font-size",
-    //           progressClassName: "fancy-progress-bar",
-    //         }
-    //       );
-    //     }
-    //     if (endMonthNumber < startMonthNumber) {
-    //       return toast(
-    //         "invalid duration, end date can not be small then start date",
-    //         {
-    //           className: "black-background",
-    //           bodyClassName: "grow-font-size",
-    //           progressClassName: "fancy-progress-bar",
-    //         }
-    //       );
-    //     }
-    //   }
-    // }
 
     setFormData((prevData: any) => ({
       ...prevData,
@@ -677,11 +702,7 @@ const Education1: React.FC = () => {
                       data={indianEducationArray}
                       placeholder="Select Insiitue"
                     />
-                    {/* {errors.university && (
-        <p style={{ color: "red", fontSize: "0.8em" }}>
-          {errors.university}
-        </p>
-      )} */}
+
                   </Input.Wrapper>
 
                   {education.school === "other" && (
@@ -1019,11 +1040,7 @@ const Education1: React.FC = () => {
                       })}
                     />
 
-                    {/* {errors.gradingsystem && (
-        <p style={{ color: "red", fontSize: "0.8em" }}>
-          {errors.gradingsystem}
-        </p>
-      )} */}
+ 
                   </Input.Wrapper>
                 </Grid.Col>
 
@@ -1061,7 +1078,7 @@ const Education1: React.FC = () => {
                   </Input.Wrapper>
                 </Grid.Col>
 
-                <button className="common-btn mt-4" onClick={() => saveEntry()}>
+                <button type="button" className="common-btn mt-4" onClick={() => saveEntry()}>
                   {" "}
                   Save{" "}
                 </button>

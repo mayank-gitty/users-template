@@ -67,7 +67,6 @@ const ColorlibStepIconRoot = styled("div")<{
   // font-style: normal;
   fontWeight: 800,
 
-
   width: 50,
   height: 50,
   display: "flex",
@@ -91,7 +90,6 @@ const ColorlibStepIconRoot = styled("div")<{
     fontSize: "20px",
     // font-style: normal;
     fontWeight: 800,
-
   }),
 }));
 
@@ -123,7 +121,7 @@ function ColorlibStepIcon(props: StepIconProps) {
 const steps = [
   "Profile photo",
   "Key skills",
-  "education",
+  "Education",
   "Resume headline",
   "Expererience",
   "Upload resume",
@@ -331,7 +329,7 @@ export default function CustomizedSteppers() {
               </Button>
             )}
           </Group>
-          <ProjectForm/>
+          <ProjectForm />
         </>
       )}
 
@@ -358,8 +356,8 @@ export default function CustomizedSteppers() {
           <Profile />
         </>
       )}
-
-      {active}
+      {/* 
+      {active} */}
     </Stack>
   );
 }

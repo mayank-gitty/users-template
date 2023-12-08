@@ -52,7 +52,7 @@ export default function Master() {
       });
     }
 
-    if (formData?.educations?.length === 0  && active === 2) {
+    if (formData?.educations?.length === 0 && active === 2) {
       return toast("please add education", {
         className: "black-background",
         bodyClassName: "grow-font-size",
@@ -75,7 +75,7 @@ export default function Master() {
       });
     }
 
-    if (formData?.experiences?.length === 0  && active === 4) {
+    if (formData?.experiences?.length === 0 && active === 4) {
       return toast("please add experience", {
         className: "black-background",
         bodyClassName: "grow-font-size",
@@ -99,11 +99,11 @@ export default function Master() {
       });
     }
 
-    setActive((current:number) => (current < 8 ? current + 1 : current));
+    setActive((current: number) => (current < 8 ? current + 1 : current));
   };
 
   const prevStep = () =>
-    setActive((current:number) => (current > 0 ? current - 1 : current));
+    setActive((current: number) => (current > 0 ? current - 1 : current));
 
   const steps = [
     "Select campaign settings",
@@ -119,27 +119,54 @@ export default function Master() {
 
       <CustomizedSteppers />
 
-      <Group className="no-margin" position="center" mt="xl">
-        {active !== 10 && active !== 8 && active !== 9 && (
-          <button className="next-button" onClick={nextStep}>
-            Next
-          </button>
-        )}
-      </Group>
-      <Group className="no-margin" position="left" mt="xl" style={{
-        position:"absolute",
-        left:"35%",
-        transform:'translateY(-47px)',
-        marginTop:"0"
-      }} >
-        {active !== 10  && active !== 9 && active !== 0 && (
-          <button className="below-back-button" onClick={prevStep}  style={{
-            marginTop:"0px !important"
-          }} >
-            Previous
-          </button>
-        )}
-      </Group>
+      <div
+        className=""
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className=""
+          style={{
+            width: "30rem",
+          }}
+        >
+          <Group
+            className="no-margin"
+            position="center"
+            mt="xl"
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            {active !== 10 && active !== 9 && active !== 0 && (
+              <button
+                className="below-back-button"
+                onClick={prevStep}
+                style={{
+                  marginTop: "0px !important",
+                  width:"48%"
+                }}
+              >
+                Previous
+              </button>
+            )}
+
+            {active !== 10 && active !== 8 && active !== 9 && (
+              <button className="next-button" onClick={nextStep} style={{
+                width: active === 0 ? "100%" : '48%' 
+              }} >
+                Next
+              </button>
+            )}
+          </Group>
+        </div>
+      </div>
     </div>
   );
 }

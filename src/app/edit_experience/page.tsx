@@ -70,7 +70,7 @@ export function EditUser(props: IAppProps) {
             };
           }),
         },
-        education: formData.education,
+        // education: formData.education,
         // active: formData.status,
         // // open_to_work: formData.work,
         // createdAt: new Date(),

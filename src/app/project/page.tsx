@@ -101,7 +101,7 @@ const ProjectForm = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        height: "100%",
       }}
     >
       <Container size="xs" px="xs">

@@ -1939,7 +1939,7 @@ export default function View(props: IAppProps) {
                 <div className="text-[#ABABAB] text-base font-medium flex items-center justify-center">
                   {form.getInputProps("resume_headline").value}
                 </div>
-                <div className="text-[#797878] text-xs font-medium flex items-center justify-center">
+                <div className="text-[#797878] text-xs font-medium flex items-center justify-center profile-summary-box">
                   {form.getInputProps("profile_summary").value}
                 </div>
               </div>

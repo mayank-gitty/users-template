@@ -153,10 +153,7 @@ const Profile = () => {
   };
 
   const save = async () => {
-
-
-    console.log(formData,formData)
-
+    console.log(formData, formData);
 
     if (!formData.profile_summary) {
       return toast("please enter profile summaary", {
@@ -273,15 +270,22 @@ const Profile = () => {
             <Grid>
               <Grid.Col span={12}>
                 <Textarea
-                  placeholder="enter here"
+                  placeholder="Enter profile summary "
                   size="md"
                   value={formData.profile_summary}
                   minLength={10}
-                  maxLength={100}
+                  maxLength={1000}
                   onChange={(e) =>
                     handleChange("profile_summary", e.target.value)
                   }
                 />
+              </Grid.Col>{" "}
+
+              <Grid.Col span={12}>
+                {/* <small>
+                  Your profile summary should mention the highlights of your
+                  career and education
+                </small> */}
               </Grid.Col>
 
               <Grid.Col
@@ -294,14 +298,17 @@ const Profile = () => {
               >
                 <div className="">
                   <Group position="right" mt="md">
-                    <Button
+                    <button
                       className="next-button"
                       type="submit"
-                      style={{}}
+                      style={{
+
+                        
+                      }}
                       onClick={() => save()}
                     >
                       submit
-                    </Button>
+                    </button>
 
                     <></>
                   </Group>

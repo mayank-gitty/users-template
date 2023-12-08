@@ -52,9 +52,9 @@ export function EditUser(props: IAppProps) {
       },
       data: {
         resume_headline: formData.resume_headline,
-        experience: {
-          create: formData.experiences,
-        },
+        // experience: {
+        //   create: formData.experiences,
+        // },
         profile_summary: formData.profile_summary,
         photograph: formData.photograph,
         keyskills: {
@@ -205,7 +205,7 @@ export function EditUser(props: IAppProps) {
 
   return (
     <div>
-      <div className="text-center">
+      <div className="text-center " style={{marginTop:"5rem"}} >
         <h6 className="mt-4 mb-4"> </h6>
       </div>
 

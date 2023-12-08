@@ -176,7 +176,7 @@ const useStyles = createStyles((theme, props: any) => ({
     lineHeight: "24px",
   },
   input: {
-    background: "orange",
+    // background: "orange",
     ".mantine-Text-root": {
       paddingLeft: "1rem",
     },

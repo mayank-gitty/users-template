@@ -4,6 +4,14 @@
 
 /* global styling*/
 
+.profile-summary-box {
+  /* background: blue; */
+  width: 100%;
+  /* overflow: auto; */
+}
+
+/* global styling */
+
 .font-700 {
   font-weight: 700;
 }
@@ -37,6 +45,7 @@
   margin-left: 1rem;
   /* background: #000; */
   width: 90%;
+  padding-right: 2rem;
   position: relative;
 }
 
@@ -253,8 +262,21 @@
 
 /* common  */
 
-.next-button {
+.h-screen-fit  {
+  height:100vh !important;
+}
+
+.h-screen {
+  height:100% !important;
+  color: #000;
+}
+
+.buttons-wrapper {
   width: 30rem;
+}
+
+.next-button {
+  width: 48%;
   height: 47.816px;
   border-radius: 7.288px;
   background: #4d47c3;
@@ -265,11 +287,13 @@
   font-weight: 500;
   line-height: normal;
   padding-top: 0px;
-  margin-top: 24px;
+  /* margin-top: 24px; */
 }
 
 .back-btn {
-  color: #4d47c3;
+  border-radius: 7.288px;
+  background: #4d47c3;
+  color: #fff;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
@@ -283,8 +307,10 @@
 .below-back-button {
   height: 47.816px;
   border-radius: 7.288px;
+  border-radius: 7.288px;
   background: #4d47c3;
   color: #fff;
+  width: 48%;
   /* font-family: Poppins; */
   font-size: 16px;
   font-style: normal;
@@ -458,7 +484,7 @@ a.page-link {
 
 .bg-wrapper {
   background: #f3f7fb;
-  height: 100vh;
+  height: 100%;
 }
 
 .skills-container-view-master {
@@ -584,17 +610,13 @@ a.page-link {
   opacity: 1 !important;
 }
 
-
-
 .translateLeftEducation {
-
   transform: translateX(-180%);
   position: absolute;
   background: whitesmoke;
   border-radius: 10px;
   width: 16rem;
   padding: 10px 10px;
-
 }
 
 .translateLeft {
@@ -607,7 +629,6 @@ a.page-link {
   padding: 10px 10px;
 }
 
-
 .ranslateLeftProjects {
   transform: translateX(-120%);
   left: 0;
@@ -616,9 +637,22 @@ a.page-link {
   border-radius: 10px;
   width: 16rem;
   padding: 10px 10px;
-
 }
 
+.next-button  {
+
+  width: 7rem;
+  border-radius: 7.288px;
+  background: #4d47c3;
+  color: #fff;
+  /* font-family: Poppins; */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding-top: 0px;
+
+}
 
 @media (min-width: 900px) {
   /* On screens wider than 768px, each image takes up 60% of the container width */

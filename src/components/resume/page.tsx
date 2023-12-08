@@ -180,7 +180,7 @@ const useStyles = createStyles((theme, props: any) => ({
     lineHeight: "24px",
   },
   input: {
-    background: "orange",
+    // background: "orange",
     textOverflow: "ellipsis",
     ".mantine-Text-root": {
       paddingLeft: "1rem",

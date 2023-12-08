@@ -83,7 +83,7 @@ const ProjectForm = () => {
   };
 
   const saveEntry = () => {
-    
+
     console.log("g", project, formData);
 
     if (!project.projectTitle) {
@@ -150,7 +150,6 @@ const ProjectForm = () => {
       });
     }
 
-
     if (!project.projectSite) {
       return toast("please add projectSite", {
         className: "black-background",
@@ -176,7 +175,7 @@ const ProjectForm = () => {
     }
     if (!project.role) {
       return toast("please add  project role", {
-        className: "black-background",  
+        className: "black-background",
         bodyClassName: "grow-font-size",
         progressClassName: "fancy-progress-bar",
       });
@@ -188,7 +187,7 @@ const ProjectForm = () => {
         progressClassName: "fancy-progress-bar",
       });
     }
-    if (project.roleDescription.length < 10  ) {
+    if (project.roleDescription.length < 10) {
       return toast("description should have atleast 10 characters", {
         className: "black-background",
         bodyClassName: "grow-font-size",
@@ -209,7 +208,6 @@ const ProjectForm = () => {
         progressClassName: "fancy-progress-bar",
       });
     }
-
 
     // if (experience.start_year && experience.end_year) {
     //   if (experience.end_year < experience.start_year) {
@@ -309,10 +307,10 @@ const ProjectForm = () => {
       ...prev,
       projects: filterExperiences,
     }));
-  };
+  }; 
 
   const handleSubmit = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     // const errors = {};
     // if (!formData.projectTitle) {
     //   errors.projectTitle = "Project Title is required";
@@ -325,6 +323,7 @@ const ProjectForm = () => {
     // }
     // if (!formData.workFromMonth) {
     //   errors.workFromMonth = "Month is required";
+    
     // }
     // if (!formData.detailsOfProject) {
     //   errors.detailsOfProject = "Detail is required";
@@ -358,7 +357,7 @@ const ProjectForm = () => {
         display: "flex",
         justifyContent: "center",
         // alignItems: "center",
-        height: "100vh",
+        height: "100%",
       }}
     >
       {formData?.projects?.length > 0 && (
@@ -377,13 +376,12 @@ const ProjectForm = () => {
             formData.projects.map((item: any) => {
               return (
                 <div className="experience-item text-indigo-950 text-sm font-bold">
-
-<div
-                      className="
+                  <div
+                    className="
         before"
-                    >
-                      .
-                    </div>
+                  >
+                    .
+                  </div>
                   <div className="text-indigo-950 text-sm font-bold">
                     <span className="delete-experience">
                       {" "}
@@ -423,7 +421,6 @@ const ProjectForm = () => {
                       <span> status: {item.projectStatus} </span>{" "}
                     </h6>
 
-             
                     <h6>
                       {" "}
                       <span> location: {item.projectLocation} </span>{" "}
@@ -449,12 +446,14 @@ const ProjectForm = () => {
                       <span> skillUsed: {item.skillUsed} </span>{" "}
                     </h6>
 
-                           <h6>
+                    <h6>
                       {" "}
-                      <span> details of project: {item.detailsOfProject} </span>{" "}
+                      <span>
+                        {" "}
+                        details of project: {item.detailsOfProject}{" "}
+                      </span>{" "}
                     </h6>
 
-                    {/* <h6>  activity: {item.activities} </h6> */}
                     <h6> role description: {item.roleDescription} </h6>
                   </div>
                 </div>
@@ -467,16 +466,18 @@ const ProjectForm = () => {
         <Paper
           shadow="xl"
           p="md"
-          style={{ maxHeight: "80vh", overflowY: "auto" }}
+          style={{
+            width: "30rem",
+          }}
         >
-          <h6 style={{ textAlign: "left", fontSize: "20px" }}>Add Project</h6>
+          <h6 className="box-heading">Add Project</h6>
 
           {flag && (
-            <form onSubmit={handleSubmit}>
+            <form>
               <Grid>
                 <Grid.Col span={12}>
                   <Input.Wrapper
-                    label="Project Title"
+                    label="Project title"
                     error={formErrors.projectTitle}
                     styles={() => ({
                       label: {
@@ -489,7 +490,7 @@ const ProjectForm = () => {
                     })}
                   >
                     <Input
-                      placeholder="Project Title"
+                      placeholder="Project title"
                       required
                       value={formData.projectTitle}
                       onChange={(e) =>
@@ -522,7 +523,7 @@ const ProjectForm = () => {
                 </Grid.Col>
                 <Grid.Col span={12}>
                   <Input.Wrapper
-                    label="Project Status"
+                    label="Project status"
                     error={formErrors.projectStatus}
                     styles={() => ({
                       label: {
@@ -570,7 +571,7 @@ const ProjectForm = () => {
                   >
                     <div style={{ flex: 1, marginRight: "10px" }}>
                       <Input.Wrapper
-                        label="Work From Year"
+                        label="Work from year"
                         error={formErrors.workFromYear}
                       >
                         <Select
@@ -585,7 +586,7 @@ const ProjectForm = () => {
                     </div>
                     <div style={{ flex: 1 }}>
                       <Input.Wrapper
-                        label="Work From Month"
+                        label="Work from month"
                         error={formErrors.workFromMonth}
                       >
                         <Select
@@ -615,7 +616,7 @@ const ProjectForm = () => {
                 </Grid.Col>
                 <Grid.Col span={12}>
                   <Input.Wrapper
-                    label="Details Of Project"
+                    label="Details of project"
                     error={formErrors.detailsOfProject}
                     styles={() => ({
                       label: {
@@ -665,12 +666,12 @@ const ProjectForm = () => {
                         handleChange("projectLocation", e.target.value)
                       }
                     />
-                  </Input.Wrapper>  
+                  </Input.Wrapper>
                 </Grid.Col>
 
                 <Grid.Col span={12}>
                   <Input.Wrapper
-                    label="Project Site"
+                    label="Project site"
                     error={formErrors.projectSite}
                     styles={() => ({
                       label: {
@@ -713,7 +714,7 @@ const ProjectForm = () => {
 
                 <Grid.Col span={12}>
                   <Input.Wrapper
-                    label="Nature Of Employment"
+                    label="Nature of employment"
                     error={formErrors.natureOfEmployment}
                     styles={() => ({
                       label: {
@@ -770,7 +771,7 @@ const ProjectForm = () => {
                 </Grid.Col>
 
                 <Grid.Col span={12}>
-                  <Input.Wrapper label="Team Size" error={formErrors.teamSize}>
+                  <Input.Wrapper label="Team size" error={formErrors.teamSize}>
                     <Select
                       placeholder="Select team size"
                       data={[
@@ -831,7 +832,7 @@ const ProjectForm = () => {
                     })}
                   >
                     <textarea
-                      placeholder="Role Description"
+                      placeholder="Role description"
                       required
                       style={{
                         width: "100%", // Adjust the width as needed
@@ -878,41 +879,6 @@ const ProjectForm = () => {
                   </Input.Wrapper>
                 </Grid.Col>
 
-                {/*     
-
-<Grid.Col span={12}>
-  <Input.Wrapper
-    label="Profile Summary"
-    error={formErrors.skillUsed}
-    styles={() => ({
-      label: {
-        color: "#01041b",
-        fontSize: "1.2em",
-        fontWeight: 500,
-        lineHeight: 1.2,
-        marginBottom: 10,
-      },
-    })}
-  >
-    <p>
-      Add a brief summary of your profile. This should include
-      your skills, experience, and what you bring to the table.
-    </p>
-    <textarea
-      placeholder="Skill Used"
-      required
-      style={{
-        width: "100%", // Adjust the width as needed
-        padding: "10px", // Add padding for a consistent look
-        borderRadius: "4px", // Add rounded corners
-        border: "1px solid #ccc", // Add a border
-      }}
-      value={project.skillUsed}
-      onChange={(e) => handleChange("skillUsed", e.target.value)}
-    />
-  </Input.Wrapper>
-</Grid.Col> */}
-
                 <Grid.Col
                   span={12}
                   style={{
@@ -922,46 +888,18 @@ const ProjectForm = () => {
                   }}
                 >
                   <Group position="right" mt="md">
-                    {/* <Button
-      type="button"
-      style={{
-        height: "50px",
-        width: "120px",
-        borderRadius: "8px",
-        backgroundColor: "gray",
-        textAlign: "center",
-        fontWeight: "bold",
-        fontSize: "16px",
-        color: "#FFFFFF",
-        marginRight: "10px",
-      }}
-      onClick={handleCancel}
-    >
-      Cancel
-    </Button> */}
-
-                    <Button
+                    <button
                       onClick={() => saveEntry()}
-                      // type="submit"
-                      style={{
-                        height: "50px",
-                        width: "120px",
-                        borderRadius: "8px",
-                        backgroundColor: "red",
-                        textAlign: "center",
-                        fontWeight: "bold",
-                        fontSize: "16px",
-                        color: "#FFFFFF",
-                      }}
+                      type="button"
+                      className="common-btn"
                     >
                       Save
-                    </Button>
+                    </button>
                   </Group>
                 </Grid.Col>
               </Grid>
             </form>
           )}
-
 
           {!flag && (
             <button className="common-btn mt-4" onClick={() => setFlag(true)}>
