@@ -139,6 +139,7 @@ export default function Master() {
             mt="xl"
             style={{
               width: "100%",
+              marginTop:"1ren",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
@@ -158,9 +159,13 @@ export default function Master() {
             )}
 
             {active !== 10 && active !== 8 && active !== 9 && (
-              <button className="next-button" onClick={nextStep} style={{
+              <button className="next-button" onClick={nextStep} 
+              
+              style={{
                 width: active === 0 ? "100%" : '48%' 
-              }} >
+              }}
+              
+              >
                 Next
               </button>
             )}

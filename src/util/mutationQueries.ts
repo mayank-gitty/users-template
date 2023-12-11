@@ -22,6 +22,9 @@ const AUTH_MUTATION = gql`
           name
           email
           role
+          company {
+            name
+          }
         }
         sessionToken
       }

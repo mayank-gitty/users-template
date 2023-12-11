@@ -15,26 +15,19 @@ const Login = () => {
 
   const router = useRouter();
 
+  const showPassword = () => {
+    console.log("hitting");
 
-  const showPassword = ()=>{
+    var x: any = document.getElementById("myInput");
 
-  
-    console.log('hitting')
+    console.log("xxxxxx", x);
 
-      var x:any = document.getElementById("myInput");
-
-
-      console.log('xxxxxx',x)
-
-
-
-      if (x.type === "password") {
-        x.type = "text";
-      } else {
-        x.type = "password";
-      }
-  
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
     }
+  };
 
   const form = useForm({
     initialValues: {
@@ -62,6 +55,9 @@ const Login = () => {
     if (user?.authenticateUserWithPassword?.message) {
       return alert("invalid credentials");
     } else {
+
+      console.log('dd', user?.authenticateUserWithPassword?.item)
+
       localStorage.setItem(
         "token",
         user?.authenticateUserWithPassword?.sessionToken
@@ -70,6 +66,14 @@ const Login = () => {
       localStorage.setItem(
         "name",
         user?.authenticateUserWithPassword?.item?.name
+      );
+      localStorage.setItem(
+        "role",
+        user?.authenticateUserWithPassword?.item?.role
+      );
+      localStorage.setItem(
+        "company",
+        user?.authenticateUserWithPassword?.item?.company?.name
       );
 
       setLoggedIn(true);
@@ -99,9 +103,8 @@ const Login = () => {
         />
         <div className="absolute  bottom-40 -left-10 lg:bottom-0 lg:left-0 mb-4 flex flex-col items-start justify-start">
           <h1 className="text-[50px] font-extrabold text-white pl-28">
-            Sign in 
+            Sign in
           </h1>
-    
         </div>
       </div>
 
@@ -126,7 +129,7 @@ const Login = () => {
               />
             </div>
             <div className="mb-8">
-              <PasswordInput 
+              <PasswordInput
                 // id="myInput"
                 withAsterisk
                 radius="md"
@@ -134,12 +137,11 @@ const Login = () => {
                 className="rounded"
                 placeholder="Password"
                 type="password"
-
                 visibilityToggleIcon={({ reveal, size }) =>
                   reveal ? (
-                    <IconEyeOff  onClick={()=> showPassword() } size={size} />
+                    <IconEyeOff onClick={() => showPassword()} size={size} />
                   ) : (
-                    <IconEyeCheck onClick={()=> showPassword()} size={size} />
+                    <IconEyeCheck onClick={() => showPassword()} size={size} />
                   )
                 }
                 styles={(theme) => ({
@@ -152,10 +154,7 @@ const Login = () => {
                 {...form.getInputProps("password")}
               />
             </div>
-
-            <div className="flex justify-end items-end text-[#B0B0B0] text-sm">
-              Forgot password?
-            </div>
+     
             <Group position="left" mt="md">
               <button
                 type="submit"
@@ -169,34 +168,7 @@ const Login = () => {
                 Login
               </button>
             </Group>
-            <h6 className="text-[#B0B0B0] font-medium mt-10 flex items-center justify-center">
-              or continue with
-            </h6>
-            <Group mt="md">
-              <Button
-                variant="light"
-                leftIcon={
-                  <img
-                    src="./images/google.png"
-                    alt="Google"
-                    className="mr-2 "
-                  />
-                }
-                className="text-[#4285F4] bg-[#E9F1FF] px-8 h-[55px] font-semibold rounded-[8px] text-md hover-bg-[#d7d8db]"
-              >
-                Sign in with Google
-              </Button>
-              <img
-                src="./images/facebook.png"
-                alt="Google"
-                className="mr-1 ml-0 md:mr-2 md:ml-3"
-              />
-              <img
-                src="./images/apple.png"
-                alt="Google"
-                className="mr-0 md:mr-2"
-              />
-            </Group>
+  
           </form>
         </div>
       </div>

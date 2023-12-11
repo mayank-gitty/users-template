@@ -21,13 +21,13 @@ const DatatablePage = () => {
       where: {
         user: {
           role: {
-            equals: "employee"
+            equals: "manager"
           },
-          company: {
-            name: {
-              equals: localStorage.getItem('company')
-            }
-          }
+        //   company: {
+        //     name: {
+        //       equals: localStorage.getItem('company')
+        //     }
+        //   }
         }
       },
       orderBy: [
@@ -43,7 +43,7 @@ const DatatablePage = () => {
     const users = user.profileUsers.map((item: any) => {  
       return {
         user: item?.user?.name,
-        // company: item?.user?.company?.name,
+        company: item?.user?.company?.name,
         photograph: <img src={item?.photograph} />,
         // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
@@ -109,12 +109,12 @@ const DatatablePage = () => {
         //   sort: "disabled",
         //   width: 200,
         // },
-        // {
-        //   label: "Company",
-        //   field: "company",
-        //   sort: "disabled",
-        //   width: 200,
-        // },
+        {
+          label: "Company",
+          field: "company",
+          sort: "disabled",
+          width: 200,
+        },
         // {
         //   label: "Resume Headline",
         //   field: "resume_headline",

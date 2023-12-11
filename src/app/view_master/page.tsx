@@ -128,7 +128,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    console.log("user", user);
+    console.log("userE", user);
 
     form.setValues({
       itskills: user?.profileUser?.itskills.map((item: any) => item.name),
@@ -136,8 +136,9 @@ export default function View(props: IAppProps) {
       keyskills: user?.profileUser?.keyskills.map((item: any) => item.name),
       resume_headline: user?.profileUser.resume_headline,
       profile_summary: user.profileUser.profile_summary,
-      total_experience: user.profileUser.total_experience,
-      relevent_experience: user.profileUser.relevent_experience,
+      experience: user?.profileUser?.experience,
+      // total_experience: user.profileUser.total_experience,
+      // relevent_experience: user.profileUser.relevent_experience,
       photograph: user.profileUser.photograph,
       name: user?.profileUser?.user?.name,
       address: user?.profileUser?.user?.address,
@@ -149,8 +150,6 @@ export default function View(props: IAppProps) {
     const itskills: any = await client.request(IT_SKILLS);
 
     const keyskills: any = await client.request(KEY_SKILLS);
-
-  
 
     form.setFieldValue(
       "allItskills",
@@ -174,11 +173,7 @@ export default function View(props: IAppProps) {
   };
 
   useEffect(() => {
-
-
     getData(search);
-
-   
   }, [search]);
 
   const handleChange = (field: any, e: any) => {
@@ -187,13 +182,15 @@ export default function View(props: IAppProps) {
     form.setFieldValue(field, e);
   };
 
-
+  console.log("eduaction", form.getInputProps("education").value);
 
   return (
     <div className="bg-wrapper  pt-[64px] ">
-       <div className="text-black text-2xl py-3  ml-[63px]  font-semibold "> View User </div>
+      <div className="text-black text-2xl py-3  ml-[63px]  font-semibold ">
+        {" "}
+        View Employee{" "}
+      </div>
       <div className="flex  items-center justify-start ml-[63px] view-master-card">
-     
         <Stack>
           <div className="view-box h-full w-full rounded bg-white  mt-[20px] ">
             <Group position="apart" className=" pb-3">
@@ -226,10 +223,13 @@ export default function View(props: IAppProps) {
             </Group>
             <Group position="apart" className="w-full lg:w-[100%]" py={12}>
               <Grid>
-                <Grid.Col span={4} style={{
-                  marginTop:"2em",
-                  marginBottom:"3em"
-                }} >
+                <Grid.Col
+                  span={4}
+                  style={{
+                    marginTop: "2em",
+                    marginBottom: "3em",
+                  }}
+                >
                   <Group position="left" style={{ alignItems: "flex-start" }}>
                     <Image
                       src="./images/education.svg"
@@ -242,18 +242,94 @@ export default function View(props: IAppProps) {
                         Education
                       </div>
                       <div className="text-black text-base font-semibold">
-                        {" "}
-                        {form.getInputProps("education").value}{" "}
-                      </div>
+                        {form
+                          .getInputProps("education")
+                          ?.value?.map((item: any) => {
+                            return (
+                              <div
+                                className="d-flex justify-content-between"
+                                style={{
+                                  // background:"yellow",
+                                  width: "100%",
+                                }}
+                              >
+                                <div className="text-indigo-950 text-sm font-bold">
+                                  <h6> {item.school} </h6>
+                                  <h6
+                                    style={{
+                                      fontWeight: "400",
+                                    }}
+                                  >
+                                    {" "}
+                                    {item.degree} ,{" "}
+                                    {/* <span> {item.employment_type} </span>{" "} */}
+                                  </h6>
+
+                                  <p
+                                    style={{
+                                      marginBottom: "0.5rem",
+                                    }}
+                                  >
+                                    {" "}
+                                    <span> {item.start_year} - </span>{" "}
+                                    <span> {item.end_year} </span> ,
+                                    {item.end_year - item.start_year + "yrs"}{" "}
+                                  </p>
+
+                                  <p> {item.activities} </p>
+                                  <p> {item.description} </p>
+                                </div>
+
+                                {/* <Image
+            onClick={() => {
+              setEducation({
+                id: item.id,
+                school: item.school,
+                // schoolOther: "",
+                degree: item.degree,
+                // degreeOther: "",
+                field_of_study:
+                  item.field_of_study,
+                // field_of_studyOther: "",
+                grade: item.grade,
+                activities: item.activities,
+                description: item.description,
+                start_year: item.start_year,
+                start_year_month:
+                  item.start_year_month,
+                end_year: item.end_year,
+                end_year_month:
+                  item.end_year_month,
+              });
+            }}
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModalEducation"
+            // data-toggle="modal"
+            // data-target="#exampleModalLong"
+            src="./images/Edit.svg"
+            alt="Google"
+            style={{
+              width: "24px",
+              height: "24px",
+              marginLeft: "10rem",
+            }}
+          /> */}
+                              </div>
+                            );
+                          })}
+                      </div>{" "}
                     </Stack>
                   </Group>
                 </Grid.Col>
 
-                <Grid.Col span={4} style={{
-                  marginTop:"2em",
-                  marginBottom:"3em",
-                  // background:"red"
-                }} >
+                <Grid.Col
+                  span={4}
+                  style={{
+                    marginTop: "2em",
+                    marginBottom: "3em",
+                    // background:"red"
+                  }}
+                >
                   <Group position="left" style={{ alignItems: "flex-start" }}>
                     <Image
                       src="./images/experience.svg"
@@ -265,25 +341,86 @@ export default function View(props: IAppProps) {
                       <div className="text-blue-950 text-opacity-50 text-xs font-medium">
                         Experience
                       </div>
-                      <div className="text-black text-base font-semibold">
-                        {" "}
 
-                      
-                     Total-  {form.getInputProps("total_experience").value}
-                      </div>
-                      <div className="text-black text-base font-semibold">
-                        {" "}
-                        
-                      Relevant-  {form.getInputProps("relevent_experience").value}{" "}
-                      </div>
+                      {form.getInputProps("experience")?.value?.map((item) => {
+                        return (
+                          <div
+                            className="d-flex justify-content-between"
+                            style={{
+                              // background:"yellow",
+                              width: "100%",
+                            }}
+                          >
+                            <div className="text-indigo-950 text-sm font-bold">
+                              <h6> {item.title} </h6>
+                              <h6
+                                style={{
+                                  fontWeight: "400",
+                                }}
+                              >
+                                {" "}
+                                {item.company} ,{" "}
+                                <span> {item.employment_type} </span>{" "}
+                              </h6>
+
+                              <p
+                                style={{
+                                  marginBottom: "0.5rem",
+                                }}
+                              >
+                                {" "}
+                                <span> {item.start_year} - </span>{" "}
+                                <span> {item.end_year} </span> ,
+                                {item.end_year - item.start_year + "yrs"}{" "}
+                              </p>
+
+                              <p> {item.location} </p>
+                            </div>
+
+                            {/* <Image
+                        // onClick={() => {
+                        //   setExperience({
+                        //     title: item.title,
+                        //     employment_type: item.employment_type,
+                        //     company: item.company,
+                        //     location: item.location,
+                        //     location_type: item.location_type,
+                        //     start_year: item.start_year,
+                        //     start_year_month:
+                        //       item.start_year_month,
+                        //     end_year: item.end_year,
+                        //     end_year_month: item.end_year_month,
+                        //     currently_working:
+                        //       item.currently_working,
+                        //     id: item.id,
+                        //   });
+                        // }}
+                        // data-bs-toggle="modal"
+                        // data-bs-target="#exampleModal"
+                        // data-toggle="modal"
+                        // data-target="#exampleModalLong"
+                        src="./images/Edit.svg"
+                        alt="Google"
+                        style={{
+                          width: "24px",
+                          height: "24px",
+                          marginLeft: "10rem",
+                        }}
+                      /> */}
+                          </div>
+                        );
+                      })}
                     </Stack>
                   </Group>
                 </Grid.Col>
 
-                <Grid.Col span={4} style={{
-                  marginTop:"2em",
-                  marginBottom:"3em",
-                }} >
+                <Grid.Col
+                  span={4}
+                  style={{
+                    marginTop: "2em",
+                    marginBottom: "3em",
+                  }}
+                >
                   <Group position="left" style={{ alignItems: "flex-start" }}>
                     <Image
                       src="./images/Icon-Skill.svg"
@@ -297,9 +434,20 @@ export default function View(props: IAppProps) {
                       </div>
                       <div className="text-black text-base font-semibold skills-container-view-master">
                         {" "}
-                        {form.getInputProps("itskills")?.value?.map((item:any,index:number)=>{
-                          return <span> {item} {  (index + 1 ) !==   form.getInputProps("itskills")?.value?.length  ? ',' : '' }  </span> 
-                        })}
+                        {form
+                          .getInputProps("itskills")
+                          ?.value?.map((item: any, index: number) => {
+                            return (
+                              <span>
+                                {" "}
+                                {item}{" "}
+                                {index + 1 !==
+                                form.getInputProps("itskills")?.value?.length
+                                  ? ","
+                                  : ""}{" "}
+                              </span>
+                            );
+                          })}
                       </div>
                     </Stack>
                   </Group>
@@ -318,9 +466,20 @@ export default function View(props: IAppProps) {
                       </div>
                       <div className="text-black text-base font-semibold skills-container-view-master">
                         {" "}
-                        {form.getInputProps("keyskills")?.value?.map((item:any,index:number)=>{
-                          return <span> {item}{(index + 1 ) !==  form.getInputProps("keyskills")?.value?.length  ? ',' : '' }  </span> 
-                        })}
+                        {form
+                          .getInputProps("keyskills")
+                          ?.value?.map((item: any, index: number) => {
+                            return (
+                              <span>
+                                {" "}
+                                {item}
+                                {index + 1 !==
+                                form.getInputProps("keyskills")?.value?.length
+                                  ? ","
+                                  : ""}{" "}
+                              </span>
+                            );
+                          })}
                       </div>
                     </Stack>
                   </Group>
@@ -340,7 +499,18 @@ export default function View(props: IAppProps) {
                       </div>
                       <div className="text-black text-base font-semibold ">
                         {" "}
-                        <a  target="_blank"   download={ ( form.getInputProps("resume")?.value.includes('docx' ) || form.getInputProps("resume")?.value.includes('doc')  ) ? true : false }  href={form.getInputProps("resume")?.value}>
+                        <a
+                          target="_blank"
+                          download={
+                            form
+                              .getInputProps("resume")
+                              ?.value.includes("docx") ||
+                            form.getInputProps("resume")?.value.includes("doc")
+                              ? true
+                              : false
+                          }
+                          href={form.getInputProps("resume")?.value}
+                        >
                           view resume
                         </a>
                         {/* {form.getInputProps("resume").value}{" "} */}
@@ -362,9 +532,7 @@ export default function View(props: IAppProps) {
                         Location
                       </div>
                       <div className="text-black text-base font-semibold">
-                        {
-                          form.getInputProps("address")?.value
-                        }
+                        {form.getInputProps("address")?.value}
                       </div>
                     </Stack>
                   </Group>

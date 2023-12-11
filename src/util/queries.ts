@@ -8,6 +8,10 @@ const HAS_MASTER = gql`
         name
         id
         email
+        role
+        company {
+          name
+        }
       }
       project {
         id
@@ -34,8 +38,8 @@ const HAS_MASTER = gql`
 `;
 
 const PROFILE_USERS = gql`
-  query ProfileUsers($orderBy: [ProfileUserOrderByInput!]!) {
-    profileUsers(orderBy: $orderBy) {
+  query ProfileUsers( $where: ProfileUserWhereInput! , $orderBy: [ProfileUserOrderByInput!]!) {
+    profileUsers( where: $where,orderBy: $orderBy) {
       id
       project {
         id
@@ -104,6 +108,10 @@ const PROFILE_USER = gql`
         id
         email
         role
+
+        company  {
+          name
+        }
       }
       resume
       education {
@@ -122,7 +130,6 @@ const PROFILE_USER = gql`
       experience {
         id
         title
-
         location_type
         location
         start_year
@@ -131,11 +138,10 @@ const PROFILE_USER = gql`
         end_year_month
         employment_type
         currently_working
-        company
+
       }
 
       resume_headline
-
       profile_summary
       photograph
       keyskillsCount
@@ -181,6 +187,9 @@ const EDIT_MASTER = gql`
         email
         phone
         address
+        company {
+          name
+        }
       }
 
       resume_headline
@@ -241,10 +250,26 @@ const VIEW_MASTER = gql`
         email
         phone
         address
+        company {
+          name
+        }
+      }
+
+      experience {
+        id
+        title
+        location_type
+        location
+        start_year
+        start_year_month  
+        end_year
+        end_year_month
+        employment_type
+        currently_working
+
       }
 
       resume_headline
-
       profile_summary
       photograph
       keyskillsCount
@@ -298,6 +323,9 @@ const GET_USER = gql`
       role
       name
       email
+      company {
+        name
+      }
     }
   }
 `;

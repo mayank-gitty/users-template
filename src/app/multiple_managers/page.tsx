@@ -25,7 +25,6 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 
-// import LayoutNav from "../../components/LayoutNav";
 import { useRouter } from "next/navigation";
 import { gql, useQuery, useMutation } from "@apollo/client";
 const manrope = Manrope({ subsets: ["latin"] });
@@ -166,7 +165,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
           return null;
         },
         address: (value) => (value ? null : "add address"),
-        // company: (value) => (value ? null : "please select company"),
+        company: (value) => (value ? null : "please select company"),
       },
     },
   });
@@ -183,16 +182,9 @@ const AddTimeLine = ({ AllProjects }: any) => {
       };
     });
 
-
-    console.log('dsss', localStorage.getItem('company') ,  DefaultSkills )
-
-    const managerCompany  = DefaultSkills?.filter((item)=>item.label === localStorage.getItem('company'))
-
-    console.log('mc',managerCompany)
-
     // setDefaultSkills(DefaultSkills);
 
-    form.setFieldValue("companies", managerCompany);
+    form.setFieldValue("companies", DefaultSkills);
   };
 
   const addEntry = () => {
@@ -218,6 +210,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const numberChars = "0123456789";
 
+    // Create a random portion with uppercase, numbers, and special characters
     let randomPart = "";
     for (let i = 0; i < 5; i++) {
       const charSet = i % 3;
@@ -237,10 +230,13 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
     console.log("c", randomPart);
 
+    // Create the final password by combining the input string, underscores, and the random portion
+    // const underscores = "_".repeat(remainingLength - randomPart.length);
     const password = inputString + randomPart + "@" + "cloud";
 
     return password;
   }
+
 
 
   function generatePasswordFromUsername(username) {
@@ -286,6 +282,9 @@ const AddTimeLine = ({ AllProjects }: any) => {
   const password = generatePasswordFromUsername(username);
   console.log(password);
 
+  // const seedString = "YourSeedString"; // Replace with your own seed string
+  // const password = generateSecurePassword(seedString, 12); // Change the number to set the desired password length
+  // console.log(password);
 
   function findDuplicateObjects(array, property) {
     console.log(array, property);
@@ -344,18 +343,14 @@ const AddTimeLine = ({ AllProjects }: any) => {
   // Trigger the email sending
 
   const saveAll = async () => {
-    // console.log("form enteries", form.values.entries);
-
-    console.log("form com", form.getInputProps('companies'));
+    console.log("form enteries", form.values.entries);
 
     if (form.validate().hasErrors) {
       console.log("yes", form.errors);
       return;
     } else {
       console.log("form valuess ", form.values);
-
-
-
+  
       const users: any = await client.request(USERS);
 
       console.log("users", users);
@@ -412,12 +407,12 @@ const AddTimeLine = ({ AllProjects }: any) => {
           name: item.userName,
           // role:['Admin'],
           // mobilenumber: item.mobileNumber,
-          role:'employee',
+          role:'manager',
           email: item.email,
           // address: item.address,
           company: {
             connect: {
-              id: form.getInputProps('companies')?.value[0].value,
+              id: item.company,
             },
           },
           password: generateSecurePassword5(item.userName, 12, item.company),
@@ -433,7 +428,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
       });
 
       if (user.createUsers) {
-        toast("employees registered", {
+        toast("users registered", {
           className: "green-background",
           bodyClassName: "grow-font-size",
           progressClassName: "fancy-progress-bar",
@@ -450,10 +445,12 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
         // Redirect or perform other actions
         setTimeout(() => {
-          router.push("/multi_users_table");
+          router.push("/registered_managers");
         }, 1000);
-      } else {
 
+      } else {
+        // console.log("error",);
+        // setFormErrors(validationErrors);
       }
     }
   };
@@ -466,15 +463,15 @@ const AddTimeLine = ({ AllProjects }: any) => {
       {/*     
     <ToastContainer/> */}
       <form onSubmit={form.onSubmit((values) => {})}>
-        <div className="px-5 py-6 ">
+        <div className="px-5 py-6 ">  
           {/* Second Navbar */}
           <div className="p-5 bg-white drop-shadow-md rounded-xl">
             <div className="flex items-center justify-between">
               <h1
                 className={`text-[#140F49] text-[1.2em] font-semibold ${manrope.style} `}
               >
-                Add Multiple Employees
-              </h1>
+                Add Multiple Managers
+              </h1> 
               <div className="flex items-center gap-4 justify-center">
                 <div className="relative"></div>
 
@@ -484,7 +481,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                     type="submit"
                     className={`${clickS} px-3 py-2 rounded-lg capitalize `}
                   >
-                    Save Employees Entry
+                    Save Managers Entry
                   </button>
 
                 </div>
@@ -533,9 +530,9 @@ const AddTimeLine = ({ AllProjects }: any) => {
                       <th scope="col" className="px-6 py-3">
                         Address
                       </th>
-                      {/* <th scope="col" className="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         Company
-                      </th> */}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -577,13 +574,13 @@ const AddTimeLine = ({ AllProjects }: any) => {
                           {...form.getInputProps(`entries.${0}.address`)}
                         />
                       </td>
-                      {/* <td>
+                      <td>
                         <Select
                           {...form.getInputProps(`entries.${0}.company`)}
                           placeholder="Please Select Company"
                           data={form.getInputProps("companies").value}
                         />
-                      </td> */}
+                      </td>
                     </tr>
 
                     {form.values.entries.length > 1 &&
@@ -643,7 +640,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                   )}
                                 />
                               </td>
-                              {/* <td className="px-6 py-4">
+                              <td className="px-6 py-4">
                                 <Select
                                   // label="Please select company"
                                   placeholder="Please select company"
@@ -652,7 +649,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                   )}
                                   data={form.getInputProps("companies").value}
                                 />
-                              </td> */}
+                              </td>
                               <td>
                                 <button
                                   className={`${clickS} px-3 py-2 rounded-lg capitalize ml-6 bg-black`}
@@ -676,7 +673,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                     onClick={() => addEntry()}
                     type="button"
                   >
-                    Add Users Entry
+                    Add Managers Entry
                   </button>
                 }
               </div>
@@ -684,6 +681,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
           </div>
         </div>
 
+ 
       </form>
     </>
   );

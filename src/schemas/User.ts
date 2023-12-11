@@ -20,7 +20,7 @@ type Session = {
     }
   
     // If admin roles are found, consider the user as admin
-    if (admin == "admin" ) {
+    if ( admin == "admin"  || admin == "manager" ) {
       return true;
     }
   

@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 import { serialize } from "v8";
 import { IT_SKILLS, KEY_SKILLS, EDIT_MASTER } from "@/util/queries";
 import { updateUser } from "@/util/mutationQueries";
+import { toast } from "react-toastify";
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -204,18 +205,25 @@ export default function View(props: IAppProps) {
             };
           }),
         },
-        education: values.education,
+        // education: values.education,
         active: values.status,
         open_to_work: values.work,
         createdAt: new Date(),
       },
     });
 
-    console.log("updated", form.getInputProps(""));
+    toast("updated", {
+      className: "green-background",
+      bodyClassName: "grow-font-size",  
+      progressClassName: "fancy-progress-bar",
+    });
 
-    setTimeout(() => {
-      router.push("/profileUsers");
-    }, 2000);
+    // console.log("updated", form.getInputProps(""));
+
+    // setTimeout(() => {
+    //   router.push("/profileManagers");
+    // }, 2000);
+
   };
 
   return (
@@ -286,7 +294,8 @@ export default function View(props: IAppProps) {
                         placeholder="write"
                       />
                     </Grid.Col>
-                    <Grid.Col span={6}>
+                    {/* <Grid.Col span={6}>
+
                       <Select
                         label="education"
                         value={form.getInputProps("education").value}
@@ -296,7 +305,8 @@ export default function View(props: IAppProps) {
                         placeholder="Select Education"
                         // styles={customStyles}
                       />
-                    </Grid.Col>
+
+                    </Grid.Col> */}
                     <Grid.Col span={12}>
                       <MultiSelect
                         label="it skills"

@@ -14,14 +14,9 @@ function Sidebar() {
 
   const pathname = usePathname();
 
-  // const searchParams:any = useSearchParams()
-
-  // const search = searchParams.get('search')
-
   const sidebarStyles = {
     background: "",
     boxShadow: "0px 4px 29px 0px rgba(0, 0, 0, 0.08)",
-    // color: "white",
   };
 
   const getData = async () => {
@@ -34,8 +29,6 @@ function Sidebar() {
         },
       },
     });
-
-    // console.log("checking master", user);
 
     if (user?.profileUsers.length > 0) {
       sethasMaster(true);
@@ -64,16 +57,16 @@ function Sidebar() {
   }: any = useThemeContext();
 
   useEffect(() => {
-    console.log("kkkkkkkkkkkkkkk", pathname, active);
     const id = localStorage.getItem("id");
 
     if (id) {
-      // setLoggedIn(true);
       getData();
     } else {
       router.push("/login");
     }
   }, []);
+
+  console.log("role", role);
 
   const logOut = () => {
     // console.log("logout");
@@ -81,6 +74,8 @@ function Sidebar() {
     localStorage.removeItem("token");
     localStorage.removeItem("id");
     localStorage.removeItem("name");
+    localStorage.removeItem("role");
+    localStorage.removeItem("company");
 
     setLoggedIn(false);
     setFormData({
@@ -101,19 +96,15 @@ function Sidebar() {
   };
 
   const getHeight = () => {
-
-
     // alert('g')
-    console.log('ac',active)
+    console.log("ac", active);
 
     if (pathname === "/profile") {
       return "h-screen";
     }
-    // if (active === 2) {
-    //   return "h-screen";
-    // } else {
-      return "h-screen-fit";
-    // }
+
+    return "h-screen-fit";
+
   };
 
   return (
@@ -127,7 +118,6 @@ function Sidebar() {
       <ul className="mt-[20%]">
         <li
           onClick={() => {
-            // alert('mayank')
             router.push(`/`);
           }}
           className="d-flex align-items-center  mt-[5%] font-semibold first-list-item-border-bottom border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer"
@@ -141,6 +131,7 @@ function Sidebar() {
             Dashboard{" "}
           </a>
         </li>
+
         <li
           onClick={() =>
             router.push(`/profile?id=${localStorage.getItem("id")}`)
@@ -156,59 +147,109 @@ function Sidebar() {
           </a>
         </li>
 
-        {role !== "employee" && (
-          <div className="">
-            <li
-              onClick={() => {
-                // alert('m')
-                router.push("/profileUsers");
-              }}
-              className="d-flex align-items-center mt-[5%] font-semibold  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer"
-            >
-              <img src="/assets/users.svg" />
-              <a className="nav-link" aria-current="page" href="#">
-                {" "}
-                Users{" "}
-              </a>
-            </li>
-            <li
-              onClick={() => {
-                router.push("/multipleuser");
-                // alert('mayank')
-              }}
-              className="d-flex align-items-center mt-[5%] font-semibold  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer"
-            >
-              <div className="icon">
-                <img src="/assets/Add.svg" />
-              </div>
-              <a className="nav-link " aria-current="page" href="">
-                {" "}
-                Create Users{" "}
-              </a>
-            </li>
-          </div>
-        )}
+        <div className="">
+          {role === "manager" && (
+            <div className="">
+              <li
+                onClick={() => {
+                  // alert('m')
+                  router.push("/profileUsers");
+                }}
+                className="d-flex align-items-center mt-[5%] font-semibold  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer"
+              >
+                <img src="/assets/users.svg" />
+                <a className="nav-link" aria-current="page" href="#">
+                  {" "}
+                  Employees Profiles {" "}
+                </a>
+              </li>
 
-        {/* <li className='mt-[5%] font-semibold border-b border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer'>
-    <a className="nav-link active" aria-current="page" href="#">Profile Summary</a>
-  </li>
-  <li className='mt-[5%] font-semibold border-b border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer'>
-    <a className="nav-link active" aria-current="page" href="#">Relevant Experience</a>
-  </li>
-  <li className='mt-[5%] font-semibold border-b border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer'>
-    <a className="nav-link active" aria-current="page" href="#">Total Experience</a>
-  </li>
-  <li className='mt-[5%] font-semibold border-b border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer'>
-    <a className="nav-link active" aria-current="page" href="#">Resume Headline</a>
-  </li>
-  <li className='mt-[5%] font-semibold border-b border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer'>
-    <a className="nav-link active" aria-current="page" href="#">Resume</a>
-  </li> */}
+              <li
+                onClick={() => {
+                  router.push("/multipleuser");
+                  // alert('mayank')
+                }}
+                className="d-flex align-items-center mt-[5%] font-semibold  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer"
+              >
+                <div className="icon">
+                  <img src="/assets/Add.svg" />
+                </div>
+                <a className="nav-link " aria-current="page" href="">
+                  {" "}
+                  Create Employees {" "}
+                </a>
+              </li>
+
+              <li
+                onClick={() => {
+                  router.push("/multi_users_table");
+                  // alert('mayank')
+                }}
+                className="d-flex align-items-center mt-[5%] font-semibold  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer"
+              >
+                <div className="icon">
+                  <img src="/assets/Add.svg" />
+                </div>
+                <a className="nav-link " aria-current="page" href="">
+                  {" "}
+                  Registered Employees {" "}
+                </a>
+              </li>
+            </div>
+          )}
+
+          {role === "admin" && (
+            <>
+              <li
+                onClick={() => {
+                  router.push("/multiple_managers");
+                  // alert('mayank')
+                }}
+                className="d-flex align-items-center mt-[5%] font-semibold  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer"
+              >
+                <div className="icon">
+                  <img src="/assets/Add.svg" />
+                </div>
+                <a className="nav-link " aria-current="page" href="">
+                  {" "}
+                  Create Managers{" "}
+                </a>
+              </li>
+              <li 
+                onClick={() => {
+                  router.push("/profileManagers");
+                  // alert('mayank')
+                }}
+                className="d-flex align-items-center mt-[5%] font-semibold  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer"
+              >
+                <div className="icon">
+                  <img src="/assets/Add.svg" />
+                </div>
+                <a className="nav-link " aria-current="page" href="">
+                  {" "}
+                 Managers Profiles {" "}
+                </a>
+              </li>
+              <li
+                onClick={() => {
+                  router.push("/registered_managers");
+                  // alert('mayank')
+                }}
+                className="d-flex align-items-center mt-[5%] font-semibold  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer"
+              >
+                <div className="icon">
+                  <img src="/assets/Add.svg" />
+                </div>
+                <a className="nav-link " aria-current="page" href="">
+                  {" "}
+                 Registered Managers{" "}
+                </a>
+              </li>
+            </>
+          )}
+        </div>
 
         <li className="last-list-item d-flex justify-content-end align-items-center mt-[5%] font-semibold  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer">
-          {/* <div className="icon">
-            <img src="/assets/Add.svg" />
-          </div> */}
           <a
             onClick={() => logOut()}
             className="nav-link"

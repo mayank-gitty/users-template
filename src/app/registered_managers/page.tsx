@@ -30,13 +30,13 @@ const DatatablePage = () => {
     const user: any = await client.request(USERS,{
       "where": {
         "role": {
-          "equals": "employee"
+          "equals": "manager"
         },
-        "company": {
-          "name": {
-            "equals": localStorage.getItem('company')
-          }
-        }
+        // "company": {
+        //   "name": {
+        //     "equals": localStorage.getItem('company')
+        //   }
+        // }
       }
     });
 
@@ -85,12 +85,12 @@ const DatatablePage = () => {
           width: 200,
         },
   
-        // {
-        //   label: "Company",
-        //   field: "company",
-        //   sort: "asc",
-        //   width: 100,
-        // },
+        {
+          label: "Company",
+          field: "company",
+          sort: "asc",
+          width: 100,
+        },
 
       ],
       rows: users,
