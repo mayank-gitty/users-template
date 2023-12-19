@@ -305,6 +305,7 @@ export default function PhotoUpload(props) {
           </div>
 
           <Container px="xs" className="">
+            
             {/* <div className="profile-upload">
                       {formData.photograph && <img src={formData.photograph} />}
                       {formData.photogarph}
@@ -312,10 +313,11 @@ export default function PhotoUpload(props) {
 
             <div className="">
               <Paper
-                shadow="xl"
+                // shadow="xl"
                 p="md"
                 style={{
                   width: "100%",
+                  padding:"16px"
                 }}
               >
                 <h6 className="box-heading text-left">

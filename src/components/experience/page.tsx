@@ -17,7 +17,8 @@ import { toast } from "react-toastify";
 import { Console, error } from "console";
 
 const ExperienceDetails = () => {
-  const { setFormData, formData }: any = useThemeContext();
+  const { setFormData, formData, experienceOpen, setexperienceOpen }: any =
+    useThemeContext();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -36,6 +37,8 @@ const ExperienceDetails = () => {
     end_year_month: "",
     currently_working: false,
   });
+
+  const [editOpen, seteditopen] = useState("");
 
   const type = [
     { label: "Full-time", value: "fullTime" },
@@ -148,7 +151,6 @@ const ExperienceDetails = () => {
       });
     }
 
-
     if (!experience.end_year && !experience.currently_working) {
       return toast("please add end year", {
         className: "black-background",
@@ -226,10 +228,45 @@ const ExperienceDetails = () => {
       }
     }
 
-    setFormData((prevData: any) => ({
-      ...prevData,
-      ["experiences"]: [...formData.experiences, experience],
-    }));
+    if (experience.currently_working) {
+      experience.end_year = experience.start_year;
+      experience.end_year_month = experience.start_year_month;
+    }
+
+    if (editOpen !== "") {
+      alert(editOpen);
+
+      const changed = formData?.experiences.map((item: any) => {
+        if (item.id === editOpen) {
+          // id: "id" + new Date().getTime(),
+
+            (item.title = experience.title),
+            (item.employment_type = experience.employment_type),
+            (item.company = experience.company),
+            (item.location = experience.location),
+            (item.location_type = experience.location_type),
+            (item.start_year = experience.start_year),
+            (item.start_year_month = experience.start_year_month),
+            (item.end_year = experience.end_year),
+            (item.end_year_month = experience.end_year_month),
+            (item.currently_working = experience.currently_working);
+        }
+
+        return item;
+      });
+
+      console.log("ch", changed);
+
+      setFormData((prevData: any) => ({
+        ...prevData,
+        ["experiences"]: changed,
+      }));
+    } else {
+      setFormData((prevData: any) => ({
+        ...prevData,
+        ["experiences"]: [...formData.experiences, experience],
+      }));
+    }
 
     setExperience({
       id: "id" + new Date().getTime(),
@@ -246,6 +283,8 @@ const ExperienceDetails = () => {
     });
 
     setFlag(false);
+
+    setexperienceOpen(false);
   };
 
   function generateArrayOfYears() {
@@ -311,7 +350,6 @@ const ExperienceDetails = () => {
       "February",
       "March",
       "April",
-
       "May",
       "June",
       "July",
@@ -324,11 +362,15 @@ const ExperienceDetails = () => {
 
     const startMonthNumber = releventMonthsData.filter(
       (item) => item.label === start_month
-    )[0].value;
+    )[0]?.value;
 
     const endMonthNumber = releventMonthsData.filter(
       (item) => item.label === end_month
-    )[0].value;
+    )[0]?.value;
+
+    if (!end_year) {
+      return `currently-working-here`;
+    }
 
     const duration = calculateDuration(
       end_year,
@@ -350,120 +392,182 @@ const ExperienceDetails = () => {
         marginTop: "2rem",
       }}
     >
-      
       <Container size="xs" px="xs">
-        {formData?.experiences?.length > 0 && (
-          <div className="translateLeft">
-            {" "}
-            <div className="mb-2 font-700">
-              {formData.experiences.length > 0 ? (
-                <span className="mb-2"> total </span>
-              ) : (
-                ""
-              )}
-              {formData.experiences.length > 0 &&
-                formData.experiences.length + " experiences"}{" "}
-            </div>
-            {formData.experiences.length > 0 &&
-              formData.experiences.map((item: any) => {
-                return (
-                  <div className="experience-item text-indigo-950 text-sm font-bold">
-                    <div
-                      className="
-        before"
-                    >
-                      .
-                    </div>
-
-                    <div className="inside">
-                      <h6 className="font-600"> {item.title} </h6>{" "}
-                      <span className="delete-experience">
-                        {" "}
-                        <img
-                          style={{
-                            width: "24px",
-                            cursor: "pointer",
-                          }}
-                          src={"assets/bin.png"}
-                          onClick={() => deleteExperience(item.id)}
-                        />
-                      </span>
-                      <h6
-                        style={{
-                          fontWeight: "400",
-                        }}
-                      >
-                        {" "}
-                        {item.company} , <span> {item.employment_type} </span>{" "}
-                      </h6>
-                      <p
-                        style={{
-                          marginBottom: "0.5rem",
-                        }}
-                      >
-                        {" "}
-                        <span> {item.start_year} - </span>{" "}
-                        <span> {item.end_year} </span> ,
-                        {formatExperience(
-                          item.end_year,
-                          item.start_year,
-                          item.start_year_month,
-                          item.end_year_month
-                        )}{" "}
-                      </p>
-                      <p> {item.location} </p>
-                    </div>
-                  </div>
-                );
-              })}{" "}
-          </div>
-        )}
-
         {
           <Paper
             style={{
               width: "30rem",
             }}
-            shadow="xl"
+            // shadow="xl"
             p="md"
           >
-            {flag && (
-              <>
-                <h6 className="box-heading"> Add experience details </h6>
-                {/* <p className="box-sub-heading">
-                  Specify total experience and relevant experience
-                </p> */}
-              </>
-            )}
+            <div
+              className=" mt-4"
+              style={{
+                position: "absolute",
+                left: "20%",
+              }}
+            >
+              <div className="heading">
+                <h6 className="box-heading"> Add experience </h6>
+                <p className="box-sub-heading mb-8">
+                  Complete your experience details
+                </p>
+              </div>
 
-            {flag && (
+              <div className="">
+                {formData?.experiences?.length > 0 &&
+                  formData?.experiences.map((item: any) => {
+                    return (
+                      <div className="d-flex">
+                        <p className="box-sub-heading "> {item.title} </p>
+
+                        <div className="mx-2">
+                          {experience.title === item.title ? (
+                            <img
+                              onClick={() => {
+                                setFlag(false);
+                                setexperienceOpen(false);
+                                seteditopen("");
+                                // setEducation1(true);
+                                // setEducation2(false);
+                                setExperience({
+                                  id: "id" + new Date().getTime(),
+                                  title: "",
+                                  employment_type: "",
+                                  company: "",
+                                  location: "",
+                                  location_type: "",
+                                  start_year: "",
+                                  start_year_month: "",
+                                  end_year:"",
+                                  end_year_month: "",
+                                  currently_working: false,
+                                });
+                              }}
+                              className="cursor"
+                              src={"images/minus_circle.svg"}
+                              alt=""
+                            />
+                          ) : (
+                            <img
+                              onClick={() => {
+                                setFlag(false);
+                                setexperienceOpen(true);
+                                seteditopen(item.id);
+                                // setEducation1(true);
+                                // setEducation2(false);
+                                setExperience({
+                                  id: "id" + new Date().getTime(),
+                                  title: item.title,
+                                  employment_type: item.employment_type,
+                                  company: item.company,
+                                  location: item.location,
+                                  location_type: item.location_type,
+                                  start_year: item.start_year,
+                                  start_year_month: item.start_year_month,
+                                  end_year: item.end_year,
+                                  end_year_month: item.end_year_month,
+                                  currently_working: item.currently_working,
+                                });
+                              }}
+                              className="cursor"
+                              src={"images/addPlusIcon.svg"}
+                              alt=""
+                            />
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                <div className="d-flex">
+                  <p className="box-sub-heading ">
+                    {" "}
+                    {formData?.experiences?.length > 0
+                      ? " Add another experience "
+                      : " Add experience "}{" "}
+                  </p>{" "}
+                  <div className="mx-2">
+                    {experienceOpen && !editOpen ? (
+                      <img
+                        onClick={() => {
+                          setFlag(true);
+                          setexperienceOpen(false);
+                          seteditopen("");
+
+                          setExperience({
+                            id: "id" + new Date().getTime(),
+                            title: "",
+                            employment_type: "",
+                            company: "",
+                            location: "",
+                            location_type: "",
+                            start_year: "",
+                            start_year_month: "",
+                            end_year: "",
+                            end_year_month: "",
+                            currently_working: false,
+                          });
+                        }}
+                        className="cursor"
+                        src={
+                          // flag
+                          //   ? "images/minus_circle.svg"
+                          // flag
+                          "images/minus_circle.svg"
+                        }
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        onClick={() => {
+                          setFlag(true);
+                          setexperienceOpen(true);
+                          setExperience({
+                            id: "id" + new Date().getTime(),
+                            title: "",
+                            employment_type: "",
+                            company: "",
+                            location: "",
+                            location_type: "",
+                            start_year: "",
+                            start_year_month: "",
+                            end_year: "",
+                            end_year_month: "",
+                            currently_working: false,
+                          });
+
+                          seteditopen("");
+                        }}
+                        className="cursor"
+                        src={
+                          "images/addPlusIcon.svg"
+                          // : "images/addPlusIcon.svg"
+                        }
+                        alt=""
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {experienceOpen && (
               <form onSubmit={handleSubmit}>
                 <Grid>
                   <Grid.Col span={12}>
-                    <label htmlFor=" "> Title </label>
+                    {/* <label htmlFor=" "> Title </label> */}
                     <TextInput
                       minLength={5}
                       maxLength={30}
                       id="experience-title"
                       // error={'jjj'}
 
-                      placeholder="Ex: Retail Sales Manager"
+                      placeholder="Title"
                       size="md"
-                      // value={formData.profile_summary}
+                      value={experience.title}
                       onChange={(e) => handleChange("title", e.target.value)}
-                    />
-                  </Grid.Col>
-
-                  <Grid.Col span={12}>
-                    <label htmlFor=" "> Employment type </label>
-
-                    <Select
-                      // value={formData.education}
-                      onChange={(value) =>
-                        handleChange("employment_type", value)
-                      }
-                      data={type}
-                      placeholder="Please select"
                       styles={(theme) => ({
                         input: {
                           height: "100%",
@@ -483,34 +587,93 @@ const ExperienceDetails = () => {
                   </Grid.Col>
 
                   <Grid.Col span={12}>
-                    <label htmlFor=" "> Company name </label>
+                    {/* <label htmlFor=" "> Employment type </label> */}
+
+                    <Select
+                      // value={experience.experience}
+                      value={experience.employment_type}
+                      onChange={(value) =>
+                        handleChange("employment_type", value)
+                      }
+                      data={type}
+                      placeholder="Employment Type"
+                      styles={(theme) => ({
+                        input: {
+                          height: "100%",
+                        },
+                        values: {
+                          height: "100%",
+                        },
+                        wrapper: {
+                          height: "50px",
+                        },
+
+                        leftIcon: {
+                          marginRight: theme.spacing.md,
+                        },
+                      })}
+                    />
+                  </Grid.Col>
+
+                  <Grid.Col span={12}>
+                    {/* <label htmlFor=" "> Company name </label> */}
                     <TextInput
-                      placeholder="Ex: Microsoft"
+                      placeholder="Company Name"
                       size="md"
                       minLength={5}
                       maxLength={30}
-                      // value={formData.profile_summary}
+                      value={experience.company}
                       onChange={(e) => handleChange("company", e.target.value)}
+                      styles={(theme) => ({
+                        input: {
+                          height: "100%",
+                        },
+                        values: {
+                          height: "100%",
+                        },
+                        wrapper: {
+                          height: "50px",
+                        },
+
+                        leftIcon: {
+                          marginRight: theme.spacing.md,
+                        },
+                      })}
                     />
                   </Grid.Col>
 
                   <Grid.Col span={12}>
-                    <label htmlFor=" "> location </label>
+                    {/* <label htmlFor=" "> location </label> */}
                     <TextInput
-                      placeholder="Ex: London, United Kingdom"
+                      placeholder="Location"
                       size="md"
-                      // value={formData.profile_summary}
+                      value={experience.location}
                       onChange={(e) => handleChange("location", e.target.value)}
+                      styles={(theme) => ({
+                        input: {
+                          height: "100%",
+                        },
+                        values: {
+                          height: "100%",
+                        },
+                        wrapper: {
+                          height: "50px",
+                        },
+
+                        leftIcon: {
+                          marginRight: theme.spacing.md,
+                        },
+                      })}
                     />
                   </Grid.Col>
 
                   <Grid.Col span={12}>
-                    <label htmlFor=" "> Location type </label>
+                    {/* <label htmlFor=" "> Location type </label> */}
                     <Select
-                      // value={formData.education}
+                      value={experience.location_type}
                       onChange={(value) => handleChange("location_type", value)}
                       data={locationType}
-                      placeholder="Please select"
+                      placeholder="Location Type"
                       styles={(theme) => ({
                         input: {
                           height: "100%",
@@ -552,7 +715,7 @@ const ExperienceDetails = () => {
                       maxDropdownHeight={280}
                       onChange={(e) => handleChange("start_year_month", e)}
                       data={releventMonths}
-                      // value={formData.total_experience_months}
+                      value={experience.start_year_month}
                       styles={(theme) => ({
                         input: {
                           height: "100%",
@@ -578,7 +741,7 @@ const ExperienceDetails = () => {
                       maxDropdownHeight={280}
                       onChange={(e) => handleChange("start_year", e)}
                       data={yearsData}
-                      // value={formData.total_experience}
+                      value={experience.start_year}
                       styles={(theme) => ({
                         input: {
                           height: "100%",
@@ -610,7 +773,7 @@ const ExperienceDetails = () => {
                           maxDropdownHeight={280}
                           onChange={(e) => handleChange("end_year_month", e)}
                           data={releventMonths}
-                          // value={formData.total_relevant_months}
+                          value={experience.end_year_month}
                           styles={(theme) => ({
                             input: {
                               height: "100%",
@@ -636,7 +799,7 @@ const ExperienceDetails = () => {
                           maxDropdownHeight={280}
                           onChange={(e) => handleChange("end_year", e)}
                           data={yearsData}
-                          // value={formData.relevent_experience}
+                          value={experience.end_year}
                           styles={(theme) => ({
                             input: {
                               height: "100%",
@@ -658,18 +821,17 @@ const ExperienceDetails = () => {
                   )}
                 </Grid>
 
-                <button type="button" className="common-btn mt-4" onClick={() => saveEntry()}>
-                  {" "}
-                  Save{" "}
-                </button>
+                <div className="d-flex justify-content-end">
+                  <button
+                    type="button"
+                    className="btn btn-info mt-4"
+                    onClick={() => saveEntry()}
+                  >
+                    {" "}
+                    Save{" "}
+                  </button>
+                </div>
               </form>
-            )}
-
-            {!flag && (
-              <button className="common-btn mt-4" onClick={() => setFlag(true)}>
-                {" "}
-                Add another experience{" "}
-              </button>
             )}
 
             {formSubmitted && (

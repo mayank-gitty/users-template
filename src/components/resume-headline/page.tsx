@@ -55,7 +55,7 @@ const ResumeHeadline = () => {
     >
       <Container size="xs" px="xs">
         <Paper
-          shadow="xl"
+          // shadow="xl"
           p="md"
           style={{
             width: "30rem",
@@ -72,7 +72,13 @@ const ResumeHeadline = () => {
                   size="md"
                   minLength={5}
                   maxLength={100}
-                  value={formData.resume_headline}
+                  value={formData.resume_headline} 
+                  styles={(theme) => ({
+                    input: {
+                      height: "125.324px",
+                    },  
+           
+                  })}
                   onChange={(e) =>
                     handleChange("resume_headline", e.target.value)
                   }

@@ -105,7 +105,7 @@ const ItSkills = () => {
           style={{
             width: "30rem",
           }}
-          shadow="xl"
+          // shadow="xl"
           p="md"
         >
           <h6 className="box-heading">IT Skills</h6>

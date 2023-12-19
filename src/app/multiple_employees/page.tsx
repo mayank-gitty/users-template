@@ -25,7 +25,6 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 
-// import LayoutNav from "../../components/LayoutNav";
 import { useRouter } from "next/navigation";
 import { gql, useQuery, useMutation } from "@apollo/client";
 const manrope = Manrope({ subsets: ["latin"] });
@@ -84,6 +83,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
   let [isPending, startTransition] = useTransition();
 
+//   const [company, setCompnay] = useState("");
+
   //   const { data: session }: any = useSession();
 
   const checkExistingUser = async (email) => {
@@ -103,6 +104,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
   const form = useForm({
     initialValues: {
       userId: "",
+      company:"",
       companies: [],
       entries: [
         {
@@ -110,7 +112,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
           mobileNumber: "",
           email: "",
           address: "",
-          company: "",
+          //   company: "",
           key: 0,
         },
       ],
@@ -183,23 +185,15 @@ const AddTimeLine = ({ AllProjects }: any) => {
       };
     });
 
-    console.log("dsss", localStorage.getItem("company"), DefaultSkills);
-
-    const managerCompany = DefaultSkills?.filter(
-      (item) => item.label === localStorage.getItem("company")
-    );
-
-    console.log("mc", managerCompany);
-
     // setDefaultSkills(DefaultSkills);
 
-    form.setFieldValue("companies", managerCompany);
+    form.setFieldValue("companies", DefaultSkills);
   };
 
   const addEntry = () => {
     // console.log('form',form.values)
 
-    // console.log("form", form.values);
+    console.log("form", form.values);
     form.insertListItem("entries", {
       userName: "",
       mobileNumber: "",
@@ -207,6 +201,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
       address: "",
       key: randomId(),
     });
+
+
   };
 
   useEffect(() => {
@@ -218,6 +214,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const numberChars = "0123456789";
 
+    // Create a random portion with uppercase, numbers, and special characters
     let randomPart = "";
     for (let i = 0; i < 5; i++) {
       const charSet = i % 3;
@@ -237,6 +234,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
     console.log("c", randomPart);
 
+    // Create the final password by combining the input string, underscores, and the random portion
+    // const underscores = "_".repeat(remainingLength - randomPart.length);
     const password = inputString + randomPart + "@" + "cloud";
 
     return password;
@@ -284,6 +283,10 @@ const AddTimeLine = ({ AllProjects }: any) => {
   const username = "exampleUser"; // Replace with your username
   const password = generatePasswordFromUsername(username);
   console.log(password);
+
+  // const seedString = "YourSeedString"; // Replace with your own seed string
+  // const password = generateSecurePassword(seedString, 12); // Change the number to set the desired password length
+  // console.log(password);
 
   function findDuplicateObjects(array, property) {
     console.log(array, property);
@@ -342,9 +345,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
   // Trigger the email sending
 
   const saveAll = async () => {
-    // console.log("form enteries", form.values.entries);
-
-    console.log("form com", form.getInputProps("companies"));
+    console.log("form enteries", form.values.entries);
 
     if (form.validate().hasErrors) {
       console.log("yes", form.errors);
@@ -413,7 +414,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
           // address: item.address,
           company: {
             connect: {
-              id: form.getInputProps("companies")?.value[0].value,
+              id: form.getInputProps('company')?.value,
             },
           },
           password: generateSecurePassword5(item.userName, 12, item.company),
@@ -429,7 +430,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
       });
 
       if (user.createUsers) {
-        toast("employees registered", {
+        toast("employees invited", {
           className: "green-background",
           bodyClassName: "grow-font-size",
           progressClassName: "fancy-progress-bar",
@@ -446,230 +447,214 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
         // Redirect or perform other actions
         setTimeout(() => {
-          router.push("/multi_users_table");
+          router.push("/invited_employees");
         }, 1000);
       } else {
+        // console.log("error",);
+        // setFormErrors(validationErrors);
       }
+
+
     }
   };
 
-  const clickS = "bg-secondary text-white";
-  const notClickS = "bg-gray-100 text-black";
 
   return (
     <>
       {/*     
     <ToastContainer/> */}
-      <form onSubmit={form.onSubmit((values) => {})}>
-        <div className="px-5 py-6 ">
-          <div className="page-heading text-custom-left  pt-2 pb-2">
-            <h2 className="page-main-heading"> Create multiple employees </h2>
-          </div>
-        </div>
 
-        <div className="px-5 py-6 ">
-          <div className="p-5 bg-white  custom-rounded custom-box-shadow">
-            <div className="">
-              <div className="d-flex justify-content-end">
-                <button
-                  onClick={() => saveAll()}
-                  type="submit"
-                  className={`${"save-all-btn"}`}
-                >
-                  Save Employees Entry
-                </button>
-              </div>
+      { !form.getInputProps("company")?.value && (
+        <td className="px-6 py-4">
+          <Select
+            // label="Please select company"
+            placeholder="Please select company"
+            {...form.getInputProps(`company`)}
+            data={form.getInputProps("companies").value}
+          />
+        </td>
+      )}
+
+      { form.getInputProps("company")?.value && (
+        <form onSubmit={form.onSubmit((values) => {})}>
+          <div className="px-5 py-6 ">
+            <div className="page-heading text-center pt-2 pb-2">
+              <h2 className="page-main-heading"> Create multiple employees  </h2>
             </div>
+          </div>
 
-            <div className="mb-4">
-              {/* <div className="flex mx-5 my-4">
-                <DateInput
-                  {...form.getInputProps("date")}
-                  styles={(theme) => ({
-                    input: {
-                      padding: "20px !important",
-                      borderRadius: "12px !important",
-                      width: "270px",
-                    },
-                  })}
-                  placeholder="Date input"
-                  label={
-                    <div className="flex">
-                      {" "}
-                      <FiCalendar className="text-2xl" />{" "}
-                      <h4 className="mx-2"> select date </h4>
-                    </div>
-                  }
-                />
-              </div> */}
+          <div className="px-5 py-6 ">
+            <div className="p-5 bg-white custom-rounded custom-box-shadow">
 
-              <div className="relative overflow-x-auto">
-                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                  <thead className="table-column-links">
-                    <tr>
-                      <th scope="col" className="px-6 py-3">
-                        Name
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Mobile Number
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Email
-                      </th>
-                      <th scope="col" className="px-6 py-3">
-                        Address
-                      </th>
-                      {/* <th scope="col" className="px-6 py-3">
-                        Company
-                      </th> */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 h-auto">
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        <TextInput
-                          className=" h-10 w-48 p-2"
-                          placeholder="Name"
-                          {...form.getInputProps(`entries.${0}.userName`)}
-                        />
-                      </th>
-                      <td className="px-6 py-4">
-                        <TextInput
-                          //   label="Name"
-                          //   description="Input description"
-                          className=" h-10 w-48 p-2"
-                          placeholder="Mobile Number"
-                          {...form.getInputProps(`entries.${0}.mobileNumber`)}
-                        />
-                      </td>
-                      <td className="px-6 py-4">
-                        <TextInput
-                          //   label="Name"
-                          //   description="Input description"
-                          className=" h-10 w-48 p-2"
-                          placeholder="Email"
-                          {...form.getInputProps(`entries.${0}.email`)}
-                        />
-                      </td>
-                      <td className="px-6 py-4">
-                        <TextInput
-                          //   label="Name"
-                          //   description="Input description"
-                          className=" h-10 w-48 p-2"
-                          placeholder="Address"
-                          {...form.getInputProps(`entries.${0}.address`)}
-                        />
-                      </td>
-                      {/* <td>
-                        <Select
-                          {...form.getInputProps(`entries.${0}.company`)}
-                          placeholder="Please Select Company"
-                          data={form.getInputProps("companies").value}
-                        />
-                      </td> */}
-                    </tr>
-
-                    {form.values.entries.length > 1 &&
-                      form.values.entries.map((item: any, index) => {
-                        if (item.key === 0) {
-                        } else {
-                          return (
-                            <tr
-                              key={item.key}
-                              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                            >
-                              <th
-                                scope="row"
-                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                              >
-                                <TextInput
-                                  //   label="Name"
-                                  //   description="Input description"
-                                  className=" h-10 w-48 p-2"
-                                  placeholder="Name"
-                                  {...form.getInputProps(
-                                    `entries.${index}.userName`
-                                  )}
-                                />
-                              </th>
-                              <td className="px-6 py-4">
-                                <TextInput
-                                  //   label="Name"
-                                  //   description="Input description"
-                                  className=" h-10 w-48 p-2"
-                                  placeholder="Mobile Number"
-                                  {...form.getInputProps(
-                                    `entries.${index}.mobileNumber`
-                                  )}
-                                />
-                              </td>
-                              <td className="px-6 py-4">
-                                <TextInput
-                                  //   label="Name"
-                                  //   description="Input description"
-
-                                  className=" h-10 w-48 p-2"
-                                  placeholder="Email"
-                                  {...form.getInputProps(
-                                    `entries.${index}.email`
-                                  )}
-                                />
-                              </td>
-                              <td className="px-6 py-4">
-                                <TextInput
-                                  //   label="Name"
-                                  //   description="Input description"
-                                  className=" h-10 w-48 p-2"
-                                  placeholder="Address"
-                                  {...form.getInputProps(
-                                    `entries.${index}.address`
-                                  )}
-                                />
-                              </td>
-                              {/* <td className="px-6 py-4">
-                                <Select
-                                  // label="Please select company"
-                                  placeholder="Please select company"
-                                  {...form.getInputProps(
-                                    `entries.${index}.company`
-                                  )}
-                                  data={form.getInputProps("companies").value}
-                                />
-                              </td> */}
-                              <td>
-                                <button
-                                  className={`${clickS} px-3 py-2  ml-6`}
-                                  onClick={(e) =>
-                                    form.removeListItem("entries", index)
-                                  }
-                                >
-                                  <FiTrash />
-                                </button>
-                              </td>
-                            </tr>
-                          );
-                        }
-                      })}
-                  </tbody>
-                </table>
-
+                <div className="">
                 <div className="d-flex justify-content-end">
                   <button
-                    className={`px-3 py-2 mt-4 new-entry-btn`}
-                    onClick={() => addEntry()}
-                    type="button"
+                    onClick={() => saveAll()}
+                    type="submit"
+                    className={`${'save-all-btn'}`}
                   >
-                    + Add new entry
+                    Save Employees Entry
                   </button>
+
+                </div>
+                </div>
+
+              <div className="mb-4">
+                <div className="relative overflow-x-auto">
+                  <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead className="table-column-links">
+                      <tr>
+                        <th scope="col" className="px-6 py-3">
+                          Name
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                          Mobile Number
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                          Email
+                        </th>
+                        <th scope="col" className="px-6 py-3">
+                          Address
+                        </th>
+                        {/* <th scope="col" className="px-6 py-3">
+                    Company
+                  </th> */}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 h-auto">
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >
+                          <TextInput
+                            className="h-10 w-48 p-2"
+                            placeholder="Name"
+                            {...form.getInputProps(`entries.${0}.userName`)}
+                          />
+                        </th>
+                        <td className="px-6 py-4">
+                          <TextInput
+                            //   label="Name"
+                            //   description="Input description"
+                            className=" h-10 w-48 p-2"
+                            placeholder="Mobile Number"
+                            {...form.getInputProps(`entries.${0}.mobileNumber`)}
+                          />
+                        </td>
+                        <td className="px-6 py-4">
+                          <TextInput
+                            //   label="Name"
+                            //   description="Input description"
+                            className=" h-10 w-48 p-2"
+                            placeholder="Email"
+                            {...form.getInputProps(`entries.${0}.email`)}
+                          />
+                        </td>
+                        <td className="px-6 py-4">
+                          <TextInput
+                            //   label="Name"
+                            //   description="Input description"
+                            className=" h-10 w-48 p-2"
+                            placeholder="Address"
+                            {...form.getInputProps(`entries.${0}.address`)}
+                          />
+                        </td>
+            
+                      </tr>
+
+                      {form.values.entries.length > 1 &&
+                        form.values.entries.map((item: any, index) => {
+                          if (item.key === 0) {
+                          } else {
+                            return (
+                              <tr
+                                key={item.key}
+                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                              >
+                                <th
+                                  scope="row"
+                                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                >
+                                  <TextInput
+                                    //   label="Name"
+                                    //   description="Input description"
+                                    className=" h-10 w-48 p-2"
+                                    placeholder="Name"
+                                    {...form.getInputProps(
+                                      `entries.${index}.userName`
+                                    )}
+                                  />
+                                </th>
+                                <td className="px-6 py-4">
+                                  <TextInput
+                                    //   label="Name"
+                                    //   description="Input description"
+                                    className=" h-10 w-48 p-2"
+                                    placeholder="Mobile Number"
+                                    {...form.getInputProps(
+                                      `entries.${index}.mobileNumber`
+                                    )}
+                                  />
+                                </td>
+                                <td className="px-6 py-4">
+                                  <TextInput
+                                    //   label="Name"
+                                    //   description="Input description"
+
+                                    className="h-10 w-48 p-2"
+                                    placeholder="Email"
+                                    {...form.getInputProps(
+                                      `entries.${index}.email`
+                                    )}
+                                  />
+                                </td>
+                                <td className="px-6 py-4">
+                                  <TextInput
+                                    //   label="Name"
+                                    //   description="Input description"
+                                    className=" h-10 w-48 p-2"
+                                    placeholder="Address"
+                                    {...form.getInputProps(
+                                      `entries.${index}.address`
+                                    )}
+                                  />
+                                </td>
+
+                                <td>
+                                  <button
+                                    className={` px-3 py-2 rounded-lg capitalize ml-6 `}
+                                    onClick={(e) =>
+                                      form.removeListItem("entries", index)
+                                    }
+                                  >
+                                    <FiTrash />
+                                  </button>
+                                </td>
+                              </tr>
+                            );
+                          }
+                        })}
+                    </tbody>
+                  </table>
+
+                  <div className="d-flex justify-content-end">
+                    <button
+                      className={`px-3 py-2 mt-4 new-entry-btn`}
+                      onClick={() => addEntry()}
+                      type="button"
+                    >
+                      + Add new entry
+                    </button>
+                  </div>
+
+                  
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      )}
     </>
   );
 };

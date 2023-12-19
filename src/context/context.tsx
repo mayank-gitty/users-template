@@ -36,6 +36,16 @@ export const ThemeContextProvider = ({ children }) => {
 
   const [inEditPage, setinEditPage] = useState(false);
 
+  const [profileName, setProfileName] = useState('');
+
+  const [profileId, setProfileId] = useState('');
+
+  const  [open, setOpen] = useState(false)
+
+  const  [experienceOpen, setexperienceOpen] = useState(false)
+
+  const  [projectopen, setprojectOpen] = useState(false)
+  
   return (
     <ThemeContext.Provider
       value={{
@@ -53,6 +63,16 @@ export const ThemeContextProvider = ({ children }) => {
         setImage,
         inEditPage,
         setinEditPage,
+        profileName, 
+        setProfileName,
+        profileId,
+        setProfileId,
+        open, setOpen,
+        experienceOpen,
+        setexperienceOpen,
+        projectopen, 
+        setprojectOpen
+
       }}
     >
       {children}

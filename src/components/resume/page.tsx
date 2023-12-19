@@ -37,7 +37,7 @@ const useStyles = createStyles((theme, props: any) => ({
     width: "20rem",
   },
   dropZoneRoot: {
-    width: "30rem",
+    width: "100%",
     height: "201px",
     border: "none",
     // backgroundPosition:  "0 0, 0 0, 100% 0, 0 100%",
@@ -288,7 +288,7 @@ const Resume = (props) => {
       <Group position="center" mt="xl" className="d-flex flex-column">
         <Container size="xs" px="xs">
           <Paper
-            shadow="xl"
+        
             p="md"
             style={{
               width: "30rem",

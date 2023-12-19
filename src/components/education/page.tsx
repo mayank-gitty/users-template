@@ -9,8 +9,11 @@ import {
   Group,
   Divider,
   Select,
+  Text,
+  MultiSelect,
+  Avatar,
+  Autocomplete,
 } from "@mantine/core";
-
 
 import { toast } from "react-toastify";
 import { gql } from "graphql-request";
@@ -145,9 +148,17 @@ const customStyles = {
   // Add more custom styles as needed
 };
 
+const optionsFilter: OptionsFilter = ({ options, search }) => {
+  const filtered = (options as ComboboxItem[]).filter((option) =>
+    option.label.toLowerCase().trim().includes(search.toLowerCase().trim())
+  );
+
+  filtered.sort((a, b) => a.label.localeCompare(b.label));
+  return filtered;
+};
+
 const indianEducationArray = [
   // Schools
-  "other",
   "Delhi Public School (DPS)",
   "Kendriya Vidyalaya",
   "Doon School, Dehradun",
@@ -175,7 +186,6 @@ const indianEducationArray = [
 ];
 
 const allDegreesArray = [
-  "other",
   "Bachelor of Arts (BA)",
   "Bachelor of Science (BS)",
   "Bachelor of Fine Arts (BFA)",
@@ -205,8 +215,45 @@ const allDegreesArray = [
   // Add more Master's degrees as needed
 ];
 
+const data = [
+  {
+    value: "bob@handsome.inc",
+    image: "image-link",
+    label: "bob@handsome.inc",
+    name: "Bob Handsome",
+  },
+  {
+    value: "bill@outlook.com",
+    image: "image-link",
+    label: "bill@outlook.com",
+    name: "Bill Rataconda",
+  },
+  {
+    value: "amy@wong.cn",
+    image: "image-link",
+    label: "amy@wong.cn",
+    name: "Amy Wong",
+  },
+];
+
+function SelectItem({ image, label, name, ...others }) {
+  return (
+    <div {...others}>
+      <Group style={{ cursor: "pointer" }}>
+        {/* <Avatar src={image} radius="xl" /> */}
+
+        <div>
+          <Text>{name}</Text>
+          <Text size="xs" color="blue">
+            {label}
+          </Text>
+        </div>
+      </Group>
+    </div>
+  );
+}
+
 const fields = [
-  "other",
   "Computer Science",
   "Electrical Engineering",
   "Mechanical Engineering",
@@ -232,10 +279,15 @@ const fields = [
   "Education",
   "Architecture",
   // Add more common fields of study as needed
-];
+].map((item) => {
+  return {
+    value: item,
+    label: item,
+  };
+});
 
 const Education1: React.FC = () => {
-  const { setFormData, formData }: any = useThemeContext();
+  const { setFormData, formData  ,open, setOpen }: any = useThemeContext();
 
   const initialErrors = {
     education: "",
@@ -249,6 +301,16 @@ const Education1: React.FC = () => {
     marks: "",
   };
 
+  const [education2, setEducation2] = useState(false);
+
+  const [education1, setEducation1] = useState(false);
+
+  const [education3, setEducation3] = useState(false);
+
+  // const [open, setOpen] = useState(false);
+
+  const [editOpen, seteditopen] = useState("");
+
   const [errors, setErrors] = useState(initialErrors);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [isFormCancelled, setIsFormCancelled] = useState(false);
@@ -257,7 +319,7 @@ const Education1: React.FC = () => {
   const [degreeOther, setDegreeOther] = useState("");
   const [fieldOther, setFieldOther] = useState("");
 
-  const [flag, setFlag] = useState(true);
+  const [flag, setFlag] = useState(false);
 
   const deleteExperience = (id: any) => {
     const filterExperiences = formData.educations.filter(
@@ -306,6 +368,25 @@ const Education1: React.FC = () => {
     // setFormData({ ...formData, [field]: value });
   };
 
+  // function SelectItem({ name , label, ...others }) {
+  //   console.log("i", name);
+
+  //   return (
+  //     <div {...others}>
+  //       <Group style={{ cursor: "pointer" }}>
+  //         {/* <Avatar src={image} radius="xl" /> */}
+
+  //         <div>
+  //           <Text> {name} </Text>
+  //           <Text size="xs" color="blue">
+  //             {label}
+  //           </Text>
+  //         </div>
+  //       </Group>
+  //     </div>
+  //   );
+  // }
+
   const validateForm = () => {
     // const newErrors = { ...initialErrors };
     // if (!formData.education) {
@@ -337,6 +418,8 @@ const Education1: React.FC = () => {
     // return newErrors;
   };
 
+  console.log("f", formData.educations);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -352,19 +435,10 @@ const Education1: React.FC = () => {
   };
 
   const saveEntry = () => {
-    console.log("edu", education);
 
-    console.log("formdate", formData);
-
+ 
+        
     if (!education.school) {
-      return toast("please add university", {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
-
-    if (education.school === 'other' && !schoolOther ) {
       return toast("please add university", {
         className: "black-background",
         bodyClassName: "grow-font-size",
@@ -380,15 +454,6 @@ const Education1: React.FC = () => {
       });
     }
 
-    
-    if (education.degree === 'other' && !degreeOther ) {
-      return toast("please add course", {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
-
     if (!education.field_of_study) {
       return toast("please select field of study", {
         className: "black-background",
@@ -398,37 +463,6 @@ const Education1: React.FC = () => {
     }
 
     
-    if (education.field_of_study === 'other' && !fieldOther ) {
-      return toast("please add field of study", {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
-
-    if (!education.grade) {
-      return toast("please add grade", {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
-    if (!education.activities) {
-      return toast("please add activities", {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
-
-    if (!education.description) {
-      return toast("please add  description", {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
-
     if (!education.start_year) {
       return toast("please add start year", {
         className: "black-background",
@@ -443,14 +477,14 @@ const Education1: React.FC = () => {
         progressClassName: "fancy-progress-bar",
       });
     }
-    if (!education.end_year ) {
+    if (!education.end_year) {
       return toast("please add end year", {
         className: "black-background",
         bodyClassName: "grow-font-size",
         progressClassName: "fancy-progress-bar",
       });
     }
-    if (!education.end_year_month ) {
+    if (!education.end_year_month) {
       return toast("please add end year month", {
         className: "black-background",
         bodyClassName: "grow-font-size",
@@ -520,24 +554,75 @@ const Education1: React.FC = () => {
       }
     }
 
-    
-    if (education.school === "other") {
-      education.school = schoolOther;
+
+
+    if (!education.grade) {
+      return toast("please add grade", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (!education.activities) {
+      return toast("please add activities", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
 
-    if (education.degree === "other") {
-      education.school = degreeOther;
+    if (!education.description) {
+      return toast("please add  description", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
     }
 
-    if (education.field_of_study === "other") {
-      education.school = fieldOther;
+
+    if (editOpen !== "") {
+      // alert(editOpen);
+
+      const changed = formData?.educations.map((item: any) => {
+        if (item.id === editOpen) {
+          // id: "id" + new Date().getTime(),
+          (item.school = education.school),
+            // schoolOther: "",
+            (item.degre = education.degree),
+            // degreeOther: "",
+            (item.field_of_study = education.field_of_study),
+            // field_of_studyOther: "",
+            (item.grade = education.grade),
+            (item.activities = education.activities),
+            (item.description = education.description),
+            (item.start_year = education.start_year),
+            (item.start_year_month = education.start_year_month),
+            (item.end_year = education.end_year),
+            (item.end_year_month = education.end_year_month)
+
+        }
+
+        return item;
+      });
+
+      console.log("ch", changed);
+
+      setFormData((prevData: any) => ({
+        ...prevData,
+        ["educations"]: changed,
+      }));
+    } else {
+      setFormData((prevData: any) => ({
+        ...prevData,
+        ["educations"]: [...formData?.educations, education],
+      }));
     }
 
 
-    setFormData((prevData: any) => ({
-      ...prevData,
-      ["educations"]: [...formData.educations, education],
-    }));
+
+    setEducation2(false);
+
+    setEducation1(false);
 
     setEducation({
       id: "id" + new Date().getTime(),
@@ -554,7 +639,10 @@ const Education1: React.FC = () => {
     });
 
     setFlag(false);
+
+    setOpen(false);
   };
+
 
   return (
     <div
@@ -566,163 +654,463 @@ const Education1: React.FC = () => {
         height: "auto",
       }}
     >
-      {formData?.educations?.length > 0 && (
-        <div className="translateLeftEducation">
-          {" "}
-          <div className="mb-2 font-700">
-            {formData.educations.length > 0 ? (
-              <span className="mb-2"> total </span>
-            ) : (
-              ""
-            )}
-            {formData.educations.length > 0 &&
-              formData.educations.length + " educations"}{" "}
-          </div>
-          {formData.educations.length > 0 &&
-            formData.educations.map((item: any) => {
-              return (
-                <div className="experience-item text-indigo-950 text-sm font-bold">
-                  <div
-                    className="
-        before"
-                  >
-                    .
-                  </div>
 
-                  <div className="inside">
-                    <h6 className="font-600"> {item.school} </h6>{" "}
-                    <span className="delete-experience">
-                      {" "}
-                      <img
-                        style={{
-                          width: "24px",
-                          cursor: "pointer",
-                        }}
-                        src={"assets/bin.png"}
-                        onClick={() => deleteExperience(item.id)}
-                      />
-                    </span>
-                    <h6
-                      style={{
-                        fontWeight: "400",
-                      }}
-                    >
-                      {" "}
-                      {item.degree}
-                    </h6>
-                    <p
-                      style={{
-                        marginBottom: "0.5rem",
-                      }}
-                    >
-                      {" "}
-                      <span> {item.start_year} - </span>{" "}
-                      <span> {item.end_year} </span> ,
-                      {formatExperience(
-                        item.end_year,
-                        item.start_year,
-                        item.start_year_month,
-                        item.end_year_month
-                      )}{" "}
-                    </p>
-                    <p> {item.grade} </p>
-                    <p> {item.activities} </p>
-                    <p> {item.description} </p>
-                  </div>
-                </div>
-              );
-            })}{" "}
-        </div>
-      )}
+      {
+        <Container size="xs" px="xs">
+          <Paper
+            // shadow="xl"
+            // p="md"
+            style={{
+              width: "30rem",
+            }}
+          >
+            {/* <p className="box-sub-heading "> Add education </p>{" "}
+              <p className="box-sub-heading "> Add education </p>{" "}
+              <p className="box-sub-heading "> Add education </p>{" "}
+              <p className="box-sub-heading "> Add education </p>{" "} 
+              */}
 
-      <Container size="xs" px="xs">
-        <Paper
-          shadow="xl"
-          p="md"
-          style={{
-            width: "30rem",
-          }}
-        >
-          <h6 className="box-heading"> Add education </h6>
-          {/* <p className="box-sub-heading">Select your highest education</p> */}
-
-          {submissionSuccess ? (
-            <p
+            <div
+              className=" mt-4"
               style={{
-                textAlign: "center",
-                color: "green",
-                fontWeight: "bold",
+                position: "absolute",
+                left: "20%",
               }}
             >
-              Submission Successful!
-            </p>
-          ) : null}
+              <div className="heading">
+                <h6 className="box-heading"> Add education </h6>
+                <p className="box-sub-heading mb-8">
+                  Complete your education details
+                </p>
+              </div>
 
-          {isFormCancelled ? (
-            <p
-              style={{ textAlign: "center", color: "red", fontWeight: "bold" }}
-            >
-              Form Cancelled!
-            </p>
-          ) : null}
+              <div className="">
+                {formData?.educations?.length > 0 &&
+                  formData?.educations.map((item: any) => {
+                    return (
+                      <div className="d-flex">
+                        <p className="box-sub-heading "> {item.degree} </p>
 
-          {flag && (
-            <form onSubmit={handleSubmit}>
-              <Grid>
-                <Grid.Col span={12}>
-                  <Input.Wrapper
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
-                      },
-                    })}
-                  ></Input.Wrapper>
-                </Grid.Col>
+                        <div className="mx-2">
+                          {education.school === item.school ? (
+                            <img
+                              onClick={() => {
+                                setFlag(false);
+                                setOpen(false);
+                                seteditopen("");
+                                setEducation1(true);
+                                setEducation2(false);
+                                setEducation({
+                                  id: "id" + new Date().getTime(),
+                                  school: "",
+                                  // schoolOther: "",
+                                  degree: "",
+                                  // degreeOther: "",
+                                  field_of_study: "",
+                                  // field_of_studyOther: "",
+                                  grade: "",
+                                  activities: "",
+                                  description: "",
+                                  start_year: "",
+                                  start_year_month: "",
+                                  end_year: "",
+                                  end_year_month: "",
+                                });
+                              }}
+                              className="cursor"
+                              src={"images/minus_circle.svg"}
+                              alt=""
+                            />
+                          ) : (
+                            <img
+                              onClick={() => {
+                                setFlag(false);
+                                setOpen(true);
+                                seteditopen(item.id);
+                                setEducation1(true);
+                                setEducation2(false);
+                                setEducation({
+                                  id: "id" + new Date().getTime(),
+                                  school: item.school,
+                                  // schoolOther: "",
+                                  degree: item.degree,
+                                  // degreeOther: "",
+                                  field_of_study: item.field_of_study,
+                                  // field_of_studyOther: "",
+                                  grade: item.grade,
+                                  activities: item.activities,
+                                  description: item.description,
+                                  start_year: item.start_year,
+                                  start_year_month: item.start_year_month,
+                                  end_year: item.end_year,
+                                  end_year_month: item.end_year_month,
+                                });
+                              }}
+                              className="cursor"
+                              src={"images/addPlusIcon.svg"}
+                              alt=""
+                            />
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
 
-                <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="school,University,Institute"
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
-                      },
-                    })}
-                  >
-                    <Select
-                      value={education.school}
-                      onChange={(value) => handleChange("school", value)}
-                      data={indianEducationArray}
-                      placeholder="Select Insiitue"
-                    />
+                <div className="d-flex">
+                  <p className="box-sub-heading ">
+                    {" "}
+                    {formData?.educations?.length > 0
+                      ? " Add another education "
+                      : " Add education "}{" "}
+                  </p>{" "}
+                  <div className="mx-2">
+                    {open && !editOpen ? (
+                      <img
+                        onClick={() => {
+                          setFlag(true);
+                          setOpen(false);
+                          seteditopen("");
 
-                  </Input.Wrapper>
+                          setEducation({
+                            id: "id" + new Date().getTime(),
+                            school: "",
+                            // schoolOther: "",
+                            degree: "",
+                            // degreeOther: "",
+                            field_of_study: "",
+                            // field_of_studyOther: "",
+                            grade: "",
+                            activities: "",
+                            description: "",
+                            start_year: "",
+                            start_year_month: "",
+                            end_year: "",
+                            end_year_month: "",
+                          });
+                          setEducation1(true);
+                          setEducation2(false);
+                        }}
+                        className="cursor"
+                        src={
+                          // flag
+                          //   ? "images/minus_circle.svg"
+                          // flag
+                          "images/minus_circle.svg"
+                        }
+                        alt=""
+                      />
+                    ) : (
+                      <img
+                        onClick={() => {
+                          setFlag(true);
+                          setOpen(true)
+                          setEducation({
+                            id: "id" + new Date().getTime(),
+                            school: "",
+                            // schoolOther: "",
+                            degree: "",
+                            // degreeOther: "",
+                            field_of_study: "",
+                            // field_of_studyOther: "",
+                            grade: "",
+                            activities: "",
+                            description: "",
+                            start_year: "",
+                            start_year_month: "",
+                            end_year: "",
+                            end_year_month: "",
+                          });
+                          setEducation1(true);
+                          setEducation2(false);
+                          setOpen(true);
+                          seteditopen("");
+                        }}
+                        className="cursor"
+                        src={
+                          "images/addPlusIcon.svg"
+                          // : "images/addPlusIcon.svg"
+                        }
+                        alt=""
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                  {education.school === "other" && (
-                    <Grid.Col span={12}>
-                      <Input.Wrapper
-                        label="write here"
-                        styles={() => ({
-                          label: {
-                            color: "#01041b",
-                            fontSize: "1.2em",
-                            fontWeight: 500,
-                            lineHeight: 1.2,
-                            marginBottom: 10,
-                          },
-                        })}
-                      >
+            {open && (
+              <form onSubmit={handleSubmit}>
+                <Grid>
+                
+                    <>
+                      {/* <Grid.Col span={12}>
+                        <Input.Wrapper
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              // marginBottom: 10,
+                            },
+                          })}
+                        ></Input.Wrapper>
+                      </Grid.Col> */}
+
+                      <Grid.Col span={12}>
+                        {/*                         
+                        <Input.Wrapper
+                          label="School,University,Institute"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              // marginBottom: 10,
+                            },
+                          })}
+                        > */}
+                        <Autocomplete
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                          value={education.school}
+                          onChange={(value) => handleChange("school", value)}
+                          data={indianEducationArray}
+                          placeholder="University Institute"
+                        />
+                        {/* </Input.Wrapper> */}
+
+                        {/* <p> {education.school} </p> */}
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        {/* <Input.Wrapper
+                          label="Course"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              // marginBottom: 10,
+                            },
+                          })}
+                        > */}
+                        <Autocomplete
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                          value={education.degree}
+                          onChange={(value) => handleChange("degree", value)}
+                          data={allDegreesArray}
+                          placeholder="Course"
+                        />
+                        {/* </Input.Wrapper> */}
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        {/* <Input.Wrapper
+                          label="field of study"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        > */}
+                        <Autocomplete
+                          value={education.field_of_study}
+                          onChange={(value: any) =>
+                            handleChange("field_of_study", value)
+                          }
+                          data={fields}
+                          placeholder="Field of study"
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+
+                          // styles={customStyles}
+                        />
+                        {errors.specialization && (
+                          <p style={{ color: "red", fontSize: "0.8em" }}>
+                            {errors.specialization}
+                          </p>
+                        )}
+                        {/* </Input.Wrapper> */}
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        <h6 className="experience-label">Start Date</h6>
+                      </Grid.Col>
+
+                      <Grid.Col span={6}>
+                        <Select
+                          placeholder="Month"
+                          nothingFound="No options"
+                          maxDropdownHeight={280}
+                          onChange={(e) => handleChange("start_year_month", e)}
+                          data={releventMonths}
+                          value={education.start_year_month}
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                        />
+                      </Grid.Col>
+                      <Grid.Col span={6}>
+                        <Select
+                          placeholder="Year"
+                          nothingFound="No options"
+                          maxDropdownHeight={280}
+                          onChange={(e) => handleChange("start_year", e)}
+                          data={yearsData}
+                          value={education.start_year}
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                        />
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <h6 className="experience-label">End Date</h6>
+                      </Grid.Col>
+
+                      <Grid.Col span={6}>
+                        <Select
+                          placeholder="Month"
+                          nothingFound="No options"
+                          maxDropdownHeight={280}
+                          onChange={(e) => handleChange("end_year_month", e)}
+                          data={releventMonths}
+                          value={education.end_year_month}
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                        />
+                      </Grid.Col>
+
+                      <Grid.Col span={6}>
+                        <Select
+                          placeholder="Year"
+                          nothingFound="No options"
+                          maxDropdownHeight={280}
+                          onChange={(e) => handleChange("end_year", e)}
+                          data={yearsData}
+                          value={education.end_year}
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                        />
+                      </Grid.Col>
+
+
+                      <Grid.Col span={12}>
+                        {/* <Input.Wrapper
+                          label="Grade"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        > */}
                         <Input
-                          placeholder="write other school name here"
+                          placeholder="Grade"
                           required
-                          onChange={(e) => setSchoolOther(e.target.value)}
+                          onChange={(e) =>
+                            handleChange("grade", e.target.value)
+                          }
+                          value={education.grade}
                           styles={(theme) => ({
                             input: {
                               height: 50,
@@ -734,366 +1122,140 @@ const Education1: React.FC = () => {
                             },
                           })}
                         />
-                      </Input.Wrapper>
-                    </Grid.Col>
-                  )}
-                </Grid.Col>
+                        {/* </Input.Wrapper> */}
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        {/* <Input.Wrapper
+                          label="Activities"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        > */}
+                        <Input
+                          placeholder="Activities"
+                          required
+                          value={education.activities}
+                          onChange={(e) =>
+                            handleChange("activities", e.target.value)
+                          }
+                          styles={(theme) => ({
+                            input: {
+                              height: 50,
+                              width: "100%",
+                              fontSize: 16,
+                              lineHeight: 50,
+                              borderRadius: 8,
+                              border: "2px solid #ccc",
+                            },
+                          })}
+                        />
+                        {/* </Input.Wrapper> */}
+                      </Grid.Col>
 
-                <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="Course"
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
-                      },
-                    })}
-                  >
-                    <Select
-                      value={education.degree}
-                      onChange={(value) => handleChange("degree", value)}
-                      data={allDegreesArray}
-                      placeholder="Select Course"
-                    />
+                      <Grid.Col span={12}>
+                        {/* <Input.Wrapper
+                          label="Description"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        > */}
+                        <Input
+                          placeholder="Description"
+                          required
+                          value={education.description}
+                          onChange={(e) =>
+                            handleChange("description", e.target.value)
+                          }
+                          styles={(theme) => ({
+                            input: {
+                              height: 50,
+                              width: "100%",
+                              fontSize: 16,
+                              lineHeight: 50,
+                              borderRadius: 8,
+                              border: "2px solid #ccc",
+                            },
+                          })}
+                        />
+                        {/* </Input.Wrapper> */}
+                      </Grid.Col>
 
-                    {/* {errors.course && (
-        <p style={{ color: "red", fontSize: "0.8em" }}>
-          {errors.course}
-        </p>
-      )} */}
-                  </Input.Wrapper>
-                </Grid.Col>
-
-                {education.degree === "other" && (
-                  <Grid.Col span={12}>
-                    <Input.Wrapper
-                      label="write course name here"
-                      styles={() => ({
-                        label: {
-                          color: "#01041b",
-                          fontSize: "1.2em",
-                          fontWeight: 500,
-                          lineHeight: 1.2,
-                          marginBottom: 10,
-                        },
-                      })}
-                    >
-                      <Input
-                        placeholder="write here"
-                        required
-                        onChange={(e) => setDegreeOther(e.target.value)}
-                        styles={(theme) => ({
-                          input: {
-                            height: 50,
-                            width: "100%",
-                            fontSize: 16,
-                            lineHeight: 50,
-                            borderRadius: 8,
-                            border: "2px solid #ccc",
-                          },
-                        })}
-                      />
-                    </Input.Wrapper>
-                  </Grid.Col>
-                )}
-
-                <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="field of study"
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
-                      },
-                    })}
-                  >
-                    <Select
-                      value={education.field_of_study}
-                      onChange={(value: any) =>
-                        handleChange("field_of_study", value)
-                      }
-                      data={fields}
-                      placeholder="field of study"
-
-                      // styles={customStyles}
-                    />
-                    {errors.specialization && (
-                      <p style={{ color: "red", fontSize: "0.8em" }}>
-                        {errors.specialization}
-                      </p>
-                    )}
-                  </Input.Wrapper>
-                </Grid.Col>
-
-                {education.field_of_study === "other" && (
-                  <Grid.Col span={12}>
-                    <Input.Wrapper
-                      label="write here"
-                      styles={() => ({
-                        label: {
-                          color: "#01041b",
-                          fontSize: "1.2em",
-                          fontWeight: 500,
-                          lineHeight: 1.2,
-                          marginBottom: 10,
-                        },
-                      })}
-                    >
-                      <Input
-                        placeholder="write field name here"
-                        required
-                        onChange={(e) => setFieldOther(e.target.value)}
-                        styles={(theme) => ({
-                          input: {
-                            height: 50,
-                            width: "100%",
-                            fontSize: 16,
-                            lineHeight: 50,
-                            borderRadius: 8,
-                            border: "2px solid #ccc",
-                          },
-                        })}
-                      />
-                    </Input.Wrapper>
-                  </Grid.Col>
-                )}
-
-                <Grid.Col span={12}>
-                  <h6 className="experience-label">Start Date</h6>
-                </Grid.Col>
-
-                <Grid.Col span={6}>
-                  <Select
-                    placeholder="Month"
-                    nothingFound="No options"
-                    maxDropdownHeight={280}
-                    onChange={(e) => handleChange("start_year_month", e)}
-                    data={releventMonths}
-                    // value={formData.total_experience_months}
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                  />
-                </Grid.Col>
-
-                <Grid.Col span={6}>
-                  <Select
-                    placeholder="Year"
-                    nothingFound="No options"
-                    maxDropdownHeight={280}
-                    onChange={(e) => handleChange("start_year", e)}
-                    data={yearsData}
-                    // value={formData.total_experience}
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                  />
-                </Grid.Col>
-
-                <Grid.Col span={12}>
-                  <h6 className="experience-label">End Date</h6>
-                </Grid.Col>
-
-                <Grid.Col span={6}>
-                  <Select
-                    placeholder="Month"
-                    nothingFound="No options"
-                    maxDropdownHeight={280}
-                    onChange={(e) => handleChange("end_year_month", e)}
-                    data={releventMonths}
-                    // value={formData.total_relevant_months}
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                  />
-                </Grid.Col>
-
-                <Grid.Col span={6}>
-                  <Select
-                    placeholder="Year"
-                    nothingFound="No options"
-                    maxDropdownHeight={280}
-                    onChange={(e) => handleChange("end_year", e)}
-                    data={yearsData}
-                    // value={formData.relevent_experience}
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                  />
-                </Grid.Col>
-
-                <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="Grade"
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
-                      },
-                    })}
-                  >
-                    <Input
-                      placeholder="grade"
-                      required
-                      onChange={(e) => handleChange("grade", e.target.value)}
-                      value={education.grade}
-                      styles={(theme) => ({
-                        input: {
-                          height: 50,
+                      <div
+                        className="d-flex justify-content-end"
+                        style={{
                           width: "100%",
-                          fontSize: 16,
-                          lineHeight: 50,
-                          borderRadius: 8,
-                          border: "2px solid #ccc",
-                        },
-                      })}
-                    />
-                  </Input.Wrapper>
-                </Grid.Col>
+                          marginTop: "1rem",
+                          // background:"red"
+                        }}
+                      >
+             
+                        <Button
 
-                <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="Activities"
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
-                      },
-                    })}
-                  >
-                    <Input
-                      placeholder="activities"
-                      required
-                      value={education.activities}
-                      onChange={(e) =>
-                        handleChange("activities", e.target.value)
-                      }
-                      styles={(theme) => ({
-                        input: {
-                          height: 50,
+                        className="btn btn-info"
+                          style={{
+                            paddingRight: "14px",
+                          }}
+                          onClick={() => {
+                 
+                            // setEducation3(true)
+                            saveEntry();
+                          }}
+                        >
+                          {" "}
+                        save {" "}
+                        </Button>
+                      </div>
+
+                      <div
+                        className="d-flex justify-content-end"
+                        style={{
                           width: "100%",
-                          fontSize: 16,
-                          lineHeight: 50,
-                          borderRadius: 8,
-                          border: "2px solid #ccc",
-                        },
-                      })}
-                    />
+                          marginTop: "1rem",
+                          // background:"red"
+                        }}
+                      >
+                        {/* <Button
+                          style={{
+                            transform: "translateX(8px)",
+                          }}
+                        >
+                          {" "}
+                          prev{" "}
+                        </Button> */}
 
- 
-                  </Input.Wrapper>
-                </Grid.Col>
+          
 
-                <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="Description"
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
-                      },
-                    })}
-                  >
-                    <Input
-                      placeholder="description"
-                      required
-                      value={education.description}
-                      onChange={(e) =>
-                        handleChange("description", e.target.value)
-                      }
-                      styles={(theme) => ({
-                        input: {
-                          height: 50,
-                          width: "100%",
-                          fontSize: 16,
-                          lineHeight: 50,
-                          borderRadius: 8,
-                          border: "2px solid #ccc",
-                        },
-                      })}
-                    />
-                  </Input.Wrapper>
-                </Grid.Col>
 
-                <button type="button" className="common-btn mt-4" onClick={() => saveEntry()}>
-                  {" "}
-                  Save{" "}
-                </button>
-              </Grid>
-            </form>
-          )}
+                      </div>
+                    </>
+                
 
-          {!flag && (
-            <button className="common-btn mt-4" onClick={() => setFlag(true)}>
-              {" "}
-              Add another education{" "}
-            </button>
-          )}
-        </Paper>
-      </Container>
+              
+                </Grid>
+              </form>
+            )}
+
+            {/* {flag && (
+              <button className="common-btn mt-4" onClick={() => setFlag(true)}>
+                {" "}
+                Add another education{" "}
+              </button>
+            )} */}
+          </Paper>
+        </Container>
+      }
     </div>
   );
 };

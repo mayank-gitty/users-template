@@ -108,6 +108,8 @@ const PROFILE_USER = gql`
         id
         email
         role
+        phone
+        address
 
         company  {
           name
@@ -138,6 +140,7 @@ const PROFILE_USER = gql`
         end_year_month
         employment_type
         currently_working
+        company
 
       }
 
@@ -237,6 +240,20 @@ const EDIT_MASTER = gql`
         end_year
         end_year_month
       }
+
+      experience {
+        id
+        title
+        location_type
+        location
+        start_year
+        start_year_month  
+        end_year
+        end_year_month
+        employment_type
+        currently_working
+      }
+
     }
   }
 `;
@@ -266,7 +283,7 @@ const VIEW_MASTER = gql`
         end_year_month
         employment_type
         currently_working
-
+        company
       }
 
       resume_headline
@@ -329,6 +346,8 @@ const GET_USER = gql`
     }
   }
 `;
+
+
 
 export {
   HAS_MASTER,

@@ -20,7 +20,7 @@ import {
 } from "@tabler/icons-react";
 
 const Thanku = () => {
-  const { loggedIn, setLoggedIn }: any = useThemeContext();
+  const { loggedIn, setLoggedIn, role }: any = useThemeContext();
 
   const router = useRouter();
 
@@ -103,13 +103,15 @@ const Thanku = () => {
    */}
 
           <div className="d-flex justify-content-center flex-column align-items-center mt-4">
+
+
             <h6 className="thank-you"> Thank You ! </h6>
 
-            <h4 className="thank-you-message"> Registration Successfull </h4>
+            <h4 className="thank-you-message">  {  ( role === 'admin' || role === 'manager') ? 'Profile Created' : 'Registration Successfull'    }   </h4>
           </div>
 
           <div className="flex space-x-4 mt-4">
-            <div className="w-1/2">
+            {/* <div className="w-1/2">
               <button
                 type="submit"
                 className="text-gray-800 bg-gray-200 flex items-center justify-center px-4 py-2 w-full  font-semibold rounded-[8px] text-sm hover:bg-violet-100"
@@ -119,18 +121,22 @@ const Thanku = () => {
               >
                 Go back
               </button>
-            </div>
-            <div className="w-1/2">
-              <button
-                type="submit"
-                className="text-gray-800 bg-gray-200 flex items-center justify-center px-4 py-2 w-full font-semibold rounded-[8px] text-sm hover:bg-violet-100"
-                onClick={() => {
-                  router.push(`/profile?id=${localStorage.getItem("id")}`);
-                }}
-              >
-                View profile
-              </button>
-            </div>
+            </div> */}
+
+            {role === "employee" ||
+              (role === "manager" && (
+                <div className="w-1/2">
+                  <button
+                    type="submit"
+                    className="text-gray-800 bg-gray-200 flex items-center justify-center px-4 py-2 w-full font-semibold rounded-[8px] text-sm hover:bg-violet-100"
+                    onClick={() => {
+                      router.push(`/profile?id=${localStorage.getItem("id")}`);
+                    }}
+                  >
+                    View profile
+                  </button>
+                </div>
+              ))}
           </div>
         </div>
       </div>

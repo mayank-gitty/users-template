@@ -11,7 +11,6 @@ import {
   Select,
 } from "@mantine/core";
 import { gql } from "graphql-request";
-import client from "../../../helpers/request";
 import useThemeContext from "@/context/context";
 import { useRouter } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
@@ -19,6 +18,7 @@ import { Modal } from "@mantine/core";
 import Thanku from "../../app/thanku/page";
 import { updateUser } from "@/util/mutationQueries";
 import { toast } from "react-toastify";
+import client from "../../../helpers/request";
 
 // Define mutation
 const PROFILE_USER = gql`
@@ -71,6 +71,8 @@ const Profile = () => {
     setActive,
     inEditPage,
     setinEditPage,
+    profileId,
+  
   }: // createdExperiencesOnEdit,
   // deletedExperiencesOnEdit
   any = useThemeContext();
@@ -152,88 +154,7 @@ const Profile = () => {
     }
   };
 
-  const save = async () => {
-    console.log(formData, formData);
 
-    if (!formData.profile_summary) {
-      return toast("please enter profile summaary", {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
-    if (formData.profile_summary.length < 10) {
-      return toast("please summary should have minimum 10 characters", {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
-
-    const itskills = formData?.itskills?.map((item: any) => {
-      return {
-        id: item,
-      };
-    });
-
-    const keyskills = formData?.keyskills?.map((item: any) => {
-      return {
-        id: item,
-      };
-    });
-    // console.log("fm", keyskills);
-
-    for (var i = 0, len = formData.experiences.length; i < len; i++) {
-      delete formData.experiences[i].id;
-    }
-
-    for (var i = 0, len = formData.educations.length; i < len; i++) {
-      delete formData.educations[i].id;
-    }
-
-    for (var i = 0, len = formData.educations.length; i < len; i++) {
-      delete formData.projects[i].id;
-    }
-
-    const user = await client.request(PROFILE_USER, {
-      data: {
-        keyskills: {
-          connect: keyskills,
-        },
-        itskills: {
-          connect: itskills,
-        },
-        user: {
-          connect: {
-            id: localStorage.getItem("id"),
-          },
-        },
-
-        photograph: formData.photograph,
-        education: {
-          create: formData.educations,
-        },
-        resume_headline: formData.resume_headline,
-        experience: {
-          create: formData.experiences,
-        },
-        project: {
-          create: formData.projects,
-        },
-        profile_summary: formData.profile_summary,
-        resume: formData.resume,
-      },
-    });
-
-    setActive(8);
-    setFormSubmitted(true);
-
-    setTimeout(() => {
-      router.push("/thanku");
-    }, 500);
-
-    // alert('details submitted')
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -258,7 +179,7 @@ const Profile = () => {
     >
       <Container size="xs" px="xs" style={{}}>
         <Paper
-          shadow="xl"
+          // shadow="xl"
           p="md"
           style={{
             width: "30rem",
@@ -275,6 +196,12 @@ const Profile = () => {
                   value={formData.profile_summary}
                   minLength={10}
                   maxLength={1000}
+                  styles={(theme) => ({
+                    input: {
+                      height: "125.324px",
+                    },  
+           
+                  })}
                   onChange={(e) =>
                     handleChange("profile_summary", e.target.value)
                   }
@@ -288,7 +215,7 @@ const Profile = () => {
                 </small> */}
               </Grid.Col>
 
-              <Grid.Col
+              {/* <Grid.Col
                 span={12}
                 style={{
                   display: "flex",
@@ -298,22 +225,14 @@ const Profile = () => {
               >
                 <div className="">
                   <Group position="right" mt="md">
-                    <button
-                      className="next-button"
-                      type="submit"
-                      style={{
-
-                        
-                      }}
-                      onClick={() => save()}
-                    >
-                      submit
-                    </button>
+             
 
                     <></>
                   </Group>
                 </div>
-              </Grid.Col>
+              </Grid.Col> */}
+
+
             </Grid>
           </form>
         </Paper>
@@ -323,3 +242,4 @@ const Profile = () => {
 };
 
 export default Profile;
+

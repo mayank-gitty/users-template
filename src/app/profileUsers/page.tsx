@@ -200,6 +200,14 @@ const DatatablePage = () => {
 
   return (
     <div className="table-wrapper ">
+        <div className="page-heading text-custom-left pt-2 pb-2  twenty-percent pl-15">
+        <h2
+          className="page-main-heading mt-2"
+        >
+          {" "}
+          Employees Profile{" "}
+        </h2>
+      </div>
       <div className="profile-table">
         <MDBDataTable bordered small data={main} />
       </div>

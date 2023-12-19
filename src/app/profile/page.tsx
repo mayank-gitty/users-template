@@ -311,6 +311,8 @@ export default function View(props: IAppProps) {
       email: "",
       experience: [],
       project: [],
+      company: "",
+      role: "",
     },
     validate: {
       // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -386,6 +388,10 @@ export default function View(props: IAppProps) {
       resume: user?.profileUsers[0]?.resume,
       work: user?.profileUsers[0]?.open_to_work,
       email: user?.profileUsers[0]?.user?.email,
+      role: user?.profileUsers[0]?.user?.role,
+      company: user?.profileUsers[0]?.user?.company?.name,
+      phone: user?.profileUsers[0]?.user?.phone,
+      address: user?.profileUsers[0]?.user?.address,
       experience: user?.profileUsers[0]?.experience,
     });
   };
@@ -604,7 +610,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    console.log("updated", user);
+    // console.log("updated", user);
 
     if (user?.updateAddEducation) {
       const button = document.getElementById("modal-close-btn-education");
@@ -615,6 +621,14 @@ export default function View(props: IAppProps) {
         router.refresh();
       }, 1000);
     }
+  };
+
+  const handleChange = (field: any, e: any) => {
+    console.log("hitting", e);
+    setExperience((prev) => ({
+      ...prev,
+      [field]: e,
+    }));
   };
 
   return (
@@ -905,7 +919,7 @@ export default function View(props: IAppProps) {
               <Grid>
                 <Grid.Col span={12}>
                   <Container size="xs" px="xs">
-                    <h6 className="box-heading"> Add education </h6>
+                    <h6 className="box-heading"> Edit education </h6>
                     {/* <p className="box-sub-heading">Select your highest education</p> */}
 
                     <form>
@@ -1402,10 +1416,10 @@ export default function View(props: IAppProps) {
                 <Paper
                   shadow="xl"
                   p="md"
-                  style={{ maxHeight: "80vh", overflowY: "auto" }}
+                  // style={{ maxHeight: "80vh", overflowY: "auto" }}
                 >
                   <h6 style={{ textAlign: "left", fontSize: "20px" }}>
-                    Add Project
+                    Edit Project
                   </h6>
 
                   <form>
@@ -1830,7 +1844,6 @@ export default function View(props: IAppProps) {
                         </Input.Wrapper>
                       </Grid.Col>
 
-
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Role description"
@@ -1856,10 +1869,7 @@ export default function View(props: IAppProps) {
                             }}
                             value={project.skillUsed}
                             onChange={(e) =>
-                              handleChangeProject(
-                                "skillUsed",
-                                e.target.value
-                              )
+                              handleChangeProject("skillUsed", e.target.value)
                             }
                           />
                         </Input.Wrapper>
@@ -2027,6 +2037,18 @@ export default function View(props: IAppProps) {
                   <div>
                     <Stack>
                       <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                        Phone:
+                      </div>
+                    </Stack>
+                    <Stack>
+                      <div className="text-black text-base font-semibold">
+                        {form.getInputProps("phone").value}
+                      </div>
+                    </Stack>
+                  </div>
+                  <div>
+                    <Stack>
+                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
                         Email:
                       </div>
                     </Stack>
@@ -2036,18 +2058,33 @@ export default function View(props: IAppProps) {
                       </div>
                     </Stack>
                   </div>
+
                   <div>
                     <Stack>
                       <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                        {/* Address: */}
+                        Address:
                       </div>
                     </Stack>
                     <Stack>
                       <div className="text-black text-base font-semibold">
-                        {/* Noida */}
+                        {form.getInputProps("address").value}
                       </div>
                     </Stack>
                   </div>
+                  {form.getInputProps("role").value !== "admin" && (
+                    <div>
+                      <Stack>
+                        <div className="text-blue-950 text-opacity-50 text-xs font-medium">
+                          company
+                        </div>
+                      </Stack>
+                      <Stack>
+                        <div className="text-black text-base font-semibold">
+                          {form.getInputProps("company")?.value}
+                        </div>
+                      </Stack>
+                    </div>
+                  )}
                 </Group>
                 <Group position="left" mt={"3%"}>
                   <p style={{ alignItems: "center", justifyContent: "center" }}>
@@ -2079,7 +2116,13 @@ export default function View(props: IAppProps) {
             <div className="flex flex-col lg:flex-row mt-3  justify-center  gap-5 xl:12 ">
               <div className="lg:w-1/2">
                 <Stack>
-                  <div className="p-4 h-full rounded bg-white">
+                  <div
+                    className="p-4 h-full rounded bg-white"
+                    style={{
+                      height: "16rem",
+                      background: "red",
+                    }}
+                  >
                     <Group position="apart" className="border-b pb-[10px]">
                       <Group position="left">
                         <Image
@@ -2113,7 +2156,12 @@ export default function View(props: IAppProps) {
                       )}
                     </Group>
                     <Group position="apart" py={12}>
-                      <div>
+                      <div
+                        style={{
+                          width: "100%",
+                          // background:"red"
+                        }}
+                      >
                         <Stack spacing={8}>
                           {form.getInputProps("experience")?.value?.length >
                             0 &&
@@ -2128,8 +2176,8 @@ export default function View(props: IAppProps) {
                                       width: "100%",
                                     }}
                                   >
-                                    <div className="text-indigo-950 text-sm font-bold">
-                                      <h6> {item.title} </h6>
+                                    <div className="text-custom-light">
+                                      <h6 className="title"> {item.title} </h6>
                                       <h6
                                         style={{
                                           fontWeight: "400",
@@ -2145,12 +2193,17 @@ export default function View(props: IAppProps) {
                                           marginBottom: "0.5rem",
                                         }}
                                       >
-                                        {" "}
-                                        <span> {item.start_year} - </span>{" "}
-                                        <span> {item.end_year} </span> ,
-                                        {item.end_year -
-                                          item.start_year +
-                                          "yrs"}{" "}
+                                        {item.currently_working ? (
+                                          "currently working"
+                                        ) : (
+                                          <>
+                                            <span> {item.start_year} - </span>{" "}
+                                            <span> {item.end_year} </span> ,
+                                            {item.end_year -
+                                              item.start_year +
+                                              "yrs"}{" "}
+                                          </>
+                                        )}
                                       </p>
 
                                       <p> {item.location} </p>
@@ -2182,7 +2235,7 @@ export default function View(props: IAppProps) {
                                       alt="Google"
                                       style={{
                                         width: "24px",
-                                        height: "24px",
+                                        height: "32px",
                                         marginLeft: "10rem",
                                       }}
                                     />
@@ -2198,7 +2251,13 @@ export default function View(props: IAppProps) {
 
               <div className="lg:w-1/2">
                 <Stack>
-                  <div className="p-4 h-full rounded bg-white">
+                  <div
+                    className="p-4 h-full rounded bg-white"
+                    style={{
+                      height: "16rem",
+                      background: "red",
+                    }}
+                  >
                     <Group position="apart" className="border-b pb-[10px]">
                       <Group position="left">
                         <Image
@@ -2229,14 +2288,19 @@ export default function View(props: IAppProps) {
                       )}
                     </Group>
                     <Group position="apart" py={12}>
-                      <div>
+                      <div
+                        style={{
+                          width: "100%",
+                          // background:"red"
+                        }}
+                      >
                         <Stack spacing={8}>
                           <div className="text-indigo-950 text-sm font-bold">
                             {/* Highest Education */}
                             {/* {form.getInputProps("education")?.value?.length} */}
                           </div>
 
-                          <div className="text-gray-600 text-xs font-normal">
+                          <div className="text-custom-light">
                             <div>
                               <Stack spacing={8}>
                                 {form.getInputProps("education")?.value
@@ -2252,8 +2316,11 @@ export default function View(props: IAppProps) {
                                             width: "100%",
                                           }}
                                         >
-                                          <div className="text-indigo-950 text-sm font-bold">
-                                            <h6> {item.school} </h6>
+                                          <div className="text-custom">
+                                            <h6 className="title">
+                                              {" "}
+                                              {item.school}{" "}
+                                            </h6>
                                             <h6
                                               style={{
                                                 fontWeight: "400",
@@ -2279,9 +2346,6 @@ export default function View(props: IAppProps) {
                                                 item.start_year +
                                                 "yrs"}{" "}
                                             </p>
-
-                                            <p> {item.activities} </p>
-                                            <p> {item.description} </p>
                                           </div>
 
                                           <Image
@@ -2317,6 +2381,7 @@ export default function View(props: IAppProps) {
                                               height: "24px",
                                               marginLeft: "10rem",
                                             }}
+                                            width={54}
                                           />
                                         </div>
                                       );
@@ -2332,216 +2397,172 @@ export default function View(props: IAppProps) {
               </div>
             </div>
 
-            <div className="flex flex-col lg:flex-row justify-center  gap-5 xl:12 mt-3">
-              <div className="lg:w-1/2">
-                <Stack>
-                  {/* <div className="p-4 h-full xl:w-[420px] rounded "></div> */}
-                  <div className="p-4 h-full rounded bg-white">
-                    <Group position="apart" className="border-b pb-[10px]">
-                      <Group position="left">
-                        <Image
-                          src="./images/resume.svg"
-                          alt="Google"
-                          style={{ width: "24px", height: "24px" }}
-                          onClick={() =>
-                            router.push(
-                              `/edit_user?id=${localStorage.getItem("id")}`
-                            )
-                          }
-                        />
-                        <div className="text-black text-base font-semibold">
-                          Resume
-                        </div>
-                      </Group>
-                    </Group>
-
-                    <Group position="apart" py={12}>
-                      <div>
-                        <Stack spacing={8}> 
-                          <div className="text-indigo-950 text-sm font-bold">
-                            <a
-                              download={
-                                form
-                                  .getInputProps("resume")
-                                  ?.value?.includes("docx") ||
-                                form
-                                  .getInputProps("resume")
-                                  ?.value?.includes("doc")
-                                  ? true
-                                  : false
-                              }
-                              target="_blank"
-                              className="resume-link"
-                              href={form.getInputProps("resume")?.value}
-                            >
-                              {" "}
-                              {form
-                                .getInputProps("resume")
-                                ?.value?.substr(
-                                  6,
-                                  form.getInputProps("resume")?.value.length
-                                )}{" "}
-                            </a>
-                          </div>
-                          <div className="text-gray-600 text-xs font-normal">
-                            {/* 867 Kb. Feb 2022 */}
-                          </div>
-                        </Stack>
-                      </div>
-                      {/* <Image
-                        src="./images/Edit.svg"
+            <div
+              className="lg:w-full"
+              style={{
+                marginTop: "1rem",
+              }}
+            >
+              <Stack>
+                {/* <div className="p-4 h-full xl:w-[420px] rounded "></div> */}
+                <div className="p-4 h-full rounded bg-white">
+                  <Group position="apart" className="border-b pb-[10px]">
+                    <Group position="left">
+                      <Image
+                        src="./images/educationIcon.svg"
                         alt="Google"
                         style={{ width: "24px", height: "24px" }}
-                      /> */}
+                      />
+                      <div className="text-black text-base font-semibold">
+                        Projects
+                      </div>
                     </Group>
-                  </div>
-                </Stack>
-              </div>
-              <div className="lg:w-1/2">
-                <Stack>
-                  {/* <div className="p-4 h-full xl:w-[420px] rounded "></div> */}
-                  <div className="p-4 h-full rounded bg-white">
-                    <Group position="apart" className="border-b pb-[10px]">
-                      <Group position="left">
-                        <Image
-                          src="./images/educationIcon.svg"
-                          alt="Google"
-                          style={{ width: "24px", height: "24px" }}
-                        />
-                        <div className="text-black text-base font-semibold">
-                          Projects
-                        </div>
-                      </Group>
-                      {hasMaster && (
-                        <Image
-                          src="./assets/addIcon.png"
-                          alt="Google"
-                          style={{
-                            width: "24px",
-                            height: "32px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            router.push(
-                              `/edit_project?id=${localStorage.getItem("id")}`
-                            );
-                          }}
-                        />
-                      )}
-                    </Group>
-                    <Group position="apart" py={12}>
-                      <div>
-                        <Stack spacing={8}>
-                          <div className="text-indigo-950 text-sm font-bold">
-                            {/*                             
+
+                    {hasMaster && (
+                      <Image
+                        src="./assets/addIcon.png"
+                        alt="Google"
+                        style={{
+                          width: "24px",
+                          height: "32px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          router.push(
+                            `/edit_project?id=${localStorage.getItem("id")}`
+                          );
+                        }}
+                      />
+                    )}
+                  </Group>
+                  <Group
+                    position="apart"
+                    py={12}
+                    style={{
+                      width: "100%",
+                      // background:"red"
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "100%",
+                        // background:"pink"
+                      }}
+                    >
+                      <Stack spacing={8}>
+                        <div className="text-indigo-950 text-sm font-bold">
+                          {/*                             
                             {form.getInputProps("project")?.value?.length} */}
-                          </div>
+                        </div>
 
-                          <div className="text-gray-600 text-xs font-normal">
-                            <div>
-                              <Stack spacing={8}>
-                                {form.getInputProps("project")?.value?.length >
-                                  0 &&
-                                  form
-                                    .getInputProps("project")
-                                    ?.value.map((item: any) => {
-                                      return (
-                                        <div
-                                          className="d-flex justify-content-between"
-                                          style={{
-                                            // background:"yellow",
-                                            width: "100%",
-                                          }}
-                                        >
-                                          <div className="text-indigo-950 text-sm font-bold">
-                                            <h6>
-                                              {" "}
-                                              project: {item.projectTitle}{" "}
-                                            </h6>
-                                            <h6> role: {item.role} </h6>
-                                            <h6
-                                              style={{
-                                                fontWeight: "400",
-                                              }}
-                                            >
-                                              {" "}
-                                              client: {item.client} ,{" "}
-                                              {/* <span> {item.employment_type} </span>{" "} */}
-                                            </h6>
+                        <div className="text-gray-600 text-xs font-normal">
+                          <div
+                            style={{
+                              width: "100%",
+                              // background:"yellow"
+                            }}
+                          >
+                            <Stack spacing={8}>
+                              {form.getInputProps("project")?.value?.length >
+                                0 &&
+                                form
+                                  .getInputProps("project")
+                                  ?.value.map((item: any) => {
+                                    return (
+                                      <div
+                                        className="d-flex justify-content-between"
+                                        style={{
+                                          // background:"yellow",
+                                          width: "100%",
+                                        }}
+                                      >
+                                        <div className="text-custom-light">
+                                          <h6 className="title">
+                                            {" "}
+                                            project: {item.projectTitle}{" "}
+                                          </h6>
+                                          <h6> role: {item.role} </h6>
+                                          <h6
+                                            style={{
+                                              fontWeight: "400",
+                                            }}
+                                          >
+                                            {" "}
+                                            client: {item.client} ,{" "}
+                                            {/* <span> {item.employment_type} </span>{" "} */}
+                                          </h6>
 
-                                            <h6
-                                              style={{
-                                                marginBottom: "0.5rem",
-                                              }}
-                                            >
+                                          <h6
+                                            style={{
+                                              marginBottom: "0.5rem",
+                                            }}
+                                          >
+                                            {" "}
+                                            <span>
                                               {" "}
-                                              <span>
-                                                {" "}
-                                                {item.workFromMonth} -{" "}
-                                              </span>{" "}
-                                              <span> {item.workFromYear} </span>{" "}
-                                              ,
-                                            </h6>
+                                              {item.workFromMonth} -{" "}
+                                            </span>{" "}
+                                            <span> {item.workFromYear} </span> ,
+                                          </h6>
 
-                                            <h6>
+                                          <h6>
+                                            {" "}
+                                            <span>
                                               {" "}
-                                              <span>
-                                                {" "}
-                                                status: {
-                                                  item.projectStatus
-                                                }{" "}
-                                              </span>{" "}
-                                            </h6>
-                                            <h6>
+                                              status: {item.projectStatus}{" "}
+                                            </span>{" "}
+                                          </h6>
+                                          <h6>
+                                            {" "}
+                                            <span>
                                               {" "}
-                                              <span>
-                                                {" "}
-                                                location: {
-                                                  item.projectLocation
-                                                }{" "}
-                                              </span>{" "}
-                                            </h6>
-                                            <h6>
+                                              location: {
+                                                item.projectLocation
+                                              }{" "}
+                                            </span>{" "}
+                                          </h6>
+                                          <h6>
+                                            {" "}
+                                            <span>
                                               {" "}
-                                              <span>
-                                                {" "}
-                                                projectSite: {
-                                                  item.projectSite
-                                                }{" "}
-                                              </span>{" "}
-                                            </h6>
-                                            <h6>
+                                              projectSite: {
+                                                item.projectSite
+                                              }{" "}
+                                            </span>{" "}
+                                          </h6>
+                                          <h6>
+                                            {" "}
+                                            <span>
                                               {" "}
-                                              <span>
-                                                {" "}
-                                                natureOfEmployment:{" "}
-                                                {item.natureOfEmployment}{" "}
-                                              </span>{" "}
-                                            </h6>
+                                              natureOfEmployment:{" "}
+                                              {item.natureOfEmployment}{" "}
+                                            </span>{" "}
+                                          </h6>
 
-                                            <h6>
+                                          <h6>
+                                            {" "}
+                                            <span>
                                               {" "}
-                                              <span>
-                                                {" "}
-                                                teamSize: {item.teamSize}{" "}
-                                              </span>{" "}
-                                            </h6>
-                                            <h6>
+                                              teamSize: {item.teamSize}{" "}
+                                            </span>{" "}
+                                          </h6>
+                                          <h6>
+                                            {" "}
+                                            <span>
                                               {" "}
-                                              <span>
-                                                {" "}
-                                                skillUsed: {item.skillUsed}{" "}
-                                              </span>{" "}
-                                            </h6>
+                                              skillUsed: {item.skillUsed}{" "}
+                                            </span>{" "}
+                                          </h6>
 
-                                            {/* <h6>  activity: {item.activities} </h6> */}
-                                            <h6>
-                                              {" "}
-                                              role description:{" "}
-                                              {item.roleDescription}{" "}
-                                            </h6>
-                                          </div>
+                                          {/* <h6>  activity: {item.activities} </h6> */}
+                                          <h6>
+                                            {" "}
+                                            role description:{" "}
+                                            {item.roleDescription}{" "}
+                                          </h6>
+                                        </div>
 
+                                        <div className="">
                                           <Image
                                             onClick={() => {
                                               setProject({
@@ -2577,13 +2598,91 @@ export default function View(props: IAppProps) {
                                             }}
                                           />
                                         </div>
-                                      );
-                                    })}
-                              </Stack>
-                            </div>
+                                      </div>
+                                    );
+                                  })}
+                            </Stack>
+                          </div>
+                        </div>
+                      </Stack>
+                    </div>
+                  </Group>
+                </div>
+              </Stack>
+            </div>
+            <div className=" flex flex-col lg:flex-row justify-center  gap-5 xl:12 mt-3">
+              <div className="lg:w-full">
+                <Stack>
+                  {/* <div className="p-4 h-full xl:w-[420px] rounded "></div> */}
+                  <div className="p-4 h-full rounded bg-white ">
+                    <Group position="apart" className="border-b pb-[10px]">
+                      <Group position="left">
+                        <Image
+                          src="./images/resume.svg"
+                          alt="Google"
+                          style={{ width: "24px", height: "24px" }}
+                          onClick={() =>
+                            router.push(
+                              `/edit_user?id=${localStorage.getItem("id")}`
+                            )
+                          }
+                        />
+                        <div className="text-black text-base font-semibold">
+                          Resume
+                        </div>
+                      </Group>
+                    </Group>
+
+                    <Group position="apart" py={12}>
+                      <div>
+                        <Stack spacing={8}>
+                          <div className="text-indigo-950 text-sm font-bold d-flex align-items-center">
+                            <Image
+                              src="./images/resumeIcon.svg"
+                              className="resume-icon"
+                              alt="Google"
+                              style={{ width: "32px", height: "44px" ,marginRight:"1em" ,borderRadius:"100% !important" }}
+                              onClick={() =>
+                                router.push(
+                                  `/edit_user?id=${localStorage.getItem("id")}`
+                                )
+                              }
+                            />
+
+                            <a
+                              download={
+                                form
+                                  .getInputProps("resume")
+                                  ?.value?.includes("docx") ||
+                                form
+                                  .getInputProps("resume")
+                                  ?.value?.includes("doc")
+                                  ? true
+                                  : false
+                              }
+                              target="_blank"
+                              className="resume-link"
+                              href={form.getInputProps("resume")?.value}
+                            >
+                              {" "}
+                              {form
+                                .getInputProps("resume")
+                                ?.value?.substr(
+                                  6,
+                                  form.getInputProps("resume")?.value.length
+                                )}{" "}
+                            </a>
+                          </div>
+                          <div className="text-gray-600 text-xs font-normal">
+                            {/* 867 Kb. Feb 2022 */}
                           </div>
                         </Stack>
                       </div>
+                      {/* <Image
+                        src="./images/Edit.svg"
+                        alt="Google"
+                        style={{ width: "24px", height: "24px" }}
+                      /> */}
                     </Group>
                   </div>
                 </Stack>

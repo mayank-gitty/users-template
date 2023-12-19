@@ -14,9 +14,12 @@ import { toast } from "react-toastify";
 import useThemeContext from "@/context/context";
 
 const ProjectForm = () => {
-  const { setFormData, formData }: any = useThemeContext();
+  const { setFormData, formData, projectopen, setprojectOpen }: any =
+    useThemeContext();
 
   const [flag, setFlag] = useState(true);
+
+  const [editOpen, seteditopen] = useState("");
 
   const [project, setProject] = useState({
     projectTitle: "",
@@ -83,7 +86,6 @@ const ProjectForm = () => {
   };
 
   const saveEntry = () => {
-
     console.log("g", project, formData);
 
     if (!project.projectTitle) {
@@ -188,7 +190,7 @@ const ProjectForm = () => {
       });
     }
     if (project.roleDescription.length < 10) {
-      return toast("description should have atleast 10 characters", {
+      return toast(" role description should have atleast 10 characters", {
         className: "black-background",
         bodyClassName: "grow-font-size",
         progressClassName: "fancy-progress-bar",
@@ -209,72 +211,40 @@ const ProjectForm = () => {
       });
     }
 
-    // if (experience.start_year && experience.end_year) {
-    //   if (experience.end_year < experience.start_year) {
-    //     return toast(
-    //       "invalid duration, end year can not be smaller than start year",
-    //       {
-    //         className: "black-background",
-    //         bodyClassName: "grow-font-size",
+    if (editOpen !== "") {
+      // alert(editOpen);
 
-    //         progressClassName: "fancy-progress-bar",
-    //       }
-    //     );
-    //   }
+      const changed = formData?.projects.map((item: any) => {
+        if (item.id === editOpen) {
+          (item.projectTitle = project.projectTitle),
+            (item.client = project.client),
+            (item.projectStatus = project.projectStatus),
+            (item.workFromYear = project.workFromYear),
+            (item.detailsOfProjec = project.detailsOfProject),
+            (item.projectLocation = project.projectLocation),
+            (item.projectSite = project.projectSite),
+            (item.natureOfEmployment = project.natureOfEmployment),
+            (item.teamSize = project.teamSize),
+            (item.role = project.role),
+            (item.roleDescription = project.roleDescription),
+            (item.skillUsed = project.skillUsed);
+        }
 
-    //   if (experience.end_year === experience.start_year) {
-    //     const releventMonths = [
-    //       "January",
-    //       "February",
-    //       "March",
-    //       "April",
-    //       "May",
-    //       "June",
-    //       "July",
-    //       "August",
-    //       "September",
-    //       "October",
-    //       "November",
-    //       "December",
-    //     ].map((item, index) => ({ label: item, value: index + 1 }));
+        return item;
+      });
 
-    //     const startMonthNumber = releventMonths.filter(
-    //       (item) => item.label === experience.start_year_month
-    //     )[0].value;
+      console.log("ch", changed);
 
-    //     const endMonthNumber = releventMonths.filter(
-    //       (item) => item.label === experience.end_year_month
-    //     )[0].value;
-
-    //     console.log("190", startMonthNumber, endMonthNumber);
-
-    //     if (experience.start_year_month === experience.end_year_month) {
-    //       return toast(
-    //         "invalid duration, start date can not be equal to end date",
-    //         {
-    //           className: "black-background",
-    //           bodyClassName: "grow-font-size",
-    //           progressClassName: "fancy-progress-bar",
-    //         }
-    //       );
-    //     }
-    //     if (endMonthNumber < startMonthNumber) {
-    //       return toast(
-    //         "invalid duration, end date can not be small then start date",
-    //         {
-    //           className: "black-background",
-    //           bodyClassName: "grow-font-size",
-    //           progressClassName: "fancy-progress-bar",
-    //         }
-    //       );
-    //     }
-    //   }
-    // }
-
-    setFormData((prevData: any) => ({
-      ...prevData,
-      ["projects"]: [...formData.projects, project],
-    }));
+      setFormData((prevData: any) => ({
+        ...prevData,
+        ["projects"]: changed,
+      }));
+    } else {
+      setFormData((prevData: any) => ({
+        ...prevData,
+        ["projects"]: [...formData.projects, project],
+      }));
+    }
 
     setProject({
       id: "id" + new Date().getTime(),
@@ -294,6 +264,8 @@ const ProjectForm = () => {
     });
 
     setFlag(false);
+
+    setprojectOpen(false);
   };
 
   const deleteExperience = (id: any) => {
@@ -307,7 +279,7 @@ const ProjectForm = () => {
       ...prev,
       projects: filterExperiences,
     }));
-  }; 
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -323,7 +295,7 @@ const ProjectForm = () => {
     // }
     // if (!formData.workFromMonth) {
     //   errors.workFromMonth = "Month is required";
-    
+
     // }
     // if (!formData.detailsOfProject) {
     //   errors.detailsOfProject = "Detail is required";
@@ -360,166 +332,223 @@ const ProjectForm = () => {
         height: "100%",
       }}
     >
-      {formData?.projects?.length > 0 && (
-        <div className="translateLeftEducation">
-          {" "}
-          <div className="mb-2 font-700">
-            {formData.projects.length > 0 ? (
-              <span className="mb-2"> total </span>
-            ) : (
-              ""
-            )}
-            {formData.projects.length > 0 &&
-              formData.projects.length + " projects"}{" "}
-          </div>
-          {formData.projects.length > 0 &&
-            formData.projects.map((item: any) => {
-              return (
-                <div className="experience-item text-indigo-950 text-sm font-bold">
-                  <div
-                    className="
-        before"
-                  >
-                    .
-                  </div>
-                  <div className="text-indigo-950 text-sm font-bold">
-                    <span className="delete-experience">
-                      {" "}
-                      <img
-                        style={{
-                          width: "24px",
-                          cursor: "pointer",
-                        }}
-                        src={"assets/bin.png"}
-                        onClick={() => deleteExperience(item.id)}
-                      />
-                    </span>
-                    <h6> project: {item.projectTitle} </h6>
-                    <h6> role: {item.role} </h6>
-                    <h6
-                      style={{
-                        fontWeight: "400",
-                      }}
-                    >
-                      {" "}
-                      client: {item.client} ,{" "}
-                      {/* <span> {item.employment_type} </span>{" "} */}
-                    </h6>
-
-                    <h6
-                      style={{
-                        marginBottom: "0.5rem",
-                      }}
-                    >
-                      {" "}
-                      <span> {item.workFromMonth} - </span>{" "}
-                      <span> {item.workFromYear} </span> ,
-                    </h6>
-
-                    <h6>
-                      {" "}
-                      <span> status: {item.projectStatus} </span>{" "}
-                    </h6>
-
-                    <h6>
-                      {" "}
-                      <span> location: {item.projectLocation} </span>{" "}
-                    </h6>
-                    <h6>
-                      {" "}
-                      <span> projectSite: {item.projectSite} </span>{" "}
-                    </h6>
-                    <h6>
-                      {" "}
-                      <span>
-                        {" "}
-                        natureOfEmployment: {item.natureOfEmployment}{" "}
-                      </span>{" "}
-                    </h6>
-
-                    <h6>
-                      {" "}
-                      <span> teamSize: {item.teamSize} </span>{" "}
-                    </h6>
-                    <h6>
-                      {" "}
-                      <span> skillUsed: {item.skillUsed} </span>{" "}
-                    </h6>
-
-                    <h6>
-                      {" "}
-                      <span>
-                        {" "}
-                        details of project: {item.detailsOfProject}{" "}
-                      </span>{" "}
-                    </h6>
-
-                    <h6> role description: {item.roleDescription} </h6>
-                  </div>
-                </div>
-              );
-            })}{" "}
-        </div>
-      )}
-
       <Container size="xs" px="xs">
         <Paper
-          shadow="xl"
+          // shadow="xl"
           p="md"
           style={{
             width: "30rem",
           }}
         >
-          <h6 className="box-heading">Add Project</h6>
+          <div
+            className=" mt-4"
+            style={{
+              position: "absolute",
+              left: "20%",
+            }}
+          >
+            <div className="heading">
+              <h6 className="box-heading"> Add project </h6>
+              <p className="box-sub-heading mb-8">
+                Complete your project details
+              </p>
+            </div>
 
-          {flag && (
+            <div className="">
+              {formData?.projects?.length > 0 &&
+                formData?.projects.map((item: any) => {
+                  return (
+                    <div className="d-flex">
+                      <p className="box-sub-heading "> {item.projectTitle} </p>
+
+                      <div className="mx-2">
+                        {project.projectTitle === item.projectTitle ? (
+                          <img
+                            onClick={() => {
+                              setFlag(false);
+                              setprojectOpen(false);
+                              seteditopen("");
+
+                              setProject({
+                                projectTitle: "",
+                                client: "",
+                                projectStatus: "inprogress",
+                                workFromYear: "",
+                                workFromMonth: "",
+                                detailsOfProject: "",
+                                projectLocation: "",
+                                projectSite: "",
+                                natureOfEmployment: "fulltime",
+                                teamSize: "",
+                                role: "",
+                                roleDescription: "",
+                                skillUsed: "",
+                              });
+                            }}
+                            className="cursor"
+                            src={"images/minus_circle.svg"}
+                            alt=""
+                          />
+                        ) : (
+                          <img
+                            onClick={() => {
+                              setFlag(false);
+                              setprojectOpen(true);
+                              seteditopen(item.id);
+
+                              setProject({
+                                projectTitle: item.projectTitle,
+                                client: item.client,
+                                projectStatus: item.projectStatus,
+                                workFromYear: item.workFromYear,
+                                workFromMonth: item.workFromMonth,
+                                detailsOfProject: item.detailsOfProject,
+                                projectLocation: item.projectLocation,
+                                projectSite: item.projectSite,
+                                natureOfEmployment: item.natureOfEmployment,
+                                teamSize: item.teamSize,
+                                role: item.role,
+                                roleDescription: item.roleDescription,
+                                skillUsed: item.skillUsed,
+                              });
+                            }}
+                            className="cursor"
+                            src={"images/addPlusIcon.svg"}
+                            alt=""
+                          />
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+
+              <div className="d-flex">
+                <p className="box-sub-heading ">
+                  {" "}
+                  {formData?.projects?.length > 0
+                    ? " Add another project"
+                    : " Add project "}{" "}
+                </p>{" "}
+                <div className="mx-2">
+                  {projectopen && !editOpen ? (
+                    <img
+                      onClick={() => {
+                        setFlag(true);
+                        setprojectOpen(false);
+                        seteditopen("");
+
+                        setProject({
+                          projectTitle: "",
+                          client: "",
+                          projectStatus: "inprogress",
+                          workFromYear: "",
+                          workFromMonth: "",
+                          detailsOfProject: "",
+                          projectLocation: "",
+                          projectSite: "",
+                          natureOfEmployment: "fulltime",
+                          teamSize: "",
+                          role: "",
+                          roleDescription: "",
+                          skillUsed: "",
+                        });
+                      }}
+                      className="cursor"
+                      src={
+                        // flag
+                        //   ? "images/minus_circle.svg"
+                        // flag
+                        "images/minus_circle.svg"
+                      }
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      onClick={() => {
+                        setFlag(true);
+                        setprojectOpen(true);
+                        setProject({
+                          projectTitle: "",
+                          client: "",
+                          projectStatus: "inprogress",
+                          workFromYear: "",
+                          workFromMonth: "",
+                          detailsOfProject: "",
+                          projectLocation: "",
+                          projectSite: "",
+                          natureOfEmployment: "fulltime",
+                          teamSize: "",
+                          role: "",
+                          roleDescription: "",
+                          skillUsed: "",
+                        });
+
+                        seteditopen("");
+                      }}
+                      className="cursor"
+                      src={
+                        "images/addPlusIcon.svg"
+                        // : "images/addPlusIcon.svg"
+                      }
+                      alt=""
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {projectopen && (
             <form>
               <Grid>
+                {/* <h6 className="box-heading">Add Project</h6> */}
                 <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="Project title"
-                    error={formErrors.projectTitle}
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
+                  <Input
+                    placeholder="Project Title"
+                    required
+                    value={project.projectTitle}
+                    styles={(theme) => ({
+                      input: {
+                        height: "100%",
+                      },
+                      values: {
+                        height: "100%",
+                      },
+                      wrapper: {
+                        height: "50px",
+                      },
+
+                      leftIcon: {
+                        marginRight: theme.spacing.md,
                       },
                     })}
-                  >
-                    <Input
-                      placeholder="Project title"
-                      required
-                      value={formData.projectTitle}
-                      onChange={(e) =>
-                        handleChange("projectTitle", e.target.value)
-                      }
-                    />
-                  </Input.Wrapper>
+                    onChange={(e) =>
+                      handleChange("projectTitle", e.target.value)
+                    }
+                  />
                 </Grid.Col>
                 <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="Client"
-                    error={formErrors.client}
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
+                  <Input
+                    placeholder="Client"
+                    required
+                    value={project.client}
+                    styles={(theme) => ({
+                      input: {
+                        height: "100%",
+                      },
+                      values: {
+                        height: "100%",
+                      },
+                      wrapper: {
+                        height: "50px",
+                      },
+
+                      leftIcon: {
+                        marginRight: theme.spacing.md,
                       },
                     })}
-                  >
-                    <Input
-                      placeholder="Client"
-                      required
-                      value={project.client}
-                      onChange={(e) => handleChange("client", e.target.value)}
-                    />
-                  </Input.Wrapper>
+                    onChange={(e) => handleChange("client", e.target.value)}
+                  />
                 </Grid.Col>
                 <Grid.Col span={12}>
                   <Input.Wrapper
@@ -581,6 +610,21 @@ const ProjectForm = () => {
                           onChange={(value) =>
                             handleChange("workFromYear", value)
                           }
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
                         />
                       </Input.Wrapper>
                     </div>
@@ -609,13 +653,28 @@ const ProjectForm = () => {
                           onChange={(value) =>
                             handleChange("workFromMonth", value)
                           }
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
                         />
                       </Input.Wrapper>
                     </div>
                   </div>
                 </Grid.Col>
                 <Grid.Col span={12}>
-                  <Input.Wrapper
+                  {/* <Input.Wrapper
                     label="Details of project"
                     error={formErrors.detailsOfProject}
                     styles={() => ({
@@ -627,46 +686,48 @@ const ProjectForm = () => {
                         marginBottom: 10,
                       },
                     })}
-                  >
-                    <textarea
-                      placeholder="Type here..."
-                      required
-                      style={{
-                        width: "100%", // Adjust the width as needed
-                        padding: "10px", // Add padding for a consistent look
-                        borderRadius: "4px", // Add rounded corners
-                        border: "1px solid #ccc", // Add a border
-                      }}
-                      value={project.detailsOfProject}
-                      onChange={(e) =>
-                        handleChange("detailsOfProject", e.target.value)
-                      }
-                    />
-                  </Input.Wrapper>
+                  > */}
+                  <textarea
+                    placeholder="Details of project"
+                    required
+                    style={{
+                      width: "100%", // Adjust the width as needed
+                      padding: "10px", // Add padding for a consistent look
+                      borderRadius: "4px", // Add rounded corners
+                      border: "1px solid #ccc", // Add a border
+                    }}
+                    value={project.detailsOfProject}
+                    onChange={(e) =>
+                      handleChange("detailsOfProject", e.target.value)
+                    }
+                  />
+                  {/* </Input.Wrapper> */}
                 </Grid.Col>
                 <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="Project location"
-                    error={formErrors.projectLocation}
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
+                  <Input
+                    placeholder="Project Location"
+                    required
+                    value={project.projectLocation}
+                    styles={(theme) => ({
+                      input: {
+                        height: "100%",
+                      },
+                      values: {
+                        height: "100%",
+                      },
+                      wrapper: {
+                        height: "50px",
+                      },
+
+                      leftIcon: {
+                        marginRight: theme.spacing.md,
                       },
                     })}
-                  >
-                    <Input
-                      placeholder="Type here.."
-                      required
-                      value={project.projectLocation}
-                      onChange={(e) =>
-                        handleChange("projectLocation", e.target.value)
-                      }
-                    />
-                  </Input.Wrapper>
+                    onChange={(e) =>
+                      handleChange("projectLocation", e.target.value)
+                    }
+                  />
+                  {/* </Input.Wrapper> */}
                 </Grid.Col>
 
                 <Grid.Col span={12}>
@@ -771,54 +832,84 @@ const ProjectForm = () => {
                 </Grid.Col>
 
                 <Grid.Col span={12}>
-                  <Input.Wrapper label="Team size" error={formErrors.teamSize}>
-                    <Select
-                      placeholder="Select team size"
-                      data={[
-                        "1",
-                        "2",
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                        "8",
-                        "9",
-                        "10",
-                        "11",
-                        "12",
-                      ]} // Your list of size
-                      value={project.teamSize}
-                      onChange={(value) => handleChange("teamSize", value)}
-                    />
-                  </Input.Wrapper>
+                  {/* <Input.Wrapper label="Team size" error={formErrors.teamSize}> */}
+                  <Select
+                    placeholder="Select team size"
+                    data={[
+                      "1",
+                      "2",
+                      "3",
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                      "8",
+                      "9",
+                      "10",
+                      "11",
+                      "12",
+                    ]} // Your list of size
+                    value={project.teamSize}
+                    styles={(theme) => ({
+                      input: {
+                        height: "100%",
+                      },
+                      values: {
+                        height: "100%",
+                      },
+                      wrapper: {
+                        height: "50px",
+                      },
+
+                      leftIcon: {
+                        marginRight: theme.spacing.md,
+                      },
+                    })}
+                    onChange={(value) => handleChange("teamSize", value)}
+                  />
+                  {/* </Input.Wrapper> */}
                 </Grid.Col>
                 <Grid.Col span={12}>
-                  <Input.Wrapper label="Role" error={formErrors.role}>
-                    <Select
-                      placeholder="Role"
-                      data={[
-                        "java dev",
-                        "react dev",
-                        "python dev",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                        "8",
-                        "9",
-                        "10",
-                        "11",
-                        "12",
-                      ]} // Your list of size
-                      value={project.role}
-                      onChange={(value) => handleChange("role", value)}
-                    />
-                  </Input.Wrapper>
+                  {/* <Input.Wrapper label="Role" error={formErrors.role}> */}
+                  <Select
+                    placeholder="Role"
+                    data={[
+                      "java dev",
+                      "react dev",
+                      "python dev",
+                      "4",
+                      "5",
+                      "6",
+                      "7",
+                      "8",
+                      "9",
+                      "10",
+                      "11",
+                      "12",
+                    ]} // Your list of size
+                    value={project.role}
+                    styles={(theme) => ({
+                      input: {
+                        height: "100%",
+                      },
+                      values: {
+                        height: "100%",
+                      },
+                      wrapper: {
+                        height: "50px",
+                      },
+
+                      leftIcon: {
+                        marginRight: theme.spacing.md,
+                      },
+                    })}
+                    onChange={(value) => handleChange("role", value)}
+                  />
+                  {/* </Input.Wrapper> */}
                 </Grid.Col>
 
                 <Grid.Col span={12}>
-                  <Input.Wrapper
+                  {/* <Input.Wrapper
                     label="Role description"
                     error={formErrors.roleDescription}
                     styles={() => ({
@@ -830,26 +921,26 @@ const ProjectForm = () => {
                         marginBottom: 10,
                       },
                     })}
-                  >
-                    <textarea
-                      placeholder="Role description"
-                      required
-                      style={{
-                        width: "100%", // Adjust the width as needed
-                        padding: "10px", // Add padding for a consistent look
-                        borderRadius: "4px", // Add rounded corners
-                        border: "1px solid #ccc", // Add a border
-                      }}
-                      value={project.roleDescription}
-                      onChange={(e) =>
-                        handleChange("roleDescription", e.target.value)
-                      }
-                    />
-                  </Input.Wrapper>
+                  > */}
+                  <textarea
+                    placeholder="Role description"
+                    required
+                    style={{
+                      width: "100%", // Adjust the width as needed
+                      padding: "10px", // Add padding for a consistent look
+                      borderRadius: "4px", // Add rounded corners
+                      border: "1px solid #ccc", // Add a border
+                    }}
+                    value={project.roleDescription}
+                    onChange={(e) =>
+                      handleChange("roleDescription", e.target.value)
+                    }
+                  />
+                  {/* </Input.Wrapper> */}
                 </Grid.Col>
 
                 <Grid.Col span={12}>
-                  <Input.Wrapper
+                  {/* <Input.Wrapper
                     label="Skills used"
                     error={formErrors.roleDescription}
                     styles={() => ({
@@ -860,23 +951,21 @@ const ProjectForm = () => {
                         lineHeight: 1.2,
                         marginBottom: 10,
                       },
-                    })}
-                  >
-                    <textarea
-                      placeholder="Skills Used"
-                      required
-                      style={{
-                        width: "100%", // Adjust the width as needed
-                        padding: "10px", // Add padding for a consistent look
-                        borderRadius: "4px", // Add rounded corners
-                        border: "1px solid #ccc", // Add a border
-                      }}
-                      value={project.skillUsed}
-                      onChange={(e) =>
-                        handleChange("skillUsed", e.target.value)
-                      }
-                    />
-                  </Input.Wrapper>
+                    })} 
+                  > */}
+                  <textarea
+                    placeholder="Skills Used"
+                    required
+                    style={{
+                      width: "100%", // Adjust the width as needed
+                      padding: "10px", // Add padding for a consistent look
+                      borderRadius: "4px", // Add rounded corners
+                      border: "1px solid #ccc", // Add a border
+                    }}
+                    value={project.skillUsed}
+                    onChange={(e) => handleChange("skillUsed", e.target.value)}
+                  />
+                  {/* </Input.Wrapper> */}
                 </Grid.Col>
 
                 <Grid.Col
@@ -891,7 +980,7 @@ const ProjectForm = () => {
                     <button
                       onClick={() => saveEntry()}
                       type="button"
-                      className="common-btn"
+                      className="btn btn-info"
                     >
                       Save
                     </button>
@@ -899,13 +988,6 @@ const ProjectForm = () => {
                 </Grid.Col>
               </Grid>
             </form>
-          )}
-
-          {!flag && (
-            <button className="common-btn mt-4" onClick={() => setFlag(true)}>
-              {" "}
-              Add another project{" "}
-            </button>
           )}
         </Paper>
       </Container>

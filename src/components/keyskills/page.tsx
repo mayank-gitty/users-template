@@ -91,7 +91,7 @@ const prevStep = () =>
 
  
         <Paper
-          shadow="xl"
+        
           p="md"
           style={{
             width: "30rem",
@@ -99,7 +99,7 @@ const prevStep = () =>
         >
           <h6 className="box-heading"> Add your key skills </h6>
           <p className="box-sub-heading mb-8">
-            Specify key skills that your have strong command
+            Specify key skills that you have strong command
           </p>
 
           <form onSubmit={handleSubmit}>

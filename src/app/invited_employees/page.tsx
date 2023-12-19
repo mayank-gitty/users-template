@@ -5,8 +5,8 @@ import { MDBDataTable } from "mdbreact";
 import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import { useRouter } from "next/navigation";
+import useThemeContext from "@/context/context";
 import { HAS_MASTER } from "@/util/queries";
-import { link } from "fs";
 
 // Define mutation
 
@@ -14,6 +14,7 @@ const USERS = gql`
   query Users($where: UserWhereInput!) {
     users(where: $where) {
       name
+      id
       company {
         name
       }
@@ -21,23 +22,45 @@ const USERS = gql`
       email
       phone
       address
-      id
     }
   }
 `;
 
-
-
-
 const DatatablePage = () => {
   const [main, setMain] = useState();
 
+  const router = useRouter();
 
-  const router = useRouter()
+  const {
+    profileName,
+    setProfileName,
+    profileId,
+    setProfileId,
+    formData,
+    setFormData,
+    active,
+    setActive,
+    loggedIn,
+    setLoggedIn,
+    hasMaster,
+    sethasMaster,
+    role,
+    setRole,
+    image,
+    setImage,
+    inEditPage,
+    setinEditPage,
+    open,
+    setOpen,
+    experienceOpen,
+    setexperienceOpen,
+    projectopen,
+    setprojectOpen,
+  }: any = useThemeContext();
 
   const checkExistingProfile = async (id: any, item: any) => {
-    console.log('id',id)
-  
+    // console.log('id',id)
+
     const user: any = await client.request(HAS_MASTER, {
       where: {
         user: {
@@ -47,9 +70,9 @@ const DatatablePage = () => {
         },
       },
     });
-  
-    console.log('seeeing',user)
-  
+
+    // console.log('s',user)
+
     if (user?.profileUsers.length > 0) {
       return true;
     } else {
@@ -57,7 +80,28 @@ const DatatablePage = () => {
         <button
           className="create-profile"
           onClick={() => {
-            // setProfileName(item.name);
+            setFormData({
+              profileUserId: "",
+              itskills: [],
+              educations: [],
+              projects: [],
+              keyskills: [],
+              resume_headline: "",
+              profile_summary: "",
+              total_experience_months: "",
+              total_relevant_months: "",
+              experiences: [],
+              createdExperiencesOnEdit: [],
+              deletedExperiencesOnEdit: [],
+              photograph: "",
+              resume: "",
+            });
+
+            setActive(0);
+            setexperienceOpen(false);
+            setOpen(false);
+            setprojectOpen(false);
+
             router.push(
               `/profile_creation?profileId=${item.id}&profileName=${item.name}`
             );
@@ -76,15 +120,10 @@ const DatatablePage = () => {
         role: {
           equals: "employee",
         },
-        company: {
-          name: {
-            equals: localStorage.getItem("company"),
-          },
-        },
       },
     });
 
-    console.log("mm", user);
+    // console.log("mm", user);
 
     const users = user?.users.map((item: any) => {
       return {
@@ -99,7 +138,7 @@ const DatatablePage = () => {
         // education: item.education.course,
         // user: item?.user?.name,
         company: item?.company?.name,
-        action:checkExistingProfile(item.id, item)
+        action: checkExistingProfile(item.id, item),
       };
     });
 
@@ -129,6 +168,13 @@ const DatatablePage = () => {
           sort: "asc",
           width: 200,
         },
+
+        {
+          label: "Company",
+          field: "company",
+          sort: "asc",
+          width: 100,
+        },
         {
           label: "Action",
           field: "action",
@@ -148,13 +194,12 @@ const DatatablePage = () => {
 
   return (
     <div className="table-wrapper">
-
-
-      <div className="page-heading text-custom-left pt-2 pb-2 twenty-percent pl-15">
-        <h2 className="page-main-heading mt-2"> Invited Employees </h2>
+      <div className="page-heading text-left pt-2 pb-2 twenty-percent">
+        <h2 className="page-main-heading px-4"> Invited Employees </h2>
       </div>
+
       <div className="profile-table">
-        <MDBDataTable bordered small data={main} />
+        <MDBDataTable data={main} />
       </div>
     </div>
   );

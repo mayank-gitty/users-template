@@ -30,11 +30,124 @@ import KeySkills from "../keyskills/page";
 import Resume from "../resume/page";
 import CustomizedSteppers from "@/app/stepper/page";
 import Thanku from "../../app/thanku/page";
+import client from "../../../helpers/request";
+import { gql } from "graphql-request";
+
 
 export default function Master() {
-  const { setFormData, formData, active, setActive }: any = useThemeContext();
+  const {
+    setFormData,
+    formData,
+    active,
+    setActive,
+    profileName,
+    education2,
+    setEducation2,
+    education3,
+    setEducation3,
+    open,
+    setOpen,
+    experienceOpen,
+    projectopen,
+    setprojectOpen,
+    profileId,
+  }: any = useThemeContext();
+
+
+  // Define mutation
+const PROFILE_USER = gql`
+mutation CreateProfileUser($data: ProfileUserCreateInput!) {
+  createProfileUser(data: $data) {
+    experience {
+      title
+    }
+  }
+}
+`;
 
   const router = useRouter();
+
+
+  const save = async () => {
+    // console.log(formData, formData);
+
+    if (!formData.profile_summary) {
+      return toast("please enter profile summaary", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (formData.profile_summary.length < 10) {
+      return toast("please summary should have minimum 10 characters", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    const itskills = formData?.itskills?.map((item: any) => {
+      return {
+        id: item,
+      };
+    });
+
+    const keyskills = formData?.keyskills?.map((item: any) => {
+      return {
+        id: item,
+      };
+    });
+    // console.log("fm", keyskills);
+
+    for (var i = 0, len = formData.experiences.length; i < len; i++) {
+      delete formData.experiences[i].id;
+    }
+
+    for (var i = 0, len = formData.educations.length; i < len; i++) {
+      delete formData.educations[i].id;
+    }
+
+    for (var i = 0, len = formData.educations.length; i < len; i++) {
+      delete formData.projects[i].id;
+    }
+
+    const user = await client.request(PROFILE_USER, {
+      data: {
+        keyskills: {
+          connect: keyskills,
+        },
+        itskills: {
+          connect: itskills,
+        },  
+        user: {
+          connect: {
+            id:  profileId ? profileId : localStorage.getItem("id"),
+          },
+        },
+
+        photograph: formData.photograph,
+        education: {
+          create: formData.educations,
+        },
+        resume_headline: formData.resume_headline,
+        experience: {
+          create: formData.experiences,
+        },
+        project: {
+          create: formData.projects,
+        },
+        profile_summary: formData.profile_summary,
+        resume: formData.resume,
+      },
+    });
+
+    setActive(8);
+    setTimeout(() => {
+      router.push("/thanku");
+    }, 500);
+
+    // alert('details submitted')
+  };
 
   const nextStep = () => {
     if (!formData.photograph && active === 0) {
@@ -113,11 +226,13 @@ export default function Master() {
 
   return (
     <div className="employee-details">
-      <div className="text-center mb-10">
-        <h4> Fill up Your Details </h4>
+      <div className="text-left mb-10">
+        <h4> Fill up {profileName} Details </h4>
       </div>
 
-      <CustomizedSteppers />
+      <div className="mb-2">
+        <CustomizedSteppers />
+      </div>
 
       <div
         className=""
@@ -127,50 +242,76 @@ export default function Master() {
           justifyContent: "center",
         }}
       >
-        <div
-          className=""
-          style={{
-            width: "30rem",
-          }}
-        >
-          <Group
-            className="no-margin"
-            position="center"
-            mt="xl"
+        {
+          <div
+            className=""
             style={{
-              width: "100%",
-              marginTop:"1ren",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
+              width: "30rem",
+              padding: active === 0 ? "" : "0 16px",
+              display:
+                (formData.educations.length === 0 && active === 2) ||
+                (open && active === 2) ||
+                (formData.experiences.length === 0 && active === 4) ||
+                (experienceOpen && active === 4) ||
+                (formData.projects.length === 0 && active === 7) ||
+                (experienceOpen && active === 7)
+                  ? "none"
+                  : "",
             }}
           >
-            {active !== 10 && active !== 9 && active !== 0 && (
-              <button
-                className="below-back-button"
-                onClick={prevStep}
-                style={{
-                  marginTop: "0px !important",
-                  width:"48%"
-                }}
-              >
-                Previous
-              </button>
-            )}
-
-            {active !== 10 && active !== 8 && active !== 9 && (
-              <button className="next-button" onClick={nextStep} 
-              
+            <Group
+              className="no-margin"
+              position="center"
+              mt="xl"
               style={{
-                width: active === 0 ? "100%" : '48%' 
+                width: "100%",
+                marginTop: "1rem",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
-              
-              >
-                Next
-              </button>
-            )}
-          </Group>
-        </div>
+            >
+              {active !== 10 && active !== 9 && active !== 0 && (
+                <button
+                  className="below-back-button"
+                  onClick={prevStep}
+                  style={{
+                    marginTop: "0px !important",
+                    width: "48%",
+                  }}
+                >
+                  Previous
+                </button>
+              )}
+
+              {active !== 10 && active !== 8 && active !== 9 && (
+                <button
+                  className="next-button"
+                  onClick={nextStep}
+                  style={{
+                    width: active === 0 ? "100%" : "48%",
+                    marginTop: active === 0 ? "10px" : "",
+                  }}
+                >
+                  Next
+                </button>
+              )}
+
+              {active === 8 && (
+                <button
+                  className="next-button"
+                  type="button"
+                  style={{
+                      width:"48%"  
+                  }}
+                  onClick={() => save()}
+                >
+                  submit
+                </button>
+              )}
+            </Group>
+          </div>
+        }
       </div>
     </div>
   );

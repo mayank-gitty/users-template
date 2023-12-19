@@ -16,7 +16,7 @@ const Login = () => {
   const router = useRouter();
 
   const showPassword = () => {
-    console.log("hitting");
+    // console.log("hitting");
 
     var x: any = document.getElementById("myInput");
 
@@ -34,6 +34,9 @@ const Login = () => {
       email: "",
       password: "",
       termsOfService: false,
+      managerEmail: "",
+      managerPassword: "",
+      managerTermsOfService: false,
     },
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -41,6 +44,50 @@ const Login = () => {
         value.length !== 0 ? null : "Please enter a password",
     },
   });
+
+  const getLoginManager = async () => {
+    console.log(form.getInputProps("password").value);
+
+    const user: any = await client.request(AUTH_MUTATION, {
+      email: form.getInputProps("managerEmail").value,
+      password: form.getInputProps("managerPassword").value,
+    });
+
+    // console.log("password", user);
+
+    if (user?.authenticateUserWithPassword?.message) {
+      return alert("invalid credentials");
+    } else {
+      console.log("dd", user?.authenticateUserWithPassword?.item);
+
+      if (user?.authenticateUserWithPassword?.item?.role === "employee") {
+        return alert("please login as user");
+      }
+
+      localStorage.setItem(
+        "token",
+        user?.authenticateUserWithPassword?.sessionToken
+      );
+      localStorage.setItem("id", user?.authenticateUserWithPassword?.item?.id);
+      localStorage.setItem(
+        "name",
+        user?.authenticateUserWithPassword?.item?.name
+      );
+      localStorage.setItem(
+        "role",
+        user?.authenticateUserWithPassword?.item?.role
+      );
+      localStorage.setItem(
+        "company",
+        user?.authenticateUserWithPassword?.item?.company?.name
+      );
+
+      setLoggedIn(true);
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    }
+  };
 
   const getLogin = async () => {
     console.log(form.getInputProps("password").value);
@@ -50,13 +97,18 @@ const Login = () => {
       password: form.getInputProps("password").value,
     });
 
-    console.log("password", user);
-
     if (user?.authenticateUserWithPassword?.message) {
       return alert("invalid credentials");
     } else {
+      console.log("dd", user?.authenticateUserWithPassword?.item);
 
-      console.log('dd', user?.authenticateUserWithPassword?.item)
+      // if (user?.authenticateUserWithPassword?.item?.role === "manager") {
+      //   return alert("please  login as manager  ");
+      // }
+
+      // if (user?.authenticateUserWithPassword?.item?.role === "admin") {
+      //   return alert("please login as admin");
+      // }
 
       localStorage.setItem(
         "token",
@@ -91,34 +143,108 @@ const Login = () => {
     getLogin();
   };
 
+  const signInManager = (e) => {
+    e.preventDefault();
+
+    console.log(form.getInputProps("email").value);
+
+    getLoginManager();
+  };
+
   useEffect(() => {}, []);
 
   return (
-    <div className="flex flex-wrap justify-between h-screen">
+    <div
+      className="flex flex-wrap justify-between "
+      style={{
+        height: "100vh",
+      }}
+    >
       <div className="responsive-image h-full relative">
+        {/* <div className="manager-login">
+          <div className="p-8 lg:p-24 flex items-center justify-center box">
+            <form className="w-full">
+              <h2 className="mb-4 text-[20px] items-start justify-start flex font-medium text-[18px] font-extrabold text-white">
+                CloudActive Admin / Partner Manager Sign In
+              </h2>
+              <div className="mb-6">
+                <TextInput
+                  withAsterisk
+                  size="lg"
+                  placeholder="Enter Email"
+                  styles={(theme) => ({
+                    input: {
+                      padding: "22px !important",
+                      borderRadius: "6px !important",
+                    },
+                  })}
+                  {...form.getInputProps("managerEmail")}
+                />
+              </div>
+              <div className="mb-8">
+                <PasswordInput
+                  withAsterisk
+                  radius="md"
+                  size="lg"
+                  className="rounded"
+                  placeholder="Password"
+                  type="password"
+                  visibilityToggleIcon={({ reveal, size }) =>
+                    reveal ? (
+                      <IconEyeOff onClick={() => showPassword()} size={size} />
+                    ) : (
+                      <IconEyeCheck
+                        onClick={() => showPassword()}
+                        size={size}
+                      />
+                    )
+                  }
+                  styles={(theme) => ({
+                    input: {
+                      padding: "22px !important",
+                      borderRadius: "6px !important",
+                    },
+                  })}
+                  defaultValue="password"
+                  {...form.getInputProps("managerPassword")}
+                />
+              </div>
+
+              <Group position="left" mt="md">
+                <button
+                  type="submit"
+                  style={{
+                    boxShadow:
+                      "0px 3.99645px 60.94586px 0px rgba(77, 71, 195, 0.40)",
+                  }}
+                  className="text-white bg-[#4D47C3]  px-40 py-3 w-full  font-semibold rounded-[8px] text-sm hover-bg-[#7973ef]"
+                  onClick={(e) => signInManager(e)}
+                >
+                  Login
+                </button>
+              </Group>
+            </form>
+          </div>
+        </div> */}
+
         <img
           src="./images/login.png"
           alt="Your Image"
           className="h-full w-full object-cover"
         />
-        <div className="absolute  bottom-40 -left-10 lg:bottom-0 lg:left-0 mb-4 flex flex-col items-start justify-start">
-          <h1 className="text-[50px] font-extrabold text-white pl-28">
-            Sign in
-          </h1>
-        </div>
       </div>
 
       <div className="responsive-image1 mt-4">
         <div className="p-8 lg:p-24 flex items-center justify-center">
           <form className="w-full">
-            <h2 className="mb-4 text-[40px] items-start justify-start flex font-medium">
-              Sign In
+            <h2 className="mb-4 text-[22px] items-start justify-start flex font-medium">
+            CloudActive Admin / Partner Manager / User Sign In
             </h2>
             <div className="mb-6">
               <TextInput
                 withAsterisk
                 size="lg"
-                placeholder="Enter Email or username"
+                placeholder="Enter Email"
                 styles={(theme) => ({
                   input: {
                     padding: "22px !important",
@@ -154,7 +280,7 @@ const Login = () => {
                 {...form.getInputProps("password")}
               />
             </div>
-     
+
             <Group position="left" mt="md">
               <button
                 type="submit"
@@ -168,7 +294,6 @@ const Login = () => {
                 Login
               </button>
             </Group>
-  
           </form>
         </div>
       </div>

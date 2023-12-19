@@ -123,7 +123,7 @@ const steps = [
   "Key skills",
   "Education",
   "Resume headline",
-  "Expererience",
+  "Experience",
   "Upload resume",
   "IT skills",
   "Projects",
@@ -137,7 +137,7 @@ export default function CustomizedSteppers() {
     setActive((current: any) => (current > 0 ? current - 1 : current));
 
   return (
-    <Stack sx={{ width: "100%" }} spacing={4}>
+    <Stack sx={{ width: "100%" ,         }}    spacing={4}>
       <Stepper
         alternativeLabel
         activeStep={active}
@@ -145,6 +145,9 @@ export default function CustomizedSteppers() {
         sx={{
           width: "100%",
           color: "success.main",
+          ".MuiStepper-horizontal" : {
+               marginBottom:"7rem"
+          },
           "& .MuiStepLabel-label.MuiStepLabel-alternativeLabel": {
             color: "#000",
             // font-family: Inter;
@@ -178,13 +181,20 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem",
+              width: "30rem", marginBottom:"2rem",
 
               margin: "auto",
+              background:"red"
             }}
           >
             {active !== 9 && active !== 0 && active !== 8 && (
-              <Button className="back-btn" variant="default" onClick={prevStep}>
+              <Button
+                style={{
+                display:"none"
+                }}
+                variant="default"
+                onClick={prevStep}
+              >
                 <img src={"./assets/down_arrow.svg"} />
                 Back
               </Button>
@@ -201,13 +211,19 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem",
+              width: "30rem", marginBottom:"2rem",
 
               margin: "auto",
             }}
           >
             {active !== 9 && active !== 0 && active !== 8 && (
-              <Button className="back-btn" variant="default" onClick={prevStep}>
+              <Button
+                style={{
+                display:"none"
+                }}
+                variant="default"
+                onClick={prevStep}
+              >
                 <img src={"./assets/down_arrow.svg"} />
                 Back
               </Button>
@@ -224,13 +240,19 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem",
+              width: "30rem", marginBottom:"2rem",
 
               margin: "auto",
             }}
           >
             {active !== 9 && active !== 0 && active !== 8 && (
-              <Button className="back-btn" variant="default" onClick={prevStep}>
+              <Button
+                style={{
+                display:"none"
+                }}
+                variant="default"
+                onClick={prevStep}
+              >
                 <img src={"./assets/down_arrow.svg"} />
                 Back
               </Button>
@@ -247,13 +269,19 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem",
+              width: "30rem", marginBottom:"2rem",
 
               margin: "auto",
             }}
           >
             {active !== 9 && active !== 0 && active !== 8 && (
-              <Button className="back-btn" variant="default" onClick={prevStep}>
+              <Button
+                style={{
+                display:"none"
+                }}
+                variant="default"
+                onClick={prevStep}
+              >
                 <img src={"./assets/down_arrow.svg"} />
                 Back
               </Button>
@@ -270,13 +298,19 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem",
+              width: "30rem", marginBottom:"2rem",
 
               margin: "auto",
             }}
           >
             {active !== 9 && active !== 0 && active !== 8 && (
-              <Button className="back-btn" variant="default" onClick={prevStep}>
+              <Button
+                style={{
+                display:"none"
+                }}
+                variant="default"
+                onClick={prevStep}
+              >
                 <img src={"./assets/down_arrow.svg"} />
                 Back
               </Button>
@@ -293,13 +327,19 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem",
+              width: "30rem", marginBottom:"2rem",
 
               margin: "auto",
             }}
           >
             {active !== 9 && active !== 0 && active !== 8 && (
-              <Button className="back-btn" variant="default" onClick={prevStep}>
+              <Button
+                style={{
+                display:"none"
+                }}
+                variant="default"
+                onClick={prevStep}
+              >
                 <img src={"./assets/down_arrow.svg"} />
                 Back
               </Button>
@@ -317,13 +357,18 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem",
-
+              width: "30rem", marginBottom:"2rem",
               margin: "auto",
             }}
           >
             {active !== 10 && active !== 0 && active !== 9 && (
-              <Button className="back-btn" variant="default" onClick={prevStep}>
+              <Button
+                style={{
+                display:"none"
+                }}
+                variant="default"
+                onClick={prevStep}
+              >
                 <img src={"./assets/down_arrow.svg"} />
                 Back
               </Button>
@@ -340,13 +385,19 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem",
+              width: "30rem", marginBottom:"2rem",
 
               margin: "auto",
             }}
           >
             {active !== 10 && active !== 0 && active !== 9 && (
-              <Button className="back-btn" variant="default" onClick={prevStep}>
+              <Button
+                style={{
+                display:"none"
+                }}
+                variant="default"
+                onClick={prevStep}
+              >
                 <img src={"./assets/down_arrow.svg"} />
                 Back
               </Button>
