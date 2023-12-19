@@ -49,10 +49,9 @@ export function EditUser(props: IAppProps) {
       });
     }
 
-
     console.log('s',search,formData.experiences)
 
-    const user: any = await client.request(EDIT_MASTER, {
+    const user: any = await client.request(updateUser, {
       where: {
         id: search,
       },
@@ -86,11 +85,11 @@ export function EditUser(props: IAppProps) {
 
     console.log("updated", user);
 
-    if (user?.profileUser) {
+    if (user?.updateProfileUser) {
       setinEditPage(false);
       setActive(0);
 
-      setFormData((prevData) => ({
+      setFormData((prevData) => ({  
         profileUserId: "",
         itskills: [],
         education: null,

@@ -15,7 +15,29 @@ function Profile(props: IAppProps) {
   const id = searchParams.get("profileId");
   const name = searchParams.get("profileName");
 
-  const { profileName, setProfileName, profileId, setProfileId }: any =
+  const { profileName, setProfileName, profileId, setProfileId,
+  
+    formData,
+    setFormData,
+    active,
+    setActive,
+    loggedIn,
+    setLoggedIn,
+    hasMaster,
+    sethasMaster,
+    role,
+    setRole,
+    image,
+    setImage,
+    inEditPage,
+    setinEditPage,
+
+    open, setOpen,
+    experienceOpen,
+    setexperienceOpen,
+    projectopen, 
+    setprojectOpen
+  }: any =
     useThemeContext();
 
   //   const {p}

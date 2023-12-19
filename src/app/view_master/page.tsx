@@ -915,7 +915,7 @@ export default function View(props: IAppProps) {
               <Grid>
                 <Grid.Col span={12}>
                   <Container size="xs" px="xs">
-                    <h6 className="box-heading"> Edit education </h6>
+    
                     {/* <p className="box-sub-heading">Select your highest education</p> */}
 
                     <form>
@@ -2143,9 +2143,7 @@ export default function View(props: IAppProps) {
                           onClick={() => {
                             // setActive(4);
                             router.push(
-                              `/edit_master_experience?id=${localStorage.getItem(
-                                "id"
-                              )}`
+                              `/edit_master_experience?id=${search}`
                             );
                           }}
                         />
@@ -2277,7 +2275,7 @@ export default function View(props: IAppProps) {
                           onClick={() => {
                             // setActive(4);
                             router.push(
-                              `/edit_master_education?id=${localStorage.getItem("id")}`
+                              `/edit_master_education?id=${search}`
                             );
                           }}
                         />
@@ -2425,7 +2423,7 @@ export default function View(props: IAppProps) {
                         }}
                         onClick={() => {
                           router.push(
-                            `/edit_master_project?id=${localStorage.getItem("id")}`
+                            `/edit_master_project?id=${search}`
                           );
                         }}
                       />

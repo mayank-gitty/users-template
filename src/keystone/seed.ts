@@ -8,7 +8,9 @@ export async function seedDemoData(context: Context) {
       name: 'Clark', 
       password: "password", 
       email: "abc@gmail.com", 
-      role: "admin"
+      role: "admin",
+      address:"malhar colony dewas",
+      phone:"9981754673"
     },
   ] as const) {
     await context.db.User.createOne({ data: user });
