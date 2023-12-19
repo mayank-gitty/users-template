@@ -249,11 +249,11 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
               width: "30rem",
               padding: active === 0 ? "" : "0 16px",
               display:
-                (formData.educations.length === 0 && active === 2) ||
+                (formData?.educations.length === 0 && active === 2) ||
                 (open && active === 2) ||
-                (formData.experiences.length === 0 && active === 4) ||
+                (formData?.experiences.length === 0 && active === 4) ||
                 (experienceOpen && active === 4) ||
-                (formData.projects.length === 0 && active === 7) ||
+                (formData?.projects.length === 0 && active === 7) ||
                 (experienceOpen && active === 7)
                   ? "none"
                   : "",
