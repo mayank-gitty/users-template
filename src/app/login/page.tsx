@@ -20,7 +20,7 @@ const Login = () => {
 
     var x: any = document.getElementById("myInput");
 
-    console.log("xxxxxx", x);
+    // console.log("xxxxxx", x);
 
     if (x.type === "password") {
       x.type = "text";
@@ -161,72 +161,6 @@ const Login = () => {
       }}
     >
       <div className="responsive-image h-full relative">
-        {/* <div className="manager-login">
-          <div className="p-8 lg:p-24 flex items-center justify-center box">
-            <form className="w-full">
-              <h2 className="mb-4 text-[20px] items-start justify-start flex font-medium text-[18px] font-extrabold text-white">
-                CloudActive Admin / Partner Manager Sign In
-              </h2>
-              <div className="mb-6">
-                <TextInput
-                  withAsterisk
-                  size="lg"
-                  placeholder="Enter Email"
-                  styles={(theme) => ({
-                    input: {
-                      padding: "22px !important",
-                      borderRadius: "6px !important",
-                    },
-                  })}
-                  {...form.getInputProps("managerEmail")}
-                />
-              </div>
-              <div className="mb-8">
-                <PasswordInput
-                  withAsterisk
-                  radius="md"
-                  size="lg"
-                  className="rounded"
-                  placeholder="Password"
-                  type="password"
-                  visibilityToggleIcon={({ reveal, size }) =>
-                    reveal ? (
-                      <IconEyeOff onClick={() => showPassword()} size={size} />
-                    ) : (
-                      <IconEyeCheck
-                        onClick={() => showPassword()}
-                        size={size}
-                      />
-                    )
-                  }
-                  styles={(theme) => ({
-                    input: {
-                      padding: "22px !important",
-                      borderRadius: "6px !important",
-                    },
-                  })}
-                  defaultValue="password"
-                  {...form.getInputProps("managerPassword")}
-                />
-              </div>
-
-              <Group position="left" mt="md">
-                <button
-                  type="submit"
-                  style={{
-                    boxShadow:
-                      "0px 3.99645px 60.94586px 0px rgba(77, 71, 195, 0.40)",
-                  }}
-                  className="text-white bg-[#4D47C3]  px-40 py-3 w-full  font-semibold rounded-[8px] text-sm hover-bg-[#7973ef]"
-                  onClick={(e) => signInManager(e)}
-                >
-                  Login
-                </button>
-              </Group>
-            </form>
-          </div>
-        </div> */}
-
         <img
           src="./images/login.png"
           alt="Your Image"

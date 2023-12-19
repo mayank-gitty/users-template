@@ -20,7 +20,7 @@ import {
 } from "@tabler/icons-react";
 
 const Thanku = () => {
-  const { loggedIn, setLoggedIn, role }: any = useThemeContext();
+  const { loggedIn, setLoggedIn, role ,profileUserId }: any = useThemeContext();
 
   const router = useRouter();
 
@@ -123,12 +123,11 @@ const Thanku = () => {
               </button>
             </div> */}
 
-            {role === "employee" ||
-              (role === "manager" && (
-                <div className="w-1/2">
+            { (role === "employee" ||  ( role === 'manager' && profileUserId ))  && (
+                <div className="w-1/2 mx-auto">
                   <button
-                    type="submit"
-                    className="text-gray-800 bg-gray-200 flex items-center justify-center px-4 py-2 w-full font-semibold rounded-[8px] text-sm hover:bg-violet-100"
+                    type="button"
+                    className="text-gray-800 bg-gray-200 d-flex items-center justify-content-center px-4 py-2 w-full font-semibold rounded-[8px] text-sm hover:bg-violet-100"
                     onClick={() => {
                       router.push(`/profile?id=${localStorage.getItem("id")}`);
                     }}
@@ -136,7 +135,9 @@ const Thanku = () => {
                     View profile
                   </button>
                 </div>
-              ))}
+              )
+              
+              }
           </div>
         </div>
       </div>

@@ -67,7 +67,6 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
 
   const router = useRouter();
 
-
   const save = async () => {
     // console.log(formData, formData);
 
@@ -140,6 +139,9 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
         resume: formData.resume,
       },
     });
+
+
+    console.log('user',user)
 
     setActive(8);
     setTimeout(() => {
@@ -226,7 +228,9 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
 
   return (
     <div className="employee-details">
-      <div className="text-left mb-10">
+      <div className="text-left mb-10" style={{
+        marginLeft:"2rem"
+      }} >
         <h4> Fill up {profileName} Details </h4>
       </div>
 
@@ -249,11 +253,11 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
               width: "30rem",
               padding: active === 0 ? "" : "0 16px",
               display:
-                (formData?.educations.length === 0 && active === 2) ||
+                (formData?.educations?.length === 0 && active === 2) ||
                 (open && active === 2) ||
-                (formData?.experiences.length === 0 && active === 4) ||
+                (formData?.experiences?.length === 0 && active === 4) ||
                 (experienceOpen && active === 4) ||
-                (formData?.projects.length === 0 && active === 7) ||
+                (formData?.projects?.length === 0 && active === 7) ||
                 (experienceOpen && active === 7)
                   ? "none"
                   : "",

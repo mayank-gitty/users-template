@@ -43,14 +43,14 @@ tbody tr td {
 .text-custom-light {
   color: #524b6b;
   /* font-family: DM Sans; */
-  font-size: 12px !important;
+  font-size: 12.5px !important;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 }
 
 .text-custom-light h6 {
-  font-size: 14px;
+  font-size: 12.3px;
 }
 
 .title {
@@ -439,6 +439,9 @@ div.dataTables_wrapper div.dataTables_paginate {
 .pl-15 {
   padding-left: 22px;
 }
+
+
+
 
 .text-custom-left {
   /* padding-left: 15px; */
@@ -872,15 +875,15 @@ input#file-upload-button {
 
 .save-all-btn {
   border-radius: 4.243px;
-  background: #4d47c3;
-  color: #fff;
-
+  background:#fff;
+  color: #4d47c3;
+  border: 2px solid #4d47c3;
   font-size: 10.184px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   border-radius: 4.243px;
-  background: #4d47c3;
+  /* background: #4d47c3; */
   height: 31px;
   padding: 6px 10px;
 }

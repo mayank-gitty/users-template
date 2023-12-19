@@ -23,6 +23,7 @@ import {
   Input,
   Container,
   Paper,
+  Text
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -2115,12 +2116,12 @@ export default function View(props: IAppProps) {
 
             <div className="flex flex-col lg:flex-row mt-3  justify-center  gap-5 xl:12 ">
               <div className="lg:w-1/2">
-                <Stack>
+              <Stack>
                   <div
                     className="p-4 h-full rounded bg-white"
                     style={{
-                      height: "16rem",
-                      background: "red",
+                      height: "350.897px",
+                      // background: "red",
                     }}
                   >
                     <Group position="apart" className="border-b pb-[10px]">
@@ -2147,9 +2148,7 @@ export default function View(props: IAppProps) {
                           onClick={() => {
                             // setActive(4);
                             router.push(
-                              `/edit_experience?id=${localStorage.getItem(
-                                "id"
-                              )}`
+                              `/edit_master_experience?id=${search}`
                             );
                           }}
                         />
@@ -2167,7 +2166,7 @@ export default function View(props: IAppProps) {
                             0 &&
                             form
                               .getInputProps("experience")
-                              ?.value.map((item: any) => {
+                              ?.value.slice(0, 3).map((item: any) => {
                                 return (
                                   <div
                                     className="d-flex justify-content-between"
@@ -2190,7 +2189,7 @@ export default function View(props: IAppProps) {
 
                                       <p
                                         style={{
-                                          marginBottom: "0.5rem",
+                                          marginBottom: "0rem",
                                         }}
                                       >
                                         {item.currently_working ? (
@@ -2206,7 +2205,9 @@ export default function View(props: IAppProps) {
                                         )}
                                       </p>
 
-                                      <p> {item.location} </p>
+                                      <p style={{
+                                        marginBottom:"0.2rem"
+                                      }} > {item.location} </p>
                                     </div>
 
                                     <Image
@@ -2236,7 +2237,7 @@ export default function View(props: IAppProps) {
                                       style={{
                                         width: "24px",
                                         height: "32px",
-                                        marginLeft: "10rem",
+                                        // marginLeft: "10rem",
                                       }}
                                     />
                                   </div>
@@ -2250,12 +2251,15 @@ export default function View(props: IAppProps) {
               </div>
 
               <div className="lg:w-1/2">
-                <Stack>
+              <Stack>
                   <div
                     className="p-4 h-full rounded bg-white"
                     style={{
-                      height: "16rem",
-                      background: "red",
+                 
+                        height: "350.897px",
+                        // background: "red",
+                    
+                      // background: "red",
                     }}
                   >
                     <Group position="apart" className="border-b pb-[10px]">
@@ -2281,7 +2285,7 @@ export default function View(props: IAppProps) {
                           onClick={() => {
                             // setActive(4);
                             router.push(
-                              `/edit_education?id=${localStorage.getItem("id")}`
+                              `/edit_master_education?id=${search}`
                             );
                           }}
                         />
@@ -2307,19 +2311,25 @@ export default function View(props: IAppProps) {
                                   ?.length > 0 &&
                                   form
                                     .getInputProps("education")
-                                    ?.value.map((item: any) => {
+                                    ?.value.slice(0, 3).map((item: any) => {
                                       return (
                                         <div
                                           className="d-flex justify-content-between"
                                           style={{
                                             // background:"yellow",
                                             width: "100%",
-                                          }}
+                                          }}  
                                         >
                                           <div className="text-custom">
                                             <h6 className="title">
                                               {" "}
+
+                                              <Text w={200} truncate="end" >
+
                                               {item.school}{" "}
+
+                                              </Text>
+                                 
                                             </h6>
                                             <h6
                                               style={{
@@ -2379,7 +2389,7 @@ export default function View(props: IAppProps) {
                                             style={{
                                               width: "24px",
                                               height: "24px",
-                                              marginLeft: "10rem",
+                                              // marginLeft: "10rem",
                                             }}
                                             width={54}
                                           />

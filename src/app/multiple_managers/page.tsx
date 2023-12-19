@@ -118,6 +118,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
     },
 
     validate: {
+      company: (value) => (value ? null : "please select company"),
       entries: {
         userName: (value) => (value ? null : "select userName"),
         mobileNumber: (value) => {
@@ -166,7 +167,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
           return null;
         },
         address: (value) => (value ? null : "add address"),
-        company: (value) => (value ? null : "please select company"),
+        // company: (value) => (value ? null : "please select company"),
       },
     },
   });
@@ -410,7 +411,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
           // address: item.address,
           company: {
             connect: {
-              id: item.company,
+              id: form.getInputProps(`company`)?.value,
             },
           },
           password: generateSecurePassword5(item.userName, 12, item.company),
@@ -426,7 +427,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
       });
 
       if (user.createUsers) {
-        toast("users registered", {
+        toast("managers invited", {
           className: "green-background",
           bodyClassName: "grow-font-size",
           progressClassName: "fancy-progress-bar",
@@ -434,7 +435,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
         const check = await sendEmails(MutatedataForSending);
 
         if (check) {
-          toast("credentials sent", {
+          toast("managers credentials sent ", {
             className: "green-background",
             bodyClassName: "grow-font-size",
             progressClassName: "fancy-progress-bar",
@@ -443,7 +444,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
         // Redirect or perform other actions
         setTimeout(() => {
-          router.push("/registered_managers");
+          // router.push("/registered_managers");
         }, 1000);
       } else {
         // console.log("error",);
@@ -457,21 +458,10 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
   return (
     <>
-      {!form.getInputProps("company")?.value && (
-        <td className="px-6 py-4">
-          <Select
-            // label="Please select company"
-            placeholder="Please select company"
-            {...form.getInputProps(`company`)}
-            data={form.getInputProps("companies").value}
-          />
-        </td>
-      )}
-
-      {form.getInputProps(`company`)?.value && (
+      { (
         <form onSubmit={form.onSubmit((values) => {})}>
           <div className="px-5 py-6 ">
-            <div className="page-heading text-center pt-2 pb-2">
+            <div className="page-heading  pt-2 pb-2">
               <h2 className="page-main-heading"> Create multiple managers </h2>
             </div>
             {/* <div className="p-5 bg-white drop-shadow-md rounded-xl"></div>   */}
@@ -479,14 +469,30 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
           <div className="px-5 py-6 ">
             <div className="p-5 bg-white custom-rounded  custom-box-shadow">
-              <div className="d-flex justify-content-end">
-                <button
+              <div className="d-flex justify-content-between">
+                <Select
+                  // label="Please select company"
+                  placeholder="Please select company"
+                  {...form.getInputProps(`company`)}
+                  data={form.getInputProps("companies").value}
+                />
+
+                <Button
+                  variant="filled"
+                  color="green"
+                  // onClick={() => saveAll()}
+            
+                  // className={`${"save-all-btn"}`}
                   onClick={() => saveAll()}
                   type="submit"
-                  className={`${"save-all-btn"}`}
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 600,
+                  }}
                 >
-                  Save Managers Entry
-                </button>
+                  {" "}
+                  Save managers entries{" "}
+                </Button>
               </div>
               <div className="mb-4">
                 <div className="relative overflow-x-auto">
@@ -559,7 +565,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                       </tr>
 
                       {form.values.entries.length > 1 &&
-                        form.values.entries.map((item: any, index) => { 
+                        form.values.entries.map((item: any, index) => {
                           if (item.key === 0) {
                           } else {
                             return (

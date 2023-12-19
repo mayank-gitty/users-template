@@ -11,24 +11,22 @@ export const ThemeContextProvider = ({ children }) => {
     profileUserId: "",
     itskills: [],
     educations: [],
-    projects:[],
+    projects: [],
     keyskills: [],
     resume_headline: "",
     profile_summary: "",
     total_experience_months: "",
     total_relevant_months: "",
     experiences: [],
-    createdExperiencesOnEdit: [],
-    deletedExperiencesOnEdit: [],
     photograph: "",
     resume: "",
   };
 
   const [formData, setFormData] = useState(initialFormData);
 
-  const [active, setActive] = useState(0);  
+  const [active, setActive] = useState(0);
 
-  const [loggedIn, setLoggedIn] = useState(false);  
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const [hasMaster, sethasMaster] = useState(false);
   const [role, setRole] = useState("");
@@ -36,16 +34,16 @@ export const ThemeContextProvider = ({ children }) => {
 
   const [inEditPage, setinEditPage] = useState(false);
 
-  const [profileName, setProfileName] = useState('');
+  const [profileName, setProfileName] = useState("");
 
-  const [profileId, setProfileId] = useState('');
+  const [profileId, setProfileId] = useState("");
 
-  const  [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
-  const  [experienceOpen, setexperienceOpen] = useState(false)
+  const [experienceOpen, setexperienceOpen] = useState(false);
 
-  const  [projectopen, setprojectOpen] = useState(false)
-  
+  const [projectopen, setprojectOpen] = useState(false);
+
   return (
     <ThemeContext.Provider
       value={{
@@ -63,16 +61,16 @@ export const ThemeContextProvider = ({ children }) => {
         setImage,
         inEditPage,
         setinEditPage,
-        profileName, 
+        profileName,
         setProfileName,
         profileId,
         setProfileId,
-        open, setOpen,
+        open,
+        setOpen,
         experienceOpen,
         setexperienceOpen,
-        projectopen, 
-        setprojectOpen
-
+        projectopen,
+        setprojectOpen,
       }}
     >
       {children}

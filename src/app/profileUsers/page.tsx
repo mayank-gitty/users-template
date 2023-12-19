@@ -48,16 +48,16 @@ const DatatablePage = () => {
         // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
         itskills: item.itskills.map((u: any) => u.name).join(", "),
+        // action: (
+        //   <button
+        //     className="table-button"
+        //     onClick={() => router.push(`/edit_master?id=${item.id}`)}
+        //   >
+        //     {" "}
+        //     edit {" "}
+        //   </button>
+        // ),
         action: (
-          <button
-            className="table-button"
-            onClick={() => router.push(`/edit_master?id=${item.id}`)}
-          >
-            {" "}
-            edit {" "}
-          </button>
-        ),
-        view: (
           <button
             className="table-button"
             onClick={() => router.push(`/view_master?id=${item.id}`)}
@@ -166,12 +166,12 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 100,
         },
-        {
-          label: "View",
-          field: "view",
-          sort: "disabled",
-          width: 100,
-        },
+        // {
+        //   label: "View",
+        //   field: "view",
+        //   sort: "disabled",
+        //   width: 100,
+        // },
         {
           label: "Action",
           field: "action",

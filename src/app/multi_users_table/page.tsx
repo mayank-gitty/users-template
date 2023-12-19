@@ -7,6 +7,7 @@ import client from "../../../helpers/request";
 import { useRouter } from "next/navigation";
 import { HAS_MASTER } from "@/util/queries";
 import { link } from "fs";
+import useThemeContext from "@/context/context";
 
 // Define mutation
 
@@ -30,7 +31,26 @@ const USERS = gql`
 
 
 const DatatablePage = () => {
+
   const [main, setMain] = useState();
+
+  const {
+    loggedIn,
+    setLoggedIn,
+    setFormData,
+    setActive,
+    hasMaster,
+    sethasMaster,
+    role,
+    setRole,
+    image,
+    setImage,
+    profileName,
+    setProfileName,
+    setexperienceOpen,
+    setOpen,
+    setprojectOpen
+  }: any = useThemeContext();
 
 
   const router = useRouter()
@@ -58,6 +78,28 @@ const DatatablePage = () => {
           className="create-profile"
           onClick={() => {
             // setProfileName(item.name);
+            setFormData({
+              profileUserId: "",
+              itskills: [],
+              educations: [],
+              projects:[],
+              keyskills: [],
+              resume_headline: "",
+              profile_summary: "",
+              total_experience_months: "",
+              total_relevant_months: "",
+              experiences: [],
+              photograph: "",
+              resume: "",
+            });
+            setActive(0);
+            setImage(null);
+            // setRole("");
+            setexperienceOpen(false);
+            setOpen(false);
+            setprojectOpen(false);
+            sethasMaster(false);
+            // setProfileName("");
             router.push(
               `/profile_creation?profileId=${item.id}&profileName=${item.name}`
             );

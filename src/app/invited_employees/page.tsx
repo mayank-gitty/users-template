@@ -88,11 +88,9 @@ const DatatablePage = () => {
               keyskills: [],
               resume_headline: "",
               profile_summary: "",
-              total_experience_months: "",
-              total_relevant_months: "",
+
               experiences: [],
-              createdExperiencesOnEdit: [],
-              deletedExperiencesOnEdit: [],
+      
               photograph: "",
               resume: "",
             });

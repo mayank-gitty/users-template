@@ -332,6 +332,7 @@ const Education1: React.FC = () => {
       ...prev,
       educations: filterExperiences,
     }));
+
   };
 
   const [education, setEducation] = useState({
@@ -605,13 +606,16 @@ const Education1: React.FC = () => {
         return item;
       });
 
-      console.log("ch", changed);
 
       setFormData((prevData: any) => ({
         ...prevData,
         ["educations"]: changed,
       }));
     } else {
+
+      
+      console.log("ch",formData);
+
       setFormData((prevData: any) => ({
         ...prevData,
         ["educations"]: [...formData?.educations, education],

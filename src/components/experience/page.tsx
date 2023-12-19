@@ -240,7 +240,7 @@ const ExperienceDetails = () => {
         if (item.id === editOpen) {
           // id: "id" + new Date().getTime(),
 
-            (item.title = experience.title),
+          (item.title = experience.title),
             (item.employment_type = experience.employment_type),
             (item.company = experience.company),
             (item.location = experience.location),
@@ -440,7 +440,7 @@ const ExperienceDetails = () => {
                                   location_type: "",
                                   start_year: "",
                                   start_year_month: "",
-                                  end_year:"",
+                                  end_year: "",
                                   end_year_month: "",
                                   currently_working: false,
                                 });
@@ -760,9 +760,11 @@ const ExperienceDetails = () => {
                     />
                   </Grid.Col>
 
-                  <Grid.Col span={12}>
-                    <h6 className="experience-label">End Date</h6>
-                  </Grid.Col>
+                  {!experience.currently_working && (
+                    <Grid.Col span={12}>
+                      <h6 className="experience-label">End Date</h6>
+                    </Grid.Col>
+                  )}
 
                   {!experience.currently_working && (
                     <>

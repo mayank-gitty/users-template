@@ -429,7 +429,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
       });
 
       if (user.createUsers) {
-        toast("employees registered", {
+        toast("employees invited", {  
           className: "green-background",
           bodyClassName: "grow-font-size",
           progressClassName: "fancy-progress-bar",
@@ -437,7 +437,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
         const check = await sendEmails(MutatedataForSending);
 
         if (check) {
-          toast("credentials sent", {
+          toast("employees credentials sent", {
             className: "green-background",
             bodyClassName: "grow-font-size",
             progressClassName: "fancy-progress-bar",
@@ -471,13 +471,19 @@ const AddTimeLine = ({ AllProjects }: any) => {
           <div className="p-5 bg-white  custom-rounded custom-box-shadow">
             <div className="">
               <div className="d-flex justify-content-end">
-                <button
+                <Button
+                  variant="filled"
+                  color="green"
                   onClick={() => saveAll()}
-                  type="submit"
-                  className={`${"save-all-btn"}`}
+                  type="button"
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 600,
+                  }}
                 >
-                  Save Employees Entry
-                </button>
+                  {" "}
+                  Save employees entries{" "}
+                </Button>
               </div>
             </div>
 

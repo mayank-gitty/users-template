@@ -81,14 +81,18 @@ function Sidebar() {
 
     setLoggedIn(false);
     setFormData({
+      profileUserId: "",
       itskills: [],
-      education: null,
+      educations: [],
+      projects:[],
       keyskills: [],
-      photograph: "",
       resume_headline: "",
       profile_summary: "",
-      total_experience: "",
-      relevent_experience: "",
+      total_experience_months: "",
+      total_relevant_months: "",
+      experiences: [],
+      photograph: "",
+      resume: "",
     });
     setActive(0);
     setImage(null);
