@@ -8,6 +8,7 @@ import client from "../../../helpers/request";
 import { useSearchParams } from "next/navigation";
 import useThemeContext from "@/context/context";
 import { VIEW_MASTER } from "@/util/queries";
+
 import {
   Button,
   Group,
@@ -24,7 +25,7 @@ import {
   Input,
   Container,
   Paper,
-  Text
+  Text,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -104,6 +105,8 @@ export default function View(props: IAppProps) {
   const [flag, setFlag] = useState(false);
 
   const [formErrors, setFormErrors] = useState({});
+
+  const [DefaultSkills, setDefaultSkills] = useState([]);
 
   const indianEducationArray = [
     // Schools
@@ -302,6 +305,7 @@ export default function View(props: IAppProps) {
       itskills: [],
       education: null,
       keyskills: [],
+      userkeyskills: [],
       resume_headline: "",
       profile_summary: "",
       total_experience: "",
@@ -360,7 +364,7 @@ export default function View(props: IAppProps) {
     // console.log("id", search);
     const user: any = await client.request(VIEW_MASTER, {
       where: {
-          id: search,
+        id: search,
       },
     });
 
@@ -376,7 +380,8 @@ export default function View(props: IAppProps) {
       itskills: user?.profileUser?.itskills.map((item: any) => item.name),
       education: user?.profileUser?.education,
       project: user?.profileUser?.project,
-      keyskills: user?.profileUser?.keyskills.map((item: any) => item.name),
+      keyskills: user?.profileUser?.keyskills.map((item: any) => item.id),
+      userkeyskills: user?.profileUser?.keyskills.map((item: any) => item.name),
       resume_headline: user?.profileUser?.resume_headline,
       profile_summary: user.profileUser?.profile_summary,
       photograph: user.profileUser?.photograph,
@@ -392,6 +397,8 @@ export default function View(props: IAppProps) {
       experience: user?.profileUser?.experience,
     });
   };
+
+  // console.log('fv',form.getInputProps('keyskills')?.value)
 
   const getDatas = async () => {
     const itskills: any = await client.request(IT_SKILLS);
@@ -425,6 +432,25 @@ export default function View(props: IAppProps) {
 
     // console.log("kas", form.getInputProps("education"));
   }, [search, flag]);
+
+  const getSkills = async () => {
+    const users: any = await client.request(KEY_SKILLS);
+
+    console.log("usersaa", users);
+
+    const DefaultSkills = users?.keySkills?.map((item: any) => {
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    });
+
+    setDefaultSkills(DefaultSkills);
+  };
+
+  useEffect(() => {
+    getSkills();
+  }, []);
 
   const handleChangeProject = (field: any, e: any) => {
     console.log("hitting", field, e);
@@ -496,7 +522,7 @@ export default function View(props: IAppProps) {
     // console.log('delete-user',user)
 
     if (user.deleteAddEducation) {
-      const button = document.getElementById("modal-close-btn");
+      const button = document.getElementById("modal-close-btn-experience");
 
       setTimeout(() => {
         button?.click();
@@ -528,7 +554,7 @@ export default function View(props: IAppProps) {
     });
 
     if (user.updateAddExperience) {
-      const button = document.getElementById("modal-close-btn");
+      const button = document.getElementById("modal-close-btn-experience");
 
       setTimeout(() => {
         button?.click();
@@ -628,11 +654,181 @@ export default function View(props: IAppProps) {
     }));
   };
 
+  const updateKeySkills = async () => {
+    console.log("update skills hitting",search);
+
+    const user: any = await client.request(updateUser, {
+      where: {
+        id: search, 
+      },
+      data: {
+        keyskills : {
+          set: form.getInputProps("keyskills")?.value?.map((item: any) => {
+            return {
+              id: item
+            };
+          }),
+        },
+      },
+    });
+
+    console.log("skils updated", user);
+
+    if (user.updateProfileUser) {
+      const button = document.getElementById("modal-close-btn");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+
+  };
+
   return (
     <Box
       mx="auto"
       className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]"
     >
+      <div
+        class="modal fade"
+        id="exampleModalSkills"
+        tabindex="-1"
+        aria-labelledby="exampleModalSkills"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Edit Key Skills
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <Paper
+                p="md"
+                style={{
+                  width: "30rem",
+                }}
+              >
+                <form>
+                  <Grid>
+                    <Grid.Col span={12}>
+                      <MultiSelect
+                        styles={(theme) => ({
+                          input: {
+                            // height: "50px",
+                            padding: "6px 8px",
+                          },
+                          values: {
+                            height: "100%",
+                            bg: "red",
+                          },
+
+                          wrapper: {
+                            height: "auto",
+                            ".mantine-MultiSelect-value": {
+                              background: "#FFFFFF",
+                              boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.18)",
+                              border: "1px solid #DCDCDC",
+                              borderLeft: "5px solid #478FC3",
+                              color: "#000",
+                              // font-family: Inter;
+                              fontSize: "12px",
+
+                              fontWeight: 500,
+
+                              padding: "14px 0px",
+                              "::before": {
+                                content: '""',
+                              },
+                            },
+                            ".mantine-MultiSelect-defaultValueLabel": {
+                              paddingLeft: "6px",
+                            },
+                            ".mantine-CloseButton-root": {
+                              // margin:"0 10px",
+                              marginRight: "4px",
+                              marginLeft: "18px",
+                              background: "#2E3A59",
+                              borderRadius: "50%",
+                              height: "14px",
+                              minHeight: "18px",
+                              minWidth: "18px",
+
+                              svg: {
+                                color: "#fff",
+                                height: "12px !important",
+                                width: "10px !important",
+                              },
+                            },
+                          },
+                          pill: {
+                            color: "red",
+                            background: "red",
+                          },
+
+                          leftIcon: {
+                            marginRight: theme.spacing.md,
+                          },
+                        })}
+                        // label="select skill"
+                        placeholder="Select your skills"
+                        searchable
+                        maxSelectedValues={5}
+                        onChange={(e) => form.setFieldValue("keyskills", e)}
+                        value={form.getInputProps("keyskills")?.value}
+                        data={DefaultSkills}
+                      />
+                    </Grid.Col>
+                  </Grid>
+
+                  <small
+                    style={{
+                      color: "grey",
+                    }}
+                  >
+                    {" "}
+                    maximum 5 allowed{" "}
+                  </small>
+                </form>
+              </Paper>
+            </div>
+
+            <div class="modal-footer">
+              {/* <button
+                className="btn btn-danger"
+                onClick={() => deleteSpecificExperience()}
+              >
+                {" "}
+                delete{" "}
+              </button> */}
+              <button
+                type="button"
+                id="modal-close-btn"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onClick={() => updateKeySkills()}
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div
         class="modal fade"
         id="exampleModal"
@@ -802,9 +998,18 @@ export default function View(props: IAppProps) {
                   />
                 </Grid.Col>
 
-                <Grid.Col span={12}>
-                  <h6 className="experience-label">End Date</h6>
-                </Grid.Col>
+
+{
+
+!experience.currently_working  &&     <Grid.Col span={12}>
+<h6 className="experience-label">End Date</h6>
+</Grid.Col>
+
+}
+
+          
+
+             
 
                 {!experience.currently_working && (
                   <>
@@ -874,7 +1079,7 @@ export default function View(props: IAppProps) {
               </button>
               <button
                 type="button"
-                id="modal-close-btn"
+                id="modal-close-btn-experience"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
@@ -916,7 +1121,6 @@ export default function View(props: IAppProps) {
               <Grid>
                 <Grid.Col span={12}>
                   <Container size="xs" px="xs">
-    
                     {/* <p className="box-sub-heading">Select your highest education</p> */}
 
                     <form>
@@ -1415,7 +1619,6 @@ export default function View(props: IAppProps) {
                   p="md"
                   // style={{ maxHeight: "80vh", overflowY: "auto" }}
                 >
-        
                   <form>
                     <Grid>
                       <Grid.Col span={12}>
@@ -1937,8 +2140,7 @@ export default function View(props: IAppProps) {
               </div>
               <div>
                 <div className="text-black text-[28px] font-semibold pt-3 flex items-center justify-center">
-                  {form.getInputProps("name").value ||
-                    localStorage.getItem("name")}
+                  {form.getInputProps("name")?.value}
                 </div>
                 <div className="text-[#ABABAB] text-base font-medium flex items-center justify-center">
                   {form.getInputProps("resume_headline").value}
@@ -1964,19 +2166,32 @@ export default function View(props: IAppProps) {
                 <div
                   style={{
                     display: "flex",
+                    width: "100%",
                     alignItems: "center",
                     justifyContent: "space-between",
                     // background:"blue",
                     // width:"100%"
                   }}
                 >
-                  <Image
-                    src="./images/Icon-Skill.svg"
-                    alt="Google"
-                    style={{ width: "28px", height: "28px" }}
-                  />
-                  <div className="text-black text-base font-semibold ml-1">
-                    Skills
+                  <div className="d-flex">
+                    <Image
+                      src="./images/Icon-Skill.svg"
+                      alt="Google"
+                      style={{ width: "28px", height: "28px" }}
+                    />
+                    <div className="text-black text-base font-semibold ml-1">
+                      Skills
+                    </div>
+                  </div>
+
+                  <div className="">
+                    <Image
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModalSkills"
+                      src="./images/Edit.svg"
+                      alt="Google"
+                      style={{ width: "24px", height: "24px" }}
+                    />
                   </div>
                 </div>
 
@@ -1993,16 +2208,18 @@ export default function View(props: IAppProps) {
                   // background:"yellow"
                 }}
               >
-                {form.getInputProps("keyskills")?.value?.map((item: any) => {
-                  return (
-                    <div className="w-28 flex border m-1 skill-chip">
-                      <div className="bg-[#5847C3] w-3 flex items-start justify-start"></div>
-                      <div className="px-2  text-black text-base font-semibold chip-inside">
-                        {item}
+                {form
+                  .getInputProps("userkeyskills")
+                  ?.value?.map((item: any) => {
+                    return (
+                      <div className="w-28 flex border m-1 skill-chip">
+                        <div className="bg-[#5847C3] w-3 flex items-start justify-start"></div>
+                        <div className="px-2  text-black text-base font-semibold chip-inside">
+                          {item}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
             </div>
           </div>
@@ -2065,7 +2282,7 @@ export default function View(props: IAppProps) {
                       </div>
                     </Stack>
                   </div>
-                  {(
+                  {
                     <div>
                       <Stack>
                         <div className="text-blue-950 text-opacity-50 text-xs font-medium">
@@ -2078,7 +2295,7 @@ export default function View(props: IAppProps) {
                         </div>
                       </Stack>
                     </div>
-                  )}
+                  }
                 </Group>
                 <Group position="left" mt={"3%"}>
                   <p style={{ alignItems: "center", justifyContent: "center" }}>
@@ -2140,9 +2357,7 @@ export default function View(props: IAppProps) {
                           }}
                           onClick={() => {
                             // setActive(4);
-                            router.push(
-                              `/edit_master_experience?id=${search}`
-                            );
+                            router.push(`/edit_master_experience?id=${search}`);
                           }}
                         />
                       )}
@@ -2159,7 +2374,8 @@ export default function View(props: IAppProps) {
                             0 &&
                             form
                               .getInputProps("experience")
-                              ?.value.slice(0, 3).map((item: any) => {
+                              ?.value.slice(0, 3)
+                              .map((item: any) => {
                                 return (
                                   <div
                                     className="d-flex justify-content-between"
@@ -2198,9 +2414,14 @@ export default function View(props: IAppProps) {
                                         )}
                                       </p>
 
-                                      <p style={{
-                                        marginBottom:"0.2rem"
-                                      }} > {item.location} </p>
+                                      <p
+                                        style={{
+                                          marginBottom: "0.2rem",
+                                        }}
+                                      >
+                                        {" "}
+                                        {item.location}{" "}
+                                      </p>
                                     </div>
 
                                     <Image
@@ -2248,10 +2469,9 @@ export default function View(props: IAppProps) {
                   <div
                     className="p-4 h-full rounded bg-white"
                     style={{
-                 
-                        height: "350.897px",
-                        // background: "red",
-                    
+                      height: "350.897px",
+                      // background: "red",
+
                       // background: "red",
                     }}
                   >
@@ -2277,9 +2497,7 @@ export default function View(props: IAppProps) {
                           }}
                           onClick={() => {
                             // setActive(4);
-                            router.push(
-                              `/edit_master_education?id=${search}`
-                            );
+                            router.push(`/edit_master_education?id=${search}`);
                           }}
                         />
                       )}
@@ -2304,25 +2522,22 @@ export default function View(props: IAppProps) {
                                   ?.length > 0 &&
                                   form
                                     .getInputProps("education")
-                                    ?.value.slice(0, 3).map((item: any) => {
+                                    ?.value.slice(0, 3)
+                                    .map((item: any) => {
                                       return (
                                         <div
                                           className="d-flex justify-content-between"
                                           style={{
                                             // background:"yellow",
                                             width: "100%",
-                                          }}  
+                                          }}
                                         >
                                           <div className="text-custom">
                                             <h6 className="title">
                                               {" "}
-
-                                              <Text w={200} truncate="end" >
-
-                                              {item.school}{" "}
-
+                                              <Text w={200} truncate="end">
+                                                {item.school}{" "}
                                               </Text>
-                                 
                                             </h6>
                                             <h6
                                               style={{
@@ -2431,9 +2646,7 @@ export default function View(props: IAppProps) {
                           cursor: "pointer",
                         }}
                         onClick={() => {
-                          router.push(
-                            `/edit_master_project?id=${search}`
-                          );
+                          router.push(`/edit_master_project?id=${search}`);
                         }}
                       />
                     )}
@@ -2470,7 +2683,8 @@ export default function View(props: IAppProps) {
                                 0 &&
                                 form
                                   .getInputProps("project")
-                                  ?.value.slice(0, 3).map((item: any) => {
+                                  ?.value.slice(0, 3)
+                                  .map((item: any) => {
                                     return (
                                       <div
                                         className="d-flex justify-content-between"
@@ -2644,7 +2858,12 @@ export default function View(props: IAppProps) {
                               src="./images/resumeIcon.svg"
                               className="resume-icon"
                               alt="Google"
-                              style={{ width: "32px", height: "44px" ,marginRight:"1em" ,borderRadius:"100% !important" }}
+                              style={{
+                                width: "32px",
+                                height: "44px",
+                                marginRight: "1em",
+                                borderRadius: "100% !important",
+                              }}
                               onClick={() =>
                                 router.push(
                                   `/edit_user?id=${localStorage.getItem("id")}`

@@ -442,12 +442,15 @@ const AddTimeLine = ({ AllProjects }: any) => {
             bodyClassName: "grow-font-size",
             progressClassName: "fancy-progress-bar",
           });
-        }
 
-        // Redirect or perform other actions
+                // Redirect or perform other actions
         setTimeout(() => {
           router.push("/invited_employees");
         }, 1000);
+        
+        }
+
+  
       } else {
         // console.log("error",);
         // setFormErrors(validationErrors);

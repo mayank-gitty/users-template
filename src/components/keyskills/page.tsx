@@ -28,11 +28,9 @@ const KEY_SKILLS = gql`
 `;
 
 const KeySkills = () => {
+
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [DefaultSkills, setDefaultSkills] = useState([]);
-
-
-
 
   const { setFormData, formData, active, setActive }: any = useThemeContext();
 
