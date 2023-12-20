@@ -205,8 +205,10 @@ export function EditUser(props: IAppProps) {
 
   return (
     <div>
-      <div className="text-center " style={{marginTop:"5rem"}} >
-        <h6 className="mt-4 mb-4"> </h6>
+      <div className="text-center " >
+      {/* <div className="page-heading text-custom-left  mt-4 pl-15">
+        <h2 className="page-main-heading mt-2"> Add Educations </h2>
+      </div> */}
       </div>
 
       {/* <CustomizedSteppers /> */}

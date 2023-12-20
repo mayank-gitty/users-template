@@ -87,9 +87,10 @@ export default function View(props: IAppProps) {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
   const [hasMaster, sethasMaster] = useState(true);
-
   const { setActive, formData, setFormData } = useThemeContext();
 
+  
+  const [DefaultSkills, setDefaultSkills] = useState([]);
   const [schoolOther, setSchoolOther] = useState("");
   const [degreeOther, setDegreeOther] = useState("");
   const [fieldOther, setFieldOther] = useState("");
@@ -242,6 +243,26 @@ export default function View(props: IAppProps) {
     skillUsed: "",
   });
 
+
+  const getSkills = async () => {
+    const users: any = await client.request(KEY_SKILLS);
+
+    console.log("usersaa", users);
+
+    const DefaultSkills = users?.keySkills?.map((item: any) => {
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    });
+
+    setDefaultSkills(DefaultSkills);
+  };
+
+  useEffect(() => {
+    getSkills();
+  }, []);
+
   function generateArrayOfYears() {
     var max = new Date().getFullYear();
     var min = max - 30;
@@ -252,6 +273,37 @@ export default function View(props: IAppProps) {
     }
     return years;
   }
+
+  const updateKeySkills = async () => {
+    console.log("update skills hitting",search);
+
+    const user: any = await client.request(updateUser, {
+      where: {
+        id: search, 
+      },
+      data: {
+        keyskills : {
+          set: form.getInputProps("keyskills")?.value?.map((item: any) => {
+            return {
+              id: item
+            };
+          }),
+        },
+      },
+    });
+
+    console.log("skils updated", user);
+
+    if (user.updateProfileUser) {
+      const button = document.getElementById("modal-close-btn");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+  };
 
   const options = [
     { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -301,6 +353,7 @@ export default function View(props: IAppProps) {
       itskills: [],
       education: null,
       keyskills: [],
+      userkeyskills: [],
       resume_headline: "",
       profile_summary: "",
       total_experience: "",
@@ -380,7 +433,8 @@ export default function View(props: IAppProps) {
       itskills: user?.profileUsers[0]?.itskills.map((item: any) => item.name),
       education: user?.profileUsers[0]?.education,
       project: user?.profileUsers[0]?.project,
-      keyskills: user?.profileUsers[0]?.keyskills.map((item: any) => item.name),
+      keyskills: user?.profileUsers[0]?.keyskills.map((item: any) => item.id),
+      userkeyskills: user?.profileUsers[0]?.keyskills.map((item: any) => item.name),  
       resume_headline: user?.profileUsers[0]?.resume_headline,
       profile_summary: user.profileUsers[0]?.profile_summary,
       photograph: user.profileUsers[0]?.photograph,
@@ -637,6 +691,146 @@ export default function View(props: IAppProps) {
       mx="auto"
       className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]"
     >
+
+<div
+        class="modal fade"
+        id="exampleModalSkills"
+        tabindex="-1"
+        aria-labelledby="exampleModalSkills"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Edit Key Skills
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <Paper
+                p="md"
+                style={{
+                  width: "30rem",
+                }}
+              >
+                <form>
+                  <Grid>
+                    <Grid.Col span={12}>
+                      <MultiSelect
+                        styles={(theme) => ({
+                          input: {
+                            // height: "50px",
+                            padding: "6px 8px",
+                          },
+                          values: {
+                            height: "100%",
+                            bg: "red",
+                          },
+
+                          wrapper: {
+                            height: "auto",
+                            ".mantine-MultiSelect-value": {
+                              background: "#FFFFFF",
+                              boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.18)",
+                              border: "1px solid #DCDCDC",
+                              borderLeft: "5px solid #478FC3",
+                              color: "#000",
+                              // font-family: Inter;
+                              fontSize: "12px",
+
+                              fontWeight: 500,
+
+                              padding: "14px 0px",
+                              "::before": {
+                                content: '""',
+                              },
+                            },
+                            ".mantine-MultiSelect-defaultValueLabel": {
+                              paddingLeft: "6px",
+                            },
+                            ".mantine-CloseButton-root": {
+                              // margin:"0 10px",
+                              marginRight: "4px",
+                              marginLeft: "18px",
+                              background: "#2E3A59",
+                              borderRadius: "50%",
+                              height: "14px",
+                              minHeight: "18px",
+                              minWidth: "18px",
+
+                              svg: {
+                                color: "#fff",
+                                height: "12px !important",
+                                width: "10px !important",
+                              },
+                            },
+                          },
+                          pill: {
+                            color: "red",
+                            background: "red",
+                          },
+
+                          leftIcon: {
+                            marginRight: theme.spacing.md,
+                          },
+                        })}
+                        // label="select skill"
+                        placeholder="Select your skills"
+                        searchable
+                        maxSelectedValues={5}
+                        onChange={(e) => form.setFieldValue("keyskills", e)}
+                        value={form.getInputProps("keyskills")?.value}
+                        data={DefaultSkills}
+                      />
+                    </Grid.Col>
+                  </Grid>
+
+                  <small
+                    style={{
+                      color: "grey",
+                    }}
+                  >
+                    {" "}
+                    maximum 5 allowed{" "}
+                  </small>
+                </form>
+              </Paper>
+            </div>
+
+            <div class="modal-footer">
+              {/* <button
+                className="btn btn-danger"
+                onClick={() => deleteSpecificExperience()}
+              >
+                {" "}
+                delete{" "}
+              </button> */}
+              <button
+                type="button"
+                id="modal-close-btn"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onClick={() => updateKeySkills()}
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div
         class="modal fade"
         id="exampleModal"
@@ -1924,7 +2118,7 @@ export default function View(props: IAppProps) {
       >
         <div className="text-black text-2xl py-3  font-semibold">Profile</div>
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
-          <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
+        <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
             <div className="flex items-center justify-center flex-col bg-white">
               <div
                 style={{
@@ -1944,8 +2138,7 @@ export default function View(props: IAppProps) {
               </div>
               <div>
                 <div className="text-black text-[28px] font-semibold pt-3 flex items-center justify-center">
-                  {form.getInputProps("name").value ||
-                    localStorage.getItem("name")}
+                  {form.getInputProps("name")?.value}
                 </div>
                 <div className="text-[#ABABAB] text-base font-medium flex items-center justify-center">
                   {form.getInputProps("resume_headline").value}
@@ -1971,19 +2164,32 @@ export default function View(props: IAppProps) {
                 <div
                   style={{
                     display: "flex",
+                    width: "100%",
                     alignItems: "center",
                     justifyContent: "space-between",
                     // background:"blue",
                     // width:"100%"
                   }}
                 >
-                  <Image
-                    src="./images/Icon-Skill.svg"
-                    alt="Google"
-                    style={{ width: "28px", height: "28px" }}
-                  />
-                  <div className="text-black text-base font-semibold ml-1">
-                    Skills
+                  <div className="d-flex">
+                    <Image
+                      src="./images/Icon-Skill.svg"
+                      alt="Google"
+                      style={{ width: "28px", height: "28px" }}
+                    />
+                    <div className="text-black text-base font-semibold ml-1">
+                      Skills
+                    </div>
+                  </div>
+
+                  <div className="">
+                    <Image
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModalSkills"
+                      src="./images/Edit.svg"
+                      alt="Google"
+                      style={{ width: "24px", height: "24px" }}
+                    />
                   </div>
                 </div>
 
@@ -2000,19 +2206,22 @@ export default function View(props: IAppProps) {
                   // background:"yellow"
                 }}
               >
-                {form.getInputProps("keyskills")?.value?.map((item: any) => {
-                  return (
-                    <div className="w-28 flex border m-1 skill-chip">
-                      <div className="bg-[#5847C3] w-3 flex items-start justify-start"></div>
-                      <div className="px-2  text-black text-base font-semibold chip-inside">
-                        {item}
+                {form
+                  .getInputProps("userkeyskills")
+                  ?.value?.map((item: any) => {
+                    return (
+                      <div className="w-28 flex border m-1 skill-chip">
+                        <div className="bg-[#5847C3] w-3 flex items-start justify-start"></div>
+                        <div className="px-2  text-black text-base font-semibold chip-inside">
+                          {item}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
               </div>
             </div>
           </div>
+
 
           <div className="w-full lg:w-3/4 px-3 h-full rounded ">
             <Stack>
