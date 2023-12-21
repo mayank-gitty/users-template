@@ -443,14 +443,11 @@ const AddTimeLine = ({ AllProjects }: any) => {
             progressClassName: "fancy-progress-bar",
           });
 
-                // Redirect or perform other actions
-        setTimeout(() => {
-          router.push("/invited_employees");
-        }, 1000);
-        
+          // Redirect or perform other actions
+          setTimeout(() => {
+            router.push("/invited_employees");
+          }, 1000);
         }
-
-  
       } else {
         // console.log("error",);
         // setFormErrors(validationErrors);
@@ -478,19 +475,23 @@ const AddTimeLine = ({ AllProjects }: any) => {
                   data={form.getInputProps("companies").value}
                 />
 
-                <Button
-                  variant="filled"
-                  color="green"
+                <button
                   onClick={() => saveAll()}
                   // type="button"
                   style={{
                     fontSize: "11px",
                     fontWeight: 600,
+                    border: "0.0625rem solid transparent",
+                    background: "#40c057",
+                    color: "#fff",
+                    height: "32px",
+                    padding: "0 10px",
+                    borderRadius: "4.243px",
                   }}
                 >
                   {" "}
                   Save employees entries{" "}
-                </Button>
+                </button>
               </div>
             </div>
 

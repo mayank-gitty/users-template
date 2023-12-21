@@ -275,11 +275,12 @@ export default function View(props: IAppProps) {
   }
 
   const updateKeySkills = async () => {
+
     console.log("update skills hitting",search);
 
     const user: any = await client.request(updateUser, {
       where: {
-        id: search, 
+        id: form.getInputProps('profileUserId')?.value, 
       },
       data: {
         keyskills : {
@@ -303,6 +304,7 @@ export default function View(props: IAppProps) {
         router.refresh();
       }, 1000);
     }
+
   };
 
   const options = [
@@ -532,7 +534,7 @@ export default function View(props: IAppProps) {
     });
 
     if (user.deleteAddExperience) {
-      const button = document.getElementById("modal-close-btn");
+      const button = document.getElementById("modal-close-btn-experience");
 
       setTimeout(() => {
         button?.click();
@@ -586,7 +588,7 @@ export default function View(props: IAppProps) {
     });
 
     if (user.updateAddExperience) {
-      const button = document.getElementById("modal-close-btn");
+      const button = document.getElementById("modal-close-btn-experience");
 
       setTimeout(() => {
         button?.click();
@@ -846,7 +848,7 @@ export default function View(props: IAppProps) {
               </h5>
               <button
                 type="button"
-                class="btn-close"
+                class="modal-close-btn-experience"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
@@ -1072,7 +1074,7 @@ export default function View(props: IAppProps) {
               </button>
               <button
                 type="button"
-                id="modal-close-btn"
+                id="modal-close-btn-experience"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
               >

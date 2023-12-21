@@ -471,19 +471,25 @@ const AddTimeLine = ({ AllProjects }: any) => {
           <div className="p-5 bg-white  custom-rounded custom-box-shadow">
             <div className="">
               <div className="d-flex justify-content-end">
-                <Button
-                  variant="filled"
-                  color="green"
+                <button
+                  // variant="filled"
+                  // color="green"
                   onClick={() => saveAll()}
                   type="button"
                   style={{
                     fontSize: "11px",
                     fontWeight: 600,
+                    border: "0.0625rem solid transparent",
+                    background: "#40c057",
+                    color: "#fff",
+                    height:"32px",
+                    padding:"0 10px",
+                    borderRadius:"4.243px"
                   }}
                 >
                   {" "}
                   Save employees entries{" "}
-                </Button>
+                </button>
               </div>
             </div>
 

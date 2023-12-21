@@ -166,6 +166,12 @@ const Login = () => {
           alt="Your Image"
           className="h-full w-full object-cover"
         />
+          <div className="absolute  bottom-40 -left-10 lg:bottom-0 lg:left-0 mb-4 flex flex-col items-start justify-start">
+          <h1 className="text-[50px] font-extrabold text-white pl-28">
+            Sign in 
+          </h1>
+    
+        </div>
       </div>
 
       <div className="responsive-image1 mt-4">

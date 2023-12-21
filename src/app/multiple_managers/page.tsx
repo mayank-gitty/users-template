@@ -458,7 +458,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
   return (
     <>
-      { (
+      {
         <form onSubmit={form.onSubmit((values) => {})}>
           <div className="px-5 py-6 ">
             <div className="page-heading  pt-2 pb-2">
@@ -477,12 +477,20 @@ const AddTimeLine = ({ AllProjects }: any) => {
                   data={form.getInputProps("companies").value}
                 />
 
-                <Button
-                  variant="filled"
-                  color="green"
+                <button
                   // onClick={() => saveAll()}
-            
                   // className={`${"save-all-btn"}`}
+
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 600,
+                    border: "0.0625rem solid transparent",
+                    background: "#40c057",
+                    color: "#fff",
+                    height: "32px",
+                    padding: "0 10px",
+                    borderRadius: "4.243px",
+                  }}
                   onClick={() => saveAll()}
                   type="submit"
                   style={{
@@ -492,7 +500,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                 >
                   {" "}
                   Save managers entries{" "}
-                </Button>
+                </button>
               </div>
               <div className="mb-4">
                 <div className="relative overflow-x-auto">
@@ -655,7 +663,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
             </div>
           </div>
         </form>
-      )}
+      }
     </>
   );
 };
