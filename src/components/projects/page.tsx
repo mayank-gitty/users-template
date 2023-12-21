@@ -510,6 +510,13 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
+                        "::placeholder":{
+                          color: "#9D9D9D",
+                          fontSize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                          lineHeight: "normal"
+                        }
                       },
                       values: {
                         height: "100%",
@@ -535,6 +542,13 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
+                        "::placeholder":{
+                          color: "#9D9D9D",
+                          fontSize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                          lineHeight: "normal"
+                        }
                       },
                       values: {
                         height: "100%",
@@ -556,11 +570,12 @@ const ProjectForm = () => {
                     error={formErrors.projectStatus}
                     styles={() => ({
                       label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
+                        color: "#000",
+                        fontFamily: "Inter",
+                        fontSize: "16px",
+                        fontStyle: "normal",
+                        fontWeight: 600,
+                        lineHeight: "normal"
                       },
                     })}
                   >
@@ -570,6 +585,7 @@ const ProjectForm = () => {
                           type="radio"
                           name="projectStatus"
                           value="inprogress"
+                    
                           required
                           checked={project.projectStatus === "inprogress"}
                           onChange={() =>
@@ -602,6 +618,26 @@ const ProjectForm = () => {
                       <Input.Wrapper
                         label="Work from year"
                         error={formErrors.workFromYear}
+                        styles={() => ({
+                          input:{
+                            "::placeholder":{
+                              color: "#9D9D9D",
+                              fontSize: "16px",
+                              fontStyle: "normal",
+                              fontWeight: 500,
+                              lineHeight: "normal"
+                            }
+                          },
+                          label: {
+                            color: "#000",
+                            fontFamily: "Inter",
+                            fontSize: "16px",
+                            fontStyle: "normal",
+                            fontWeight: 600,
+                            lineHeight: "normal"
+                          },
+                        })}
+
                       >
                         <Select
                           placeholder="Year"
@@ -613,6 +649,13 @@ const ProjectForm = () => {
                           styles={(theme) => ({
                             input: {
                               height: "100%",
+                              "::placeholder":{
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal"
+                              }
                             },
                             values: {
                               height: "100%",
@@ -632,6 +675,16 @@ const ProjectForm = () => {
                       <Input.Wrapper
                         label="Work from month"
                         error={formErrors.workFromMonth}
+                        styles={() => ({
+                          label: {
+                            color: "#000",
+                            fontFamily: "Inter",
+                            fontSize: "16px",
+                            fontStyle: "normal",
+                            fontWeight: 600,
+                            lineHeight: "normal"
+                          },
+                        })}
                       >
                         <Select
                           placeholder="Month"
@@ -656,6 +709,13 @@ const ProjectForm = () => {
                           styles={(theme) => ({
                             input: {
                               height: "100%",
+                              "::placeholder":{
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal"
+                              }
                             },
                             values: {
                               height: "100%",
@@ -695,6 +755,7 @@ const ProjectForm = () => {
                       padding: "10px", // Add padding for a consistent look
                       borderRadius: "4px", // Add rounded corners
                       border: "1px solid #ccc", // Add a border
+                      
                     }}
                     value={project.detailsOfProject}
                     onChange={(e) =>
@@ -711,7 +772,15 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
+                        "::placeholder":{
+                          color: "#9D9D9D",
+                          fontSize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                          lineHeight: "normal"
+                        }
                       },
+                      
                       values: {
                         height: "100%",
                       },
@@ -735,12 +804,22 @@ const ProjectForm = () => {
                     label="Project site"
                     error={formErrors.projectSite}
                     styles={() => ({
+                      input:{
+                        "::placeholder":{
+                          color: "#9D9D9D",
+                          fontSize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                          lineHeight: "normal"
+                        }
+                      },
                       label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
+                        color: "#000",
+                        fontFamily: "Inter",
+                        fontSize: "16px",
+                        fontStyle: "normal",
+                        fontWeight: 600,
+                        lineHeight: "normal"
                       },
                     })}
                   >
@@ -779,11 +858,12 @@ const ProjectForm = () => {
                     error={formErrors.natureOfEmployment}
                     styles={() => ({
                       label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
+                        color: "#000",
+                        fontFamily: "Inter",
+                        fontSize: "16px",
+                        fontStyle: "normal",
+                        fontWeight: 600,
+                        lineHeight: "normal"
                       },
                     })}
                   >
@@ -853,6 +933,13 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
+                        "::placeholder":{
+                          color: "#9D9D9D",
+                          fontSize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                          lineHeight: "normal"
+                        }
                       },
                       values: {
                         height: "100%",
@@ -891,6 +978,13 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
+                        "::placeholder":{
+                          color: "#9D9D9D",
+                          fontSize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                          lineHeight: "normal"
+                        }
                       },
                       values: {
                         height: "100%",
