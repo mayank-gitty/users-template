@@ -202,14 +202,14 @@ const Login = () => {
                 size="lg"
                 className="rounded"
                 placeholder="Password"
-                type="password"
-                visibilityToggleIcon={({ reveal, size }) =>
-                  reveal ? (
-                    <IconEyeOff onClick={() => showPassword()} size={size} />
-                  ) : (
-                    <IconEyeCheck onClick={() => showPassword()} size={size} />
-                  )
-                }
+                // type="password"
+                visibilityToggleIcon={({ reveal }) =>
+                reveal ? (
+                  <IconEyeOff style={{ width: 'var(--psi-icon-size)', height: 'var(--psi-icon-size)' }} />
+                ) : (
+                  <IconEyeCheck style={{ width: 'var(--psi-icon-size)', height: 'var(--psi-icon-size)' }} />
+                )
+              }
                 styles={(theme) => ({
                   input: {
                     padding: "22px !important",
