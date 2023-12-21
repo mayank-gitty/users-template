@@ -879,9 +879,13 @@ const Education1: React.FC = () => {
                         data={indianEducationArray}
                         placeholder="University Institute"
                       />
+
+
                       {/* </Input.Wrapper> */}
 
                       {/* <p> {education.school} </p> */}
+
+                      
                     </Grid.Col>
 
                     <Grid.Col span={12}>
