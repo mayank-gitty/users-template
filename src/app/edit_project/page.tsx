@@ -28,15 +28,15 @@ export function EditUser(props: IAppProps) {
     setActive,
     inEditPage,
     setinEditPage,
+    projectopen,
   }: any = useThemeContext();
 
   const search = searchParams.get("id");
 
-  const updateUserProfile = async () => { 
-
+  const updateUserProfile = async () => {
     for (var i = 0, len = formData.projects.length; i < len; i++) {
       delete formData.projects[i].id;
-    } 
+    }
 
     if (formData?.projects?.length === 0) {
       return toast("please add project", {
@@ -103,7 +103,6 @@ export function EditUser(props: IAppProps) {
   };
 
   const getData = async (search: any) => {
-
     const user: any = await client.request(PROFILE_USER, {
       where: {
         user: {
@@ -208,12 +207,15 @@ export function EditUser(props: IAppProps) {
 
       <ProjectForm />
 
-      <Group className="no-margin" position="center" mt="xl">
-        <button className="next-button" onClick={updateUserProfile}>
-          {" "}
-          submit{" "}
-        </button>
-      </Group>
+      {!projectopen && formData?.projects?.length > 0 && (
+        <Group className="no-margin" position="center" mt="xl">
+          <button className="next-button" onClick={updateUserProfile}>
+            {" "}
+            submit{" "}
+          </button>
+        </Group>
+      )}
+
       <Group
         className="no-margin"
         position="left"

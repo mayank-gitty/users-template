@@ -2310,6 +2310,7 @@ export default function View(props: IAppProps) {
                         data={form.getInputProps("allItskills").value}
                       />
                     </Grid.Col>
+                    
                     <Grid.Col span={12}>
                       <MultiSelect
                         label="Key skills"

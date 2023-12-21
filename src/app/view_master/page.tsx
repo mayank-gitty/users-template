@@ -500,7 +500,7 @@ export default function View(props: IAppProps) {
     });
 
     if (user.deleteAddExperience) {
-      const button = document.getElementById("modal-close-btn");
+      const button = document.getElementById("modal-close-btn-experience");
 
       setTimeout(() => {
         button?.click();
@@ -522,7 +522,7 @@ export default function View(props: IAppProps) {
     // console.log('delete-user',user)
 
     if (user.deleteAddEducation) {
-      const button = document.getElementById("modal-close-btn-experience");
+      const button = document.getElementById("modal-close-btn-education");
 
       setTimeout(() => {
         button?.click();
@@ -683,7 +683,6 @@ export default function View(props: IAppProps) {
         router.refresh();
       }, 1000);
     }
-
   };
 
   return (

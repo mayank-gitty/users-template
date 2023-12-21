@@ -93,6 +93,8 @@ const prevStep = () =>
           p="md"
           style={{
             width: "30rem",
+            padding:"0rem"
+          
           }}
         >
           <h6 className="box-heading"> Add your key skills </h6>

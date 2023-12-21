@@ -59,6 +59,7 @@ const ResumeHeadline = () => {
           p="md"
           style={{
             width: "30rem",
+            padding:"0rem"
           }}
         >
           <h6 className="box-heading"> Resume Headline </h6>

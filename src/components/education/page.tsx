@@ -287,7 +287,7 @@ const fields = [
 });
 
 const Education1: React.FC = () => {
-  const { setFormData, formData  ,open, setOpen }: any = useThemeContext();
+  const { setFormData, formData, open, setOpen }: any = useThemeContext();
 
   const initialErrors = {
     education: "",
@@ -332,7 +332,6 @@ const Education1: React.FC = () => {
       ...prev,
       educations: filterExperiences,
     }));
-
   };
 
   const [education, setEducation] = useState({
@@ -436,9 +435,6 @@ const Education1: React.FC = () => {
   };
 
   const saveEntry = () => {
-
- 
-        
     if (!education.school) {
       return toast("please add university", {
         className: "black-background",
@@ -463,7 +459,6 @@ const Education1: React.FC = () => {
       });
     }
 
-    
     if (!education.start_year) {
       return toast("please add start year", {
         className: "black-background",
@@ -555,8 +550,6 @@ const Education1: React.FC = () => {
       }
     }
 
-
-
     if (!education.grade) {
       return toast("please add grade", {
         className: "black-background",
@@ -580,7 +573,6 @@ const Education1: React.FC = () => {
       });
     }
 
-
     if (editOpen !== "") {
       // alert(editOpen);
 
@@ -599,30 +591,24 @@ const Education1: React.FC = () => {
             (item.start_year = education.start_year),
             (item.start_year_month = education.start_year_month),
             (item.end_year = education.end_year),
-            (item.end_year_month = education.end_year_month)
-
+            (item.end_year_month = education.end_year_month);
         }
 
         return item;
       });
-
 
       setFormData((prevData: any) => ({
         ...prevData,
         ["educations"]: changed,
       }));
     } else {
-
-      
-      console.log("ch",formData);
+      console.log("ch", formData);
 
       setFormData((prevData: any) => ({
         ...prevData,
         ["educations"]: [...formData?.educations, education],
       }));
     }
-
-
 
     setEducation2(false);
 
@@ -647,7 +633,6 @@ const Education1: React.FC = () => {
     setOpen(false);
   };
 
-
   return (
     <div
       style={{
@@ -658,7 +643,6 @@ const Education1: React.FC = () => {
         height: "auto",
       }}
     >
-
       {
         <Container size="xs" px="xs">
           <Paper
@@ -807,7 +791,7 @@ const Education1: React.FC = () => {
                       <img
                         onClick={() => {
                           setFlag(true);
-                          setOpen(true)
+                          setOpen(true);
                           setEducation({
                             id: "id" + new Date().getTime(),
                             school: "",
@@ -845,9 +829,8 @@ const Education1: React.FC = () => {
             {open && (
               <form onSubmit={handleSubmit}>
                 <Grid>
-                
-                    <>
-                      {/* <Grid.Col span={12}>
+                  <>
+                    {/* <Grid.Col span={12}>
                         <Input.Wrapper
                           styles={() => ({
                             label: {
@@ -861,8 +844,8 @@ const Education1: React.FC = () => {
                         ></Input.Wrapper>
                       </Grid.Col> */}
 
-                      <Grid.Col span={12}>
-                        {/*                         
+                    <Grid.Col span={12}>
+                      {/*                         
                         <Input.Wrapper
                           label="School,University,Institute"
                           styles={() => ({
@@ -875,34 +858,34 @@ const Education1: React.FC = () => {
                             },
                           })}
                         > */}
-                        <Autocomplete
-                          styles={(theme) => ({
-                            input: {
-                              height: "100%",
-                            },
-                            values: {
-                              height: "100%",
-                            },
-                            wrapper: {
-                              height: "50px",
-                            },
+                      <Autocomplete
+                        styles={(theme) => ({
+                          input: {
+                            height: "100%",
+                          },
+                          values: {
+                            height: "100%",
+                          },
+                          wrapper: {
+                            height: "50px",
+                          },
 
-                            leftIcon: {
-                              marginRight: theme.spacing.md,
-                            },
-                          })}
-                          value={education.school}
-                          onChange={(value) => handleChange("school", value)}
-                          data={indianEducationArray}
-                          placeholder="University Institute"
-                        />
-                        {/* </Input.Wrapper> */}
+                          leftIcon: {
+                            marginRight: theme.spacing.md,
+                          },
+                        })}
+                        value={education.school}
+                        onChange={(value) => handleChange("school", value)}
+                        data={indianEducationArray}
+                        placeholder="University Institute"
+                      />
+                      {/* </Input.Wrapper> */}
 
-                        {/* <p> {education.school} </p> */}
-                      </Grid.Col>
+                      {/* <p> {education.school} </p> */}
+                    </Grid.Col>
 
-                      <Grid.Col span={12}>
-                        {/* <Input.Wrapper
+                    <Grid.Col span={12}>
+                      {/* <Input.Wrapper
                           label="Course"
                           styles={() => ({
                             label: {
@@ -914,32 +897,32 @@ const Education1: React.FC = () => {
                             },
                           })}
                         > */}
-                        <Autocomplete
-                          styles={(theme) => ({
-                            input: {
-                              height: "100%",
-                            },
-                            values: {
-                              height: "100%",
-                            },
-                            wrapper: {
-                              height: "50px",
-                            },
+                      <Autocomplete
+                        styles={(theme) => ({
+                          input: {
+                            height: "100%",
+                          },
+                          values: {
+                            height: "100%",
+                          },
+                          wrapper: {
+                            height: "50px",
+                          },
 
-                            leftIcon: {
-                              marginRight: theme.spacing.md,
-                            },
-                          })}
-                          value={education.degree}
-                          onChange={(value) => handleChange("degree", value)}
-                          data={allDegreesArray}
-                          placeholder="Course"
-                        />
-                        {/* </Input.Wrapper> */}
-                      </Grid.Col>
+                          leftIcon: {
+                            marginRight: theme.spacing.md,
+                          },
+                        })}
+                        value={education.degree}
+                        onChange={(value) => handleChange("degree", value)}
+                        data={allDegreesArray}
+                        placeholder="Course"
+                      />
+                      {/* </Input.Wrapper> */}
+                    </Grid.Col>
 
-                      <Grid.Col span={12}>
-                        {/* <Input.Wrapper
+                    <Grid.Col span={12}>
+                      {/* <Input.Wrapper
                           label="field of study"
                           styles={() => ({
                             label: {
@@ -951,152 +934,151 @@ const Education1: React.FC = () => {
                             },
                           })}
                         > */}
-                        <Autocomplete
-                          value={education.field_of_study}
-                          onChange={(value: any) =>
-                            handleChange("field_of_study", value)
-                          }
-                          data={fields}
-                          placeholder="Field of study"
-                          styles={(theme) => ({
-                            input: {
-                              height: "100%",
-                            },
-                            values: {
-                              height: "100%",
-                            },
-                            wrapper: {
-                              height: "50px",
-                            },
+                      <Autocomplete
+                        value={education.field_of_study}
+                        onChange={(value: any) =>
+                          handleChange("field_of_study", value)
+                        }
+                        data={fields}
+                        placeholder="Field of study"
+                        styles={(theme) => ({
+                          input: {
+                            height: "100%",
+                          },
+                          values: {
+                            height: "100%",
+                          },
+                          wrapper: {
+                            height: "50px",
+                          },
 
-                            leftIcon: {
-                              marginRight: theme.spacing.md,
-                            },
-                          })}
+                          leftIcon: {
+                            marginRight: theme.spacing.md,
+                          },
+                        })}
 
-                          // styles={customStyles}
-                        />
-                        {errors.specialization && (
-                          <p style={{ color: "red", fontSize: "0.8em" }}>
-                            {errors.specialization}
-                          </p>
-                        )}
-                        {/* </Input.Wrapper> */}
-                      </Grid.Col>
+                        // styles={customStyles}
+                      />
+                      {errors.specialization && (
+                        <p style={{ color: "red", fontSize: "0.8em" }}>
+                          {errors.specialization}
+                        </p>
+                      )}
+                      {/* </Input.Wrapper> */}
+                    </Grid.Col>
 
-                      <Grid.Col span={12}>
-                        <h6 className="experience-label">Start Date</h6>
-                      </Grid.Col>
+                    <Grid.Col span={12}>
+                      <h6 className="experience-label">Start Date</h6>
+                    </Grid.Col>
 
-                      <Grid.Col span={6}>
-                        <Select
-                          placeholder="Month"
-                          nothingFound="No options"
-                          maxDropdownHeight={280}
-                          onChange={(e) => handleChange("start_year_month", e)}
-                          data={releventMonths}
-                          value={education.start_year_month}
-                          styles={(theme) => ({
-                            input: {
-                              height: "100%",
-                            },
-                            values: {
-                              height: "100%",
-                            },
-                            wrapper: {
-                              height: "50px",
-                            },
+                    <Grid.Col span={6}>
+                      <Select
+                        placeholder="Month"
+                        nothingFound="No options"
+                        maxDropdownHeight={280}
+                        onChange={(e) => handleChange("start_year_month", e)}
+                        data={releventMonths}
+                        value={education.start_year_month}
+                        styles={(theme) => ({
+                          input: {
+                            height: "100%",
+                          },
+                          values: {
+                            height: "100%",
+                          },
+                          wrapper: {
+                            height: "50px",
+                          },
 
-                            leftIcon: {
-                              marginRight: theme.spacing.md,
-                            },
-                          })}
-                        />
-                      </Grid.Col>
-                      <Grid.Col span={6}>
-                        <Select
-                          placeholder="Year"
-                          nothingFound="No options"
-                          maxDropdownHeight={280}
-                          onChange={(e) => handleChange("start_year", e)}
-                          data={yearsData}
-                          value={education.start_year}
-                          styles={(theme) => ({
-                            input: {
-                              height: "100%",
-                            },
-                            values: {
-                              height: "100%",
-                            },
-                            wrapper: {
-                              height: "50px",
-                            },
+                          leftIcon: {
+                            marginRight: theme.spacing.md,
+                          },
+                        })}
+                      />
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                      <Select
+                        placeholder="Year"
+                        nothingFound="No options"
+                        maxDropdownHeight={280}
+                        onChange={(e) => handleChange("start_year", e)}
+                        data={yearsData}
+                        value={education.start_year}
+                        styles={(theme) => ({
+                          input: {
+                            height: "100%",
+                          },
+                          values: {
+                            height: "100%",
+                          },
+                          wrapper: {
+                            height: "50px",
+                          },
 
-                            leftIcon: {
-                              marginRight: theme.spacing.md,
-                            },
-                          })}
-                        />
-                      </Grid.Col>
-                      <Grid.Col span={12}>
-                        <h6 className="experience-label">End Date</h6>
-                      </Grid.Col>
+                          leftIcon: {
+                            marginRight: theme.spacing.md,
+                          },
+                        })}
+                      />
+                    </Grid.Col>
+                    <Grid.Col span={12}>
+                      <h6 className="experience-label">End Date</h6>
+                    </Grid.Col>
 
-                      <Grid.Col span={6}>
-                        <Select
-                          placeholder="Month"
-                          nothingFound="No options"
-                          maxDropdownHeight={280}
-                          onChange={(e) => handleChange("end_year_month", e)}
-                          data={releventMonths}
-                          value={education.end_year_month}
-                          styles={(theme) => ({
-                            input: {
-                              height: "100%",
-                            },
-                            values: {
-                              height: "100%",
-                            },
-                            wrapper: {
-                              height: "50px",
-                            },
+                    <Grid.Col span={6}>
+                      <Select
+                        placeholder="Month"
+                        nothingFound="No options"
+                        maxDropdownHeight={280}
+                        onChange={(e) => handleChange("end_year_month", e)}
+                        data={releventMonths}
+                        value={education.end_year_month}
+                        styles={(theme) => ({
+                          input: {
+                            height: "100%",
+                          },
+                          values: {
+                            height: "100%",
+                          },
+                          wrapper: {
+                            height: "50px",
+                          },
 
-                            leftIcon: {
-                              marginRight: theme.spacing.md,
-                            },
-                          })}
-                        />
-                      </Grid.Col>
+                          leftIcon: {
+                            marginRight: theme.spacing.md,
+                          },
+                        })}
+                      />
+                    </Grid.Col>
 
-                      <Grid.Col span={6}>
-                        <Select
-                          placeholder="Year"
-                          nothingFound="No options"
-                          maxDropdownHeight={280}
-                          onChange={(e) => handleChange("end_year", e)}
-                          data={yearsData}
-                          value={education.end_year}
-                          styles={(theme) => ({
-                            input: {
-                              height: "100%",
-                            },
-                            values: {
-                              height: "100%",
-                            },
-                            wrapper: {
-                              height: "50px",
-                            },
+                    <Grid.Col span={6}>
+                      <Select
+                        placeholder="Year"
+                        nothingFound="No options"
+                        maxDropdownHeight={280}
+                        onChange={(e) => handleChange("end_year", e)}
+                        data={yearsData}
+                        value={education.end_year}
+                        styles={(theme) => ({
+                          input: {
+                            height: "100%",
+                          },
+                          values: {
+                            height: "100%",
+                          },
+                          wrapper: {
+                            height: "50px",
+                          },
 
-                            leftIcon: {
-                              marginRight: theme.spacing.md,
-                            },
-                          })}
-                        />
-                      </Grid.Col>
+                          leftIcon: {
+                            marginRight: theme.spacing.md,
+                          },
+                        })}
+                      />
+                    </Grid.Col>
 
-
-                      <Grid.Col span={12}>
-                        {/* <Input.Wrapper
+                    <Grid.Col span={12}>
+                      {/* <Input.Wrapper
                           label="Grade"
                           styles={() => ({
                             label: {
@@ -1108,28 +1090,26 @@ const Education1: React.FC = () => {
                             },
                           })}
                         > */}
-                        <Input
-                          placeholder="Grade"
-                          required
-                          onChange={(e) =>
-                            handleChange("grade", e.target.value)
-                          }
-                          value={education.grade}
-                          styles={(theme) => ({
-                            input: {
-                              height: 50,
-                              width: "100%",
-                              fontSize: 16,
-                              lineHeight: 50,
-                              borderRadius: 8,
-                              border: "2px solid #ccc",
-                            },
-                          })}
-                        />
-                        {/* </Input.Wrapper> */}
-                      </Grid.Col>
-                      <Grid.Col span={12}>
-                        {/* <Input.Wrapper
+                      <Input
+                        placeholder="Grade"
+                        required
+                        onChange={(e) => handleChange("grade", e.target.value)}
+                        value={education.grade}
+                        styles={(theme) => ({
+                          input: {
+                            height: 50,
+                            width: "100%",
+                            fontSize: 16,
+                            lineHeight: 50,
+                            borderRadius: 8,
+                            border: "2px solid #ccc",
+                          },
+                        })}
+                      />
+                      {/* </Input.Wrapper> */}
+                    </Grid.Col>
+                    <Grid.Col span={12}>
+                      {/* <Input.Wrapper
                           label="Activities"
                           styles={() => ({
                             label: {
@@ -1141,29 +1121,29 @@ const Education1: React.FC = () => {
                             },
                           })}
                         > */}
-                        <Input
-                          placeholder="Activities"
-                          required
-                          value={education.activities}
-                          onChange={(e) =>
-                            handleChange("activities", e.target.value)
-                          }
-                          styles={(theme) => ({
-                            input: {
-                              height: 50,
-                              width: "100%",
-                              fontSize: 16,
-                              lineHeight: 50,
-                              borderRadius: 8,
-                              border: "2px solid #ccc",
-                            },
-                          })}
-                        />
-                        {/* </Input.Wrapper> */}
-                      </Grid.Col>
+                      <Input
+                        placeholder="Activities"
+                        required
+                        value={education.activities}
+                        onChange={(e) =>
+                          handleChange("activities", e.target.value)
+                        }
+                        styles={(theme) => ({
+                          input: {
+                            height: 50,
+                            width: "100%",
+                            fontSize: 16,
+                            lineHeight: 50,
+                            borderRadius: 8,
+                            border: "2px solid #ccc",
+                          },
+                        })}
+                      />
+                      {/* </Input.Wrapper> */}
+                    </Grid.Col>
 
-                      <Grid.Col span={12}>
-                        {/* <Input.Wrapper
+                    <Grid.Col span={12}>
+                      {/* <Input.Wrapper
                           label="Description"
                           styles={() => ({
                             label: {
@@ -1175,62 +1155,63 @@ const Education1: React.FC = () => {
                             },
                           })}
                         > */}
-                        <Input
-                          placeholder="Description"
-                          required
-                          value={education.description}
-                          onChange={(e) =>
-                            handleChange("description", e.target.value)
-                          }
-                          styles={(theme) => ({
-                            input: {
-                              height: 50,
-                              width: "100%",
-                              fontSize: 16,
-                              lineHeight: 50,
-                              borderRadius: 8,
-                              border: "2px solid #ccc",
-                            },
-                          })}
-                        />
-                        {/* </Input.Wrapper> */}
-                      </Grid.Col>
+                      <Input
+                        placeholder="Description"
+                        required
+                        value={education.description}
+                        onChange={(e) =>
+                          handleChange("description", e.target.value)
+                        }
+                        styles={(theme) => ({
+                          input: {
+                            height: 50,
+                            width: "100%",
+                            fontSize: 16,
+                            lineHeight: 50,
+                            borderRadius: 8,
+                            border: "2px solid #ccc",
+                          },
+                        })}
+                      />
+                      {/* </Input.Wrapper> */}
+                    </Grid.Col>
 
-                      <div
-                        className="d-flex justify-content-end"
+                    <div
+                      className="d-flex justify-content-end"
+                      style={{
+                        width: "100%",
+                        marginTop: "1rem",
+                        // background:"red"
+                      }}
+                    >
+                      <Button
+                        className="btn-info"
                         style={{
-                          width: "100%",
-                          marginTop: "1rem",
-                          // background:"red"
+                          paddingRight: "14px",
+                          height:"50px",  
+                          width:"100%",
+                          // margin:"0 !important"
+              
+                        }}
+                        onClick={() => {
+                          // setEducation3(true)
+                          saveEntry();
                         }}
                       >
-             
-                        <Button
+                        {" "}
+                        saved{" "}
+                      </Button>
+                    </div>
 
-                        className="btn btn-info"
-                          style={{
-                            paddingRight: "14px",
-                          }}
-                          onClick={() => {
-                 
-                            // setEducation3(true)
-                            saveEntry();
-                          }}
-                        >
-                          {" "}
-                        save {" "}
-                        </Button>
-                      </div>
-
-                      <div
-                        className="d-flex justify-content-end"
-                        style={{
-                          width: "100%",
-                          marginTop: "1rem",
-                          // background:"red"
-                        }}
-                      >
-                        {/* <Button
+                    <div
+                      className="d-flex justify-content-end"
+                      style={{
+                        width: "100%",
+                        marginTop: "1rem",
+                        // background:"red"
+                      }}
+                    >
+                      {/* <Button
                           style={{
                             transform: "translateX(8px)",
                           }}
@@ -1238,15 +1219,8 @@ const Education1: React.FC = () => {
                           {" "}
                           prev{" "}
                         </Button> */}
-
-          
-
-
-                      </div>
-                    </>
-                
-
-              
+                    </div>
+                  </>
                 </Grid>
               </form>
             )}

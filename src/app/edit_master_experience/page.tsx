@@ -28,6 +28,7 @@ export function EditUser(props: IAppProps) {
     setActive,
     inEditPage,
     setinEditPage,
+    experienceOpen
   }: any = useThemeContext();
 
   const search = searchParams.get("id");
@@ -60,26 +61,7 @@ export function EditUser(props: IAppProps) {
         experience: {
           create: formData.experiences,
         },
-        // profile_summary: formData.profile_summary,
-        // photograph: formData.photograph,
-        // keyskills: {
-        //   connect: formData.keyskills.map((item: any) => {
-        //     return {
-        //       id: item,
-        //     };
-        //   }),
-        // },
-        // itskills: {
-        //   connect: formData.itskills.map((item: any) => {
-        //     return {
-        //       id: item,
-        //     };
-        //   }),
-        // },
-        // education: formData.education,
-        // active: formData.status,
-        // // open_to_work: formData.work,
-        // createdAt: new Date(),
+
       },
     });
 
@@ -91,6 +73,7 @@ export function EditUser(props: IAppProps) {
 
       setFormData((prevData) => ({  
         profileUserId: "",
+
         itskills: [],
         education: null,
         keyskills: [],
@@ -222,13 +205,26 @@ export function EditUser(props: IAppProps) {
 
       <ExperienceDetails />
 
-      <Group className="no-margin" position="center" mt="xl">
-        <button  type="button" className="next-button" onClick={updateUserProfile}>
-          {" "}
-          submit{" "}
-        </button>
-      </Group>
+
+  {
+
+
+    
+!experienceOpen && formData?.experiences?.length > 0 && <Group className="no-margin" position="center" mt="xl">
+<button  type="button" className="next-button" onClick={updateUserProfile}>
+  {" "
+  }
+  submit{" "}
+
+</button>
+</Group>
+
+}
+
+
+
       <Group
+
         className="no-margin"
         position="left"
         mt="xl"
@@ -237,8 +233,14 @@ export function EditUser(props: IAppProps) {
           left: "35%",
           transform: "translateY(-47px)",
         }}
-      ></Group>
-    </div>
+      >
+
+
+      </Group>
+
+
+      </div>
+
   );
 }
 

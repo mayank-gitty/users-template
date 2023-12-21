@@ -824,14 +824,19 @@ const ExperienceDetails = () => {
                 </Grid>
 
                 <div className="d-flex justify-content-end">
-                  <button
+                  <Button
                     type="button"
-                    className="btn btn-info mt-4"
+                    className="btn-info mt-4"
+
+                    style={{
+                      height:"50px",  
+                      width:"100%"
+                    }}
                     onClick={() => saveEntry()}
                   >
                     {" "}
                     Save{" "}
-                  </button>
+                  </Button>
                 </div>
               </form>
             )}

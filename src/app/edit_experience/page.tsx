@@ -28,6 +28,7 @@ export function EditUser(props: IAppProps) {
     setActive,
     inEditPage,
     setinEditPage,
+    experienceOpen,
   }: any = useThemeContext();
 
   const search = searchParams.get("id");
@@ -216,12 +217,15 @@ export function EditUser(props: IAppProps) {
 
       <ExperienceDetails />
 
-      <Group className="no-margin" position="center" mt="xl">
-        <button className="next-button" onClick={updateUserProfile}>
-          {" "}
-          submit{" "}
-        </button>
-      </Group>
+      {!experienceOpen && formData?.experiences?.length > 0 && (
+        <Group className="no-margin" position="center" mt="xl">
+          <button className="next-button" onClick={updateUserProfile}>
+            {" "}
+            submit{" "}
+          </button>
+        </Group>
+      )}
+
       <Group
         className="no-margin"
         position="left"

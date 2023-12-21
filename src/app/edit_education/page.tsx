@@ -29,6 +29,7 @@ export function EditUser(props: IAppProps) {
     setActive,
     inEditPage,
     setinEditPage,
+    open
   }: any = useThemeContext();
 
   const search = searchParams.get("id");
@@ -72,7 +73,7 @@ export function EditUser(props: IAppProps) {
           }),
         },
         education: {
-            create: formData.educations,
+          create: formData.educations,
         },
       },
     });
@@ -205,7 +206,7 @@ export function EditUser(props: IAppProps) {
 
   return (
     <div>
-      <div className="text-center " style={{marginTop:"5rem"}} >
+      <div className="text-center " style={{ marginTop: "5rem" }}>
         <h6 className="mt-4 mb-4"> </h6>
       </div>
 
@@ -213,12 +214,15 @@ export function EditUser(props: IAppProps) {
 
       <Education1 />
 
-      <Group className="no-margin" position="center" mt="xl">
-        <button className="next-button" onClick={updateUserProfile}>
-          {" "}
-          submit{" "}
-        </button>
-      </Group>
+      {!open && formData?.educations?.length > 0 && (
+        <Group className="no-margin" position="center" mt="xl">
+          <button className="next-button" onClick={updateUserProfile}>
+            {" "}
+            submit{" "}
+          </button>
+        </Group>
+      )}
+
       <Group
         className="no-margin"
         position="left"

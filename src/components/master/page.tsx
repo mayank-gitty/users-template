@@ -251,7 +251,7 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
             className=""
             style={{
               width: "30rem",
-              padding: active === 0 ? "" : "0 16px",
+              padding: active === 0 ? "" : "",
               display:
                 (formData?.educations?.length === 0 && active === 2) ||
                 (open && active === 2) ||

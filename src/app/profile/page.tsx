@@ -554,7 +554,7 @@ export default function View(props: IAppProps) {
     // console.log('delete-user',user)
 
     if (user.deleteAddEducation) {
-      const button = document.getElementById("modal-close-btn");
+      const button = document.getElementById("modal-close-btn-education");
 
       setTimeout(() => {
         button?.click();
@@ -1114,7 +1114,7 @@ export default function View(props: IAppProps) {
               <Grid>
                 <Grid.Col span={12}>
                   <Container size="xs" px="xs">
-                    <h6 className="box-heading"> Edit education </h6>
+                    {/* <h6 className="box-heading"> Edit education </h6> */}
                     {/* <p className="box-sub-heading">Select your highest education</p> */}
 
                     <form>
@@ -1609,13 +1609,13 @@ export default function View(props: IAppProps) {
             <div class="modal-body">
               <Container size="xs" px="xs">
                 <Paper
-                  shadow="xl"
+                  // shadow="xl"
                   p="md"
                   // style={{ maxHeight: "80vh", overflowY: "auto" }}
                 >
-                  <h6 style={{ textAlign: "left", fontSize: "20px" }}>
+                  {/* <h6 style={{ textAlign: "left", fontSize: "20px" }}>
                     Edit Project
-                  </h6>
+                  </h6> */}
 
                   <form>
                     <Grid>
@@ -2357,7 +2357,7 @@ export default function View(props: IAppProps) {
                           onClick={() => {
                             // setActive(4);
                             router.push(
-                              `/edit_master_experience?id=${search}`
+                              `/edit_experience?id=${search}`
                             );
                           }}
                         />
@@ -2494,7 +2494,7 @@ export default function View(props: IAppProps) {
                           onClick={() => {
                             // setActive(4);
                             router.push(
-                              `/edit_master_education?id=${search}`
+                              `/edit_education?id=${search}`
                             );
                           }}
                         />

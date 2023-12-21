@@ -104,6 +104,7 @@ const ItSkills = () => {
         <Paper
           style={{
             width: "30rem",
+            padding:"0rem"
           }}
           // shadow="xl"
           p="md"

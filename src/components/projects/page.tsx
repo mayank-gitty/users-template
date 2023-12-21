@@ -504,7 +504,7 @@ const ProjectForm = () => {
                 {/* <h6 className="box-heading">Add Project</h6> */}
                 <Grid.Col span={12}>
                   <Input
-                    placeholder="Project Title"
+                    placeholder="Project title"
                     required
                     value={project.projectTitle}
                     styles={(theme) => ({
@@ -705,7 +705,7 @@ const ProjectForm = () => {
                 </Grid.Col>
                 <Grid.Col span={12}>
                   <Input
-                    placeholder="Project Location"
+                    placeholder="Project location"
                     required
                     value={project.projectLocation}
                     styles={(theme) => ({
@@ -954,7 +954,7 @@ const ProjectForm = () => {
                     })} 
                   > */}
                   <textarea
-                    placeholder="Skills Used"
+                    placeholder="Skills used"
                     required
                     style={{
                       width: "100%", // Adjust the width as needed
@@ -971,19 +971,23 @@ const ProjectForm = () => {
                 <Grid.Col
                   span={12}
                   style={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    paddingTop: "10px",
+                    // display: "flex",
+                    // justifyContent: "flex-end",
+                    // paddingTop: "10px",
                   }}
                 >
                   <Group position="right" mt="md">
-                    <button
+                    <Button
                       onClick={() => saveEntry()}
                       type="button"
-                      className="btn btn-info"
+                      className="btn-info"
+                      style={{
+                        height:"50px",  
+                        width:"100%"
+                      }}
                     >
                       Save
-                    </button>
+                    </Button>
                   </Group>
                 </Grid.Col>
               </Grid>
