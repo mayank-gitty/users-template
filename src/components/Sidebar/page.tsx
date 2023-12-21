@@ -124,7 +124,8 @@ function Sidebar() {
       </div>
 
       <ul className="mt-[20%]">
-        {role !== "admin" && (
+
+        {(
           <li
             onClick={() => {
               router.push(`/`);

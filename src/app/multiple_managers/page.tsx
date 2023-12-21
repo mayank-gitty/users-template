@@ -480,7 +480,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
                 <button
                   // onClick={() => saveAll()}
                   // className={`${"save-all-btn"}`}
-
                   style={{
                     fontSize: "11px",
                     fontWeight: 600,
@@ -492,11 +491,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                     borderRadius: "4.243px",
                   }}
                   onClick={() => saveAll()}
-                  type="submit"
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: 600,
-                  }}
+                  type="button"
                 >
                   {" "}
                   Save managers entries{" "}

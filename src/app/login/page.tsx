@@ -205,9 +205,10 @@ const Login = () => {
                 // type="password"
                 visibilityToggleIcon={({ reveal }) =>
                 reveal ? (
-                  <IconEyeOff style={{ width: 'var(--psi-icon-size)', height: 'var(--psi-icon-size)' }} />
-                ) : (
                   <IconEyeCheck style={{ width: 'var(--psi-icon-size)', height: 'var(--psi-icon-size)' }} />
+ 
+                ) : (
+                  <IconEyeOff style={{ width: 'var(--psi-icon-size)', height: 'var(--psi-icon-size)' }} />
                 )
               }
                 styles={(theme) => ({

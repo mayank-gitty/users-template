@@ -193,7 +193,7 @@ const DatatablePage = () => {
   return (
     <div className="table-wrapper">
       <div className="page-heading text-left pt-2 pb-2 twenty-percent">
-        <h2 className="page-main-heading px-4"> Invited Employees </h2>
+        <h2 className="page-main-heading px-4"> Invited employees </h2>
       </div>
 
       <div className="profile-table">

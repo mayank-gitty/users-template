@@ -73,7 +73,13 @@ export default function Home() {
   return (
     <>
       {/* <ToastContainer /> */}
-      <MantineProvider>{!hasMaster && <Master />}</MantineProvider>
+      <MantineProvider>
+        <div className="mt-2">
+          <h2 className="page-main-heading px-4"> Welcome  {localStorage.getItem('name')} </h2>
+        </div>
+
+        {!hasMaster && role !== "admin" && <Master />}
+      </MantineProvider>
     </>
   );
 }

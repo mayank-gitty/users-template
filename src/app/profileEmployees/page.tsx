@@ -207,7 +207,7 @@ const DatatablePage = () => {
           className="page-main-heading mt-2 px-4"
         >
           {" "}
-          Employees Profile{" "}
+          Employees profile{" "}
         </h2>
       </div>
       <div className="profile-table ">

@@ -23,7 +23,7 @@ import {
   Input,
   Container,
   Paper,
-  Text
+  Text,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -89,7 +89,6 @@ export default function View(props: IAppProps) {
   const [hasMaster, sethasMaster] = useState(true);
   const { setActive, formData, setFormData } = useThemeContext();
 
-  
   const [DefaultSkills, setDefaultSkills] = useState([]);
   const [schoolOther, setSchoolOther] = useState("");
   const [degreeOther, setDegreeOther] = useState("");
@@ -243,7 +242,6 @@ export default function View(props: IAppProps) {
     skillUsed: "",
   });
 
-
   const getSkills = async () => {
     const users: any = await client.request(KEY_SKILLS);
 
@@ -275,18 +273,17 @@ export default function View(props: IAppProps) {
   }
 
   const updateKeySkills = async () => {
-
-    console.log("update skills hitting",search);
+    console.log("update skills hitting", search);
 
     const user: any = await client.request(updateUser, {
       where: {
-        id: form.getInputProps('profileUserId')?.value, 
+        id: form.getInputProps("profileUserId")?.value,
       },
       data: {
-        keyskills : {
+        keyskills: {
           set: form.getInputProps("keyskills")?.value?.map((item: any) => {
             return {
-              id: item
+              id: item,
             };
           }),
         },
@@ -304,7 +301,6 @@ export default function View(props: IAppProps) {
         router.refresh();
       }, 1000);
     }
-
   };
 
   const options = [
@@ -436,7 +432,9 @@ export default function View(props: IAppProps) {
       education: user?.profileUsers[0]?.education,
       project: user?.profileUsers[0]?.project,
       keyskills: user?.profileUsers[0]?.keyskills.map((item: any) => item.id),
-      userkeyskills: user?.profileUsers[0]?.keyskills.map((item: any) => item.name),  
+      userkeyskills: user?.profileUsers[0]?.keyskills.map(
+        (item: any) => item.name
+      ),
       resume_headline: user?.profileUsers[0]?.resume_headline,
       profile_summary: user.profileUsers[0]?.profile_summary,
       photograph: user.profileUsers[0]?.photograph,
@@ -693,8 +691,7 @@ export default function View(props: IAppProps) {
       mx="auto"
       className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]"
     >
-
-<div
+      <div
         class="modal fade"
         id="exampleModalSkills"
         tabindex="-1"
@@ -1002,9 +999,11 @@ export default function View(props: IAppProps) {
                   />
                 </Grid.Col>
 
-                <Grid.Col span={12}>
-                  <h6 className="experience-label">End Date</h6>
-                </Grid.Col>
+                {!experience.currently_working && (
+                  <Grid.Col span={12}>
+                    <h6 className="experience-label">End Date</h6>
+                  </Grid.Col>
+                )}
 
                 {!experience.currently_working && (
                   <>
@@ -2120,7 +2119,7 @@ export default function View(props: IAppProps) {
       >
         <div className="text-black text-2xl py-3  font-semibold">Profile</div>
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
-        <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
+          <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
             <div className="flex items-center justify-center flex-col bg-white">
               <div
                 style={{
@@ -2224,7 +2223,6 @@ export default function View(props: IAppProps) {
             </div>
           </div>
 
-
           <div className="w-full lg:w-3/4 px-3 h-full rounded ">
             <Stack>
               <div className="p-4 h-full rounded bg-white">
@@ -2327,7 +2325,7 @@ export default function View(props: IAppProps) {
 
             <div className="flex flex-col lg:flex-row mt-3  justify-center  gap-5 xl:12 ">
               <div className="lg:w-1/2">
-              <Stack>
+                <Stack>
                   <div
                     className="p-4 h-full rounded bg-white"
                     style={{
@@ -2358,9 +2356,7 @@ export default function View(props: IAppProps) {
                           }}
                           onClick={() => {
                             // setActive(4);
-                            router.push(
-                              `/edit_experience?id=${search}`
-                            );
+                            router.push(`/edit_experience?id=${search}`);
                           }}
                         />
                       )}
@@ -2377,7 +2373,8 @@ export default function View(props: IAppProps) {
                             0 &&
                             form
                               .getInputProps("experience")
-                              ?.value.slice(0, 3).map((item: any) => {
+                              ?.value.slice(0, 3)
+                              .map((item: any) => {
                                 return (
                                   <div
                                     className="d-flex justify-content-between"
@@ -2416,9 +2413,14 @@ export default function View(props: IAppProps) {
                                         )}
                                       </p>
 
-                                      <p style={{
-                                        marginBottom:"0.2rem"
-                                      }} > {item.location} </p>
+                                      <p
+                                        style={{
+                                          marginBottom: "0.2rem",
+                                        }}
+                                      >
+                                        {" "}
+                                        {item.location}{" "}
+                                      </p>
                                     </div>
 
                                     <Image
@@ -2462,14 +2464,13 @@ export default function View(props: IAppProps) {
               </div>
 
               <div className="lg:w-1/2">
-              <Stack>
+                <Stack>
                   <div
                     className="p-4 h-full rounded bg-white"
                     style={{
-                 
-                        height: "350.897px",
-                        // background: "red",
-                    
+                      height: "350.897px",
+                      // background: "red",
+
                       // background: "red",
                     }}
                   >
@@ -2495,9 +2496,7 @@ export default function View(props: IAppProps) {
                           }}
                           onClick={() => {
                             // setActive(4);
-                            router.push(
-                              `/edit_education?id=${search}`
-                            );
+                            router.push(`/edit_education?id=${search}`);
                           }}
                         />
                       )}
@@ -2522,25 +2521,22 @@ export default function View(props: IAppProps) {
                                   ?.length > 0 &&
                                   form
                                     .getInputProps("education")
-                                    ?.value.slice(0, 3).map((item: any) => {
+                                    ?.value.slice(0, 3)
+                                    .map((item: any) => {
                                       return (
                                         <div
                                           className="d-flex justify-content-between"
                                           style={{
                                             // background:"yellow",
                                             width: "100%",
-                                          }}  
+                                          }}
                                         >
                                           <div className="text-custom">
                                             <h6 className="title">
                                               {" "}
-
-                                              <Text w={200} truncate="end" >
-
-                                              {item.school}{" "}
-
+                                              <Text w={200} truncate="end">
+                                                {item.school}{" "}
                                               </Text>
-                                 
                                             </h6>
                                             <h6
                                               style={{
@@ -2862,7 +2858,12 @@ export default function View(props: IAppProps) {
                               src="./images/resumeIcon.svg"
                               className="resume-icon"
                               alt="Google"
-                              style={{ width: "32px", height: "44px" ,marginRight:"1em" ,borderRadius:"100% !important" }}
+                              style={{
+                                width: "32px",
+                                height: "44px",
+                                marginRight: "1em",
+                                borderRadius: "100% !important",
+                              }}
                               onClick={() =>
                                 router.push(
                                   `/edit_user?id=${localStorage.getItem("id")}`
