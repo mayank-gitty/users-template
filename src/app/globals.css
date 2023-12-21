@@ -90,27 +90,24 @@ tbody tr td {
 }
 
 div.dataTables_wrapper div.dataTables_info {
-  display: none;  
+  display: none;
 }
-
 
 /* global styling */
 
 .create-profile {
-
-border-radius: 4.441px;
-background: #4D47C3;
-padding: 7.993px 20.428px;
-justify-content: center;
-align-items: center;
-gap: 8.882px;
-color: #FFF;
-/* font-family: Poppins; */
-font-size: 10.658px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-
+  border-radius: 4.441px;
+  background: #4d47c3;
+  padding: 7.993px 20.428px;
+  justify-content: center;
+  align-items: center;
+  gap: 8.882px;
+  color: #fff;
+  /* font-family: Poppins; */
+  font-size: 10.658px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 
 .table-column-links th {
@@ -217,11 +214,11 @@ line-height: normal;
   height: 95%;
   margin: auto;
   /* background:blue; */
-
   padding-right: 20px;
   padding-left: 6px;
   /* background: #fff; */
 }
+
 
 [data-test="table-foot"] {
   /* Attribute has this exact value */
@@ -248,6 +245,16 @@ div.dataTables_wrapper div.dataTables_paginate {
   border-radius: 4.441px;
   border: 0.444px solid #e1e1e1;
   background: #fff;
+}
+
+
+[data-test="table"]  td {
+/* 
+  padding-top: 12px !important;
+  padding-bottom: 12px !important; */
+  height: 67px;
+  vertical-align: middle !important;
+
 }
 
 .table {
@@ -287,8 +294,8 @@ div.dataTables_wrapper div.dataTables_paginate {
   font-style: normal;
   font-weight: 500;
   line-height: 22px; /* 157.143% */
-  padding-top: 12px !important;
-  padding-bottom: 12px !important;
+  /* padding-top: 12px !important;
+  padding-bottom: 12px !important; */
 }
 
 .employee-details {
@@ -419,8 +426,7 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 .h-screen-fit {
   height: 100vh !important;
-  position:fixed;
-
+  position: fixed;
 }
 
 .h-screen {
@@ -439,9 +445,6 @@ div.dataTables_wrapper div.dataTables_paginate {
 .pl-15 {
   padding-left: 22px;
 }
-
-
-
 
 .text-custom-left {
   /* padding-left: 15px; */
@@ -482,8 +485,8 @@ div.dataTables_wrapper div.dataTables_paginate {
   height: 47.816px;
   border-radius: 7.288px;
   border-radius: 7.288px;
-  background:transparent;
-  border:2px solid #4d47c3;
+  background: transparent;
+  border: 2px solid #4d47c3;
   color: #4d47c3;
   width: 48%;
   /* font-family: Poppins; */
@@ -875,7 +878,7 @@ input#file-upload-button {
 
 .save-all-btn {
   border-radius: 4.243px;
-  background:#fff;
+  background: #fff;
   color: #4d47c3;
   border: 2px solid #4d47c3;
   font-size: 10.184px;

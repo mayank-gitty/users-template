@@ -880,12 +880,9 @@ const Education1: React.FC = () => {
                         placeholder="University Institute"
                       />
 
-
                       {/* </Input.Wrapper> */}
 
                       {/* <p> {education.school} </p> */}
-
-                      
                     </Grid.Col>
 
                     <Grid.Col span={12}>
@@ -1179,62 +1176,35 @@ const Education1: React.FC = () => {
                       />
                       {/* </Input.Wrapper> */}
                     </Grid.Col>
-
-                    <div
-                      className="d-flex justify-content-end"
-                      style={{
-                        width: "100%",
-                        marginTop: "1rem",
-                        // background:"red"
-                      }}
-                    >
-                      <Button
-                        className="btn-info"
-                        style={{
-                          paddingRight: "14px",
-                          height:"50px",  
-                          width:"100%",
-                          // margin:"0 !important"
-              
-                        }}
-                        onClick={() => {
-                          // setEducation3(true)
-                          saveEntry();
-                        }}
-                      >
-                        {" "}
-                        saved{" "}
-                      </Button>
-                    </div>
-
-                    <div
-                      className="d-flex justify-content-end"
-                      style={{
-                        width: "100%",
-                        marginTop: "1rem",
-                        // background:"red"
-                      }}
-                    >
-                      {/* <Button
-                          style={{
-                            transform: "translateX(8px)",
-                          }}
-                        >
-                          {" "}
-                          prev{" "}
-                        </Button> */}
-                    </div>
                   </>
                 </Grid>
+                <div
+                  className="d-flex justify-content-end"
+                  style={{
+                    width: "100%",
+                    marginTop: "1rem",
+                    // background:"red"
+                  }}
+                >
+                  <Button
+                    className="btn-info"
+                    style={{
+                      paddingRight: "14px",
+                      height: "50px",
+                      width: "100%",
+                      // margin:"0 !important"
+                    }}
+                    onClick={() => {
+                      // setEducation3(true)
+                      saveEntry();
+                    }}
+                  >
+                    {" "}
+                    save{" "}
+                  </Button>
+                </div>
               </form>
             )}
-
-            {/* {flag && (
-              <button className="common-btn mt-4" onClick={() => setFlag(true)}>
-                {" "}
-                Add another education{" "}
-              </button>
-            )} */}
           </Paper>
         </Container>
       }
