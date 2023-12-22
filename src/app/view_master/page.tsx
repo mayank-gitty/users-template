@@ -8,6 +8,7 @@ import client from "../../../helpers/request";
 import { useSearchParams } from "next/navigation";
 import useThemeContext from "@/context/context";
 import { VIEW_MASTER } from "@/util/queries";
+import { toast } from "react-toastify";
 
 import {
   Button,
@@ -39,7 +40,14 @@ import {
   deleteEducation,
   updateUserProject,
   deleteProject,
+  updateEmployeeBasicDetails,
+  
+  
+
 } from "@/util/mutationQueries";
+
+
+import { GET_USER } from "@/util/queries";
 
 import {
   IconPhoto,
@@ -84,6 +92,21 @@ const KEY_SKILLS = gql`
   }
 `;
 
+const USERS = gql`
+  query Users {
+    users {
+      name
+      company {
+        name
+      }
+      role
+      email
+      phone
+      address
+    }
+  }
+`;
+
 export interface IAppProps {}
 
 export default function View(props: IAppProps) {
@@ -108,6 +131,98 @@ export default function View(props: IAppProps) {
   const [formErrors, setFormErrors] = useState({});
 
   const [DefaultSkills, setDefaultSkills] = useState([]);
+
+
+    //   const { data: session }: any = useSession();
+
+    const checkExistingUser = async (email) => {
+      console.log("checking email", email);
+  
+      const checking = await client.request(GET_USER, {
+        where: {
+          email: email,
+        },
+      });
+  
+      // console.log("response", checking?.user?.email);
+  
+      return checking?.user?.email;
+    };
+
+  const form: any = useForm({
+    initialValues: {
+      profileUserId: "",
+      allItskills: [],
+      allKeyskills: [],
+      itskills: [],
+      education: null,
+      keyskills: [],
+      userkeyskills: [],
+      resume_headline: "",
+      profile_summary: "",
+      total_experience: "",
+      relevent_experience: "",
+      photograph: "",
+      name: "",
+      status: "",
+      work: "",
+      email: "",
+      userEmail: "",
+      userEmailForMutation: "",
+      experience: [],
+      project: [],
+      company: "",
+      userCompany: "",
+      companies: [],
+      phone: "",
+      userPhone: "",
+      role: "",
+      address: "",
+      userAddress: "",
+    },
+    // validate: {
+    //   // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+    //   userPhone: (value) => {
+    //     if (!value) {
+    //       return "please select number";
+    //     }
+
+    //     const mobileNumber = value;
+
+    //     if (/^[0-9]{10}$/.test(mobileNumber)) {
+    //       console.log("inside", mobileNumber);
+    //       return null;
+    //     } else {
+    //       console.log("outside", mobileNumber);
+    //       return "The mobile number is not valid.";
+    //     }
+    //   },
+
+    //   userEmail: (value) => {
+    //     //     console.log("index", value);
+
+    //     if (!value) {
+    //       return "please enter mail";
+    //     }
+
+    //     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+    //       return "please enter valid mail";
+    //     }
+
+    //     return null;
+    //   },
+    //   userAddress: (value) => (value ? null : "add Address"),
+    // },
+  });
+
+  const COMPANIES = gql`
+    query Query {
+      companies {
+        name
+        id
+      }
+    }
+  `;
 
   const indianEducationArray = [
     // Schools
@@ -139,7 +254,6 @@ export default function View(props: IAppProps) {
   ];
 
   const allDegreesArray = [
-  
     "Bachelor of Arts (BA)",
     "Bachelor of Science (BS)",
     "Bachelor of Fine Arts (BFA)",
@@ -170,7 +284,6 @@ export default function View(props: IAppProps) {
   ];
 
   const fields = [
-  
     "Delhi Public",
     "Computer Science",
     "Electrical Engineering",
@@ -198,6 +311,27 @@ export default function View(props: IAppProps) {
     "Architecture",
     // Add more common fields of study as needed
   ];
+
+  const getComapanies = async () => {
+    const users: any = await client.request(COMPANIES);
+
+    console.log("usersaa", users);
+
+    const DefaultSkills = users?.companies?.map((item: any) => {
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    });
+
+    // setDefaultSkills(DefaultSkills);
+
+    form.setFieldValue("companies", DefaultSkills);
+  };
+
+  useEffect(() => {
+    getComapanies();
+  }, []);
 
   const [education, setEducation] = useState({
     id: "",
@@ -298,34 +432,6 @@ export default function View(props: IAppProps) {
     { label: "office", value: "office" },
   ];
 
-  const form: any = useForm({
-    initialValues: {
-      profileUserId: "",
-      allItskills: [],
-      allKeyskills: [],
-      itskills: [],
-      education: null,
-      keyskills: [],
-      userkeyskills: [],
-      resume_headline: "",
-      profile_summary: "",
-      total_experience: "",
-      relevent_experience: "",
-      photograph: "",
-      name: "",
-      status: "",
-      work: "",
-      email: "",
-      experience: [],
-      project: [],
-      company: "",
-      role: "",
-    },
-    validate: {
-      // email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
-    },
-  });
-
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
@@ -391,10 +497,15 @@ export default function View(props: IAppProps) {
       resume: user?.profileUser?.resume,
       work: user?.profileUser?.open_to_work,
       email: user?.profileUser?.user?.email,
+      userEmail: user?.profileUser?.user?.email,
+      userEmailForMutation: user?.profileUser?.user?.email,
       role: user?.profileUser?.user?.role,
       company: user?.profileUser?.user?.company?.name,
+      userCompany: user?.profileUser?.user?.company?.id,
       phone: user?.profileUser?.user?.phone,
+      userPhone: user?.profileUser?.user?.phone,
       address: user?.profileUser?.user?.address,
+      userAddress: user?.profileUser?.user?.address,
       experience: user?.profileUser?.experience,
     });
   };
@@ -655,6 +766,115 @@ export default function View(props: IAppProps) {
     }));
   };
 
+  const updateBasicDetails = async () => {
+    if (!form.getInputProps("userPhone").value) {
+      return alert("please enter phone");
+    }
+
+    const mobileNumber = form.getInputProps("userPhone").value;
+
+    const email = form.getInputProps("userEmail").value;
+
+    if (!/^[0-9]{10}$/.test(mobileNumber)) {
+      console.log("inside", mobileNumber);
+      return alert('"The mobile number is not valid.";');
+    }
+
+    if (!form.getInputProps("userEmail").value) {
+      return alert("please enter mail");
+    }
+
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return alert("please enter valid mail");
+    }
+
+    if (!form.getInputProps("userAddress").value) {
+      return alert("please enter userAddress");
+    }
+
+
+    
+    // const users: any = await client.request(USERS)
+
+    // console.log("users", users);
+
+    // // const checkDuplicatePhone = form.values.entries.map((item) => {
+    //   const flag = users.users.filter(
+    //     (phone) => phone.phone === mobileNumber
+    //   );
+
+    //   if (flag.length > 0) {
+    //     return flag;
+    //   }
+    // // });
+
+    // // const filterDuplicatesNumbers = checkDuplicatePhone.filter(
+    // //   (item) => item !== undefined
+    // // );
+
+    // // console.log("duplicatePhone", checkDuplicatePhone);
+
+    // // const Mutatedata = form.values.entries.map(async (item) => {
+    //    checkExistingUser(item.email);
+    // });
+
+    // const values = await Promise.all(Mutatedata);
+
+    // console.log("valuessssssssssss0", values);
+
+    // const checkDuplicatesMail = values.filter((item) => item !== undefined);
+
+    // console.log("valuessssssssssssinngg", checkDuplicatesMail);
+
+    // if (checkDuplicatesMail.length > 0) {
+    //   return toast(`${checkDuplicatesMail[0]} already registered`, {
+    //     className: "black-background",
+    //     bodyClassName: "grow-font-size",
+    //     progressClassName: "fancy-progress-bar",
+    //   });
+    // }
+
+    // if (filterDuplicatesNumbers.length > 0) {
+    //   return toast(
+    //     `${filterDuplicatesNumbers[0][0].phone} already registered`,
+    //     {
+    //       className: "black-background",
+    //       bodyClassName: "grow-font-size",
+    //       progressClassName: "fancy-progress-bar",
+    //     }
+    //   );
+    // }
+
+    const user: any = await client.request(updateEmployeeBasicDetails, {
+      where: {
+        email: form.getInputProps("userEmailForMutation")?.value,
+      },
+      data: {
+        address: form.getInputProps("userAddress")?.value,
+        phone: form.getInputProps("userPhone")?.value,
+        email: form.getInputProps("userEmail")?.value,
+        company: {
+          connect: {
+            id: form.getInputProps("userCompany")?.value,
+          },
+        },
+      },
+    });
+
+    console.log("skils updated", user);
+
+    if (user.updateUser) {
+      const button = document.getElementById("modal-close-btn-basic");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+
+  };
+
   const updateKeySkills = async () => {
     console.log("update skills hitting", search);
 
@@ -684,13 +904,215 @@ export default function View(props: IAppProps) {
         router.refresh();
       }, 1000);
     }
+
   };
+
+  console.log("valuessss", form.getInputProps(`userCompany`)?.value);
 
   return (
     <Box
       mx="auto"
       className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]"
     >
+      <div
+        class="modal fade"
+        id="exampleModalBasic"
+        tabindex="-1"
+        aria-labelledby="exampleModalSkills"
+        aria-hidden="true"
+      >
+        <form>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Edit Basic Details
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <Paper
+                  p="md"
+                  style={{
+                    width: "30rem",
+                  }}
+                >
+                  <form>
+                    <Grid>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Edit Phone"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <Input
+                            placeholder="Phone"
+                            required
+                            {...form.getInputProps("userPhone")}
+                            onChange={(e) =>
+                              form.setFieldValue("userPhone", e.target.value)
+                            }
+                            value={form.getInputProps("userPhone").value}
+                            styles={(theme) => ({
+                              input: {
+                                height: 50,
+                                width: "100%",
+                                fontSize: 16,
+                                lineHeight: 50,
+                                borderRadius: 8,
+                                border: "2px solid #ccc",
+                              },
+                            })}
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Edit Email"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <Input
+                            placeholder="Email"
+                            required
+                            onChange={(e) =>
+                              form.setFieldValue("userEmail", e.target.value)
+                            }
+                            value={form.getInputProps("userEmail").value}
+                            styles={(theme) => ({
+                              input: {
+                                height: 50,
+                                width: "100%",
+                                fontSize: 16,
+                                lineHeight: 50,
+                                borderRadius: 8,
+                                border: "2px solid #ccc",
+                              },
+                            })}
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Edit Address"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <Input
+                            placeholder="Address"
+                            required
+                            onChange={(e) =>
+                              form.setFieldValue("userAddress", e.target.value)
+                            }
+                            value={form.getInputProps("userAddress").value}
+                            styles={(theme) => ({
+                              input: {
+                                height: 50,
+                                width: "100%",
+                                fontSize: 16,
+                                lineHeight: 50,
+                                borderRadius: 8,
+                                border: "2px solid #ccc",
+                              },
+                            })}
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Edit Company"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <Select
+                            // label="Please select company"
+                            styles={(theme) => ({
+                              input: {
+                                height: 50,
+                                width: "100%",
+                                fontSize: 16,
+                                lineHeight: 50,
+                                borderRadius: 8,
+                                border: "2px solid #ccc",
+                              },
+                            })}
+                            onChange={(e) => {
+                              console.log("", e);
+                              form.setFieldValue("userCompany", e);
+                            }}
+                            placeholder="Please select company"
+                            value={form.getInputProps(`userCompany`)?.value}
+                            data={form.getInputProps("companies").value}
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+                    </Grid>
+                  </form>
+                </Paper>
+              </div>
+
+              <div class="modal-footer">
+                {/* <button
+                className="btn btn-danger"
+                onClick={() => deleteSpecificExperience()}
+              >
+                {" "}
+                delete{" "}
+              </button> */}
+                <button
+                  type="button"
+                  id="modal-close-btn-basic"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onClick={() => updateBasicDetails()}
+                >
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
       <div
         class="modal fade"
         id="exampleModalSkills"
@@ -2176,11 +2598,34 @@ export default function View(props: IAppProps) {
                       Basic Information
                     </div>
                   </Group>
-                  {/* <Image
-                    src="./images/profileicon.png"
+                  <Image
+                    onClick={() => {
+                      // setExperience({
+                      //   title: item.title,
+                      //   employment_type: item.employment_type,
+                      //   company: item.company,
+                      //   location: item.location,
+                      //   location_type: item.location_type,
+                      //   start_year: item.start_year,
+                      //   start_year_month: item.start_year_month,
+                      //   end_year: item.end_year,
+                      //   end_year_month: item.end_year_month,
+                      //   currently_working: item.currently_working,
+                      //   id: item.id,
+                      // });
+                    }}
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModalBasic"
+                    // data-toggle="modal"
+                    // data-target="#exampleModalLong"
+                    src="./images/Edit.svg"
                     alt="Google"
-                    style={{ width: "32px", height: "32px" }}
-                  /> */}
+                    style={{
+                      width: "24px",
+                      height: "32px",
+                      // marginLeft: "10rem",
+                    }}
+                  />
                 </Group>
                 <Group position="apart" py={12}>
                   <div>

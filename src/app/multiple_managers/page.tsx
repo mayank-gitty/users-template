@@ -203,7 +203,10 @@ const AddTimeLine = ({ AllProjects }: any) => {
   };
 
   useEffect(() => {
+    
     getComapanies();
+
+
   }, []);
 
   function generateSecurePassword5(inputString, length, company) {

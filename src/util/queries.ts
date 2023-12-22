@@ -269,6 +269,7 @@ const VIEW_MASTER = gql`
         address
         company {
           name
+          id
         }
       }
 

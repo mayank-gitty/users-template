@@ -13,6 +13,21 @@ const updateUser = gql`
   }
 `;
 
+
+
+const updateEmployeeBasicDetails = gql`
+mutation Mutation($where: UserWhereUniqueInput!, $data: UserUpdateInput!) {
+  updateUser(where: $where, data: $data) {
+    email
+    company {
+      name
+    }
+    address
+    phone
+  }
+}
+`
+
 const AUTH_MUTATION = gql`
   mutation signin($email: String!, $password: String!) {
     authenticateUserWithPassword(email: $email, password: $password) {
@@ -156,5 +171,6 @@ export {
   deleteExperience,
   deleteEducation,
   updateUserProject,
-  deleteProject 
+  deleteProject ,
+  updateEmployeeBasicDetails
 };
