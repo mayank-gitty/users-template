@@ -7,6 +7,10 @@ import client from "../../../helpers/request";
 import { GET_USER, HAS_MASTER, PROFILE_USER } from "@/util/queries";
 import { useSearchParams } from "next/navigation";
 
+import { IconUsers, IconCirclePlus ,IconUser,IconDashboard} from "@tabler/icons-react";
+import { rem } from "@mantine/core";
+import { IconCactus } from "@tabler/icons-react";
+
 function Sidebar() {
   const router = useRouter();
 
@@ -56,6 +60,8 @@ function Sidebar() {
     setImage,
     profileName,
     setProfileName,
+    profileId,
+    setProfileId,
   }: any = useThemeContext();
 
   useEffect(() => {
@@ -84,7 +90,7 @@ function Sidebar() {
       profileUserId: "",
       itskills: [],
       educations: [],
-      projects:[],
+      projects: [],
       keyskills: [],
       resume_headline: "",
       profile_summary: "",
@@ -97,8 +103,10 @@ function Sidebar() {
     setActive(0);
     setImage(null);
     setRole("");
+    setProfileId("")
     sethasMaster(false);
     setProfileName("");
+    
     router.push("/login");
   };
 
@@ -124,22 +132,39 @@ function Sidebar() {
       </div>
 
       <ul className="mt-[20%]">
-
-        {(
+        {
           <li
             onClick={() => {
               router.push(`/`);
             }}
             className={`d-flex align-items-center  mt-[5%] font-semibold ${
-              pathname ===  "/profile_creation"  ||  pathname === "/"    ? "custom-border-bottom" : ""
+              pathname === "/profile_creation" || pathname === "/"
+                ? "custom-border-bottom"
+                : ""
             }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
           >
             <div className="icon">
-              <img className="" src="/assets/dashboard-icon.svg" />
+              {pathname === "/profile_creation" || pathname === "/"  ?  (
+                <IconDashboard
+                  style={{ width: rem(30), height: rem(30) }}
+                  stroke={2}
+                  color="#4D47C3"
+                />
+              ) : (
+                <IconDashboard
+                  style={{ width: rem(30), height: rem(30) }}
+                  stroke={2}
+                  color="#000000"
+                />
+              )}
             </div>
 
             <a
-              className={`nav-link  ${ ( pathname ===  "/profile_creation"  || pathname === "/"  )  ? "active" : ""} `}  
+              className={`nav-link  ${
+                pathname === "/profile_creation" || pathname === "/"
+                  ? "active"
+                  : ""
+              } `}
               aria-current="page"
               href="#"
             >
@@ -147,9 +172,9 @@ function Sidebar() {
               Dashboard{" "}
             </a>
           </li>
-        )}
+        }
 
-        {role !== "admin"  && (
+        {role !== "admin" && (
           <li
             onClick={() =>
               router.push(`/profile?id=${localStorage.getItem("id")}`)
@@ -159,9 +184,28 @@ function Sidebar() {
             }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
           >
             <div className="icon">
-              <img src="/assets/users.svg" />
+              {pathname === "/profile" ? (
+                <IconUser
+                  style={{ width: rem(30), height: rem(30) }}
+                  stroke={2}
+                  color="#4D47C3"
+                />
+              ) : (
+                <IconUser
+                  style={{ width: rem(30), height: rem(30) }}
+                  stroke={2}
+                  color="#000000"
+                />
+              )}
             </div>
-            <a   className={`nav-link  ${pathname === "/profile" ? "active" : ""} `}   aria-current="page" href="#">
+
+            <a
+              className={`nav-link  ${
+                pathname === "/profile" ? "active" : ""
+              } `}
+              aria-current="page"
+              href="#"
+            >
               {" "}
               View Profile{" "}
             </a>
@@ -177,15 +221,28 @@ function Sidebar() {
                   router.push("/profileUsers");
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === ( "/profileUsers"  ) ? "custom-border-bottom" : ""
+                  pathname === "/profileUsers" ? "custom-border-bottom" : ""
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
-                <img src="/assets/users.svg" />
+                {pathname === "/profileUsers" ? (
+                  <IconUsers
+                    style={{ width: rem(30), height: rem(30) }}
+                    stroke={2}
+                    color="#4D47C3"
+                  />
+                ) : (
+                  <IconUsers
+                    style={{ width: rem(30), height: rem(30) }}
+                    stroke={2}
+                    color="#000000"
+                  />
+                )}
+
                 <a
                   className={`nav-link  ${
                     pathname === "/profileUsers" ? "active" : ""
                   } `}
-                  aria-current="page" 
+                  aria-current="page"
                   href="#"
                 >
                   {" "}
@@ -199,13 +256,23 @@ function Sidebar() {
                   // alert('mayank')
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/multipleuser"
-                    ? "custom-border-bottom"
-                    : ""
+                  pathname === "/multipleuser" ? "custom-border-bottom" : ""
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
-                  <img src="/assets/Add.svg" />
+                  {pathname === "/multipleuser" ? (
+                    <IconCirclePlus
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#4D47C3"
+                    />
+                  ) : (
+                    <IconCirclePlus
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#000000"
+                    />
+                  )}
                 </div>
                 <a
                   className={`nav-link  ${
@@ -231,11 +298,27 @@ function Sidebar() {
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
-                  <img src="/assets/Add.svg" />
+                  {pathname === "/multi_users_table" ? (
+                    <IconUsers
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#4D47C3"
+                    />
+                  ) : (
+                    <IconUsers
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#000000"
+                    />
+                  )}
                 </div>
-                <a          className={`nav-link  ${
+                <a
+                  className={`nav-link  ${
                     pathname === "/multi_users_table" ? "active" : ""
-                  } `} aria-current="page" href="">
+                  } `}
+                  aria-current="page"
+                  href=""
+                >
                   {" "}
                   Invited Employees{" "}
                 </a>
@@ -252,10 +335,22 @@ function Sidebar() {
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
                   pathname === "/profileEmployees" ? "custom-border-bottom" : ""
-                }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}  
+                }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
-                  <img src="/assets/Add.svg" />
+                  {pathname === "/profileEmployees" ? (
+                    <IconUsers
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#4D47C3"
+                    />
+                  ) : (
+                    <IconUsers
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#000000"
+                    />
+                  )}
                 </div>
                 <a
                   className={`nav-link  ${
@@ -280,7 +375,19 @@ function Sidebar() {
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
-                  <img src="/assets/Add.svg" />
+                  {pathname === "/multiple_employees" ? (
+                    <IconCirclePlus
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#4D47C3"
+                    />
+                  ) : (
+                    <IconCirclePlus
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#000000"
+                    />
+                  )}
                 </div>
                 <a
                   className={`nav-link  ${
@@ -306,7 +413,21 @@ function Sidebar() {
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
-                  <img src="/assets/Add.svg" />
+         
+
+                  {pathname === "/multiple_managers" ? (
+                    <IconCirclePlus
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#4D47C3"
+                    />
+                  ) : (
+                    <IconCirclePlus
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#000000"
+                    />
+                  )}
                 </div>
                 <a
                   className={`nav-link  ${
@@ -332,7 +453,22 @@ function Sidebar() {
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
-                  <img src="/assets/Add.svg" />
+                  {/* 
+                  <img src="/assets/Add.svg" /> */}
+
+                  {pathname === "/invited_employees" ? (
+                    <IconUsers
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#4D47C3"
+                    />
+                  ) : (
+                    <IconUsers
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#000000"
+                    />
+                  )}
                 </div>
                 <a
                   className={`nav-link  ${

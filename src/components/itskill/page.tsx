@@ -97,7 +97,7 @@ const ItSkills = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "1.5rem",
+        marginTop: "3.5rem",
       }}
     >
       <Container size="xs" px="xs">

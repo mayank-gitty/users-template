@@ -26,6 +26,7 @@ import {
   Container,
   Paper,
   Text,
+  Autocomplete,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -110,7 +111,7 @@ export default function View(props: IAppProps) {
 
   const indianEducationArray = [
     // Schools
-    "other",
+
     "Delhi Public School (DPS)",
     "Kendriya Vidyalaya",
     "Doon School, Dehradun",
@@ -138,7 +139,7 @@ export default function View(props: IAppProps) {
   ];
 
   const allDegreesArray = [
-    "other",
+  
     "Bachelor of Arts (BA)",
     "Bachelor of Science (BS)",
     "Bachelor of Fine Arts (BFA)",
@@ -169,7 +170,7 @@ export default function View(props: IAppProps) {
   ];
 
   const fields = [
-    "other",
+  
     "Delhi Public",
     "Computer Science",
     "Electrical Engineering",
@@ -655,17 +656,17 @@ export default function View(props: IAppProps) {
   };
 
   const updateKeySkills = async () => {
-    console.log("update skills hitting",search);
+    console.log("update skills hitting", search);
 
     const user: any = await client.request(updateUser, {
       where: {
-        id: search, 
+        id: search,
       },
       data: {
-        keyskills : {
+        keyskills: {
           set: form.getInputProps("keyskills")?.value?.map((item: any) => {
             return {
-              id: item
+              id: item,
             };
           }),
         },
@@ -997,18 +998,11 @@ export default function View(props: IAppProps) {
                   />
                 </Grid.Col>
 
-
-{
-
-!experience.currently_working  &&     <Grid.Col span={12}>
-<h6 className="experience-label">End Date</h6>
-</Grid.Col>
-
-}
-
-          
-
-             
+                {!experience.currently_working && (
+                  <Grid.Col span={12}>
+                    <h6 className="experience-label">End Date</h6>
+                  </Grid.Col>
+                )}
 
                 {!experience.currently_working && (
                   <>
@@ -1151,55 +1145,36 @@ export default function View(props: IAppProps) {
                               },
                             })}
                           >
-                            <Select
+                            <Autocomplete
+                              styles={(theme) => ({
+                                input: {
+                                  height: "100%",
+                                },
+                                values: {
+                                  height: "100%",
+                                },
+                                wrapper: {
+                                  height: "50px",
+                                },
+
+                                leftIcon: {
+                                  marginRight: theme.spacing.md,
+                                },
+                              })}
                               value={education.school}
                               onChange={(value) =>
                                 handleChangeEducation("school", value)
                               }
                               data={indianEducationArray}
-                              placeholder="Select Insiitue"
+                              placeholder="University Institute"
                             />
+
                             {/* {errors.university && (
                     <p style={{ color: "red", fontSize: "0.8em" }}>
                       {errors.university}
                     </p>
                   )} */}
                           </Input.Wrapper>
-
-                          {education.school === "other" && (
-                            <Grid.Col span={12}>
-                              <Input.Wrapper
-                                label="write here"
-                                styles={() => ({
-                                  label: {
-                                    color: "#01041b",
-                                    fontSize: "1.2em",
-                                    fontWeight: 500,
-                                    lineHeight: 1.2,
-                                    marginBottom: 10,
-                                  },
-                                })}
-                              >
-                                <Input
-                                  placeholder="write other school name here"
-                                  required
-                                  onChange={(e) =>
-                                    setSchoolOther(e.target.value)
-                                  }
-                                  styles={(theme) => ({
-                                    input: {
-                                      height: 50,
-                                      width: "100%",
-                                      fontSize: 16,
-                                      lineHeight: 50,
-                                      borderRadius: 8,
-                                      border: "2px solid #ccc",
-                                    },
-                                  })}
-                                />
-                              </Input.Wrapper>
-                            </Grid.Col>
-                          )}
                         </Grid.Col>
 
                         <Grid.Col span={12}>
@@ -1215,13 +1190,28 @@ export default function View(props: IAppProps) {
                               },
                             })}
                           >
-                            <Select
+                            <Autocomplete
+                              styles={(theme) => ({
+                                input: {
+                                  height: "100%",
+                                },
+                                values: {
+                                  height: "100%",
+                                },
+                                wrapper: {
+                                  height: "50px",
+                                },
+
+                                leftIcon: {
+                                  marginRight: theme.spacing.md,
+                                },
+                              })}
                               value={education.degree}
                               onChange={(value) =>
                                 handleChangeEducation("degree", value)
                               }
                               data={allDegreesArray}
-                              placeholder="Select Course"
+                              placeholder="Course"
                             />
 
                             {/* {errors.course && (
@@ -1231,39 +1221,6 @@ export default function View(props: IAppProps) {
                   )} */}
                           </Input.Wrapper>
                         </Grid.Col>
-
-                        {education.degree === "other" && (
-                          <Grid.Col span={12}>
-                            <Input.Wrapper
-                              label="write course name here"
-                              styles={() => ({
-                                label: {
-                                  color: "#01041b",
-                                  fontSize: "1.2em",
-                                  fontWeight: 500,
-                                  lineHeight: 1.2,
-                                  marginBottom: 10,
-                                },
-                              })}
-                            >
-                              <Input
-                                placeholder="write here"
-                                required
-                                onChange={(e) => setDegreeOther(e.target.value)}
-                                styles={(theme) => ({
-                                  input: {
-                                    height: 50,
-                                    width: "100%",
-                                    fontSize: 16,
-                                    lineHeight: 50,
-                                    borderRadius: 8,
-                                    border: "2px solid #ccc",
-                                  },
-                                })}
-                              />
-                            </Input.Wrapper>
-                          </Grid.Col>
-                        )}
 
                         <Grid.Col span={12}>
                           <Input.Wrapper
@@ -1278,49 +1235,31 @@ export default function View(props: IAppProps) {
                               },
                             })}
                           >
-                            <Select
+                            <Autocomplete
                               value={education.field_of_study}
                               onChange={(value: any) =>
                                 handleChangeEducation("field_of_study", value)
                               }
                               data={fields}
-                              placeholder="field of study"
+                              placeholder="Field of study"
+                              styles={(theme) => ({
+                                input: {
+                                  height: "100%",
+                                },
+                                values: {
+                                  height: "100%",
+                                },
+                                wrapper: {
+                                  height: "50px",
+                                },
+
+                                leftIcon: {
+                                  marginRight: theme.spacing.md,
+                                },
+                              })}
                             />
                           </Input.Wrapper>
                         </Grid.Col>
-
-                        {education.field_of_study === "other" && (
-                          <Grid.Col span={12}>
-                            <Input.Wrapper
-                              label="write here"
-                              styles={() => ({
-                                label: {
-                                  color: "#01041b",
-                                  fontSize: "1.2em",
-                                  fontWeight: 500,
-                                  lineHeight: 1.2,
-                                  marginBottom: 10,
-                                },
-                              })}
-                            >
-                              <Input
-                                placeholder="write field name here"
-                                required
-                                onChange={(e) => setFieldOther(e.target.value)}
-                                styles={(theme) => ({
-                                  input: {
-                                    height: "100%",
-                                    width: "100%",
-                                    fontSize: 16,
-                                    lineHeight: 50,
-                                    borderRadius: 8,
-                                    border: "2px solid #ccc",
-                                  },
-                                })}
-                              />
-                            </Input.Wrapper>
-                          </Grid.Col>
-                        )}
 
                         <Grid.Col span={12}>
                           <h6 className="experience-label">Start Date</h6>

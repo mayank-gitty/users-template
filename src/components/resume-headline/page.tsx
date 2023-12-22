@@ -50,7 +50,7 @@ const ResumeHeadline = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "auto",
-        marginTop: "1.5rem",
+        marginTop: "3.5rem",
       }}
     >
       <Container size="xs" px="xs">

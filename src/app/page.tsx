@@ -70,12 +70,24 @@ export default function Home() {
     setRole(profile?.user?.role);
   };
 
+
+
+  console.log('hasMaster',hasMaster)
+
   return (
     <>
       {/* <ToastContainer /> */}
       <MantineProvider>
         <div className="mt-2">
-          <h2 className="page-main-heading px-4"> Welcome  {localStorage.getItem('name')} </h2>
+
+
+          {
+
+                 hasMaster &&   <h2 className="page-main-heading px-4"> Welcome  {localStorage.getItem('name')} </h2>
+
+          }
+
+
         </div>
 
         {!hasMaster && role !== "admin" && <Master />}

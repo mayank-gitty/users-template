@@ -484,7 +484,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                     border: "0.0625rem solid transparent",
                     background: "#40c057",
                     color: "#fff",
-                    height: "32px",
+                    height: "32px", 
                     padding: "0 10px",
                     borderRadius: "4.243px",
                   }}

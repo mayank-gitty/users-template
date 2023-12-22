@@ -28,15 +28,13 @@ export function EditUser(props: IAppProps) {
     setActive,
     inEditPage,
     setinEditPage,
-    experienceOpen
+    experienceOpen,
   }: any = useThemeContext();
 
   const search = searchParams.get("id");
 
   const updateUserProfile = async () => {
-
-
-    alert('enter')
+    alert("enter");
 
     for (var i = 0, len = formData.experiences.length; i < len; i++) {
       delete formData.experiences[i].id;
@@ -50,7 +48,7 @@ export function EditUser(props: IAppProps) {
       });
     }
 
-    console.log('s',search,formData.experiences)
+    console.log("s", search, formData.experiences);
 
     const user: any = await client.request(updateUser, {
       where: {
@@ -61,7 +59,6 @@ export function EditUser(props: IAppProps) {
         experience: {
           create: formData.experiences,
         },
-
       },
     });
 
@@ -71,7 +68,7 @@ export function EditUser(props: IAppProps) {
       setinEditPage(false);
       setActive(0);
 
-      setFormData((prevData) => ({  
+      setFormData((prevData) => ({
         profileUserId: "",
 
         itskills: [],
@@ -203,28 +200,40 @@ export function EditUser(props: IAppProps) {
 
       {/* <CustomizedSteppers /> */}
 
+      <button
+        onClick={() => router.push(`view_master?id=${search}`)}
+        // type="button"
+        style={{
+          fontSize: "11px",
+          fontWeight: 600,
+          border: "0.0625rem solid transparent",
+          background: "#40c057",
+          color: "#fff",
+          height: "32px",
+          padding: "0 10px",
+          borderRadius: "4.243px",
+        }}
+      >
+        {" "}
+        Go Back{" "}
+      </button>
+
       <ExperienceDetails />
 
-
-  {
-
-
-    
-!experienceOpen && formData?.experiences?.length > 0 && <Group className="no-margin" position="center" mt="xl">
-<button  type="button" className="next-button" onClick={updateUserProfile}>
-  {" "
-  }
-  submit{" "}
-
-</button>
-</Group>
-
-}
-
-
+      {!experienceOpen && formData?.experiences?.length > 0 && (
+        <Group className="no-margin" position="center" mt="xl">
+          <button
+            type="button"
+            className="next-button"
+            onClick={updateUserProfile}
+          >
+            {" "}
+            submit{" "}
+          </button>
+        </Group>
+      )}
 
       <Group
-
         className="no-margin"
         position="left"
         mt="xl"
@@ -233,14 +242,8 @@ export function EditUser(props: IAppProps) {
           left: "35%",
           transform: "translateY(-47px)",
         }}
-      >
-
-
-      </Group>
-
-
-      </div>
-
+      ></Group>
+    </div>
   );
 }
 

@@ -205,6 +205,25 @@ export function EditUser(props: IAppProps) {
 
       {/* <CustomizedSteppers /> */}
 
+      <button
+        onClick={() => router.push(`view_master?id=${search}`)}
+        // type="button"
+        style={{  
+          fontSize: "11px",
+          fontWeight: 600,
+          border: "0.0625rem solid transparent",
+          background: "#40c057",
+          color: "#fff",
+          height: "32px",
+          padding: "0 10px",
+          borderRadius: "4.243px",
+        }}
+      >
+        {" "}
+        Go Back{" "}
+      </button>
+
+
       <ProjectForm />
 
       {!projectopen && formData?.projects?.length > 0 && (

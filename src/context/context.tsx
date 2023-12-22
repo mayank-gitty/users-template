@@ -71,6 +71,7 @@ export const ThemeContextProvider = ({ children }) => {
         setexperienceOpen,
         projectopen,
         setprojectOpen,
+
       }}
     >
       {children}

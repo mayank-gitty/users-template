@@ -206,11 +206,33 @@ export function EditUser(props: IAppProps) {
 
   return (
     <div>
-      <div className="text-center " style={{ marginTop: "5rem" }}>
+      {/* <div className="text-center " style={{ marginTop: "5rem" }}>
         <h6 className="mt-4 mb-4"> </h6>
-      </div>
+      </div> */}
 
       {/* <CustomizedSteppers /> */}
+
+
+      
+      
+      <button
+        onClick={() => router.push(`profile?id=${search}`)}
+        // type="button"
+        style={{  
+          fontSize: "11px",
+          fontWeight: 600,
+          border: "0.0625rem solid transparent",
+          background: "#40c057",
+          color: "#fff",
+          height: "32px",
+          padding: "0 10px",
+          borderRadius: "4.243px",
+          marginTop:"1em"
+        }}
+      >
+        {" "}
+        Go Back{" "}
+      </button>
 
       <Education1 />
 
