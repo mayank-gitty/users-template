@@ -28,17 +28,6 @@ model User {
   @@index([companyId])
 }
 
-model MultipleUser {
-  id           String  @id @default(cuid())
-  name         String  @default("")
-  mobilenumber String  @default("")
-  email        String  @default("")
-  address      String  @default("")
-  password     String  @default("")
-  company      String  @default("")
-  role         String?
-}
-
 model ProfileUser {
   id              String          @id @default(cuid())
   user            User?           @relation("ProfileUser_user", fields: [userId], references: [id])

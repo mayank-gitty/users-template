@@ -162,71 +162,6 @@ input CompanyRelateToOneForCreateInput {
   connect: CompanyWhereUniqueInput
 }
 
-type MultipleUser {
-  id: ID!
-  name: String
-  mobilenumber: String
-  email: String
-  address: String
-  password: String
-  company: String
-  role: String
-}
-
-input MultipleUserWhereUniqueInput {
-  id: ID
-}
-
-input MultipleUserWhereInput {
-  AND: [MultipleUserWhereInput!]
-  OR: [MultipleUserWhereInput!]
-  NOT: [MultipleUserWhereInput!]
-  id: IDFilter
-  name: StringFilter
-  mobilenumber: StringFilter
-  email: StringFilter
-  address: StringFilter
-  password: StringFilter
-  company: StringFilter
-  role: StringNullableFilter
-}
-
-input MultipleUserOrderByInput {
-  id: OrderDirection
-  name: OrderDirection
-  mobilenumber: OrderDirection
-  email: OrderDirection
-  address: OrderDirection
-  password: OrderDirection
-  company: OrderDirection
-  role: OrderDirection
-}
-
-input MultipleUserUpdateInput {
-  name: String
-  mobilenumber: String
-  email: String
-  address: String
-  password: String
-  company: String
-  role: String
-}
-
-input MultipleUserUpdateArgs {
-  where: MultipleUserWhereUniqueInput!
-  data: MultipleUserUpdateInput!
-}
-
-input MultipleUserCreateInput {
-  name: String
-  mobilenumber: String
-  email: String
-  address: String
-  password: String
-  company: String
-  role: String
-}
-
 type ProfileUser {
   id: ID!
   user: User
@@ -934,12 +869,6 @@ type Mutation {
   updateUsers(data: [UserUpdateArgs!]!): [User]
   deleteUser(where: UserWhereUniqueInput!): User
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
-  createMultipleUser(data: MultipleUserCreateInput!): MultipleUser
-  createMultipleUsers(data: [MultipleUserCreateInput!]!): [MultipleUser]
-  updateMultipleUser(where: MultipleUserWhereUniqueInput!, data: MultipleUserUpdateInput!): MultipleUser
-  updateMultipleUsers(data: [MultipleUserUpdateArgs!]!): [MultipleUser]
-  deleteMultipleUser(where: MultipleUserWhereUniqueInput!): MultipleUser
-  deleteMultipleUsers(where: [MultipleUserWhereUniqueInput!]!): [MultipleUser]
   createProfileUser(data: ProfileUserCreateInput!): ProfileUser
   createProfileUsers(data: [ProfileUserCreateInput!]!): [ProfileUser]
   updateProfileUser(where: ProfileUserWhereUniqueInput!, data: ProfileUserUpdateInput!): ProfileUser
@@ -1014,9 +943,6 @@ type Query {
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
-  multipleUsers(where: MultipleUserWhereInput! = {}, orderBy: [MultipleUserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: MultipleUserWhereUniqueInput): [MultipleUser!]
-  multipleUser(where: MultipleUserWhereUniqueInput!): MultipleUser
-  multipleUsersCount(where: MultipleUserWhereInput! = {}): Int
   profileUsers(where: ProfileUserWhereInput! = {}, orderBy: [ProfileUserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProfileUserWhereUniqueInput): [ProfileUser!]
   profileUser(where: ProfileUserWhereUniqueInput!): ProfileUser
   profileUsersCount(where: ProfileUserWhereInput! = {}): Int
