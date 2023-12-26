@@ -291,6 +291,8 @@ const VIEW_MASTER = gql`
       profile_summary
       photograph
       keyskillsCount
+      active
+      open_to_work
       keyskills {
         name
         id

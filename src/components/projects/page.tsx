@@ -8,6 +8,8 @@ import {
   Input,
   Paper,
   Select,
+  Textarea,
+  Radio
 } from "@mantine/core";
 
 import { toast } from "react-toastify";
@@ -581,31 +583,32 @@ const ProjectForm = () => {
                   >
                     <div>
                       <label style={{ marginRight: "10px" }}>
-                        <input
+                        <Radio
                           type="radio"
                           name="projectStatus"
                           value="inprogress"
-                    
+                          label="In Progress"
                           required
                           checked={project.projectStatus === "inprogress"}
                           onChange={() =>
                             handleChange("projectStatus", "inprogress")
                           }
                         />
-                        In Progress
+                   
                       </label>
                       <label style={{ marginRight: "10px" }}>
-                        <input
+                        <Radio
                           type="radio"
                           name="projectStatus"
                           value="finished"
+                          label="Finished"
                           required
                           checked={project.projectStatus === "finished"}
                           onChange={() =>
                             handleChange("projectStatus", "finished")
                           }
                         />
-                        Finished
+            
                       </label>
                     </div>
                   </Input.Wrapper>
@@ -747,16 +750,31 @@ const ProjectForm = () => {
                       },
                     })}
                   > */}
-                  <textarea
+                  <Textarea
                     placeholder="Details of project"
                     required
-                    style={{
-                      width: "100%", // Adjust the width as needed
-                      padding: "10px", // Add padding for a consistent look
-                      borderRadius: "4px", // Add rounded corners
-                      border: "1px solid #ccc", // Add a border
-                      
-                    }}
+                    styles={(theme) => ({
+
+
+                      input:{
+
+                        width: "100%", // Adjust the width as needed
+                        padding: "10px", // Add padding for a consistent look
+                        borderRadius: "4px", // Add rounded corners
+                        border: "1px solid #ccc", // Add a border
+                        "::placeholder":{
+                          color: "#9D9D9D",
+                          fontSize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                          lineHeight: "normal"
+                        }
+                        
+                      },
+               
+
+                    })}
+
                     value={project.detailsOfProject}
                     onChange={(e) =>
                       handleChange("detailsOfProject", e.target.value)
@@ -825,28 +843,30 @@ const ProjectForm = () => {
                   >
                     <div>
                       <label style={{ marginRight: "10px" }}>
-                        <input
+                        <Radio
                           type="radio"
                           name="projectSite"
                           value="Offsite"
+                          label="Offsite"
                           required
                           checked={project.projectSite === "offsite"}
                           onChange={() =>
                             handleChange("projectSite", "offsite")
                           }
                         />
-                        Offsite
+              
                       </label>
                       <label style={{ marginRight: "10px" }}>
-                        <input
+                        <Radio
                           type="radio"
                           name="projectSite"
                           value="finished"
+                          label="Onsite"
                           required
                           checked={project.projectSite === "onsite"}
                           onChange={() => handleChange("projectSite", "onsite")}
                         />
-                        Onsite
+      
                       </label>
                     </div>
                   </Input.Wrapper>
@@ -868,44 +888,52 @@ const ProjectForm = () => {
                     })}
                   >
                     <div>
+
+
                       <label style={{ marginRight: "10px" }}>
-                        <input
+                        <Radio
                           type="radio"
                           name="natureOfEmployment"
                           value="fulltime"
+                          label="Full Time"
                           required
                           checked={project.natureOfEmployment === "fulltime"}
                           onChange={() =>
                             handleChange("natureOfEmployment", "fulltime")
                           }
                         />
-                        Full Time
+             
                       </label>
+
                       <label style={{ marginRight: "10px" }}>
-                        <input
+                        <Radio
                           type="radio"
                           name="natureOfEmployment"
                           value="parttime"
+                          label="Part Time"
                           required
                           checked={project.natureOfEmployment === "parttime"}
                           onChange={() =>
                             handleChange("natureOfEmployment", "parttime")
                           }
                         />
-                        Part Time
+            
                       </label>
+
+
                       <label>
-                        <input
+                        <Radio
                           type="radio"
                           name="natureOfEmployment"
                           value="contractual"
+                          label="Contractual"
                           required
                           checked={project.natureOfEmployment === "contractual"}
                           onChange={() =>
                             handleChange("natureOfEmployment", "contractual")
                           }
                         />
-                        Contractual
+          
                       </label>
                     </div>
                   </Input.Wrapper>
@@ -1016,15 +1044,28 @@ const ProjectForm = () => {
                       },
                     })}
                   > */}
-                  <textarea
+                  <Textarea
                     placeholder="Role description"
                     required
-                    style={{
-                      width: "100%", // Adjust the width as needed
-                      padding: "10px", // Add padding for a consistent look
-                      borderRadius: "4px", // Add rounded corners
-                      border: "1px solid #ccc", // Add a border
-                    }}
+                    styles={() => ({
+                      input:{
+                        "::placeholder":{
+                          color: "#9D9D9D",
+                          fontSize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                          lineHeight: "normal"
+                        }
+                      },
+                      label: {
+                        color: "#000",
+                        fontFamily: "Inter",
+                        fontSize: "16px",
+                        fontStyle: "normal",
+                        fontWeight: 600,
+                        lineHeight: "normal"
+                      },
+                    })}
                     value={project.roleDescription}
                     onChange={(e) =>
                       handleChange("roleDescription", e.target.value)
@@ -1047,15 +1088,28 @@ const ProjectForm = () => {
                       },
                     })} 
                   > */}
-                  <textarea
+                  <Textarea
                     placeholder="Skills used"
                     required
-                    style={{
-                      width: "100%", // Adjust the width as needed
-                      padding: "10px", // Add padding for a consistent look
-                      borderRadius: "4px", // Add rounded corners
-                      border: "1px solid #ccc", // Add a border
-                    }}
+                    styles={() => ({
+                      input:{
+                        "::placeholder":{
+                          color: "#9D9D9D",
+                          fontSize: "16px",
+                          fontStyle: "normal",
+                          fontWeight: 500,
+                          lineHeight: "normal"
+                        }
+                      },
+                      label: {
+                        color: "#000",
+                        fontFamily: "Inter",
+                        fontSize: "16px",
+                        fontStyle: "normal",
+                        fontWeight: 600,
+                        lineHeight: "normal"
+                      },
+                    })}
                     value={project.skillUsed}
                     onChange={(e) => handleChange("skillUsed", e.target.value)}
                   />

@@ -28,6 +28,7 @@ import {
   Paper,
   Text,
   Autocomplete,
+  Radio,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -41,11 +42,7 @@ import {
   updateUserProject,
   deleteProject,
   updateEmployeeBasicDetails,
-  
-  
-
 } from "@/util/mutationQueries";
-
 
 import { GET_USER } from "@/util/queries";
 
@@ -132,22 +129,21 @@ export default function View(props: IAppProps) {
 
   const [DefaultSkills, setDefaultSkills] = useState([]);
 
+  //   const { data: session }: any = useSession();
 
-    //   const { data: session }: any = useSession();
+  const checkExistingUser = async (email) => {
+    console.log("checking email", email);
 
-    const checkExistingUser = async (email) => {
-      console.log("checking email", email);
-  
-      const checking = await client.request(GET_USER, {
-        where: {
-          email: email,
-        },
-      });
-  
-      // console.log("response", checking?.user?.email);
-  
-      return checking?.user?.email;
-    };
+    const checking = await client.request(GET_USER, {
+      where: {
+        email: email,
+      },
+    });
+
+    // console.log("response", checking?.user?.email);
+
+    return checking?.user?.email;
+  };
 
   const form: any = useForm({
     initialValues: {
@@ -164,6 +160,10 @@ export default function View(props: IAppProps) {
       relevent_experience: "",
       photograph: "",
       name: "",
+      status: "",
+      work: "",
+      statusForMutation: "",
+      workForMutation: "",
       status: "",
       work: "",
       email: "",
@@ -493,9 +493,11 @@ export default function View(props: IAppProps) {
       profile_summary: user.profileUser?.profile_summary,
       photograph: user.profileUser?.photograph,
       name: user?.profileUser?.user.name,
-      status: user?.profileUser?.active,
-      resume: user?.profileUser?.resume,
       work: user?.profileUser?.open_to_work,
+      status: user?.profileUser?.active,
+      workForMutation: user?.profileUser?.open_to_work,
+      statusForMutation: user?.profileUser?.active,
+      resume: user?.profileUser?.resume,
       email: user?.profileUser?.user?.email,
       userEmail: user?.profileUser?.user?.email,
       userEmailForMutation: user?.profileUser?.user?.email,
@@ -792,39 +794,41 @@ export default function View(props: IAppProps) {
       return alert("please enter userAddress");
     }
 
+    const users: any = await client.request(USERS);
 
-    
-    // const users: any = await client.request(USERS)
+    console.log("users", users);
 
-    // console.log("users", users);
+    // const filterDuplicatesNumbers = checkDuplicatePhone.filter(
+    //   (item) => item !== undefined
+    // );
 
-    // // const checkDuplicatePhone = form.values.entries.map((item) => {
-    //   const flag = users.users.filter(
-    //     (phone) => phone.phone === mobileNumber
-    //   );
+    // console.log("duplicatePhone", checkDuplicatePhone);
 
-    //   if (flag.length > 0) {
-    //     return flag;
-    //   }
-    // // });
+    // const Mutatedata = form.values.entries.map(async (item) => {
 
-    // // const filterDuplicatesNumbers = checkDuplicatePhone.filter(
-    // //   (item) => item !== undefined
-    // // );
+    const check = await checkExistingUser(email);
 
-    // // console.log("duplicatePhone", checkDuplicatePhone);
+    console.log("email", check);
 
-    // // const Mutatedata = form.values.entries.map(async (item) => {
-    //    checkExistingUser(item.email);
-    // });
+    if (check) {
+      return toast(`${check} already registered`, {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
 
-    // const values = await Promise.all(Mutatedata);
+    const flag = users.users.filter((phone) => phone.phone === mobileNumber);
 
-    // console.log("valuessssssssssss0", values);
+    if (flag.length > 0) {
+      console.log("flag", flag);
 
-    // const checkDuplicatesMail = values.filter((item) => item !== undefined);
-
-    // console.log("valuessssssssssssinngg", checkDuplicatesMail);
+      return toast(` ${flag[0]?.phone} phone already registered`, {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
 
     // if (checkDuplicatesMail.length > 0) {
     //   return toast(`${checkDuplicatesMail[0]} already registered`, {
@@ -845,34 +849,33 @@ export default function View(props: IAppProps) {
     //   );
     // }
 
-    const user: any = await client.request(updateEmployeeBasicDetails, {
-      where: {
-        email: form.getInputProps("userEmailForMutation")?.value,
-      },
-      data: {
-        address: form.getInputProps("userAddress")?.value,
-        phone: form.getInputProps("userPhone")?.value,
-        email: form.getInputProps("userEmail")?.value,
-        company: {
-          connect: {
-            id: form.getInputProps("userCompany")?.value,
-          },
-        },
-      },
-    });
+    // const user: any = await client.request(updateEmployeeBasicDetails, {
+    //   where: {
+    //     email: form.getInputProps("userEmailForMutation")?.value,
+    //   },
+    //   data: {
+    //     address: form.getInputProps("userAddress")?.value,
+    //     phone: form.getInputProps("userPhone")?.value,
+    //     email: form.getInputProps("userEmail")?.value,
+    //     company: {
+    //       connect: {
+    //         id: form.getInputProps("userCompany")?.value,
+    //       },
+    //     },
+    //   },
+    // });
 
-    console.log("skils updated", user);
+    // console.log("skils updated", user);
 
-    if (user.updateUser) {
-      const button = document.getElementById("modal-close-btn-basic");
+    // if (user.updateUser) {
+    //   const button = document.getElementById("modal-close-btn-basic");
 
-      setTimeout(() => {
-        button?.click();
-        setFlag(!flag);
-        router.refresh();
-      }, 1000);
-    }
-
+    //   setTimeout(() => {
+    //     button?.click();
+    //     setFlag(!flag);
+    //     router.refresh();
+    //   }, 1000);
+    // }
   };
 
   const updateKeySkills = async () => {
@@ -904,10 +907,14 @@ export default function View(props: IAppProps) {
         router.refresh();
       }, 1000);
     }
-
   };
 
   console.log("valuessss", form.getInputProps(`userCompany`)?.value);
+
+  console.log(
+    "statusForMutation",
+    form.getInputProps(`statusForMutaion`)?.value
+  );
 
   return (
     <Box
@@ -1080,6 +1087,74 @@ export default function View(props: IAppProps) {
                           />
                         </Input.Wrapper>
                       </Grid.Col>
+
+                      {/* <Grid.Col>
+                        <Radio.Group
+                           name="favoriteFramework"
+                           label="Status"
+                           value={form.getInputProps(`statusForMutation`)?.value}
+                           onChange={(e:any)=> 
+
+                            {
+
+                                                         
+                            form.setFieldValue(`statusForMutation`,e) 
+
+                            console.log('mmmm',e)
+
+                            }
+ 
+                          
+                          }
+                          // description="This is anonymous"
+                          withAsterisk
+                        >
+                          <Group mt="xs">
+                            <Radio  value={'true'} label="Active" />
+                            <Radio  value={'false'} label="Not Active" />
+                          </Group>
+                        </Radio.Group>
+                      </Grid.Col>
+
+                      <Grid.Col>
+                        <Radio.Group
+                          name="favoriteFramework"
+                          label="Work Status"
+                          // description="This is anonymous"
+                          withAsterisk
+                        >
+                          <Group mt="xs">
+                            <Radio label="Open to work" />
+                            <Radio label="Engaged" />
+                          </Group>
+                        </Radio.Group>
+                      </Grid.Col> */}
+
+                      {/* <Grid.Col span={12}>
+                        <Radio
+                          label="active"
+                          // checked={
+                          //   form.getInputProps(`statusForMutation`)?.value
+                          // }
+                          onChange={(event) => {
+                            console.log("sss", event.currentTarget.checked);
+                            // form.setFieldValue(`statusForMutation`,event.currentTarget.checked)
+                          }}
+                        />
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        <Radio
+                          label="open to work"
+                          checked={form.getInputProps(`workForMutation`)?.value}
+                          onChange={(event) =>
+                            form.setFieldValue(
+                              `workForMutation`,
+                              event.currentTarget.checked
+                            )
+                          }
+                        />
+                      </Grid.Col> */}
                     </Grid>
                   </form>
                 </Paper>

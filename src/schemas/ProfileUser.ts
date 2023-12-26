@@ -127,7 +127,6 @@ export default list({
       //   searchFields: ["name", "version"],
       // },
     }),
-
     profile_summary: text(),
     createdAt: timestamp({
       defaultValue: { kind: "now" },
