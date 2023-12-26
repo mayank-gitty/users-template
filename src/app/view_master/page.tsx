@@ -29,6 +29,7 @@ import {
   Text,
   Autocomplete,
   Radio,
+  Textarea,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -54,6 +55,7 @@ import {
   IconVideo,
   IconCircleOff,
   IconVideoOff,
+  IconLineHeight,
 } from "@tabler/icons-react";
 
 import { useForm } from "@mantine/form";
@@ -212,7 +214,7 @@ export default function View(props: IAppProps) {
     //     return null;
     //   },
     //   userAddress: (value) => (value ? null : "add Address"),
-    // },
+    // }
   });
 
   const COMPANIES = gql`
@@ -798,14 +800,6 @@ export default function View(props: IAppProps) {
 
     console.log("users", users);
 
-    // const filterDuplicatesNumbers = checkDuplicatePhone.filter(
-    //   (item) => item !== undefined
-    // );
-
-    // console.log("duplicatePhone", checkDuplicatePhone);
-
-    // const Mutatedata = form.values.entries.map(async (item) => {
-
     const check = await checkExistingUser(email);
 
     console.log("email", check);
@@ -829,53 +823,6 @@ export default function View(props: IAppProps) {
         progressClassName: "fancy-progress-bar",
       });
     }
-
-    // if (checkDuplicatesMail.length > 0) {
-    //   return toast(`${checkDuplicatesMail[0]} already registered`, {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-
-    // if (filterDuplicatesNumbers.length > 0) {
-    //   return toast(
-    //     `${filterDuplicatesNumbers[0][0].phone} already registered`,
-    //     {
-    //       className: "black-background",
-    //       bodyClassName: "grow-font-size",
-    //       progressClassName: "fancy-progress-bar",
-    //     }
-    //   );
-    // }
-
-    // const user: any = await client.request(updateEmployeeBasicDetails, {
-    //   where: {
-    //     email: form.getInputProps("userEmailForMutation")?.value,
-    //   },
-    //   data: {
-    //     address: form.getInputProps("userAddress")?.value,
-    //     phone: form.getInputProps("userPhone")?.value,
-    //     email: form.getInputProps("userEmail")?.value,
-    //     company: {
-    //       connect: {
-    //         id: form.getInputProps("userCompany")?.value,
-    //       },
-    //     },
-    //   },
-    // });
-
-    // console.log("skils updated", user);
-
-    // if (user.updateUser) {
-    //   const button = document.getElementById("modal-close-btn-basic");
-
-    //   setTimeout(() => {
-    //     button?.click();
-    //     setFlag(!flag);
-    //     router.refresh();
-    //   }, 1000);
-    // }
   };
 
   const updateKeySkills = async () => {
@@ -921,20 +868,19 @@ export default function View(props: IAppProps) {
       mx="auto"
       className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]"
     >
+
+
       <div
         class="modal fade"
-        id="exampleModalBasic"
+        id="addExperience"
         tabindex="-1"
-        aria-labelledby="exampleModalSkills"
+        aria-labelledby="addExperience"
         aria-hidden="true"
       >
         <form>
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                  Edit Basic Details
-                </h5>
                 <button
                   type="button"
                   class="btn-close"
@@ -953,7 +899,7 @@ export default function View(props: IAppProps) {
                     <Grid>
                       <Grid.Col span={12}>
                         <Input.Wrapper
-                          label="Edit Phone"
+                          label="Phone"
                           styles={() => ({
                             label: {
                               color: "#01041b",
@@ -987,7 +933,7 @@ export default function View(props: IAppProps) {
                       </Grid.Col>
                       <Grid.Col span={12}>
                         <Input.Wrapper
-                          label="Edit Email"
+                          label="Email"
                           styles={() => ({
                             label: {
                               color: "#01041b",
@@ -1020,7 +966,7 @@ export default function View(props: IAppProps) {
                       </Grid.Col>
                       <Grid.Col span={12}>
                         <Input.Wrapper
-                          label="Edit Address"
+                          label="Address"
                           styles={() => ({
                             label: {
                               color: "#01041b",
@@ -1054,7 +1000,275 @@ export default function View(props: IAppProps) {
 
                       <Grid.Col span={12}>
                         <Input.Wrapper
-                          label="Edit Company"
+                          label="Company"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <Select
+                            // label="Please select company"
+                            styles={(theme) => ({
+                              input: {
+                                height: 50,
+                                width: "100%",
+                                fontSize: 16,
+                                lineHeight: 50,
+                                borderRadius: 8,
+                                border: "2px solid #ccc",
+                              },
+                            })}
+                            onChange={(e) => {
+                              console.log("", e);
+                              form.setFieldValue("userCompany", e);
+                            }}
+                            placeholder="Please select company"
+                            value={form.getInputProps(`userCompany`)?.value}
+                            data={form.getInputProps("companies").value}
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+
+                      {/* <Grid.Col>
+                        <Radio.Group
+                           name="favoriteFramework"
+                           label="Status"
+                           value={form.getInputProps(`statusForMutation`)?.value}
+                           onChange={(e:any)=> 
+
+                            {
+
+                                                         
+                            form.setFieldValue(`statusForMutation`,e) 
+
+                            console.log('mmmm',e)
+
+                            }
+ 
+                          
+                          }
+                          // description="This is anonymous"
+                          withAsterisk
+                        >
+                          <Group mt="xs">
+                            <Radio  value={'true'} label="Active" />
+                            <Radio  value={'false'} label="Not Active" />
+                          </Group>
+                        </Radio.Group>
+                      </Grid.Col>
+
+                      <Grid.Col>
+                        <Radio.Group
+                          name="favoriteFramework"
+                          label="Work Status"
+                          // description="This is anonymous"
+                          withAsterisk
+                        >
+                          <Group mt="xs">
+                            <Radio label="Open to work" />
+                            <Radio label="Engaged" />
+                          </Group>
+                        </Radio.Group>
+                      </Grid.Col> */}
+
+                      {/* <Grid.Col span={12}>
+                        <Radio
+                          label="active"
+                          // checked={
+                          //   form.getInputProps(`statusForMutation`)?.value
+                          // }
+                          onChange={(event) => {
+                            console.log("sss", event.currentTarget.checked);
+                            // form.setFieldValue(`statusForMutation`,event.currentTarget.checked)
+                          }}
+                        />
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        <Radio
+                          label="open to work"
+                          checked={form.getInputProps(`workForMutation`)?.value}
+                          onChange={(event) =>
+                            form.setFieldValue(
+                              `workForMutation`,
+                              event.currentTarget.checked
+                            )
+                          }
+                        />
+                      </Grid.Col> */}
+
+
+                    </Grid>
+                  </form>
+                </Paper>
+              </div>
+
+              <div class="modal-footer">
+                {/* <button
+                className="btn btn-danger"
+                onClick={() => deleteSpecificExperience()}
+              >
+                {" "}
+                delete{" "}
+              </button> */}
+                <button
+                  type="button"
+                  id="modal-close-btn-basic"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onClick={() => updateBasicDetails()}
+                >
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+      <div
+        class="modal fade"
+        id="exampleModalBasic"
+        tabindex="-1"
+        aria-labelledby="exampleModalSkills"
+        aria-hidden="true"
+      >
+        <form>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <Paper
+                  p="md"
+                  style={{
+                    width: "30rem",
+                  }}
+                >
+                  <form>
+                    <Grid>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Phone"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <Input
+                            placeholder="Phone"
+                            required
+                            {...form.getInputProps("userPhone")}
+                            onChange={(e) =>
+                              form.setFieldValue("userPhone", e.target.value)
+                            }
+                            value={form.getInputProps("userPhone").value}
+                            styles={(theme) => ({
+                              input: {
+                                height: 50,
+                                width: "100%",
+                                fontSize: 16,
+                                lineHeight: 50,
+                                borderRadius: 8,
+                                border: "2px solid #ccc",
+                              },
+                            })}
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Email"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <Input
+                            placeholder="Email"
+                            required
+                            onChange={(e) =>
+                              form.setFieldValue("userEmail", e.target.value)
+                            }
+                            value={form.getInputProps("userEmail").value}
+                            styles={(theme) => ({
+                              input: {
+                                height: 50,
+                                width: "100%",
+                                fontSize: 16,
+                                lineHeight: 50,
+                                borderRadius: 8,
+                                border: "2px solid #ccc",
+                              },
+                            })}
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Address"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                          <Input
+                            placeholder="Address"
+                            required
+                            onChange={(e) =>
+                              form.setFieldValue("userAddress", e.target.value)
+                            }
+                            value={form.getInputProps("userAddress").value}
+                            styles={(theme) => ({
+                              input: {
+                                height: 50,
+                                width: "100%",
+                                fontSize: 16,
+                                lineHeight: 50,
+                                borderRadius: 8,
+                                border: "2px solid #ccc",
+                              },
+                            })}
+                          />
+                        </Input.Wrapper>
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Company"
                           styles={() => ({
                             label: {
                               color: "#01041b",
@@ -1188,6 +1402,7 @@ export default function View(props: IAppProps) {
           </div>
         </form>
       </div>
+
       <div
         class="modal fade"
         id="exampleModalSkills"
@@ -1315,6 +1530,15 @@ export default function View(props: IAppProps) {
               >
                 Close
               </button>
+
+              <button
+                type="button"
+                id="modal-close-btn-experience"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
               <button
                 type="button"
                 class="btn btn-primary"
@@ -1326,6 +1550,8 @@ export default function View(props: IAppProps) {
           </div>
         </div>
       </div>
+
+
       <div
         class="modal fade"
         id="exampleModal"
@@ -1335,17 +1561,45 @@ export default function View(props: IAppProps) {
       >
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Edit Experience
-              </h5>
+            <div class="modal-header ">
+              <div className="custom-align">
+                <div className="" >
+                  <img
+                    className="experience-icon"
+                    src="images/experience.svg"
+                  />
+                </div>
+
+                <h6>   Experience </h6>
+              </div>
+
               <button
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
+
+              <div>
+                <img
+                  id="modal-close-btn-experience"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  className="modal-close-icon"
+                  src={"images/Close.svg"}
+                />
+              </div>
+
+              {/* <button
+                type="button"
+                id="modal-close-btn-experience"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button> */}
             </div>
+
             <div class="modal-body">
               <Grid>
                 <Grid.Col span={12}>
@@ -1359,7 +1613,7 @@ export default function View(props: IAppProps) {
                 </Grid.Col>
 
                 <Grid.Col span={12}>
-                  <label htmlFor=" "> Employment Type </label>
+                  <label htmlFor=" "> Employment type </label>
 
                   <Select
                     value={experience.employment_type}
@@ -1385,7 +1639,7 @@ export default function View(props: IAppProps) {
                 </Grid.Col>
 
                 <Grid.Col span={12}>
-                  <label htmlFor=" "> company </label>
+                  <label htmlFor=" "> Company </label>
                   <TextInput
                     placeholder="enter here"
                     size="md"
@@ -1395,7 +1649,7 @@ export default function View(props: IAppProps) {
                 </Grid.Col>
 
                 <Grid.Col span={12}>
-                  <label htmlFor=" "> location </label>
+                  <label htmlFor=" "> Location </label>
                   <TextInput
                     placeholder="enter here"
                     size="md"
@@ -1405,7 +1659,7 @@ export default function View(props: IAppProps) {
                 </Grid.Col>
 
                 <Grid.Col span={12}>
-                  <label htmlFor=" "> location type </label>
+                  <label htmlFor=" "> Location type </label>
                   <Select
                     value={experience.location_type}
                     onChange={(value) => handleChange("location_type", value)}
@@ -1429,8 +1683,9 @@ export default function View(props: IAppProps) {
                   />
                 </Grid.Col>
 
-                <Grid.Col span={12}>
+                <Grid.Col span={12} >
                   <Checkbox
+                  className="center-align" 
                     checked={experience.currently_working ? true : false}
                     label="currently working here"
                     onChange={(e: any) =>
@@ -1440,7 +1695,7 @@ export default function View(props: IAppProps) {
                 </Grid.Col>
 
                 <Grid.Col span={12}>
-                  <h6 className="experience-label">Start Date</h6>
+                  <h6 className="experience-label">Start date</h6>
                 </Grid.Col>
 
                 <Grid.Col span={6}>
@@ -1497,7 +1752,7 @@ export default function View(props: IAppProps) {
 
                 {!experience.currently_working && (
                   <Grid.Col span={12}>
-                    <h6 className="experience-label">End Date</h6>
+                    <h6 className="experience-label">End date</h6>
                   </Grid.Col>
                 )}
 
@@ -1561,28 +1816,31 @@ export default function View(props: IAppProps) {
 
             <div class="modal-footer">
               <button
-                className="btn btn-danger"
+                className="close-btn-modal-footer"
                 onClick={() => deleteSpecificExperience()}
               >
                 {" "}
                 delete{" "}
               </button>
-              <button
+              {/* <button
                 type="button"
                 id="modal-close-btn-experience"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
                 Close
-              </button>
+              </button> */}
               <button
                 type="button"
-                class="btn btn-primary"
+                class="save-btn-modal-footer"
                 onClick={() => updateExperience()}
               >
-                Save changes
+                Save 
               </button>
             </div>
+
+
+            
           </div>
         </div>
       </div>
@@ -1596,17 +1854,50 @@ export default function View(props: IAppProps) {
       >
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Edit Education
-              </h5>
+
+
+          <div class="modal-header ">
+              <div className="custom-align">
+                <div className="" >
+                  <img
+                    className="experience-icon"
+                    src="images/education.svg"
+                  />
+                </div>
+
+                <h6>   Education </h6>
+              </div>
+
               <button
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
+
+              <div>
+                <img
+                  id="modal-close-btn-education"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  className="modal-close-icon"
+                  src={"images/Close.svg"}
+                />
+              </div>
+
+              {/* <button
+                type="button"
+                id="modal-close-btn-experience"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button> */}
             </div>
+
+        
+
+
             <div class="modal-body">
               <Grid>
                 <Grid.Col span={12}>
@@ -1998,31 +2289,36 @@ export default function View(props: IAppProps) {
                 </Grid.Col>
               </Grid>
             </div>
+
+
+
             <div class="modal-footer">
-              <button
-                className="btn btn-danger"
+
+            <button
+         
+                className="close-btn-modal-footer"
                 onClick={() => deleteSpecificEducation()}
               >
                 {" "}
                 delete{" "}
               </button>
 
+
+       
               <button
                 type="button"
-                id="modal-close-btn-education"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
+                class="save-btn-modal-footer"
+  
                 onClick={() => updateExperienceEducation()}
               >
-                Save changes
+                Save
               </button>
+
+      
             </div>
+
+
+ 
           </div>
         </div>
       </div>
@@ -2036,44 +2332,82 @@ export default function View(props: IAppProps) {
       >
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Edit Project
-              </h5>
+
+
+
+          <div class="modal-header ">
+              <div className="custom-align">
+                <div className="" >
+                  <img
+                    className="experience-icon"
+                    src="images/education.svg"
+                  />
+                </div>
+
+                <h6>  Project </h6>
+              </div>
+
               <button
                 type="button"
-                class="btn-close"
+                class="modal-close-btn-project"
                 data-bs-dismiss="modal"
                 aria-label="Close"
               ></button>
+
+              <div>
+                <img
+                  id="modal-close-btn-project"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  className="modal-close-icon"
+                  src={"images/Close.svg"}
+                />
+              </div>
+
+
             </div>
+
+   
+
             <div class="modal-body">
               <Container size="xs" px="xs">
                 <Paper
                   // shadow="xl"
-                  p="md"
+                  // p="md"
                   // style={{ maxHeight: "80vh", overflowY: "auto" }}
                 >
                   <form>
                     <Grid>
                       <Grid.Col span={12}>
                         <Input.Wrapper
-                          label="Project Title"
+                          label="Project title"
                           error={formErrors?.projectTitle}
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
+              
                         >
                           <Input
                             placeholder="Project Title"
                             required
                             value={project.projectTitle}
+                            styles={{
+
+                              input:{
+        
+                                width: "100%", // Adjust the width as needed
+                                padding: "10px", // Add padding for a consistent look
+                                borderRadius: "4px", // Add rounded corners
+                                border: "1px solid #ccc", // Add a border
+                                height:"50px",
+                                "::placeholder":{
+                                  color: "#CACACA",
+                                  // font-family: Inter;
+                                  fontSize: "16px",
+                                  fontWeight: 500,
+                        
+                                }
+                                
+                              }
+                              ,
+                            }}
                             onChange={(e) =>
                               handleChangeProject(
                                 "projectTitle",
@@ -2082,25 +2416,41 @@ export default function View(props: IAppProps) {
                             }
                           />
                         </Input.Wrapper>
+
+
                       </Grid.Col>
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Client"
                           error={formErrors?.client}
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
+                          
+               
+
+
                         >
                           <Input
                             placeholder="Client"
                             required
                             value={project.client}
+                            styles={() => ({
+                              input:{
+          
+                                width: "100%", // Adjust the width as needed
+                                padding: "10px", // Add padding for a consistent look
+                                borderRadius: "4px", // Add rounded corners
+                                border: "1px solid #ccc", // Add a border
+                                height:"50px",
+                                "::placeholder":{
+                                  color: "#CACACA",
+                                  // font-family: Inter;
+                                  fontSize: "16px",
+                                  fontWeight: 500,
+                        
+                                }
+                                
+                              }
+                            })
+                          }
                             onChange={(e) =>
                               handleChangeProject("client", e.target.value)
                             }
@@ -2109,7 +2459,7 @@ export default function View(props: IAppProps) {
                       </Grid.Col>
                       <Grid.Col span={12}>
                         <Input.Wrapper
-                          label="Project Status"
+                          label="Project status"
                           error={formErrors?.projectStatus}
                           styles={() => ({
                             label: {
@@ -2123,10 +2473,11 @@ export default function View(props: IAppProps) {
                         >
                           <div>
                             <label style={{ marginRight: "10px" }}>
-                              <input
+                              <Radio
                                 type="radio"
                                 name="projectStatus"
                                 value="inprogress"
+                                label="In Progress"
                                 required
                                 checked={project.projectStatus === "inprogress"}
                                 onChange={() =>
@@ -2136,13 +2487,13 @@ export default function View(props: IAppProps) {
                                   )
                                 }
                               />
-                              In Progress
                             </label>
                             <label style={{ marginRight: "10px" }}>
-                              <input
+                              <Radio
                                 type="radio"
                                 name="projectStatus"
                                 value="finished"
+                                label="Finished"
                                 required
                                 checked={project.projectStatus === "finished"}
                                 onChange={() =>
@@ -2152,7 +2503,6 @@ export default function View(props: IAppProps) {
                                   )
                                 }
                               />
-                              Finished
                             </label>
                           </div>
                         </Input.Wrapper>
@@ -2166,13 +2516,32 @@ export default function View(props: IAppProps) {
                         >
                           <div style={{ flex: 1, marginRight: "10px" }}>
                             <Input.Wrapper
-                              label="Work From Year"
+                              label="Work from year"
                               error={formErrors?.workFromYear}
                             >
                               <Select
                                 placeholder="Year"
                                 data={["2022", "2023", "2024"]} // Your list of years
                                 value={project.workFromYear}
+                                styles={() => ({
+                                  input:{
+              
+                                    width: "100%", // Adjust the width as needed
+                                    padding: "10px", // Add padding for a consistent look
+                                    borderRadius: "4px", // Add rounded corners
+                                    border: "1px solid #ccc", // Add a border
+                                    height:"50px",
+                                    "::placeholder":{
+                                      color: "#CACACA",
+                                      // font-family: Inter;
+                                      fontSize: "16px",
+                                      fontWeight: 500,
+                            
+                                    }
+                                    
+                                  }
+                                })
+                              }
                                 onChange={(value) =>
                                   handleChangeProject("workFromYear", value)
                                 }
@@ -2181,7 +2550,7 @@ export default function View(props: IAppProps) {
                           </div>
                           <div style={{ flex: 1 }}>
                             <Input.Wrapper
-                              label="Work From Month"
+                              label="Work from month"
                               error={formErrors?.workFromMonth}
                             >
                               <Select
@@ -2204,6 +2573,25 @@ export default function View(props: IAppProps) {
                                 onChange={(value) =>
                                   handleChangeProject("workFromMonth", value)
                                 }
+                                styles={() => ({
+                                  input:{
+              
+                                    width: "100%", // Adjust the width as needed
+                                    padding: "10px", // Add padding for a consistent look
+                                    borderRadius: "4px", // Add rounded corners
+                                    border: "1px solid #ccc", // Add a border
+                                    height:"50px",
+                                    "::placeholder":{
+                                      color: "#CACACA",
+                                      // font-family: Inter;
+                                      fontSize: "16px",
+                                      fontWeight: 500,
+                            
+                                    }
+                                    
+                                  }
+                                })
+                              }
                               />
                             </Input.Wrapper>
                           </div>
@@ -2211,26 +2599,26 @@ export default function View(props: IAppProps) {
                       </Grid.Col>
                       <Grid.Col span={12}>
                         <Input.Wrapper
-                          label="Details Of Project"
+                          label="Details of project"
                           error={formErrors?.detailsOfProject}
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
+                          // styles={() => ({
+                          //   label: {
+                          //     color: "#01041b",
+                          //     fontSize: "1.2em",
+                          //     fontWeight: 500,
+                          //     lineHeight: 1.2,
+                          //     marginBottom: 10,
+                          //   },
+                          // })}
                         >
-                          <textarea
+                          <Textarea
                             placeholder="Type here..."
                             required
                             style={{
                               width: "100%", // Adjust the width as needed
-                              padding: "10px", // Add padding for a consistent look
+                              // padding: "10px", // Add padding for a consistent look
                               borderRadius: "4px", // Add rounded corners
-                              border: "1px solid #ccc", // Add a border
+                              // border: "1px solid #ccc", // Add a border
                             }}
                             value={project.detailsOfProject}
                             onChange={(e) =>
@@ -2246,19 +2634,29 @@ export default function View(props: IAppProps) {
                         <Input.Wrapper
                           label="Project location"
                           error={formErrors?.projectLocation}
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
                         >
                           <Input
                             placeholder="Type here.."
                             required
+                            styles={() => ({
+                              input:{
+          
+                                width: "100%", // Adjust the width as needed
+                                padding: "10px", // Add padding for a consistent look
+                                borderRadius: "4px", // Add rounded corners
+                                border: "1px solid #ccc", // Add a border
+                                height:"50px",
+                                "::placeholder":{
+                                  color: "#CACACA",
+                                  // font-family: Inter;
+                                  fontSize: "16px",
+                                  fontWeight: 500,
+                        
+                                }
+                                
+                              }
+                            })
+                          }
                             value={project.projectLocation}
                             onChange={(e) =>
                               handleChangeProject(
@@ -2272,44 +2670,54 @@ export default function View(props: IAppProps) {
 
                       <Grid.Col span={12}>
                         <Input.Wrapper
-                          label="Project Site"
+                          label="Project site"
                           error={formErrors?.projectSite}
                           styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
+                            input:{
+        
+                              width: "100%", // Adjust the width as needed
+                              padding: "10px", // Add padding for a consistent look
+                              borderRadius: "4px", // Add rounded corners
+                              border: "1px solid #ccc", // Add a border
+                              height:"50px",
+                              "::placeholder":{
+                                color: "#CACACA",
+                                // font-family: Inter;
+                                fontSize: "16px",
+                                fontWeight: 500,
+                      
+                              }
+                              
+                            }
+                          })
+                        }
                         >
                           <div>
                             <label style={{ marginRight: "10px" }}>
-                              <input
+                              <Radio
                                 type="radio"
                                 name="projectSite"
                                 value="Offsite"
+                                label="Offsite"
                                 required
                                 checked={project.projectSite === "offsite"}
                                 onChange={() =>
                                   handleChangeProject("projectSite", "offsite")
                                 }
                               />
-                              Offsite
                             </label>
                             <label style={{ marginRight: "10px" }}>
-                              <input
+                              <Radio
                                 type="radio"
                                 name="projectSite"
                                 value="finished"
+                                label="Offsite"
                                 required
                                 checked={project.projectStatus === "onsite"}
                                 onChange={() =>
                                   handleChangeProject("projectSite", "onsite")
                                 }
                               />
-                              Onsite
                             </label>
                           </div>
                         </Input.Wrapper>
@@ -2317,7 +2725,7 @@ export default function View(props: IAppProps) {
 
                       <Grid.Col span={12}>
                         <Input.Wrapper
-                          label="Nature Of Employment"
+                          label="Nature of employment"
                           error={formErrors?.natureOfEmployment}
                           styles={() => ({
                             label: {
@@ -2331,10 +2739,11 @@ export default function View(props: IAppProps) {
                         >
                           <div>
                             <label style={{ marginRight: "10px" }}>
-                              <input
+                              <Radio
                                 type="radio"
                                 name="natureOfEmployment"
                                 value="fulltime"
+                                label="Full Time"
                                 required
                                 checked={
                                   project.natureOfEmployment === "fulltime"
@@ -2346,13 +2755,13 @@ export default function View(props: IAppProps) {
                                   )
                                 }
                               />
-                              Full Time
                             </label>
                             <label style={{ marginRight: "10px" }}>
-                              <input
+                              <Radio
                                 type="radio"
                                 name="natureOfEmployment"
                                 value="parttime"
+                                label="Part Time"
                                 required
                                 checked={
                                   project.natureOfEmployment === "parttime"
@@ -2364,13 +2773,13 @@ export default function View(props: IAppProps) {
                                   )
                                 }
                               />
-                              Part Time
                             </label>
                             <label>
-                              <input
+                              <Radio
                                 type="radio"
                                 name="natureOfEmployment"
                                 value="contractual"
+                                label="Contractual"
                                 required
                                 checked={
                                   project.natureOfEmployment === "contractual"
@@ -2382,7 +2791,6 @@ export default function View(props: IAppProps) {
                                   )
                                 }
                               />
-                              Contractual
                             </label>
                           </div>
                         </Input.Wrapper>
@@ -2390,10 +2798,29 @@ export default function View(props: IAppProps) {
 
                       <Grid.Col span={12}>
                         <Input.Wrapper
-                          label="Team Size"
+                          label="Team size"
                           error={formErrors?.teamSize}
                         >
                           <Select
+                                 styles={() => ({
+                                  input:{
+              
+                                    width: "100%", // Adjust the width as needed
+                                    padding: "10px", // Add padding for a consistent look
+                                    borderRadius: "4px", // Add rounded corners
+                                    border: "1px solid #ccc", // Add a border
+                                    height:"50px",
+                                    "::placeholder":{
+                                      color: "#CACACA",
+                                      // font-family: Inter;
+                                      fontSize: "16px",
+                                      fontWeight: 500,
+                            
+                                    }
+                                    
+                                  }
+                                })
+                              }
                             placeholder="Select team size"
                             data={[
                               "1",
@@ -2413,12 +2840,32 @@ export default function View(props: IAppProps) {
                             onChange={(value) =>
                               handleChangeProject("teamSize", value)
                             }
+                            
                           />
                         </Input.Wrapper>
                       </Grid.Col>
                       <Grid.Col span={12}>
                         <Input.Wrapper label="Role" error={formErrors?.role}>
                           <Select
+                            styles={() => ({
+                              input:{
+          
+                                width: "100%", // Adjust the width as needed
+                                padding: "10px", // Add padding for a consistent look
+                                borderRadius: "4px", // Add rounded corners
+                                border: "1px solid #ccc", // Add a border
+                                height:"50px",
+                                "::placeholder":{
+                                  color: "#CACACA",
+                                  // font-family: Inter;
+                                  fontSize: "16px",
+                                  fontWeight: 500,
+                        
+                                }
+                                
+                              }
+                            })
+                          }
                             placeholder="Role"
                             data={[
                               "java dev",
@@ -2456,15 +2903,25 @@ export default function View(props: IAppProps) {
                             },
                           })}
                         >
-                          <textarea
-                            placeholder="Role Description"
+                          <Textarea
+                            placeholder="Role description"
                             required
-                            style={{
+                            styles={{
                               width: "100%", // Adjust the width as needed
                               padding: "10px", // Add padding for a consistent look
                               borderRadius: "4px", // Add rounded corners
                               border: "1px solid #ccc", // Add a border
+                              height:"125.324px",
+                              "::placeholder":{
+                                color: "#CACACA",
+                                // font-family: Inter;
+                                fontSize: "16px",
+                                fontWeight: 500,
+                      
+                              }
+                              
                             }}
+                     
                             value={project.roleDescription}
                             onChange={(e) =>
                               handleChangeProject(
@@ -2478,30 +2935,32 @@ export default function View(props: IAppProps) {
 
                       <Grid.Col span={12}>
                         <Input.Wrapper
-                          label="Role description"
+                          label="Skills"
                           error={formErrors?.roleDescription}
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
+               
                         >
-                          <textarea
-                            placeholder="Role Description"
+                          <Textarea
+                            placeholder="Skills"
                             required
-                            style={{
-                              width: "100%", // Adjust the width as needed
-                              padding: "10px", // Add padding for a consistent look
-                              borderRadius: "4px", // Add rounded corners
-                              border: "1px solid #ccc", // Add a border
-                            }}
+                            styles={() => ({
+                              label: {
+                                color: "#01041b",
+                                fontSize: "1.2em",
+                                fontWeight: 500,
+                                lineHeight: 1.2,
+                                marginBottom: 10,
+                              },
+                              "::placeholder":{
+                                color: "#CACACA",
+                                // font-family: Inter;
+                                fontSize: "16px",
+                                fontWeight: 500,
+                      
+                              }
+                            })}
                             value={project.skillUsed}
                             onChange={(e) =>
-                              handleChangeProject("skillUsed", e.target.value)
+                              handleChangeProject("skillUsed", e.target.value)  
                             }
                           />
                         </Input.Wrapper>
@@ -2520,31 +2979,31 @@ export default function View(props: IAppProps) {
                 </Paper>
               </Container>
             </div>
+
             <div class="modal-footer">
               <button
-                className="btn btn-danger"
+                
+                  className="close-btn-modal-footer"
                 onClick={() => deleteSpecificProject()}
               >
                 {" "}
                 delete{" "}
               </button>
 
+  
+
+
               <button
                 type="button"
-                id="modal-close-btn-project"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
+                    class="save-btn-modal-footer"
                 onClick={() => updateThisProject()}
               >
                 Save changes
               </button>
             </div>
+
+
+
           </div>
         </div>
       </div>

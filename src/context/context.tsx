@@ -24,7 +24,7 @@ export const ThemeContextProvider = ({ children }) => {
 
   const [formData, setFormData] = useState(initialFormData);
 
-  const [active, setActive] = useState(7);
+  const [active, setActive] = useState(0);
   
   const [loggedIn, setLoggedIn] = useState(false);
 

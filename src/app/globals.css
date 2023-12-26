@@ -209,16 +209,163 @@ div.dataTables_wrapper div.dataTables_info {
   width: 100%;
 }
 
+
+
+.close-btn-modal-footer  {
+
+border-radius: 7.288px;
+border: 1px solid #C4C4C4;
+background: #FFF;
+width: 48%;
+height: 47.816px;
+
+color: #7B7B7B;
+/* font-family: Poppins; */
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+
+}
+
+
+
+.save-btn-modal-footer {
+
+  border-radius: 7.288px;
+  background: #4D47C3;
+width: 48%;
+height: 47.816px;
+
+
+color: #FFF;
+/* font-family: Poppins; */
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+
+
+}
+
+
+.custom-align {
+
+
+  display: flex !important;
+  align-items: center !important;
+
+}
+
+
+.custom-align h6 {
+
+  margin-bottom: 0 !important;
+  margin-left: 1rem;
+}
+
 .profile-table {
   width: 97%;
   height: 95%;
   margin: auto;
   /* background:blue; */
   padding-right: 20px;
-  padding-left: 6px;
+  padding-left: 6px;  
   /* background: #fff; */
 }
 
+.modal-close-icon {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center !important;
+  justify-content: center;
+  padding-left: 26px !important;
+  padding-right: 26px !important;
+}
+
+
+.experience-icon  {
+width: 31.087px !important;
+height: 31.087px !important;
+}
+
+
+
+.center-align  {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+
+.mantine-Checkbox-label  {
+
+  /* margin-bottom: 0rem;
+  padding-bottom: 0rem; */
+
+
+  padding-bottom: 0px !important;
+  margin-bottom: 4px !important;
+
+}
+
+.modal-header h6 {
+color: #000;
+/* font-family: Inter; */
+font-size: 20.725px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+
+}
+
+
+.mantine-Checkbox-body  {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+@media (min-width: 576px) {
+  .modal-body {
+    height: 500px !important;
+    overflow-y: scroll;
+     padding-left: 26px !important;
+     padding-right: 26px !important;
+  }
+
+
+  .modal-body label {
+    color: #000;
+    /* font-family: Inter; */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+  }
+
+  .modal-footer {
+    padding-left: 26px !important;
+    padding-right: 26px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+
+  .modal-footer>*  {
+/* 
+    margin: auto !important; */
+    padding: 8px !important;
+
+  }
+
+}
 
 [data-test="table-foot"] {
   /* Attribute has this exact value */
@@ -247,14 +394,12 @@ div.dataTables_wrapper div.dataTables_paginate {
   background: #fff;
 }
 
-
-[data-test="table"]  td {
-/* 
+[data-test="table"] td {
+  /* 
   padding-top: 12px !important;
   padding-bottom: 12px !important; */
   height: 67px;
   vertical-align: middle !important;
-
 }
 
 .table {
