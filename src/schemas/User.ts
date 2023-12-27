@@ -1,6 +1,12 @@
 import { list } from '@keystone-6/core';
 import { text, password, select, timestamp, file,  relationship,calendarDay  } from '@keystone-6/core/fields';
 import { allowAll } from '@keystone-6/core/access';
+import {
+
+  image,
+  integer,
+  checkbox,
+} from "@keystone-6/core/fields";
 
 type Session = {
     data: {
@@ -58,6 +64,49 @@ export default list({
         // Add more roles as needed
       ],
     }),
+    photograph: text(),
+    resume: text(),
+    resume_headline: text(),
+    itskills: relationship({
+      ref: "ItSkill",
+      many: true,
+      ui: {
+        searchFields: ["name", "version"],
+      },
+    }),
+    education: relationship({
+      ref: "AddEducation",
+      many: true,
+      // ui: {
+      //   searchFields: ["name", "version"],
+      // },
+    }),
+    project: relationship({
+      ref: "Project",
+      many: true,
+    }),
+    active: checkbox({
+      defaultValue: true,
+    }),
+    open_to_work: checkbox({
+      defaultValue: true,
+    }),
+
+    keyskills: relationship({
+      ref: "KeySkill",
+      many: true,
+      ui: {
+        searchFields: ["name", "version"],
+      },
+    }),
+    experience: relationship({
+      ref: "AddExperience",
+      many: true,
+      // ui: {
+      //   searchFields: ["name", "version"],
+      // },
+    }),
+    profile_summary: text(),
     // Add other fields here if needed
   },
   hooks: {

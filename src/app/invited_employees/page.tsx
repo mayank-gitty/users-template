@@ -113,6 +113,8 @@ const DatatablePage = () => {
   };
 
   const getData = async () => {
+
+
     const user: any = await client.request(USERS, {
       where: {
         role: {
@@ -137,8 +139,8 @@ const DatatablePage = () => {
         // user: item?.user?.name,
         company: item?.company?.name,
         action: checkExistingProfile(item.id, item),
-      };
-    });
+      };;
+    })
 
     const test: any = {
       columns: [

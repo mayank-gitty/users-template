@@ -13,17 +13,28 @@ generator client {
 }
 
 model User {
-  id                    String        @id @default(cuid())
-  name                  String        @default("")
-  email                 String        @unique @default("")
+  id                    String          @id @default(cuid())
+  name                  String          @default("")
+  email                 String          @unique @default("")
   password              String
-  company               Company?      @relation("User_company", fields: [companyId], references: [id])
-  companyId             String?       @map("company")
-  createdAt             DateTime?     @default(now())
-  address               String        @default("")
-  phone                 String        @default("")
+  company               Company?        @relation("User_company", fields: [companyId], references: [id])
+  companyId             String?         @map("company")
+  createdAt             DateTime?       @default(now())
+  address               String          @default("")
+  phone                 String          @default("")
   role                  String?
-  from_ProfileUser_user ProfileUser[] @relation("ProfileUser_user")
+  photograph            String          @default("")
+  resume                String          @default("")
+  resume_headline       String          @default("")
+  itskills              ItSkill[]       @relation("User_itskills")
+  education             AddEducation[]  @relation("User_education")
+  project               Project[]       @relation("User_project")
+  active                Boolean         @default(true)
+  open_to_work          Boolean         @default(true)
+  keyskills             KeySkill[]      @relation("User_keyskills")
+  experience            AddExperience[] @relation("User_experience")
+  profile_summary       String          @default("")
+  from_ProfileUser_user ProfileUser[]   @relation("ProfileUser_user")
 
   @@index([companyId])
 }
@@ -72,6 +83,7 @@ model ItSkill {
   version                   String        @default("")
   lastUsed                  String        @default("")
   experience                String        @default("")
+  from_User_itskills        User[]        @relation("User_itskills")
   from_ProfileUser_itskills ProfileUser[] @relation("ProfileUser_itskills")
 }
 
@@ -82,6 +94,7 @@ model KeySkill {
   lastUsed                   String        @default("")
   master                     Boolean       @default(false)
   experience                 String        @default("")
+  from_User_keyskills        User[]        @relation("User_keyskills")
   from_ProfileUser_keyskills ProfileUser[] @relation("ProfileUser_keyskills")
 }
 
@@ -100,6 +113,7 @@ model Project {
   role                     String        @default("")
   roleDescription          String        @default("")
   skillUsed                String        @default("")
+  from_User_project        User[]        @relation("User_project")
   from_ProfileUser_project ProfileUser[] @relation("ProfileUser_project")
 }
 
@@ -121,6 +135,7 @@ model AddEducation {
   start_year_month           String?
   end_year                   String?
   end_year_month             String?
+  from_User_education        User[]        @relation("User_education")
   from_ProfileUser_education ProfileUser[] @relation("ProfileUser_education")
   from_Education_education   Education[]   @relation("Education_education")
 }
@@ -137,5 +152,6 @@ model AddExperience {
   start_year_month            String?
   end_year                    String?
   end_year_month              String?
+  from_User_experience        User[]        @relation("User_experience")
   from_ProfileUser_experience ProfileUser[] @relation("ProfileUser_experience")
 }

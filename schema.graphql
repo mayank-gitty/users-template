@@ -11,6 +11,22 @@ type User {
   address: String
   phone: String
   role: String
+  photograph: String
+  resume: String
+  resume_headline: String
+  itskills(where: ItSkillWhereInput! = {}, orderBy: [ItSkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ItSkillWhereUniqueInput): [ItSkill!]
+  itskillsCount(where: ItSkillWhereInput! = {}): Int
+  education(where: AddEducationWhereInput! = {}, orderBy: [AddEducationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AddEducationWhereUniqueInput): [AddEducation!]
+  educationCount(where: AddEducationWhereInput! = {}): Int
+  project(where: ProjectWhereInput! = {}, orderBy: [ProjectOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProjectWhereUniqueInput): [Project!]
+  projectCount(where: ProjectWhereInput! = {}): Int
+  active: Boolean
+  open_to_work: Boolean
+  keyskills(where: KeySkillWhereInput! = {}, orderBy: [KeySkillOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: KeySkillWhereUniqueInput): [KeySkill!]
+  keyskillsCount(where: KeySkillWhereInput! = {}): Int
+  experience(where: AddExperienceWhereInput! = {}, orderBy: [AddExperienceOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AddExperienceWhereUniqueInput): [AddExperience!]
+  experienceCount(where: AddExperienceWhereInput! = {}): Int
+  profile_summary: String
 }
 
 type PasswordState {
@@ -36,6 +52,17 @@ input UserWhereInput {
   address: StringFilter
   phone: StringFilter
   role: StringNullableFilter
+  photograph: StringFilter
+  resume: StringFilter
+  resume_headline: StringFilter
+  itskills: ItSkillManyRelationFilter
+  education: AddEducationManyRelationFilter
+  project: ProjectManyRelationFilter
+  active: BooleanFilter
+  open_to_work: BooleanFilter
+  keyskills: KeySkillManyRelationFilter
+  experience: AddExperienceManyRelationFilter
+  profile_summary: StringFilter
 }
 
 input IDFilter {
@@ -109,6 +136,41 @@ input StringNullableFilter {
   not: StringNullableFilter
 }
 
+input ItSkillManyRelationFilter {
+  every: ItSkillWhereInput
+  some: ItSkillWhereInput
+  none: ItSkillWhereInput
+}
+
+input AddEducationManyRelationFilter {
+  every: AddEducationWhereInput
+  some: AddEducationWhereInput
+  none: AddEducationWhereInput
+}
+
+input ProjectManyRelationFilter {
+  every: ProjectWhereInput
+  some: ProjectWhereInput
+  none: ProjectWhereInput
+}
+
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
+input KeySkillManyRelationFilter {
+  every: KeySkillWhereInput
+  some: KeySkillWhereInput
+  none: KeySkillWhereInput
+}
+
+input AddExperienceManyRelationFilter {
+  every: AddExperienceWhereInput
+  some: AddExperienceWhereInput
+  none: AddExperienceWhereInput
+}
+
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -117,6 +179,12 @@ input UserOrderByInput {
   address: OrderDirection
   phone: OrderDirection
   role: OrderDirection
+  photograph: OrderDirection
+  resume: OrderDirection
+  resume_headline: OrderDirection
+  active: OrderDirection
+  open_to_work: OrderDirection
+  profile_summary: OrderDirection
 }
 
 enum OrderDirection {
@@ -133,12 +201,58 @@ input UserUpdateInput {
   address: String
   phone: String
   role: String
+  photograph: String
+  resume: String
+  resume_headline: String
+  itskills: ItSkillRelateToManyForUpdateInput
+  education: AddEducationRelateToManyForUpdateInput
+  project: ProjectRelateToManyForUpdateInput
+  active: Boolean
+  open_to_work: Boolean
+  keyskills: KeySkillRelateToManyForUpdateInput
+  experience: AddExperienceRelateToManyForUpdateInput
+  profile_summary: String
 }
 
 input CompanyRelateToOneForUpdateInput {
   create: CompanyCreateInput
   connect: CompanyWhereUniqueInput
   disconnect: Boolean
+}
+
+input ItSkillRelateToManyForUpdateInput {
+  disconnect: [ItSkillWhereUniqueInput!]
+  set: [ItSkillWhereUniqueInput!]
+  create: [ItSkillCreateInput!]
+  connect: [ItSkillWhereUniqueInput!]
+}
+
+input AddEducationRelateToManyForUpdateInput {
+  disconnect: [AddEducationWhereUniqueInput!]
+  set: [AddEducationWhereUniqueInput!]
+  create: [AddEducationCreateInput!]
+  connect: [AddEducationWhereUniqueInput!]
+}
+
+input ProjectRelateToManyForUpdateInput {
+  disconnect: [ProjectWhereUniqueInput!]
+  set: [ProjectWhereUniqueInput!]
+  create: [ProjectCreateInput!]
+  connect: [ProjectWhereUniqueInput!]
+}
+
+input KeySkillRelateToManyForUpdateInput {
+  disconnect: [KeySkillWhereUniqueInput!]
+  set: [KeySkillWhereUniqueInput!]
+  create: [KeySkillCreateInput!]
+  connect: [KeySkillWhereUniqueInput!]
+}
+
+input AddExperienceRelateToManyForUpdateInput {
+  disconnect: [AddExperienceWhereUniqueInput!]
+  set: [AddExperienceWhereUniqueInput!]
+  create: [AddExperienceCreateInput!]
+  connect: [AddExperienceWhereUniqueInput!]
 }
 
 input UserUpdateArgs {
@@ -155,11 +269,47 @@ input UserCreateInput {
   address: String
   phone: String
   role: String
+  photograph: String
+  resume: String
+  resume_headline: String
+  itskills: ItSkillRelateToManyForCreateInput
+  education: AddEducationRelateToManyForCreateInput
+  project: ProjectRelateToManyForCreateInput
+  active: Boolean
+  open_to_work: Boolean
+  keyskills: KeySkillRelateToManyForCreateInput
+  experience: AddExperienceRelateToManyForCreateInput
+  profile_summary: String
 }
 
 input CompanyRelateToOneForCreateInput {
   create: CompanyCreateInput
   connect: CompanyWhereUniqueInput
+}
+
+input ItSkillRelateToManyForCreateInput {
+  create: [ItSkillCreateInput!]
+  connect: [ItSkillWhereUniqueInput!]
+}
+
+input AddEducationRelateToManyForCreateInput {
+  create: [AddEducationCreateInput!]
+  connect: [AddEducationWhereUniqueInput!]
+}
+
+input ProjectRelateToManyForCreateInput {
+  create: [ProjectCreateInput!]
+  connect: [ProjectWhereUniqueInput!]
+}
+
+input KeySkillRelateToManyForCreateInput {
+  create: [KeySkillCreateInput!]
+  connect: [KeySkillWhereUniqueInput!]
+}
+
+input AddExperienceRelateToManyForCreateInput {
+  create: [AddExperienceCreateInput!]
+  connect: [AddExperienceWhereUniqueInput!]
 }
 
 type ProfileUser {
@@ -208,41 +358,6 @@ input ProfileUserWhereInput {
   createdAt: DateTimeNullableFilter
 }
 
-input ItSkillManyRelationFilter {
-  every: ItSkillWhereInput
-  some: ItSkillWhereInput
-  none: ItSkillWhereInput
-}
-
-input AddEducationManyRelationFilter {
-  every: AddEducationWhereInput
-  some: AddEducationWhereInput
-  none: AddEducationWhereInput
-}
-
-input ProjectManyRelationFilter {
-  every: ProjectWhereInput
-  some: ProjectWhereInput
-  none: ProjectWhereInput
-}
-
-input BooleanFilter {
-  equals: Boolean
-  not: BooleanFilter
-}
-
-input KeySkillManyRelationFilter {
-  every: KeySkillWhereInput
-  some: KeySkillWhereInput
-  none: KeySkillWhereInput
-}
-
-input AddExperienceManyRelationFilter {
-  every: AddExperienceWhereInput
-  some: AddExperienceWhereInput
-  none: AddExperienceWhereInput
-}
-
 input ProfileUserOrderByInput {
   id: OrderDirection
   photograph: OrderDirection
@@ -276,41 +391,6 @@ input UserRelateToOneForUpdateInput {
   disconnect: Boolean
 }
 
-input ItSkillRelateToManyForUpdateInput {
-  disconnect: [ItSkillWhereUniqueInput!]
-  set: [ItSkillWhereUniqueInput!]
-  create: [ItSkillCreateInput!]
-  connect: [ItSkillWhereUniqueInput!]
-}
-
-input AddEducationRelateToManyForUpdateInput {
-  disconnect: [AddEducationWhereUniqueInput!]
-  set: [AddEducationWhereUniqueInput!]
-  create: [AddEducationCreateInput!]
-  connect: [AddEducationWhereUniqueInput!]
-}
-
-input ProjectRelateToManyForUpdateInput {
-  disconnect: [ProjectWhereUniqueInput!]
-  set: [ProjectWhereUniqueInput!]
-  create: [ProjectCreateInput!]
-  connect: [ProjectWhereUniqueInput!]
-}
-
-input KeySkillRelateToManyForUpdateInput {
-  disconnect: [KeySkillWhereUniqueInput!]
-  set: [KeySkillWhereUniqueInput!]
-  create: [KeySkillCreateInput!]
-  connect: [KeySkillWhereUniqueInput!]
-}
-
-input AddExperienceRelateToManyForUpdateInput {
-  disconnect: [AddExperienceWhereUniqueInput!]
-  set: [AddExperienceWhereUniqueInput!]
-  create: [AddExperienceCreateInput!]
-  connect: [AddExperienceWhereUniqueInput!]
-}
-
 input ProfileUserUpdateArgs {
   where: ProfileUserWhereUniqueInput!
   data: ProfileUserUpdateInput!
@@ -335,31 +415,6 @@ input ProfileUserCreateInput {
 input UserRelateToOneForCreateInput {
   create: UserCreateInput
   connect: UserWhereUniqueInput
-}
-
-input ItSkillRelateToManyForCreateInput {
-  create: [ItSkillCreateInput!]
-  connect: [ItSkillWhereUniqueInput!]
-}
-
-input AddEducationRelateToManyForCreateInput {
-  create: [AddEducationCreateInput!]
-  connect: [AddEducationWhereUniqueInput!]
-}
-
-input ProjectRelateToManyForCreateInput {
-  create: [ProjectCreateInput!]
-  connect: [ProjectWhereUniqueInput!]
-}
-
-input KeySkillRelateToManyForCreateInput {
-  create: [KeySkillCreateInput!]
-  connect: [KeySkillWhereUniqueInput!]
-}
-
-input AddExperienceRelateToManyForCreateInput {
-  create: [AddExperienceCreateInput!]
-  connect: [AddExperienceWhereUniqueInput!]
 }
 
 type Education {

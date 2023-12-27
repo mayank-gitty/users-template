@@ -320,7 +320,7 @@ function Sidebar() {
                   href=""
                 >
                   {" "}
-                  Invited Employees{" "}
+                 Employees Profiles {" "}
                 </a>
               </li>
             </div>
@@ -360,7 +360,7 @@ function Sidebar() {
                   href=""
                 >
                   {" "}
-                  Employees Profiles{" "}
+                  Employees {" "}
                 </a>
               </li>
               <li
@@ -441,46 +441,20 @@ function Sidebar() {
                 </a>
               </li>
 
-              <li
-                onClick={() => {
-                  router.push("/invited_employees");
-                  // alert('mayank')
-                }}
-                className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/invited_employees"
-                    ? "custom-border-bottom"
-                    : ""
-                }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
-              >
-                <div className="icon">
-                  {/* 
-                  <img src="/assets/Add.svg" /> */}
 
-                  {pathname === "/invited_employees" ? (
-                    <IconUsers
-                      style={{ width: rem(30), height: rem(30) }}
-                      stroke={2}
-                      color="#4D47C3"
-                    />
-                  ) : (
-                    <IconUsers
-                      style={{ width: rem(30), height: rem(30) }}
-                      stroke={2}
-                      color="#000000"
-                    />
-                  )}
-                </div>
-                <a
-                  className={`nav-link  ${
-                    pathname === "/invited_employees" ? "active" : ""
-                  } `}
-                  aria-current="page"
-                  href=""
-                >
-                  {" "}
-                  Invited Employees{" "}
-                </a>
-              </li>
+
+{
+
+/*
+
+
+
+*/
+
+}
+
+          
+
             </>
           )}
         </div>

@@ -1,16 +1,11 @@
 import { gql } from "graphql-request";
 
 const updateUser = gql`
-  mutation Mutation(
-    $where: ProfileUserWhereUniqueInput!
-    $data: ProfileUserUpdateInput!
-  ) {
-    updateProfileUser(where: $where, data: $data) {
-      experience {
-        title
-      }
-    }
+mutation Mutation($where: UserWhereUniqueInput!, $data: UserUpdateInput!) {
+  updateUser(where: $where, data: $data) {
+   id
   }
+}
 `;
 
 

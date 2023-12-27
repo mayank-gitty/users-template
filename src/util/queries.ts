@@ -258,6 +258,94 @@ const EDIT_MASTER = gql`
   }
 `;
 
+
+
+const VIEW_USER = gql`
+
+query Query($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    id
+    name
+    email
+    password {
+      isSet
+    }
+    company {
+      name
+      id
+    }
+    createdAt
+    address
+    phone
+    role
+    photograph
+    resume
+    resume_headline
+    itskills {
+      id
+      name
+    }
+    itskillsCount
+    education {
+      id
+      school
+      degree
+      field_of_study
+      grade
+      activities
+      description
+      start_year
+      start_year_month
+      end_year
+      end_year_month
+    }
+    educationCount
+    project {
+      id
+      projectTitle
+      detailsOfProject
+      client
+      workFromYear
+      workFromMonth
+      projectStatus
+      projectSite
+      projectLocation
+      natureOfEmployment
+      teamSize
+      role
+      roleDescription
+      skillUsed
+    }
+    projectCount
+    active
+    open_to_work
+    keyskills {
+      id
+      name
+    }
+    keyskillsCount
+
+    experience {
+      id
+      title
+      location_type
+      location
+      start_year
+      start_year_month  
+      end_year
+      end_year_month
+      employment_type
+      currently_working
+      company
+    }
+    experienceCount
+    profile_summary
+  }
+}
+
+
+`
+
 const VIEW_MASTER = gql`
   query ProfileUser($where: ProfileUserWhereUniqueInput!) {
     profileUser(where: $where) {
@@ -350,8 +438,6 @@ const GET_USER = gql`
   }
 `;
 
-
-
 export {
   HAS_MASTER,
   PROFILE_USER,
@@ -361,4 +447,5 @@ export {
   VIEW_MASTER,
   PROFILE_USERS,
   GET_USER,
+  VIEW_USER
 };

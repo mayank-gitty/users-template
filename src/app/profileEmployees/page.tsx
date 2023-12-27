@@ -15,10 +15,62 @@ const DatatablePage = () => {
 
   const router = useRouter();
 
+  const USERS = gql`
+  query Users($where: UserWhereInput!) {
+    users(where: $where) {
+        name
+        id 
+        photograph
+        resume
+        resume_headline
+        itskills {
+          id
+          name
+        }
+        itskillsCount
+        education {
+         id 
+      
+        }
+        educationCount
+        project {
+          id
+          
+        }
+        projectCount
+        active
+        open_to_work
+        keyskills {
+          id
+          name
+        }
+        keyskillsCount
+        experience {
+          id
+      
+        }
+        experienceCount
+        profile_summary
+        createdAt
+        company {
+        name
+        }
+        role
+        email
+        phone
+        address
+    }
+  }
+`;
+
+  
   const getData = async () => {
-    const user: any = await client.request(PROFILE_USERS, {
+
+
+
+    const user: any = await client.request(USERS, {
       where: {
-        user: {
+
           role: {
             equals: "employee",
           },
@@ -27,7 +79,7 @@ const DatatablePage = () => {
           //       equals: localStorage.getItem('company')
           //     }
           //   }
-        },
+        // },
       },
       orderBy: [
         {
@@ -36,16 +88,18 @@ const DatatablePage = () => {
       ],
     });
 
-    console.log("user", user);
+    console.log("userInsssss", user);
 
-    const users = user.profileUsers.map((item: any) => {
+    const users = user.users.map((item: any) => {
       return {
-        user: item?.user?.name,
-        company: item?.user?.company?.name,
-        photograph: <img src={item?.photograph} />,
-        // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
-        keyskills: item.keyskills.map((u: any) => u.name).join(", "),
-        itskills: item.itskills.map((u: any) => u.name).join(", "),
+        user: item?.name,
+        company: item?.company?.name,
+        phone: item?.phone,
+        address: item?.address,
+        // photograph: <img src={item?.photograph} />,
+        // // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
+        // keyskills: item.keyskills.map((u: any) => u.name).join(", "),
+        // itskills: item.itskills.map((u: any) => u.name).join(", "),
         // action: (
         //   <button
         //     className="table-button"
@@ -55,14 +109,18 @@ const DatatablePage = () => {
         //     edit{" "}
         //   </button>
         // ),
-        view: (
+        action: (
+
+
           <button
             className="table-button"
             onClick={() => router.push(`/view_master?id=${item.id}`)}
           >
             {" "}
-            view{" "}
+            edit  {" "}
           </button>
+
+
         ),
         resume: item.resume ? (
           <a
@@ -110,6 +168,20 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 200,
         },
+        {
+          label: "Phone",
+          field: "phone",
+          sort: "disabled",
+          width: 200,
+        },
+        {
+          label: "Address",
+          field: "address",
+          sort: "disabled",
+          width: 200,
+        },
+
+
         // {
         //   label: "Photograph",
         //   field: "photograph",
@@ -174,8 +246,8 @@ const DatatablePage = () => {
           width: 100,
         },
         {
-          label: "View",
-          field: "view",
+          label: "Action",
+          field: "action",
           sort: "disabled",
           width: 100,
         },

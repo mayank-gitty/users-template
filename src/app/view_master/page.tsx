@@ -7,7 +7,7 @@ import { gql } from "graphql-request";
 import client from "../../../helpers/request";
 import { useSearchParams } from "next/navigation";
 import useThemeContext from "@/context/context";
-import { VIEW_MASTER } from "@/util/queries";
+import { VIEW_MASTER, VIEW_USER } from "@/util/queries";
 import { toast } from "react-toastify";
 
 import {
@@ -112,7 +112,7 @@ export interface IAppProps {}
 export default function View(props: IAppProps) {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
-  const [hasMaster, sethasMaster] = useState(true);
+  // const [true, settrue] = useState(true);
 
   const { setActive, formData, setFormData, setexperienceOpen, seteditopen } =
     useThemeContext();
@@ -186,6 +186,9 @@ export default function View(props: IAppProps) {
     },
 
   });
+
+
+  console.log('formssssssssssssssssss',form)
 
   const COMPANIES = gql`
     query Query {
@@ -441,46 +444,46 @@ export default function View(props: IAppProps) {
 
   const getData = async (search: any) => {
     // console.log("id", search);
-    const user: any = await client.request(VIEW_MASTER, {
+    const user: any = await client.request(VIEW_USER, {
       where: {
         id: search,
       },
     });
 
-    console.log("user profile got", user);
+    console.log("user profile gotttttttttttttttttttttttttttttttttt", user);
 
-    if (user.profileUser.length === 0) {
+    if (user?.user) {
       // alert('insi')
-      sethasMaster(false);
+      // settrue(false);
     }
 
     form.setValues({
-      profileUserId: user.profileUser?.id,
-      itskills: user?.profileUser?.itskills.map((item: any) => item.name),
-      education: user?.profileUser?.education,
-      project: user?.profileUser?.project,
-      keyskills: user?.profileUser?.keyskills.map((item: any) => item.id),
-      userkeyskills: user?.profileUser?.keyskills.map((item: any) => item.name),
-      resume_headline: user?.profileUser?.resume_headline,
-      profile_summary: user.profileUser?.profile_summary,
-      photograph: user.profileUser?.photograph,
-      name: user?.profileUser?.user.name,
-      work: user?.profileUser?.open_to_work,
-      status: user?.profileUser?.active,
-      workForMutation: user?.profileUser?.open_to_work,
-      statusForMutation: user?.profileUser?.active,
-      resume: user?.profileUser?.resume,
-      email: user?.profileUser?.user?.email,
-      userEmail: user?.profileUser?.user?.email,
-      userEmailForMutation: user?.profileUser?.user?.email,
-      role: user?.profileUser?.user?.role,
-      company: user?.profileUser?.user?.company?.name,
-      userCompany: user?.profileUser?.user?.company?.id,
-      phone: user?.profileUser?.user?.phone,
-      userPhone: user?.profileUser?.user?.phone,
-      address: user?.profileUser?.user?.address,
-      userAddress: user?.profileUser?.user?.address,
-      experience: user?.profileUser?.experience,
+      profileUserId: user?.user?.id,
+      itskills: user?.user?.itskills?.map((item: any) => item.name),
+      education: user?.user?.education,
+      project: user?.user?.project,
+      keyskills: user?.user?.keyskills?.map((item: any) => item.id),
+      userkeyskills: user?.user?.keyskills?.map((item: any) => item.name),
+      resume_headline: user?.user?.resume_headline,
+      profile_summary: user?.user?.profile_summary,
+      photograph: user?.user?.photograph,
+      name: user?.user?.user?.name,
+      work: user?.user?.open_to_work,
+      status: user?.user?.active,
+      workForMutation: user?.user?.open_to_work,
+      statusForMutation: user?.user?.active,
+      resume: user?.user?.resume,
+      email: user?.user?.email,
+      userEmail: user?.user?.email,
+      userEmailForMutation: user?.user?.email,
+      role: user?.user?.role,
+      company: user?.user?.company?.name,
+      userCompany: user?.user?.company?.id,
+      phone: user?.user?.phone,
+      userPhone: user?.user?.phone,
+      address: user?.user?.address,
+      userAddress: user?.user?.address,
+      experience: user?.user?.experience,
     });
   };
 
@@ -766,33 +769,65 @@ export default function View(props: IAppProps) {
       return alert("please enter userAddress");
     }
 
-    const users: any = await client.request(USERS);
+    // const users: any = await client.request(USERS);
 
-    console.log("users", users);
+    // console.log("users", users);
 
-    const check = await checkExistingUser(email);
+    // const check = await checkExistingUser(email);
 
-    console.log("email", check);
+    // console.log("email", check);
 
-    if (check) {
-      return toast(`${check} already registered`, {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
+    // if (check) {
+    //   return toast(`${check} already registered`, {
+    //     className: "black-background",
+    //     bodyClassName: "grow-font-size",
+    //     progressClassName: "fancy-progress-bar",
+    //   });
+    // }
+
+    // const flag = users.users.filter((phone) => phone.phone === mobileNumber);
+
+    // if (flag.length > 0) {
+    //   console.log("flag", flag);
+
+    //   return toast(` ${flag[0]?.phone} phone already registered`, {
+    //     className: "black-background",
+    //     bodyClassName: "grow-font-size",
+    //     progressClassName: "fancy-progress-bar",
+    //   });
+    // }
+
+
+    const user: any = await client.request(updateUser, {
+      where: {
+        id: search,
+      },
+      data: {
+           phone:form.getInputProps('userPhone')?.value,
+           address:form.getInputProps('userAddress')?.value,
+           email:form.getInputProps('userEmail')?.value,
+           company:{
+              connect:{
+                id:form.getInputProps('userCompany')?.value
+              }
+           }
+      },
+    });
+
+    console.log("details updated", user);
+
+    if (user.updateUser) {
+      const button = document.getElementById("closeAddBasic");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
     }
 
-    const flag = users.users.filter((phone) => phone.phone === mobileNumber);
+    
 
-    if (flag.length > 0) {
-      console.log("flag", flag);
-
-      return toast(` ${flag[0]?.phone} phone already registered`, {
-        className: "black-background",
-        bodyClassName: "grow-font-size",
-        progressClassName: "fancy-progress-bar",
-      });
-    }
   };
 
   const updateKeySkills = async () => {
@@ -815,8 +850,8 @@ export default function View(props: IAppProps) {
 
     console.log("skils updated", user);
 
-    if (user.updateProfileUser) {
-      const button = document.getElementById("modal-close-btn");
+    if (user.updateUser) {
+      const button = document.getElementById("closeAddSkills");
 
       setTimeout(() => {
         button?.click();
@@ -977,7 +1012,6 @@ export default function View(props: IAppProps) {
         });
       }
   
-  
       delete education?.id;
   
       const user = await client.request(updateUser, {
@@ -991,9 +1025,8 @@ export default function View(props: IAppProps) {
         },
       });
   
-      if (user.updateProfileUser) {
+      if (user.updateUser) {
         // alert('inside')
-  
         toast(`experience added`, {
           className: "green-background",
           bodyClassName: "grow-font-size",
@@ -1011,9 +1044,11 @@ export default function View(props: IAppProps) {
         }, 1000);
       }
 
-
-
     };
+
+
+
+
 
   const addExperience = async () => {
     
@@ -1171,16 +1206,21 @@ export default function View(props: IAppProps) {
 
     const user = await client.request(updateUser, {
       where: {
-        id: search,
+          id:search
       },
       data: {
         experience: {
-          create: [experience],
-        },
-      },
-    });
+          create: [
+                  experience
+          ]
+        }
 
-    if (user.updateProfileUser) {
+      }
+      })
+
+      console.log('user',user)
+
+    if (user.updateUser) {
       // alert('inside')
 
       toast(`experience added`, {
@@ -1341,7 +1381,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    if (user.updateProfileUser) {
+    if (user.updateUser) {
       // alert('inside')
 
       toast(`project added`, {
@@ -2202,7 +2242,7 @@ export default function View(props: IAppProps) {
                       <Autocomplete
                         value={education.field_of_study}
                         onChange={(value: any) =>
-                          handleChange("field_of_study", value)
+                          handleChangeEducation("field_of_study", value)
                         }
                         data={fields}
                         placeholder="Field of study"
@@ -2825,20 +2865,42 @@ export default function View(props: IAppProps) {
         <form>
           <div class="modal-dialog">
             <div class="modal-content">
+
+
+
               <div class="modal-header">
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
+
+
+
+           
+                <div className="custom-align">
+                  <img className="experience-icon" src="images/education.svg" />
+
+                  <h6> Basic Information </h6>
+                </div>
+
+                <div>
+                  <img
+                    id="closeAddBasic"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    className="modal-close-icon"
+                    src={"images/Close.svg"}
+                  />
+                </div>
+            
+
+
               </div>
-              <div class="modal-body">
+
+
+
+              <div class="modal-body basic">
                 <Paper
                   p="md"
-                  style={{
-                    width: "30rem",
-                  }}
+                  // style={{
+                  //   width: "30rem",
+                  // }}
                 >
                   <form>
                     <Grid>
@@ -3047,34 +3109,29 @@ export default function View(props: IAppProps) {
                         />
                       </Grid.Col> */}
                     </Grid>
+
+
+                    <button
+
+
+                type="button"
+                class="save-btn-modal-footer mt-4"
+                style={{
+                  width:"100%"
+                }}
+  
+                onClick={() => updateBasicDetails()}
+
+                >
+            
+                Save
+              </button>
+
                   </form>
                 </Paper>
               </div>
 
-              <div class="modal-footer">
-                {/* <button
-                className="btn btn-danger"
-                onClick={() => deleteSpecificExperience()}
-              >
-                {" "}
-                delete{" "}
-              </button> */}
-                <button
-                  type="button"
-                  id="modal-close-btn-basic"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  onClick={() => updateBasicDetails()}
-                >
-                  Save changes
-                </button>
-              </div>
+    
             </div>
           </div>
         </form>
@@ -3089,23 +3146,40 @@ export default function View(props: IAppProps) {
       >
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Edit Key Skills
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
+           
+          <div class="modal-header">
+
+
+
+           
+<div className="custom-align">
+  <img className="experience-icon" src="images/education.svg" />
+
+  <h6> Skills </h6>
+</div>
+
+<div>
+  <img
+    id="closeAddSkills"
+    class="btn btn-secondary"
+    data-bs-dismiss="modal"
+    className="modal-close-icon"
+    src={"images/Close.svg"}
+  />
+</div>
+
+
+
+</div>
+
+            <div class="modal-body skills" style={{
+              height:"300px !important"
+            }} >
               <Paper
                 p="md"
-                style={{
-                  width: "30rem",
-                }}
+                // style={{
+                //   width: "30rem",
+                // }}
               >
                 <form>
                   <Grid>
@@ -3188,18 +3262,26 @@ export default function View(props: IAppProps) {
                     maximum 5 allowed{" "}
                   </small>
                 </form>
+
+       
+
+              <button
+              style={{
+                width:"100%"
+              }}
+                type="button"
+                class="save-btn-modal-footer mt-4"
+                onClick={() => updateKeySkills()}
+              >
+                Save 
+              </button>
+
               </Paper>
             </div>
 
             <div class="modal-footer">
+          
               {/* <button
-                className="btn btn-danger"
-                onClick={() => deleteSpecificExperience()}
-              >
-                {" "}
-                delete{" "}
-              </button> */}
-              <button
                 type="button"
                 id="modal-close-btn"
                 class="btn btn-secondary"
@@ -3221,9 +3303,13 @@ export default function View(props: IAppProps) {
                 class="btn btn-primary"
                 onClick={() => updateKeySkills()}
               >
-                Save changes
-              </button>
+                Save 
+              </button> */}
             </div>
+
+
+
+            
           </div>
         </div>
       </div>
@@ -4590,7 +4676,7 @@ export default function View(props: IAppProps) {
                 class="save-btn-modal-footer"
                 onClick={() => updateThisProject()}
               >
-                Save changes
+                Save
               </button>
             </div>
           </div>
@@ -4852,7 +4938,7 @@ export default function View(props: IAppProps) {
                         </div>
                       </Group>
 
-                      {hasMaster && (
+                      {true && (
                         <Image
                           data-bs-toggle="modal"
                           data-bs-target="#addExperience"
@@ -5012,7 +5098,7 @@ export default function View(props: IAppProps) {
                           Education
                         </div>
                       </Group>
-                      {hasMaster && (
+                      {true && (
                         <Image
                           src="./assets/addIcon.png"
                           alt="Google"
@@ -5178,7 +5264,7 @@ export default function View(props: IAppProps) {
                       </div>
                     </Group>
 
-                    {hasMaster && (
+                    {true && (
                       <Image
                         data-bs-toggle="modal"
                         data-bs-target="#addProject"

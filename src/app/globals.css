@@ -333,12 +333,32 @@ line-height: normal;
 }
 
 @media (min-width: 576px) {
+
   .modal-body {
     height: 500px !important;
     overflow-y: scroll;
      padding-left: 26px !important;
      padding-right: 26px !important;
   }
+
+  .modal-body.skills {
+    height: auto !important;
+    overflow-y:auto;
+    /* overflow-y: scroll;
+     padding-left: 26px !important;
+     padding-right: 26px !important; */
+  }
+
+  .modal-body.basic {
+    height: auto !important;
+    overflow-y:auto;
+    /* overflow-y: scroll;
+     padding-left: 26px !important;
+     padding-right: 26px !important; */
+  }
+
+
+
 
 
   .modal-body label {
