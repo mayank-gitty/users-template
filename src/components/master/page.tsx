@@ -120,7 +120,7 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
         },  
         user: {
           connect: {
-            id:  profileId ? profileId : localStorage.getItem("id"),
+            id: localStorage.getItem("id"),
           },
         },
 
