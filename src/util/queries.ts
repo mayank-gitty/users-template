@@ -438,6 +438,54 @@ const GET_USER = gql`
   }
 `;
 
+const USERS = gql`
+query Users($where: UserWhereInput!) {
+  users(where: $where) {
+      name
+      id 
+      photograph
+      resume
+      resume_headline
+      itskills {
+        id
+        name
+      }
+      itskillsCount
+      education {
+       id 
+    
+      }
+      educationCount
+      project {
+        id
+        
+      }
+      projectCount
+      active
+      open_to_work
+      keyskills {
+        id
+        name
+      }
+      keyskillsCount
+      experience {
+        id
+    
+      }
+      experienceCount
+      profile_summary
+      createdAt
+      company {
+      name
+      }
+      role
+      email
+      phone
+      address
+  }
+}
+`;
+
 export {
   HAS_MASTER,
   PROFILE_USER,
@@ -447,5 +495,6 @@ export {
   VIEW_MASTER,
   PROFILE_USERS,
   GET_USER,
-  VIEW_USER
+  VIEW_USER,
+  USERS
 };

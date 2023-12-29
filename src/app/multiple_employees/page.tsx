@@ -37,11 +37,16 @@ import {
   getReportingManagerId,
 } from "../../utils/serverQueries";
 
-import { GET_USER } from "@/util/queries";
-import { createMultipleUsers } from "../../utils/serverMutations";
+
+import { GET_USER    } from "@/util/queries";
+
+import { ADD_MULTIPLE_USER } from "@/util/mutationQueries";
+import { createMultipleUsers, } from "../../utils/serverMutations";
 import { useTransition } from "react";
 import client from "../../../helpers/request";
 import { Console } from "console";
+
+
 
 const COMPANIES = gql`
   query Query {
@@ -67,16 +72,7 @@ const USERS = gql`
   }
 `;
 
-const ADD_MULTIPLE_USER = gql`
-  mutation Mutation($data: [UserCreateInput!]!) {
-    createUsers(data: $data) {
-      role
-      password {
-        isSet
-      }
-    }
-  }
-`;
+
 
 const AddTimeLine = ({ AllProjects }: any) => {
   const router = useRouter();
@@ -193,6 +189,11 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
   const addEntry = () => {
     // console.log('form',form.values)
+
+
+    if (!form.getInputProps("company")?.value) {
+      return form.setFieldError("company", "select company");
+    }
 
     console.log("form", form.values);
     form.insertListItem("entries", {
@@ -424,7 +425,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
       console.log("generate", MutatedataForSending);
 
-      const user = await client.request(ADD_MULTIPLE_USER, {
+      const user = await client.request( ADD_MULTIPLE_USER, {
         data: MutatedataForSending,
       });
 
@@ -434,7 +435,24 @@ const AddTimeLine = ({ AllProjects }: any) => {
           bodyClassName: "grow-font-size",
           progressClassName: "fancy-progress-bar",
         });
+
+        form.setFieldValue("entries", [
+          {
+            userName: "",
+            mobileNumber: "",
+            email: "",
+            address: "",
+            //   company: "",
+            key: 0,
+          },
+
+        ]);
+
+        form.setFieldValue("company", "");
+
         const check = await sendEmails(MutatedataForSending);
+
+           console.log('checking',check)
 
         if (check) {
           toast("employees credentials sent", {
@@ -443,10 +461,13 @@ const AddTimeLine = ({ AllProjects }: any) => {
             progressClassName: "fancy-progress-bar",
           });
 
+
+
+
           // Redirect or perform other actions
           setTimeout(() => {
-            router.push("/invited_employees");
-          }, 1000);
+            router.push("/profileEmployees");
+          }, 2000);
         }
       } else {
         // console.log("error",);
@@ -518,50 +539,10 @@ const AddTimeLine = ({ AllProjects }: any) => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 h-auto">
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                      >
-                        <TextInput
-                          className="h-10 w-48 p-2"
-                          placeholder="Name"
-                          {...form.getInputProps(`entries.${0}.userName`)}
-                        />
-                      </th>
-                      <td className="px-6 py-4">
-                        <TextInput
-                          //   label="Name"
-                          //   description="Input description"
-                          className=" h-10 w-48 p-2"
-                          placeholder="Mobile Number"
-                          {...form.getInputProps(`entries.${0}.mobileNumber`)}
-                        />
-                      </td>
-                      <td className="px-6 py-4">
-                        <TextInput
-                          //   label="Name"
-                          //   description="Input description"
-                          className=" h-10 w-48 p-2"
-                          placeholder="Email"
-                          {...form.getInputProps(`entries.${0}.email`)}
-                        />
-                      </td>
-                      <td className="px-6 py-4">
-                        <TextInput
-                          //   label="Name"
-                          //   description="Input description"
-                          className=" h-10 w-48 p-2"
-                          placeholder="Address"
-                          {...form.getInputProps(`entries.${0}.address`)}
-                        />
-                      </td>
-                    </tr>
+              
 
-                    {form.values.entries.length > 1 &&
+                    {form.values.entries.length > 0 &&
                       form.values.entries.map((item: any, index) => {
-                        if (item.key === 0) {
-                        } else {
                           return (
                             <tr
                               key={item.key}
@@ -574,6 +555,15 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                 <TextInput
                                   //   label="Name"
                                   //   description="Input description"
+                                  disabled={
+                                     
+                                  form.getInputProps(
+                                      "company"
+                                    )?.value
+                                      ? false
+                                      :  true
+
+                                  }
                                   className=" h-10 w-48 p-2"
                                   placeholder="Name"
                                   {...form.getInputProps(
@@ -585,6 +575,15 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                 <TextInput
                                   //   label="Name"
                                   //   description="Input description"
+                                  disabled={
+                                     
+                                    form.getInputProps(
+                                        "company"
+                                      )?.value
+                                        ? false
+                                        :  true
+  
+                                    }
                                   className=" h-10 w-48 p-2"
                                   placeholder="Mobile Number"
                                   {...form.getInputProps(
@@ -596,7 +595,15 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                 <TextInput
                                   //   label="Name"
                                   //   description="Input description"
-
+                                  disabled={
+                                     
+                                    form.getInputProps(
+                                        "company"
+                                      )?.value
+                                        ? false
+                                        :  true
+  
+                                    }
                                   className="h-10 w-48 p-2"
                                   placeholder="Email"
                                   {...form.getInputProps(
@@ -608,6 +615,15 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                 <TextInput
                                   //   label="Name"
                                   //   description="Input description"
+                                  disabled={
+                                     
+                                    form.getInputProps(
+                                        "company"
+                                      )?.value
+                                        ? false
+                                        :  true
+  
+                                    }
                                   className=" h-10 w-48 p-2"
                                   placeholder="Address"
                                   {...form.getInputProps(
@@ -628,7 +644,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                               </td>
                             </tr>
                           );
-                        }
+                    
                       })}
                   </tbody>
                 </table>
@@ -637,7 +653,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                   <button
                     className={`px-3 py-2 mt-4 new-entry-btn`}
                     onClick={() => addEntry()}
-                    type="button"
+                    type="button" 
                   >
                     + Add new entry
                   </button>

@@ -9,8 +9,56 @@
   border: none !important;
 }
 
+
+
+
+
+.mt-16  {
+
+  margin-top: 18px !important;
+
+}
+
 .table-bordered {
   border: none !important;
+}
+
+
+.home-page.profile-table th {
+
+  font-size: 12.715px;
+  /* font-style: normal; */
+  font-weight: 400;
+  color: #809FB8;
+
+}
+
+.w-full {
+  width: 100%;
+}
+
+.view-all-employees-btn {
+
+border-radius: 3px;
+border: 0.5px solid #E3E3E3;
+background: #FFF;
+color: #3E3E3E;
+
+font-size: 10px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+
+padding: 6px 6px;
+
+}
+
+
+.custom-flexbox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 tbody tr {
@@ -323,6 +371,81 @@ line-height: normal;
 
 }
 
+
+
+.home-page.profile-table .pagination  {
+
+  display: none;
+
+}
+
+
+.home-page.profile-table .mdb-datatable-filter{
+
+  display: none;
+
+}
+
+
+.custom-rounded-dashboard  {
+
+  border-radius: 12px;
+  border: 1px solid #DCDCDC;
+  background: #FFF;
+
+}
+
+
+
+
+.custom-box-shadow-dashboard {
+
+
+
+}
+
+.dashboard-heading {
+
+color: #000;
+/* font-family: Inter; */
+font-size: 24px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+padding-bottom: 16px !important;
+/* padding-top: 80px; */
+
+}
+
+
+.home-page.profile-table [data-test="table"]  {
+
+  border:none !important;
+}
+
+.edit-profile-dashboard {
+
+width: 14.29px;
+height: 14.29px;
+
+}
+
+.photograph-in-main-page  {
+
+
+  width: 184.848px; ;
+
+}
+
+.page-main-heading-dashboard  {
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+   margin-bottom: 0rem;
+   margin-left: 1rem;
+}
 
 .mantine-Checkbox-body  {
 

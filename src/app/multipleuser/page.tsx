@@ -197,9 +197,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
   };
 
   const addEntry = () => {
-    // console.log('form',form.values)
 
-    // console.log("form", form.values);
+
     form.insertListItem("entries", {
       userName: "",
       mobileNumber: "",
@@ -437,6 +436,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
         const check = await sendEmails(MutatedataForSending);
 
         if (check) {
+
           toast("employees credentials sent", {
             className: "green-background",
             bodyClassName: "grow-font-size",
@@ -444,10 +444,25 @@ const AddTimeLine = ({ AllProjects }: any) => {
           });
         }
 
+
+        form.setFieldValue("entries", [
+          {
+            userName: "",
+            mobileNumber: "",
+            email: "",
+            address: "",
+            //   company: "",
+            key: 0,
+          },
+
+        ]);
+
+        form.setFieldValue("company", "");
         // Redirect or perform other actions
         setTimeout(() => {
-          router.push("/multi_users_table");
-        }, 1000);
+          router.push("/profileUsers");
+        }, 2000);
+
       } else {
       }
     }
@@ -653,7 +668,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                               </td> */}
                               <td>
                                 <button
-                                  className={`${clickS} px-3 py-2  ml-6`}
+                                  className={`px-3 py-2  ml-6`}
                                   onClick={(e) =>
                                     form.removeListItem("entries", index)
                                   }

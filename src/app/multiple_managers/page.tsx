@@ -190,9 +190,11 @@ const AddTimeLine = ({ AllProjects }: any) => {
   };
 
   const addEntry = () => {
-    // console.log('form',form.values)
+    
+    if (!form.getInputProps("company")?.value) {
+      return form.setFieldError("company", "select company");
+    }
 
-    // console.log("form", form.values);
     form.insertListItem("entries", {
       userName: "",
       mobileNumber: "",
@@ -429,6 +431,20 @@ const AddTimeLine = ({ AllProjects }: any) => {
         data: MutatedataForSending,
       });
 
+      form.setFieldValue("entries", [
+        {
+          userName: "",
+          mobileNumber: "",
+          email: "",
+          address: "",
+          //   company: "",
+          key: 0,
+        },
+
+      ]);
+
+      form.setFieldValue("company", "");
+
       if (user.createUsers) {
         toast("managers invited", {
           className: "green-background",
@@ -523,57 +539,11 @@ const AddTimeLine = ({ AllProjects }: any) => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 h-auto">
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          <TextInput
-                            className=" h-10 w-48 p-2"
-                            placeholder="Name"
-                            {...form.getInputProps(`entries.${0}.userName`)}
-                          />
-                        </th>
-                        <td className="px-6 py-4">
-                          <TextInput
-                            //   label="Name"
-                            //   description="Input description"
-                            className=" h-10 w-48 p-2"
-                            placeholder="Mobile Number"
-                            {...form.getInputProps(`entries.${0}.mobileNumber`)}
-                          />
-                        </td>
-                        <td className="px-6 py-4">
-                          <TextInput
-                            //   label="Name"
-                            //   description="Input description"
-                            className=" h-10 w-48 p-2"
-                            placeholder="Email"
-                            {...form.getInputProps(`entries.${0}.email`)}
-                          />
-                        </td>
-                        <td className="px-6 py-4">
-                          <TextInput
-                            //   label="Name"
-                            //   description="Input description"
-                            className=" h-10 w-48 p-2"
-                            placeholder="Address"
-                            {...form.getInputProps(`entries.${0}.address`)}
-                          />
-                        </td>
-                        {/* <td>
-                          <Select
-                            {...form.getInputProps(`entries.${0}.company`)}
-                            placeholder="Please Select Company"
-                            data={form.getInputProps("companies").value}
-                          />
-                        </td> */}
-                      </tr>
+               
 
-                      {form.values.entries.length > 1 &&
+                      {form.values.entries.length > 0 &&
                         form.values.entries.map((item: any, index) => {
-                          if (item.key === 0) {
-                          } else {
+                        
                             return (
                               <tr
                                 key={item.key}
@@ -584,8 +554,15 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                 >
                                   <TextInput
-                                    //   label="Name"
-                                    //   description="Input description"
+                                    disabled={
+                                     
+                                      form.getInputProps(
+                                          "company"
+                                        )?.value
+                                          ? false
+                                          :  true
+    
+                                      }
                                     className=" h-10 w-48 p-2"
                                     placeholder="Name"
                                     {...form.getInputProps(
@@ -597,6 +574,16 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                   <TextInput
                                     //   label="Name"
                                     //   description="Input description"
+
+                                    disabled={
+                                     
+                                      form.getInputProps(
+                                          "company"
+                                        )?.value
+                                          ? false
+                                          :  true
+    
+                                      }
                                     className=" h-10 w-48 p-2"
                                     placeholder="Mobile Number"
                                     {...form.getInputProps(
@@ -609,6 +596,15 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                     //   label="Name"
                                     //   description="Input description"
 
+                                    disabled={
+                                     
+                                      form.getInputProps(
+                                          "company"
+                                        )?.value
+                                          ? false
+                                          :  true
+    
+                                      }
                                     className=" h-10 w-48 p-2"
                                     placeholder="Email"
                                     {...form.getInputProps(
@@ -620,6 +616,17 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                   <TextInput
                                     //   label="Name"
                                     //   description="Input description"
+
+
+                                    disabled={
+                                     
+                                      form.getInputProps(
+                                          "company"
+                                        )?.value
+                                          ? false
+                                          :  true
+    
+                                      }
                                     className=" h-10 w-48 p-2"
                                     placeholder="Address"
                                     {...form.getInputProps(
@@ -640,7 +647,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                 </td>
                               </tr>
                             );
-                          }
+                          
                         })}
                     </tbody>
                   </table>

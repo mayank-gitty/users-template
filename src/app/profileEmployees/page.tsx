@@ -7,6 +7,8 @@ import client from "../../../helpers/request";
 import { link } from "fs";
 import { useRouter } from "next/navigation";
 import { PROFILE_USERS } from "@/util/queries";
+import { USERS } from "../../util/queries";
+
 
 // Define mutation
 
@@ -15,53 +17,7 @@ const DatatablePage = () => {
 
   const router = useRouter();
 
-  const USERS = gql`
-  query Users($where: UserWhereInput!) {
-    users(where: $where) {
-        name
-        id 
-        photograph
-        resume
-        resume_headline
-        itskills {
-          id
-          name
-        }
-        itskillsCount
-        education {
-         id 
-      
-        }
-        educationCount
-        project {
-          id
-          
-        }
-        projectCount
-        active
-        open_to_work
-        keyskills {
-          id
-          name
-        }
-        keyskillsCount
-        experience {
-          id
-      
-        }
-        experienceCount
-        profile_summary
-        createdAt
-        company {
-        name
-        }
-        role
-        email
-        phone
-        address
-    }
-  }
-`;
+
 
   
   const getData = async () => {
@@ -98,8 +54,8 @@ const DatatablePage = () => {
         address: item?.address,
         // photograph: <img src={item?.photograph} />,
         // // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
-        // keyskills: item.keyskills.map((u: any) => u.name).join(", "),
-        // itskills: item.itskills.map((u: any) => u.name).join(", "),
+        keyskills: item.keyskills.map((u: any) => u.name).join(", "),
+        itskills: item.itskills.map((u: any) => u.name).join(", "),
         // action: (
         //   <button
         //     className="table-button"

@@ -157,6 +157,17 @@ const updateUserEducation = gql`
   }
 `;
 
+const ADD_MULTIPLE_USER = gql`
+  mutation Mutation($data: [UserCreateInput!]!) {
+    createUsers(data: $data) {
+      role
+      password {
+        isSet
+      }
+    }
+  }
+`;
+
 export {
   updateUser,
   AUTH_MUTATION,
@@ -167,5 +178,6 @@ export {
   deleteEducation,
   updateUserProject,
   deleteProject ,
-  updateEmployeeBasicDetails
+  updateEmployeeBasicDetails,
+  ADD_MULTIPLE_USER
 };

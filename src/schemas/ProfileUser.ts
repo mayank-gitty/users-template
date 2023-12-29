@@ -72,7 +72,6 @@ const filterPosts = async ({
 };
 
 
-
 export default list({
   access: {
     operation: {

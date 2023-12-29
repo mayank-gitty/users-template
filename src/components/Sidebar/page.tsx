@@ -286,7 +286,7 @@ function Sidebar() {
                 </a>
               </li>
 
-              <li
+              {/* <li
                 onClick={() => {
                   router.push("/multi_users_table");
                   // alert('mayank')
@@ -322,7 +322,7 @@ function Sidebar() {
                   {" "}
                  Employees Profiles {" "}
                 </a>
-              </li>
+              </li> */}
             </div>
           )}
 
@@ -360,7 +360,7 @@ function Sidebar() {
                   href=""
                 >
                   {" "}
-                  Employees {" "}
+                  Employees Profiles {" "}
                 </a>
               </li>
               <li
@@ -443,15 +443,6 @@ function Sidebar() {
 
 
 
-{
-
-/*
-
-
-
-*/
-
-}
 
           
 

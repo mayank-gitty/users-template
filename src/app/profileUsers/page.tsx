@@ -7,6 +7,8 @@ import client from "../../../helpers/request";
 import { link } from "fs";
 import { useRouter } from "next/navigation";
 import { PROFILE_USERS } from "@/util/queries";
+import { USERS } from "../../util/queries";
+
 
 // Define mutation
 
@@ -17,18 +19,18 @@ const DatatablePage = () => {
 
   const getData = async () => {
 
-    const user: any = await client.request(PROFILE_USERS, {
+
+    const user: any = await client.request(USERS, {
       where: {
-        user: {
+
           role: {
-            equals: "employee"
+            equals: "employee",
           },
-          company: {
-            name: {
-              equals: localStorage.getItem('company')
+            company: {
+              name: {
+                equals: localStorage.getItem('company')
+              }
             }
-          }
-        }
       },
       orderBy: [
         {
@@ -38,14 +40,17 @@ const DatatablePage = () => {
     });
 
 
+
     console.log('user',user)
 
-    const users = user.profileUsers.map((item: any) => {  
+    const users = user?.users?.map((item: any) => {  
       return {
-        user: item?.user?.name,
-        // company: item?.user?.company?.name,
-        photograph: <img src={item?.photograph} />,
-        // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
+        user: item?.name,
+        company: item?.name,
+        phone: item?.phone,
+        address: item?.address,
+        // photograph: <img src={item?.photograph} />,
+        // // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
         itskills: item.itskills.map((u: any) => u.name).join(", "),
         // action: (
@@ -54,25 +59,21 @@ const DatatablePage = () => {
         //     onClick={() => router.push(`/edit_master?id=${item.id}`)}
         //   >
         //     {" "}
-        //     edit {" "}
+        //     edit{" "}
         //   </button>
         // ),
         action: (
+
+
           <button
             className="table-button"
             onClick={() => router.push(`/view_master?id=${item.id}`)}
           >
             {" "}
-            view{" "}
+            edit  {" "}
           </button>
-        ),
-        resume: item.resume ? (
-          <a   download={ ( item.resume.includes('docx' ) || item.resume.includes('doc')  ) ? true : false } target="_blank" className="resume-link" href={item.resume} >
-            {" "}
-            view resume{" "}
-          </a>
-        ) : (
-          ""
+
+
         ),
       };
     });
@@ -103,18 +104,32 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 200,
         },
+        {
+          label: "Phone",
+          field: "phone",
+          sort: "disabled",
+          width: 200,
+        },
+        {
+          label: "Address",
+          field: "address",
+          sort: "disabled",
+          width: 200,
+        },
+
+
         // {
         //   label: "Photograph",
         //   field: "photograph",
         //   sort: "disabled",
         //   width: 200,
         // },
-        // {
-        //   label: "Company",
-        //   field: "company",
-        //   sort: "disabled",
-        //   width: 200,
-        // },
+        {
+          label: "Company",
+          field: "company",
+          sort: "disabled",
+          width: 200,
+        },
         // {
         //   label: "Resume Headline",
         //   field: "resume_headline",
@@ -166,18 +181,13 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 100,
         },
-        // {
-        //   label: "View",
-        //   field: "view",
-        //   sort: "disabled",
-        //   width: 100,
-        // },
         {
           label: "Action",
           field: "action",
           sort: "disabled",
           width: 100,
         },
+
       ],
       rows: users,
     };

@@ -184,11 +184,9 @@ export default function View(props: IAppProps) {
       address: "",
       userAddress: "",
     },
-
   });
 
-
-  console.log('formssssssssssssssssss',form)
+  console.log("formssssssssssssssssss", form);
 
   const COMPANIES = gql`
     query Query {
@@ -797,20 +795,19 @@ export default function View(props: IAppProps) {
     //   });
     // }
 
-
     const user: any = await client.request(updateUser, {
       where: {
         id: search,
       },
       data: {
-           phone:form.getInputProps('userPhone')?.value,
-           address:form.getInputProps('userAddress')?.value,
-           email:form.getInputProps('userEmail')?.value,
-           company:{
-              connect:{
-                id:form.getInputProps('userCompany')?.value
-              }
-           }
+        phone: form.getInputProps("userPhone")?.value,
+        address: form.getInputProps("userAddress")?.value,
+        email: form.getInputProps("userEmail")?.value,
+        company: {
+          connect: {
+            id: form.getInputProps("userCompany")?.value,
+          },
+        },
       },
     });
 
@@ -825,9 +822,6 @@ export default function View(props: IAppProps) {
         router.refresh();
       }, 1000);
     }
-
-    
-
   };
 
   const updateKeySkills = async () => {
@@ -868,190 +862,179 @@ export default function View(props: IAppProps) {
     form.getInputProps(`statusForMutaion`)?.value
   );
 
-
-
-
   const addEducation = async () => {
+    if (!education.school) {
+      return toast("please add university", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
 
+    if (!education.degree) {
+      return toast("please select course", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
 
-      if (!education.school) {
-        return toast("please add university", {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
+    if (!education.field_of_study) {
+      return toast("please select field of study", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    if (!education.start_year) {
+      return toast("please add start year", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (!education.start_year_month) {
+      return toast("please add start year month", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (!education.end_year) {
+      return toast("please add end year", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+    if (!education.end_year_month) {
+      return toast("please add end year month", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    if (education.start_year && education.end_year) {
+      if (education.end_year < education.start_year) {
+        return toast(
+          "invalid duration, end year can not be smaller than start year",
+          {
+            className: "black-background",
+            bodyClassName: "grow-font-size",
+
+            progressClassName: "fancy-progress-bar",
+          }
+        );
       }
-  
-      if (!education.degree) {
-        return toast("please select course", {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
-      }
-  
-      if (!education.field_of_study) {
-        return toast("please select field of study", {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
-      }
-  
-      if (!education.start_year) {
-        return toast("please add start year", {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
-      }
-      if (!education.start_year_month) {
-        return toast("please add start year month", {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
-      }
-      if (!education.end_year) {
-        return toast("please add end year", {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
-      }
-      if (!education.end_year_month) {
-        return toast("please add end year month", {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
-      }
-  
-      if (education.start_year && education.end_year) {
-        if (education.end_year < education.start_year) {
+
+      if (education.end_year === education.start_year) {
+        const releventMonths = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ].map((item, index) => ({ label: item, value: index + 1 }));
+
+        const startMonthNumber = releventMonths.filter(
+          (item) => item.label === education.start_year_month
+        )[0].value;
+
+        const endMonthNumber = releventMonths.filter(
+          (item) => item.label === education.end_year_month
+        )[0].value;
+
+        console.log("190", startMonthNumber, endMonthNumber);
+
+        if (education.start_year_month === education.end_year_month) {
           return toast(
-            "invalid duration, end year can not be smaller than start year",
+            "invalid duration, start date can not be equal to end date",
             {
               className: "black-background",
               bodyClassName: "grow-font-size",
-  
               progressClassName: "fancy-progress-bar",
             }
           );
         }
-  
-        if (education.end_year === education.start_year) {
-          const releventMonths = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-          ].map((item, index) => ({ label: item, value: index + 1 }));
-  
-          const startMonthNumber = releventMonths.filter(
-            (item) => item.label === education.start_year_month
-          )[0].value;
-  
-          const endMonthNumber = releventMonths.filter(
-            (item) => item.label === education.end_year_month
-          )[0].value;
-  
-          console.log("190", startMonthNumber, endMonthNumber);
-  
-          if (education.start_year_month === education.end_year_month) {
-            return toast(
-              "invalid duration, start date can not be equal to end date",
-              {
-                className: "black-background",
-                bodyClassName: "grow-font-size",
-                progressClassName: "fancy-progress-bar",
-              }
-            );
-          }
-          if (endMonthNumber < startMonthNumber) {
-            return toast(
-              "invalid duration, end date can not be small then start date",
-              {
-                className: "black-background",
-                bodyClassName: "grow-font-size",
-                progressClassName: "fancy-progress-bar",
-              }
-            );
-          }
+        if (endMonthNumber < startMonthNumber) {
+          return toast(
+            "invalid duration, end date can not be small then start date",
+            {
+              className: "black-background",
+              bodyClassName: "grow-font-size",
+              progressClassName: "fancy-progress-bar",
+            }
+          );
         }
       }
-  
-      if (!education.grade) {
-        return toast("please add grade", {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
-      }
-      if (!education.activities) {
-        return toast("please add activities", {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
-      }
-  
-      if (!education.description) {
-        return toast("please add  description", {
-          className: "black-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
-      }
-  
-      delete education?.id;
-  
-      const user = await client.request(updateUser, {
-        where: {
-          id: search,
-        },
-        data: {
-          education: {
-            create: [education],
-          },
-        },
+    }
+
+    if (!education.grade) {
+      return toast("please add grade", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
       });
-  
-      if (user.updateUser) {
-        // alert('inside')
-        toast(`experience added`, {
-          className: "green-background",
-          bodyClassName: "grow-font-size",
-          progressClassName: "fancy-progress-bar",
-        });
-  
-        const button = document.getElementById("closeAddEducation");
-  
-        console.log("check", button);
-  
-        setTimeout(() => {
-          button?.click();
-          setFlag(!flag);
-          router.refresh();
-        }, 1000);
-      }
+    }
+    if (!education.activities) {
+      return toast("please add activities", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
 
-    };
+    if (!education.description) {
+      return toast("please add  description", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
 
+    delete education?.id;
 
+    const user = await client.request(updateUser, {
+      where: {
+        id: search,
+      },
+      data: {
+        education: {
+          create: [education],
+        },
+      },
+    });
 
+    if (user.updateUser) {
+      // alert('inside')
+      toast(`experience added`, {
+        className: "green-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
 
+      const button = document.getElementById("closeAddEducation");
+
+      console.log("check", button);
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+  };
 
   const addExperience = async () => {
-    
     if (!experience.title) {
       return toast("please add title", {
         className: "black-background",
@@ -1206,19 +1189,16 @@ export default function View(props: IAppProps) {
 
     const user = await client.request(updateUser, {
       where: {
-          id:search
+        id: search,
       },
       data: {
         experience: {
-          create: [
-                  experience
-          ]
-        }
+          create: [experience],
+        },
+      },
+    });
 
-      }
-      })
-
-      console.log('user',user)
+    console.log("user", user);
 
     if (user.updateUser) {
       // alert('inside')
@@ -1233,7 +1213,6 @@ export default function View(props: IAppProps) {
 
       console.log("check", button);
 
-
       setTimeout(() => {
         button?.click();
         setFlag(!flag);
@@ -1242,10 +1221,7 @@ export default function View(props: IAppProps) {
     }
   };
 
-
   const addProject = async () => {
-
-
     if (!project.projectTitle) {
       return toast("please add title", {
         className: "black-background",
@@ -1363,7 +1339,6 @@ export default function View(props: IAppProps) {
       });
     }
 
-
     console.log("g", project);
 
     console.log("experience", search);
@@ -1394,14 +1369,12 @@ export default function View(props: IAppProps) {
 
       console.log("check", button);
 
-
       setTimeout(() => {
         button?.click();
         setFlag(!flag);
         router.refresh();
       }, 1000);
     }
-
 
     // setProject({
     //   id: "id" + new Date().getTime(),
@@ -1419,15 +1392,12 @@ export default function View(props: IAppProps) {
     //   roleDescription: "",
     //   skillUsed: "",
     // });
-
-
   };
   return (
     <Box
       mx="auto"
       className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]"
     >
-
       <div
         class="modal fade"
         id="addProject"
@@ -1457,243 +1427,251 @@ export default function View(props: IAppProps) {
               </div>
               <div class="modal-body">
                 <Paper p="md">
-                <form>
-              <Grid>
-                {/* <h6 className="box-heading">Add Project</h6> */}
-                <Grid.Col span={12}>
-                  <Input
-                    placeholder="Project title"
-                    required
-                    value={project.projectTitle}
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                        "::placeholder":{
-                          color: "#9D9D9D",
-                          fontSize: "16px",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          lineHeight: "normal"
-                        }
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                    onChange={(e) =>
-                      handleChangeProject("projectTitle", e.target.value)
-                    }
-                  />
-                </Grid.Col>
-                <Grid.Col span={12}>
-                  <Input
-                    placeholder="Client"
-                    required
-                    value={project.client}
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                        "::placeholder":{
-                          color: "#9D9D9D",
-                          fontSize: "16px",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          lineHeight: "normal"
-                        }
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                    onChange={(e) => handleChangeProject("client", e.target.value)}
-                  />
-                </Grid.Col>
-                <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="Project status"
-                    // error={formErrors.projectStatus}
-                    styles={() => ({
-                      label: {
-                        color: "#000",
-                        fontFamily: "Inter",
-                        fontSize: "16px",
-                        fontStyle: "normal",
-                        fontWeight: 600,
-                        lineHeight: "normal"
-                      },
-                    })}
-                  >
-                    <div>
-                      <label style={{ marginRight: "10px" }}>
-                        <Radio
-                          type="radio"
-                          name="projectStatus"
-                          value="inprogress"
-                          label="In Progress"
+                  <form>
+                    <Grid>
+                      {/* <h6 className="box-heading">Add Project</h6> */}
+                      <Grid.Col span={12}>
+                        <Input
+                          placeholder="Project title"
                           required
-                          checked={project.projectStatus === "inprogress"}
-                          onChange={() =>
-                            handleChangeProject("projectStatus", "inprogress")
+                          value={project.projectTitle}
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                              "::placeholder": {
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal",
+                              },
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                          onChange={(e) =>
+                            handleChangeProject("projectTitle", e.target.value)
                           }
                         />
-                   
-                      </label>
-                      <label style={{ marginRight: "10px" }}>
-                        <Radio
-                          type="radio"
-                          name="projectStatus"
-                          value="finished"
-                          label="Finished"
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input
+                          placeholder="Client"
                           required
-                          checked={project.projectStatus === "finished"}
-                          onChange={() =>
-                            handleChangeProject("projectStatus", "finished")
+                          value={project.client}
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                              "::placeholder": {
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal",
+                              },
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                          onChange={(e) =>
+                            handleChangeProject("client", e.target.value)
                           }
                         />
-            
-                      </label>
-                    </div>
-                  </Input.Wrapper>
-                </Grid.Col>
-                <Grid.Col span={12}>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <div style={{ flex: 1, marginRight: "10px" }}>
-                      <Input.Wrapper
-                        label="Work from year"
-                        error={formErrors.workFromYear}
-                        styles={() => ({
-                          input:{
-                            "::placeholder":{
-                              color: "#9D9D9D",
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Project status"
+                          // error={formErrors.projectStatus}
+                          styles={() => ({
+                            label: {
+                              color: "#000",
+                              fontFamily: "Inter",
                               fontSize: "16px",
                               fontStyle: "normal",
-                              fontWeight: 500,
-                              lineHeight: "normal"
-                            }
-                          },
-                          label: {
-                            color: "#000",
-                            fontFamily: "Inter",
-                            fontSize: "16px",
-                            fontStyle: "normal",
-                            fontWeight: 600,
-                            lineHeight: "normal"
-                          },
-                        })}
-
-                      >
-                        <Select
-                          placeholder="Year"
-                          data={["2022", "2023", "2024"]} // Your list of years
-                          value={formData.workFromYear}
-                          onChange={(value) =>
-                            handleChangeProject("workFromYear", value)
-                          }
-                          styles={(theme) => ({
-                            input: {
-                              height: "100%",
-                              "::placeholder":{
-                                color: "#9D9D9D",
-                                fontSize: "16px",
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                                lineHeight: "normal"
-                              }
-                            },
-                            values: {
-                              height: "100%",
-                            },
-                            wrapper: {
-                              height: "50px",
-                            },
-
-                            leftIcon: {
-                              marginRight: theme.spacing.md,
+                              fontWeight: 600,
+                              lineHeight: "normal",
                             },
                           })}
-                        />
-                      </Input.Wrapper>
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <Input.Wrapper
-                        label="Work from month"
-                        error={formErrors.workFromMonth}
-                        styles={() => ({
-                          label: {
-                            color: "#000",
-                            fontFamily: "Inter",
-                            fontSize: "16px",
-                            fontStyle: "normal",
-                            fontWeight: 600,
-                            lineHeight: "normal"
-                          },
-                        })}
-                      >
-                        <Select
-                          placeholder="Month"
-                          data={[
-                            "January",
-                            "February",
-                            "March",
-                            "April",
-                            "May",
-                            "June",
-                            "July",
-                            "August",
-                            "September",
-                            "October",
-                            "November",
-                            "December",
-                          ]} // Your list of months
-                          value={formData.workFromMonth}
-                          onChange={(value) =>
-                            handleChangeProject("workFromMonth", value)
-                          }
-                          styles={(theme) => ({
-                            input: {
-                              height: "100%",
-                              "::placeholder":{
-                                color: "#9D9D9D",
-                                fontSize: "16px",
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                                lineHeight: "normal"
-                              }
-                            },
-                            values: {
-                              height: "100%",
-                            },
-                            wrapper: {
-                              height: "50px",
-                            },
+                        >
+                          <div>
+                            <label style={{ marginRight: "10px" }}>
+                              <Radio
+                                type="radio"
+                                name="projectStatus"
+                                value="inprogress"
+                                label="In Progress"
+                                required
+                                checked={project.projectStatus === "inprogress"}
+                                onChange={() =>
+                                  handleChangeProject(
+                                    "projectStatus",
+                                    "inprogress"
+                                  )
+                                }
+                              />
+                            </label>
+                            <label style={{ marginRight: "10px" }}>
+                              <Radio
+                                type="radio"
+                                name="projectStatus"
+                                value="finished"
+                                label="Finished"
+                                required
+                                checked={project.projectStatus === "finished"}
+                                onChange={() =>
+                                  handleChangeProject(
+                                    "projectStatus",
+                                    "finished"
+                                  )
+                                }
+                              />
+                            </label>
+                          </div>
+                        </Input.Wrapper>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <div style={{ flex: 1, marginRight: "10px" }}>
+                            <Input.Wrapper
+                              label="Work from year"
+                              error={formErrors.workFromYear}
+                              styles={() => ({
+                                input: {
+                                  "::placeholder": {
+                                    color: "#9D9D9D",
+                                    fontSize: "16px",
+                                    fontStyle: "normal",
+                                    fontWeight: 500,
+                                    lineHeight: "normal",
+                                  },
+                                },
+                                label: {
+                                  color: "#000",
+                                  fontFamily: "Inter",
+                                  fontSize: "16px",
+                                  fontStyle: "normal",
+                                  fontWeight: 600,
+                                  lineHeight: "normal",
+                                },
+                              })}
+                            >
+                              <Select
+                                placeholder="Year"
+                                data={["2022", "2023", "2024"]} // Your list of years
+                                value={formData.workFromYear}
+                                onChange={(value) =>
+                                  handleChangeProject("workFromYear", value)
+                                }
+                                styles={(theme) => ({
+                                  input: {
+                                    height: "100%",
+                                    "::placeholder": {
+                                      color: "#9D9D9D",
+                                      fontSize: "16px",
+                                      fontStyle: "normal",
+                                      fontWeight: 500,
+                                      lineHeight: "normal",
+                                    },
+                                  },
+                                  values: {
+                                    height: "100%",
+                                  },
+                                  wrapper: {
+                                    height: "50px",
+                                  },
 
-                            leftIcon: {
-                              marginRight: theme.spacing.md,
-                            },
-                          })}
-                        />
-                      </Input.Wrapper>
-                    </div>
-                  </div>
-                </Grid.Col>
-                <Grid.Col span={12}>
-                  {/* <Input.Wrapper
+                                  leftIcon: {
+                                    marginRight: theme.spacing.md,
+                                  },
+                                })}
+                              />
+                            </Input.Wrapper>
+                          </div>
+                          <div style={{ flex: 1 }}>
+                            <Input.Wrapper
+                              label="Work from month"
+                              error={formErrors.workFromMonth}
+                              styles={() => ({
+                                label: {
+                                  color: "#000",
+                                  fontFamily: "Inter",
+                                  fontSize: "16px",
+                                  fontStyle: "normal",
+                                  fontWeight: 600,
+                                  lineHeight: "normal",
+                                },
+                              })}
+                            >
+                              <Select
+                                placeholder="Month"
+                                data={[
+                                  "January",
+                                  "February",
+                                  "March",
+                                  "April",
+                                  "May",
+                                  "June",
+                                  "July",
+                                  "August",
+                                  "September",
+                                  "October",
+                                  "November",
+                                  "December",
+                                ]} // Your list of months
+                                value={formData.workFromMonth}
+                                onChange={(value) =>
+                                  handleChangeProject("workFromMonth", value)
+                                }
+                                styles={(theme) => ({
+                                  input: {
+                                    height: "100%",
+                                    "::placeholder": {
+                                      color: "#9D9D9D",
+                                      fontSize: "16px",
+                                      fontStyle: "normal",
+                                      fontWeight: 500,
+                                      lineHeight: "normal",
+                                    },
+                                  },
+                                  values: {
+                                    height: "100%",
+                                  },
+                                  wrapper: {
+                                    height: "50px",
+                                  },
+
+                                  leftIcon: {
+                                    marginRight: theme.spacing.md,
+                                  },
+                                })}
+                              />
+                            </Input.Wrapper>
+                          </div>
+                        </div>
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        {/* <Input.Wrapper
                     label="Details of project"
                     error={formErrors.detailsOfProject}
                     styles={() => ({
@@ -1706,288 +1684,300 @@ export default function View(props: IAppProps) {
                       },
                     })}
                   > */}
-                  <Textarea
-                    placeholder="Details of project"
-                    required
-                    styles={(theme) => ({
-
-
-                      input:{
-
-                        width: "100%", // Adjust the width as needed
-                        padding: "10px", // Add padding for a consistent look
-                        borderRadius: "4px", // Add rounded corners
-                        border: "1px solid #ccc", // Add a border
-                        "::placeholder":{
-                          color: "#9D9D9D",
-                          fontSize: "16px",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          lineHeight: "normal"
-                        }
-                        
-                      },
-               
-
-                    })}
-
-                    value={project.detailsOfProject}
-                    onChange={(e) =>
-                      handleChangeProject("detailsOfProject", e.target.value)
-                    }
-                  />
-                  {/* </Input.Wrapper> */}
-                </Grid.Col>
-                <Grid.Col span={12}>
-                  <Input
-                    placeholder="Project location"
-                    required
-                    value={project.projectLocation}
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                        "::placeholder":{
-                          color: "#9D9D9D",
-                          fontSize: "16px",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          lineHeight: "normal"
-                        }
-                      },
-                      
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                    onChange={(e) =>
-                      handleChangeProject("projectLocation", e.target.value)
-                    }
-                  />
-                  {/* </Input.Wrapper> */}
-                </Grid.Col>
-
-                <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="Project site"
-                    error={formErrors.projectSite}
-                    styles={() => ({
-                      input:{
-                        "::placeholder":{
-                          color: "#9D9D9D",
-                          fontSize: "16px",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          lineHeight: "normal"
-                        }
-                      },
-                      label: {
-                        color: "#000",
-                        fontFamily: "Inter",
-                        fontSize: "16px",
-                        fontStyle: "normal",
-                        fontWeight: 600,
-                        lineHeight: "normal"
-                      },
-                    })}
-                  >
-                    <div>
-                      <label style={{ marginRight: "10px" }}>
-                        <Radio
-                          type="radio"
-                          name="projectSite"
-                          value="Offsite"
-                          label="Offsite"
+                        <Textarea
+                          placeholder="Details of project"
                           required
-                          checked={project.projectSite === "offsite"}
-                          onChange={() =>
-                            handleChangeProject("projectSite", "offsite")
+                          styles={(theme) => ({
+                            input: {
+                              width: "100%", // Adjust the width as needed
+                              padding: "10px", // Add padding for a consistent look
+                              borderRadius: "4px", // Add rounded corners
+                              border: "1px solid #ccc", // Add a border
+                              "::placeholder": {
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal",
+                              },
+                            },
+                          })}
+                          value={project.detailsOfProject}
+                          onChange={(e) =>
+                            handleChangeProject(
+                              "detailsOfProject",
+                              e.target.value
+                            )
                           }
                         />
-              
-                      </label>
-                      <label style={{ marginRight: "10px" }}>
-                        <Radio
-                          type="radio"
-                          name="projectSite"
-                          value="finished"
-                          label="Onsite"
+                        {/* </Input.Wrapper> */}
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        <Input
+                          placeholder="Project location"
                           required
-                          checked={project.projectSite === "onsite"}
-                          onChange={() => handleChangeProject("projectSite", "onsite")}
-                        />
-      
-                      </label>
-                    </div>
-                  </Input.Wrapper>
-                </Grid.Col>
+                          value={project.projectLocation}
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                              "::placeholder": {
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal",
+                              },
+                            },
 
-                <Grid.Col span={12}>
-                  <Input.Wrapper
-                    label="Nature of employment"
-                    error={formErrors.natureOfEmployment}
-                    styles={() => ({
-                      label: {
-                        color: "#000",
-                        fontFamily: "Inter",
-                        fontSize: "16px",
-                        fontStyle: "normal",
-                        fontWeight: 600,
-                        lineHeight: "normal"
-                      },
-                    })}
-                  >
-                    <div>
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
 
-
-                      <label style={{ marginRight: "10px" }}>
-                        <Radio
-                          type="radio"
-                          name="natureOfEmployment"
-                          value="fulltime"
-                          label="Full Time"
-                          required
-                          checked={project.natureOfEmployment === "fulltime"}
-                          onChange={() =>
-                            handleChangeProject("natureOfEmployment", "fulltime")
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                          onChange={(e) =>
+                            handleChangeProject(
+                              "projectLocation",
+                              e.target.value
+                            )
                           }
                         />
-             
-                      </label>
+                        {/* </Input.Wrapper> */}
+                      </Grid.Col>
 
-                      <label style={{ marginRight: "10px" }}>
-                        <Radio
-                          type="radio"
-                          name="natureOfEmployment"
-                          value="parttime"
-                          label="Part Time"
-                          required
-                          checked={project.natureOfEmployment === "parttime"}
-                          onChange={() =>
-                            handleChangeProject("natureOfEmployment", "parttime")
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Project site"
+                          error={formErrors.projectSite}
+                          styles={() => ({
+                            input: {
+                              "::placeholder": {
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal",
+                              },
+                            },
+                            label: {
+                              color: "#000",
+                              fontFamily: "Inter",
+                              fontSize: "16px",
+                              fontStyle: "normal",
+                              fontWeight: 600,
+                              lineHeight: "normal",
+                            },
+                          })}
+                        >
+                          <div>
+                            <label style={{ marginRight: "10px" }}>
+                              <Radio
+                                type="radio"
+                                name="projectSite"
+                                value="Offsite"
+                                label="Offsite"
+                                required
+                                checked={project.projectSite === "offsite"}
+                                onChange={() =>
+                                  handleChangeProject("projectSite", "offsite")
+                                }
+                              />
+                            </label>
+                            <label style={{ marginRight: "10px" }}>
+                              <Radio
+                                type="radio"
+                                name="projectSite"
+                                value="finished"
+                                label="Onsite"
+                                required
+                                checked={project.projectSite === "onsite"}
+                                onChange={() =>
+                                  handleChangeProject("projectSite", "onsite")
+                                }
+                              />
+                            </label>
+                          </div>
+                        </Input.Wrapper>
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        <Input.Wrapper
+                          label="Nature of employment"
+                          error={formErrors.natureOfEmployment}
+                          styles={() => ({
+                            label: {
+                              color: "#000",
+                              fontFamily: "Inter",
+                              fontSize: "16px",
+                              fontStyle: "normal",
+                              fontWeight: 600,
+                              lineHeight: "normal",
+                            },
+                          })}
+                        >
+                          <div>
+                            <label style={{ marginRight: "10px" }}>
+                              <Radio
+                                type="radio"
+                                name="natureOfEmployment"
+                                value="fulltime"
+                                label="Full Time"
+                                required
+                                checked={
+                                  project.natureOfEmployment === "fulltime"
+                                }
+                                onChange={() =>
+                                  handleChangeProject(
+                                    "natureOfEmployment",
+                                    "fulltime"
+                                  )
+                                }
+                              />
+                            </label>
+
+                            <label style={{ marginRight: "10px" }}>
+                              <Radio
+                                type="radio"
+                                name="natureOfEmployment"
+                                value="parttime"
+                                label="Part Time"
+                                required
+                                checked={
+                                  project.natureOfEmployment === "parttime"
+                                }
+                                onChange={() =>
+                                  handleChangeProject(
+                                    "natureOfEmployment",
+                                    "parttime"
+                                  )
+                                }
+                              />
+                            </label>
+
+                            <label>
+                              <Radio
+                                type="radio"
+                                name="natureOfEmployment"
+                                value="contractual"
+                                label="Contractual"
+                                required
+                                checked={
+                                  project.natureOfEmployment === "contractual"
+                                }
+                                onChange={() =>
+                                  handleChangeProject(
+                                    "natureOfEmployment",
+                                    "contractual"
+                                  )
+                                }
+                              />
+                            </label>
+                          </div>
+                        </Input.Wrapper>
+                      </Grid.Col>
+
+                      <Grid.Col span={12}>
+                        {/* <Input.Wrapper label="Team size" error={formErrors.teamSize}> */}
+                        <Select
+                          placeholder="Select team size"
+                          data={[
+                            "1",
+                            "2",
+                            "3",
+                            "4",
+                            "5",
+                            "6",
+                            "7",
+                            "8",
+                            "9",
+                            "10",
+                            "11",
+                            "12",
+                          ]} // Your list of size
+                          value={project.teamSize}
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                              "::placeholder": {
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal",
+                              },
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                          onChange={(value) =>
+                            handleChangeProject("teamSize", value)
                           }
                         />
-            
-                      </label>
+                        {/* </Input.Wrapper> */}
+                      </Grid.Col>
+                      <Grid.Col span={12}>
+                        {/* <Input.Wrapper label="Role" error={formErrors.role}> */}
+                        <Select
+                          placeholder="Role"
+                          data={[
+                            "java dev",
+                            "react dev",
+                            "python dev",
+                            "4",
+                            "5",
+                            "6",
+                            "7",
+                            "8",
+                            "9",
+                            "10",
+                            "11",
+                            "12",
+                          ]} // Your list of size
+                          value={project.role}
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                              "::placeholder": {
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal",
+                              },
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
 
-
-                      <label>
-                        <Radio
-                          type="radio"
-                          name="natureOfEmployment"
-                          value="contractual"
-                          label="Contractual"
-                          required
-                          checked={project.natureOfEmployment === "contractual"}
-                          onChange={() =>
-                            handleChangeProject("natureOfEmployment", "contractual")
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                          onChange={(value) =>
+                            handleChangeProject("role", value)
                           }
                         />
-          
-                      </label>
-                    </div>
-                  </Input.Wrapper>
-                </Grid.Col>
+                        {/* </Input.Wrapper> */}
+                      </Grid.Col>
 
-                <Grid.Col span={12}>
-                  {/* <Input.Wrapper label="Team size" error={formErrors.teamSize}> */}
-                  <Select
-                    placeholder="Select team size"
-                    data={[
-                      "1",
-                      "2",
-                      "3",
-                      "4",
-                      "5",
-                      "6",
-                      "7",
-                      "8",
-                      "9",
-                      "10",
-                      "11",
-                      "12",
-                    ]} // Your list of size
-                    value={project.teamSize}
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                        "::placeholder":{
-                          color: "#9D9D9D",
-                          fontSize: "16px",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          lineHeight: "normal"
-                        }
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                    onChange={(value) => handleChangeProject("teamSize", value)}
-                  />
-                  {/* </Input.Wrapper> */}
-                </Grid.Col>
-                <Grid.Col span={12}>
-                  {/* <Input.Wrapper label="Role" error={formErrors.role}> */}
-                  <Select
-                    placeholder="Role"
-                    data={[
-                      "java dev",
-                      "react dev",
-                      "python dev",
-                      "4",
-                      "5",
-                      "6",
-                      "7",
-                      "8",
-                      "9",
-                      "10",
-                      "11",
-                      "12",
-                    ]} // Your list of size
-                    value={project.role}
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                        "::placeholder":{
-                          color: "#9D9D9D",
-                          fontSize: "16px",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          lineHeight: "normal"
-                        }
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                    onChange={(value) => handleChangeProject("role", value)}
-                  />
-                  {/* </Input.Wrapper> */}
-                </Grid.Col>
-
-                <Grid.Col span={12}>
-                  {/* <Input.Wrapper
+                      <Grid.Col span={12}>
+                        {/* <Input.Wrapper
                     label="Role description"
                     error={formErrors.roleDescription}
                     styles={() => ({
@@ -2000,38 +1990,41 @@ export default function View(props: IAppProps) {
                       },
                     })}
                   > */}
-                  <Textarea
-                    placeholder="Role description"
-                    required
-                    styles={() => ({
-                      input:{
-                        "::placeholder":{
-                          color: "#9D9D9D",
-                          fontSize: "16px",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          lineHeight: "normal"
-                        }
-                      },
-                      label: {
-                        color: "#000",
-                        fontFamily: "Inter",
-                        fontSize: "16px",
-                        fontStyle: "normal",
-                        fontWeight: 600,
-                        lineHeight: "normal"
-                      },
-                    })}
-                    value={project.roleDescription}
-                    onChange={(e) =>
-                      handleChangeProject("roleDescription", e.target.value)
-                    }
-                  />
-                  {/* </Input.Wrapper> */}
-                </Grid.Col>
+                        <Textarea
+                          placeholder="Role description"
+                          required
+                          styles={() => ({
+                            input: {
+                              "::placeholder": {
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal",
+                              },
+                            },
+                            label: {
+                              color: "#000",
+                              fontFamily: "Inter",
+                              fontSize: "16px",
+                              fontStyle: "normal",
+                              fontWeight: 600,
+                              lineHeight: "normal",
+                            },
+                          })}
+                          value={project.roleDescription}
+                          onChange={(e) =>
+                            handleChangeProject(
+                              "roleDescription",
+                              e.target.value
+                            )
+                          }
+                        />
+                        {/* </Input.Wrapper> */}
+                      </Grid.Col>
 
-                <Grid.Col span={12}>
-                  {/* <Input.Wrapper
+                      <Grid.Col span={12}>
+                        {/* <Input.Wrapper
                     label="Skills used"
                     error={formErrors.roleDescription}
                     styles={() => ({
@@ -2044,45 +2037,41 @@ export default function View(props: IAppProps) {
                       },
                     })} 
                   > */}
-                  <Textarea
-                    placeholder="Skills used"
-                    required
-                    styles={() => ({
-                      input:{
-                        "::placeholder":{
-                          color: "#9D9D9D",
-                          fontSize: "16px",
-                          fontStyle: "normal",
-                          fontWeight: 500,
-                          lineHeight: "normal"
-                        }
-                      },
-                      label: {
-                        color: "#000",
-                        fontFamily: "Inter",
-                        fontSize: "16px",
-                        fontStyle: "normal",
-                        fontWeight: 600,
-                        lineHeight: "normal"
-                      },
-                    })}
-                    value={project.skillUsed}
-                    onChange={(e) => handleChangeProject("skillUsed", e.target.value)}
-                  />
-                  {/* </Input.Wrapper> */}
-                </Grid.Col>
-
-
-
-              </Grid>
-            </form>
+                        <Textarea
+                          placeholder="Skills used"
+                          required
+                          styles={() => ({
+                            input: {
+                              "::placeholder": {
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal",
+                              },
+                            },
+                            label: {
+                              color: "#000",
+                              fontFamily: "Inter",
+                              fontSize: "16px",
+                              fontStyle: "normal",
+                              fontWeight: 600,
+                              lineHeight: "normal",
+                            },
+                          })}
+                          value={project.skillUsed}
+                          onChange={(e) =>
+                            handleChangeProject("skillUsed", e.target.value)
+                          }
+                        />
+                        {/* </Input.Wrapper> */}
+                      </Grid.Col>
+                    </Grid>
+                  </form>
                 </Paper>
-
               </div>
 
               <div class="modal-footer">
-
-
                 <button
                   type="button"
                   class="save-btn-modal-footer"
@@ -2093,8 +2082,6 @@ export default function View(props: IAppProps) {
                 >
                   Save
                 </button>
-
-
               </div>
             </div>
           </div>
@@ -2130,11 +2117,10 @@ export default function View(props: IAppProps) {
               </div>
               <div class="modal-body">
                 <Paper p="md">
-         
-                <form >
-                <Grid>
-                  <>
-                    {/* <Grid.Col span={12}>
+                  <form>
+                    <Grid>
+                      <>
+                        {/* <Grid.Col span={12}>
                         <Input.Wrapper
                           styles={() => ({
                             label: {
@@ -2148,8 +2134,8 @@ export default function View(props: IAppProps) {
                         ></Input.Wrapper>
                       </Grid.Col> */}
 
-                    <Grid.Col span={12}>
-                      {/*                         
+                        <Grid.Col span={12}>
+                          {/*                         
                         <Input.Wrapper
                           label="School,University,Institute"
                           styles={() => ({
@@ -2162,35 +2148,37 @@ export default function View(props: IAppProps) {
                             },
                           })}
                         > */}
-                      <Autocomplete
-                        styles={(theme) => ({
-                          input: {
-                            height: "100%",
-                          },
-                          values: {
-                            height: "100%",
-                          },
-                          wrapper: {
-                            height: "50px",
-                          },
+                          <Autocomplete
+                            styles={(theme) => ({
+                              input: {
+                                height: "100%",
+                              },
+                              values: {
+                                height: "100%",
+                              },
+                              wrapper: {
+                                height: "50px",
+                              },
 
-                          leftIcon: {
-                            marginRight: theme.spacing.md,
-                          },
-                        })}
-                        value={education.school}
-                        onChange={(value) => handleChangeEducation("school", value)}
-                        data={indianEducationArray}
-                        placeholder="University Institute"
-                      />
+                              leftIcon: {
+                                marginRight: theme.spacing.md,
+                              },
+                            })}
+                            value={education.school}
+                            onChange={(value) =>
+                              handleChangeEducation("school", value)
+                            }
+                            data={indianEducationArray}
+                            placeholder="University Institute"
+                          />
 
-                      {/* </Input.Wrapper> */}
+                          {/* </Input.Wrapper> */}
 
-                      {/* <p> {education.school} </p> */}
-                    </Grid.Col>
+                          {/* <p> {education.school} </p> */}
+                        </Grid.Col>
 
-                    <Grid.Col span={12}>
-                      {/* <Input.Wrapper
+                        <Grid.Col span={12}>
+                          {/* <Input.Wrapper
                           label="Course"
                           styles={() => ({
                             label: {
@@ -2202,32 +2190,34 @@ export default function View(props: IAppProps) {
                             },
                           })}
                         > */}
-                      <Autocomplete
-                        styles={(theme) => ({
-                          input: {
-                            height: "100%",
-                          },
-                          values: {
-                            height: "100%",
-                          },
-                          wrapper: {
-                            height: "50px",
-                          },
+                          <Autocomplete
+                            styles={(theme) => ({
+                              input: {
+                                height: "100%",
+                              },
+                              values: {
+                                height: "100%",
+                              },
+                              wrapper: {
+                                height: "50px",
+                              },
 
-                          leftIcon: {
-                            marginRight: theme.spacing.md,
-                          },
-                        })}
-                        value={education.degree}
-                        onChange={(value) => handleChangeEducation("degree", value)}
-                        data={allDegreesArray}
-                        placeholder="Course"
-                      />
-                      {/* </Input.Wrapper> */}
-                    </Grid.Col>
+                              leftIcon: {
+                                marginRight: theme.spacing.md,
+                              },
+                            })}
+                            value={education.degree}
+                            onChange={(value) =>
+                              handleChangeEducation("degree", value)
+                            }
+                            data={allDegreesArray}
+                            placeholder="Course"
+                          />
+                          {/* </Input.Wrapper> */}
+                        </Grid.Col>
 
-                    <Grid.Col span={12}>
-                      {/* <Input.Wrapper
+                        <Grid.Col span={12}>
+                          {/* <Input.Wrapper
                           label="field of study"
                           styles={() => ({
                             label: {
@@ -2239,147 +2229,155 @@ export default function View(props: IAppProps) {
                             },
                           })}
                         > */}
-                      <Autocomplete
-                        value={education.field_of_study}
-                        onChange={(value: any) =>
-                          handleChangeEducation("field_of_study", value)
-                        }
-                        data={fields}
-                        placeholder="Field of study"
-                        styles={(theme) => ({
-                          input: {
-                            height: "100%",
-                          },
-                          values: {
-                            height: "100%",
-                          },
-                          wrapper: {
-                            height: "50px",
-                          },
+                          <Autocomplete
+                            value={education.field_of_study}
+                            onChange={(value: any) =>
+                              handleChangeEducation("field_of_study", value)
+                            }
+                            data={fields}
+                            placeholder="Field of study"
+                            styles={(theme) => ({
+                              input: {
+                                height: "100%",
+                              },
+                              values: {
+                                height: "100%",
+                              },
+                              wrapper: {
+                                height: "50px",
+                              },
 
-                          leftIcon: {
-                            marginRight: theme.spacing.md,
-                          },
-                        })}
+                              leftIcon: {
+                                marginRight: theme.spacing.md,
+                              },
+                            })}
 
-                        // styles={customStyles}
-                      />
-          
-                      {/* </Input.Wrapper> */}
-                    </Grid.Col>
+                            // styles={customStyles}
+                          />
 
-                    <Grid.Col span={12}>
-                      <h6 className="experience-label">Start Date</h6>
-                    </Grid.Col>
+                          {/* </Input.Wrapper> */}
+                        </Grid.Col>
 
-                    <Grid.Col span={6}>
-                      <Select
-                        placeholder="Month"
-                        nothingFound="No options"
-                        maxDropdownHeight={280}
-                        onChange={(e) => handleChangeEducation("start_year_month", e)}
-                        data={releventMonths}
-                        value={education.start_year_month}
-                        styles={(theme) => ({
-                          input: {
-                            height: "100%",
-                          },
-                          values: {
-                            height: "100%",
-                          },
-                          wrapper: {
-                            height: "50px",
-                          },
+                        <Grid.Col span={12}>
+                          <h6 className="experience-label">Start Date</h6>
+                        </Grid.Col>
 
-                          leftIcon: {
-                            marginRight: theme.spacing.md,
-                          },
-                        })}
-                      />
-                    </Grid.Col>
-                    <Grid.Col span={6}>
-                      <Select
-                        placeholder="Year"
-                        nothingFound="No options"
-                        maxDropdownHeight={280}
-                        onChange={(e) => handleChangeEducation("start_year", e)}
-                        data={yearsData}
-                        value={education.start_year}
-                        styles={(theme) => ({
-                          input: {
-                            height: "100%",
-                          },
-                          values: {
-                            height: "100%",
-                          },
-                          wrapper: {
-                            height: "50px",
-                          },
+                        <Grid.Col span={6}>
+                          <Select
+                            placeholder="Month"
+                            nothingFound="No options"
+                            maxDropdownHeight={280}
+                            onChange={(e) =>
+                              handleChangeEducation("start_year_month", e)
+                            }
+                            data={releventMonths}
+                            value={education.start_year_month}
+                            styles={(theme) => ({
+                              input: {
+                                height: "100%",
+                              },
+                              values: {
+                                height: "100%",
+                              },
+                              wrapper: {
+                                height: "50px",
+                              },
 
-                          leftIcon: {
-                            marginRight: theme.spacing.md,
-                          },
-                        })}
-                      />
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                      <h6 className="experience-label">End Date</h6>
-                    </Grid.Col>
+                              leftIcon: {
+                                marginRight: theme.spacing.md,
+                              },
+                            })}
+                          />
+                        </Grid.Col>
+                        <Grid.Col span={6}>
+                          <Select
+                            placeholder="Year"
+                            nothingFound="No options"
+                            maxDropdownHeight={280}
+                            onChange={(e) =>
+                              handleChangeEducation("start_year", e)
+                            }
+                            data={yearsData}
+                            value={education.start_year}
+                            styles={(theme) => ({
+                              input: {
+                                height: "100%",
+                              },
+                              values: {
+                                height: "100%",
+                              },
+                              wrapper: {
+                                height: "50px",
+                              },
 
-                    <Grid.Col span={6}>
-                      <Select
-                        placeholder="Month"
-                        nothingFound="No options"
-                        maxDropdownHeight={280}
-                        onChange={(e) => handleChangeEducation("end_year_month", e)}
-                        data={releventMonths}
-                        value={education.end_year_month}
-                        styles={(theme) => ({
-                          input: {
-                            height: "100%",
-                          },
-                          values: {
-                            height: "100%",
-                          },
-                          wrapper: {
-                            height: "50px",
-                          },
+                              leftIcon: {
+                                marginRight: theme.spacing.md,
+                              },
+                            })}
+                          />
+                        </Grid.Col>
+                        <Grid.Col span={12}>
+                          <h6 className="experience-label">End Date</h6>
+                        </Grid.Col>
 
-                          leftIcon: {
-                            marginRight: theme.spacing.md,
-                          },
-                        })}
-                      />
-                    </Grid.Col>
+                        <Grid.Col span={6}>
+                          <Select
+                            placeholder="Month"
+                            nothingFound="No options"
+                            maxDropdownHeight={280}
+                            onChange={(e) =>
+                              handleChangeEducation("end_year_month", e)
+                            }
+                            data={releventMonths}
+                            value={education.end_year_month}
+                            styles={(theme) => ({
+                              input: {
+                                height: "100%",
+                              },
+                              values: {
+                                height: "100%",
+                              },
+                              wrapper: {
+                                height: "50px",
+                              },
 
-                    <Grid.Col span={6}>
-                      <Select
-                        placeholder="Year"
-                        nothingFound="No options"
-                        maxDropdownHeight={280}
-                        onChange={(e) => handleChangeEducation("end_year", e)}
-                        data={yearsData}
-                        value={education.end_year}
-                        styles={(theme) => ({
-                          input: {
-                            height: "100%",
-                          },
-                          values: {
-                            height: "100%",
-                          },
-                          wrapper: {
-                            height: "50px",
-                          },
+                              leftIcon: {
+                                marginRight: theme.spacing.md,
+                              },
+                            })}
+                          />
+                        </Grid.Col>
 
-                          leftIcon: {
-                            marginRight: theme.spacing.md,
-                          },
-                        })}
-                      />
-                    </Grid.Col>
+                        <Grid.Col span={6}>
+                          <Select
+                            placeholder="Year"
+                            nothingFound="No options"
+                            maxDropdownHeight={280}
+                            onChange={(e) =>
+                              handleChangeEducation("end_year", e)
+                            }
+                            data={yearsData}
+                            value={education.end_year}
+                            styles={(theme) => ({
+                              input: {
+                                height: "100%",
+                              },
+                              values: {
+                                height: "100%",
+                              },
+                              wrapper: {
+                                height: "50px",
+                              },
 
-                    <Grid.Col span={12}>
-                      {/* <Input.Wrapper
+                              leftIcon: {
+                                marginRight: theme.spacing.md,
+                              },
+                            })}
+                          />
+                        </Grid.Col>
+
+                        <Grid.Col span={12}>
+                          {/* <Input.Wrapper
                           label="Grade"
                           styles={() => ({
                             label: {
@@ -2391,26 +2389,28 @@ export default function View(props: IAppProps) {
                             },
                           })}
                         > */}
-                      <Input
-                        placeholder="Grade"
-                        required
-                        onChange={(e) => handleChangeEducation("grade", e.target.value)}
-                        value={education.grade}
-                        styles={(theme) => ({
-                          input: {
-                            height: 50,
-                            width: "100%",
-                            fontSize: 16,
-                            lineHeight: 50,
-                            borderRadius: 8,
-                            border: "2px solid #ccc",
-                          },
-                        })}
-                      />
-                      {/* </Input.Wrapper> */}
-                    </Grid.Col>
-                    <Grid.Col span={12}>
-                      {/* <Input.Wrapper
+                          <Input
+                            placeholder="Grade"
+                            required
+                            onChange={(e) =>
+                              handleChangeEducation("grade", e.target.value)
+                            }
+                            value={education.grade}
+                            styles={(theme) => ({
+                              input: {
+                                height: 50,
+                                width: "100%",
+                                fontSize: 16,
+                                lineHeight: 50,
+                                borderRadius: 8,
+                                border: "2px solid #ccc",
+                              },
+                            })}
+                          />
+                          {/* </Input.Wrapper> */}
+                        </Grid.Col>
+                        <Grid.Col span={12}>
+                          {/* <Input.Wrapper
                           label="Activities"
                           styles={() => ({
                             label: {
@@ -2422,29 +2422,32 @@ export default function View(props: IAppProps) {
                             },
                           })}
                         > */}
-                      <Input
-                        placeholder="Activities"
-                        required
-                        value={education.activities}
-                        onChange={(e) =>
-                          handleChangeEducation("activities", e.target.value)
-                        }
-                        styles={(theme) => ({
-                          input: {
-                            height: 50,
-                            width: "100%",
-                            fontSize: 16,
-                            lineHeight: 50,
-                            borderRadius: 8,
-                            border: "2px solid #ccc",
-                          },
-                        })}
-                      />
-                      {/* </Input.Wrapper> */}
-                    </Grid.Col>
+                          <Input
+                            placeholder="Activities"
+                            required
+                            value={education.activities}
+                            onChange={(e) =>
+                              handleChangeEducation(
+                                "activities",
+                                e.target.value
+                              )
+                            }
+                            styles={(theme) => ({
+                              input: {
+                                height: 50,
+                                width: "100%",
+                                fontSize: 16,
+                                lineHeight: 50,
+                                borderRadius: 8,
+                                border: "2px solid #ccc",
+                              },
+                            })}
+                          />
+                          {/* </Input.Wrapper> */}
+                        </Grid.Col>
 
-                    <Grid.Col span={12}>
-                      {/* <Input.Wrapper
+                        <Grid.Col span={12}>
+                          {/* <Input.Wrapper
                           label="Description"
                           styles={() => ({
                             label: {
@@ -2456,46 +2459,44 @@ export default function View(props: IAppProps) {
                             },
                           })}
                         > */}
-                      <Input
-                        placeholder="Description"
-                        required
-                        value={education.description}
-                        onChange={(e) =>
-                          handleChangeEducation("description", e.target.value)
-                        }
-                        styles={(theme) => ({
-                          input: {
-                            height: 50,
-                            width: "100%",
-                            fontSize: 16,
-                            lineHeight: 50,
-                            borderRadius: 8,
-                            border: "2px solid #ccc",
-                          },
-                        })}
-                      />
-                      {/* </Input.Wrapper> */}
-                    </Grid.Col>
-                  </>
-                </Grid>
-                <div
-                  className="d-flex justify-content-end"
-                  style={{
-                    width: "100%",
-                    marginTop: "1rem",
-                    // background:"red"
-                  }}
-                >
-             
-                </div>
-              </form>
-
+                          <Input
+                            placeholder="Description"
+                            required
+                            value={education.description}
+                            onChange={(e) =>
+                              handleChangeEducation(
+                                "description",
+                                e.target.value
+                              )
+                            }
+                            styles={(theme) => ({
+                              input: {
+                                height: 50,
+                                width: "100%",
+                                fontSize: 16,
+                                lineHeight: 50,
+                                borderRadius: 8,
+                                border: "2px solid #ccc",
+                              },
+                            })}
+                          />
+                          {/* </Input.Wrapper> */}
+                        </Grid.Col>
+                      </>
+                    </Grid>
+                    <div
+                      className="d-flex justify-content-end"
+                      style={{
+                        width: "100%",
+                        marginTop: "1rem",
+                        // background:"red"
+                      }}
+                    ></div>
+                  </form>
                 </Paper>
               </div>
 
               <div class="modal-footer">
-
-
                 <button
                   type="button"
                   class="save-btn-modal-footer"
@@ -2506,14 +2507,11 @@ export default function View(props: IAppProps) {
                 >
                   Save
                 </button>
-
-
               </div>
             </div>
           </div>
         </form>
       </div>
-
 
       <div
         class="modal fade"
@@ -2865,14 +2863,7 @@ export default function View(props: IAppProps) {
         <form>
           <div class="modal-dialog">
             <div class="modal-content">
-
-
-
               <div class="modal-header">
-
-
-
-           
                 <div className="custom-align">
                   <img className="experience-icon" src="images/education.svg" />
 
@@ -2888,12 +2879,7 @@ export default function View(props: IAppProps) {
                     src={"images/Close.svg"}
                   />
                 </div>
-            
-
-
               </div>
-
-
 
               <div class="modal-body basic">
                 <Paper
@@ -3110,28 +3096,19 @@ export default function View(props: IAppProps) {
                       </Grid.Col> */}
                     </Grid>
 
-
                     <button
-
-
-                type="button"
-                class="save-btn-modal-footer mt-4"
-                style={{
-                  width:"100%"
-                }}
-  
-                onClick={() => updateBasicDetails()}
-
-                >
-            
-                Save
-              </button>
-
+                      type="button"
+                      class="save-btn-modal-footer mt-4"
+                      style={{
+                        width: "100%",
+                      }}
+                      onClick={() => updateBasicDetails()}
+                    >
+                      Save
+                    </button>
                   </form>
                 </Paper>
               </div>
-
-    
             </div>
           </div>
         </form>
@@ -3146,35 +3123,30 @@ export default function View(props: IAppProps) {
       >
         <div class="modal-dialog">
           <div class="modal-content">
-           
-          <div class="modal-header">
+            <div class="modal-header">
+              <div className="custom-align">
+                <img className="experience-icon" src="images/education.svg" />
 
+                <h6> Skills </h6>
+              </div>
 
+              <div>
+                <img
+                  id="closeAddSkills"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  className="modal-close-icon"
+                  src={"images/Close.svg"}
+                />
+              </div>
+            </div>
 
-           
-<div className="custom-align">
-  <img className="experience-icon" src="images/education.svg" />
-
-  <h6> Skills </h6>
-</div>
-
-<div>
-  <img
-    id="closeAddSkills"
-    class="btn btn-secondary"
-    data-bs-dismiss="modal"
-    className="modal-close-icon"
-    src={"images/Close.svg"}
-  />
-</div>
-
-
-
-</div>
-
-            <div class="modal-body skills" style={{
-              height:"300px !important"
-            }} >
+            <div
+              class="modal-body skills"
+              style={{
+                height: "300px !important",
+              }}
+            >
               <Paper
                 p="md"
                 // style={{
@@ -3263,24 +3235,20 @@ export default function View(props: IAppProps) {
                   </small>
                 </form>
 
-       
-
-              <button
-              style={{
-                width:"100%"
-              }}
-                type="button"
-                class="save-btn-modal-footer mt-4"
-                onClick={() => updateKeySkills()}
-              >
-                Save 
-              </button>
-
+                <button
+                  style={{
+                    width: "100%",
+                  }}
+                  type="button"
+                  class="save-btn-modal-footer mt-4"
+                  onClick={() => updateKeySkills()}
+                >
+                  Save
+                </button>
               </Paper>
             </div>
 
             <div class="modal-footer">
-          
               {/* <button
                 type="button"
                 id="modal-close-btn"
@@ -3306,10 +3274,6 @@ export default function View(props: IAppProps) {
                 Save 
               </button> */}
             </div>
-
-
-
-            
           </div>
         </div>
       </div>
@@ -4580,7 +4544,6 @@ export default function View(props: IAppProps) {
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Role description"
-            
                           styles={() => ({
                             label: {
                               color: "#01041b",
@@ -4619,9 +4582,7 @@ export default function View(props: IAppProps) {
                       </Grid.Col>
 
                       <Grid.Col span={12}>
-                        <Input.Wrapper
-                          label="Skills"
-                        >
+                        <Input.Wrapper label="Skills">
                           <Textarea
                             placeholder="Skills"
                             required
@@ -4956,20 +4917,19 @@ export default function View(props: IAppProps) {
                             cursor: "pointer",
                           }}
                           onClick={() => {
-              
-      setExperience({
-        id: "",
-        title: "",
-        employment_type: "",
-        company: "",
-        location: "",
-        location_type: "",
-        start_year: "",
-        start_year_month: "",
-        end_year: "",
-        currently_working:false,
-        end_year_month: "",
-      })
+                            setExperience({
+                              id: "",
+                              title: "",
+                              employment_type: "",
+                              company: "",
+                              location: "",
+                              location_type: "",
+                              start_year: "",
+                              start_year_month: "",
+                              end_year: "",
+                              currently_working: false,
+                              end_year_month: "",
+                            });
                           }}
                         />
                       )}
@@ -5110,22 +5070,22 @@ export default function View(props: IAppProps) {
                           data-bs-toggle="modal"
                           data-bs-target="#addEducation"
                           onClick={() => {
-                                setEducation({
-                                  id: "",
-                                  school: "",
-                                  // schoolOther: "",
-                                  degree: "",
-                                  // degreeOther: "",
-                                  field_of_study: "",
-                                  // field_of_studyOther: "",
-                                  grade: "",
-                                  activities: "",
-                                  description: "",
-                                  start_year: "",
-                                  start_year_month: "",
-                                  end_year: "",
-                                  end_year_month: "",
-                                })
+                            setEducation({
+                              id: "",
+                              school: "",
+                              // schoolOther: "",
+                              degree: "",
+                              // degreeOther: "",
+                              field_of_study: "",
+                              // field_of_studyOther: "",
+                              grade: "",
+                              activities: "",
+                              description: "",
+                              start_year: "",
+                              start_year_month: "",
+                              end_year: "",
+                              end_year_month: "",
+                            });
                           }}
                         />
                       )}
@@ -5276,21 +5236,21 @@ export default function View(props: IAppProps) {
                           cursor: "pointer",
                         }}
                         onClick={() => {
-                                  setProject({
-                                    id: "",
-                                    projectTitle: "",
-                                    client: "",
-                                    projectStatus: "inProgress",
-                                    workFromYear: "",
-                                    workFromMonth: "",
-                                    detailsOfProject: "",
-                                    projectLocation: "",
-                                    projectSite: "Offsite",
-                                    natureOfEmployment: "Full Time",
-                                    teamSize: "",
-                                    role: "",
-                                    roleDescription:""
-                                  })
+                          setProject({
+                            id: "",
+                            projectTitle: "",
+                            client: "",
+                            projectStatus: "inProgress",
+                            workFromYear: "",
+                            workFromMonth: "",
+                            detailsOfProject: "",
+                            projectLocation: "",
+                            projectSite: "Offsite",
+                            natureOfEmployment: "Full Time",
+                            teamSize: "",
+                            role: "",
+                            roleDescription: "",
+                          });
                         }}
                       />
                     )}
