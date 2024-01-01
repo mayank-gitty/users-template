@@ -107,7 +107,9 @@ const Thanku = () => {
 
             <h6 className="thank-you"> Thank You ! </h6>
 
-            <h4 className="thank-you-message">  {  ( role === 'admin' || role === 'manager') ? 'Profile Created' : 'Registration Successfull'    }   </h4>
+            <h4 className="thank-you-message">  { 'Registration Successfull'    }   </h4>
+
+            
           </div>
 
           <div className="flex space-x-4 mt-4">
@@ -123,13 +125,13 @@ const Thanku = () => {
               </button>
             </div> */}
 
-            { (role === "employee" ||  ( role === 'manager' && profileUserId ))  && (
+            { (
                 <div className="w-1/2 mx-auto">
                   <button
                     type="button"
                     className="text-gray-800 bg-gray-200 d-flex items-center justify-content-center px-4 py-2 w-full font-semibold rounded-[8px] text-sm hover:bg-violet-100"
                     onClick={() => {
-                      router.push(`/profile?id=${localStorage.getItem("id")}`);
+                      router.push(`/profile?id=${localStorage.getItem('id')}`);
                     }}
                   >
                     View profile

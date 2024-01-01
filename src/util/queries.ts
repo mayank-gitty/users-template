@@ -267,6 +267,7 @@ query Query($where: UserWhereUniqueInput!) {
     id
     name
     email
+    stepperFilled
     password {
       isSet
     }
@@ -428,12 +429,47 @@ const VIEW_MASTER = gql`
 const GET_USER = gql`
   query Query($where: UserWhereUniqueInput!) {
     user(where: $where) {
-      role
       name
-      email
-      company {
+      id 
+      photograph
+      resume
+      resume_headline
+      itskills {
+        id
         name
       }
+      itskillsCount
+      education {
+       id 
+    
+      }
+      educationCount
+      project {
+        id
+        
+      }
+      projectCount
+      active
+      open_to_work
+      keyskills {
+        id
+        name
+      }
+      keyskillsCount
+      experience {
+        id
+    
+      }
+      experienceCount
+      profile_summary
+      createdAt
+      company {
+      name
+      }
+      role
+      email
+      phone
+      address
     }
   }
 `;

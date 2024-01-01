@@ -581,7 +581,7 @@ const Education1: React.FC = () => {
           // id: "id" + new Date().getTime(),
           (item.school = education.school),
             // schoolOther: "",
-            (item.degre = education.degree),
+            (item.degree = education.degree),
             // degreeOther: "",
             (item.field_of_study = education.field_of_study),
             // field_of_studyOther: "",
@@ -662,7 +662,7 @@ const Education1: React.FC = () => {
               className=" mt-4"
               style={{
                 position: "absolute",
-                left: "20%",
+                left: "12%",
               }}
             >
               <div className="heading">

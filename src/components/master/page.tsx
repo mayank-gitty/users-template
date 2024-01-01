@@ -33,6 +33,9 @@ import Thanku from "../../app/thanku/page";
 import client from "../../../helpers/request";
 import { gql } from "graphql-request";
 
+import { useEffect } from "react";
+import { updateUser } from "@/util/mutationQueries";
+
 
 export default function Master() {
   const {
@@ -110,7 +113,13 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
       delete formData.projects[i].id;
     }
 
-    const user = await client.request(PROFILE_USER, {
+
+    console.log('ss',localStorage.getItem('id'))
+
+    const user = await client.request(updateUser, {
+      where: {
+        id: localStorage.getItem('id'),
+      },
       data: {
         keyskills: {
           connect: keyskills,
@@ -118,18 +127,13 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
         itskills: {
           connect: itskills,
         },  
-        user: {
-          connect: {
-            id: localStorage.getItem("id"),
-          },
-        },
-
+ 
         photograph: formData.photograph,
         education: {
           create: formData.educations,
         },
         resume_headline: formData.resume_headline,
-        experience: {
+        experience: { 
           create: formData.experiences,
         },
         project: {
@@ -137,6 +141,7 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
         },
         profile_summary: formData.profile_summary,
         resume: formData.resume,
+        stepperFilled:true
       },
     });
 
@@ -226,15 +231,23 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
     "Create an ad",
   ];
 
+
+  useEffect(()=>{
+
+  //  alert('in master')
+
+  },[])
+
   return (
-    <div className="employee-details">
-      <div className="text-left mb-10" style={{
+    <div className="employee-details" >
+      {/* <div className="text-left mb-10" style={{
         marginLeft:"2rem"
       }} >
         <h4> Fill up {profileName} Details </h4>
-      </div>
+      </div> */}
 
       <div className="mb-2">
+
         <CustomizedSteppers />
       </div>
 

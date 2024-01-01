@@ -431,8 +431,10 @@ const AddTimeLine = ({ AllProjects }: any) => {
         toast("employees invited", {  
           className: "green-background",
           bodyClassName: "grow-font-size",
+
           progressClassName: "fancy-progress-bar",
         });
+        
         const check = await sendEmails(MutatedataForSending);
 
         if (check) {
@@ -448,12 +450,14 @@ const AddTimeLine = ({ AllProjects }: any) => {
         form.setFieldValue("entries", [
           {
             userName: "",
+
             mobileNumber: "",
             email: "",
             address: "",
             //   company: "",
             key: 0,
-          },
+          }
+
 
         ]);
 

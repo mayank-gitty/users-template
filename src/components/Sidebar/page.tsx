@@ -12,9 +12,11 @@ import { rem } from "@mantine/core";
 import { IconCactus } from "@tabler/icons-react";
 
 function Sidebar() {
+
+
   const router = useRouter();
 
-  const { active }: any = useThemeContext();
+  const { active,formData } : any = useThemeContext();
 
   const pathname = usePathname();
 
@@ -24,27 +26,26 @@ function Sidebar() {
   };
 
   const getData = async () => {
-    const user: any = await client.request(HAS_MASTER, {
+    const user: any = await client.request(GET_USER, {
       where: {
-        user: {
-          id: {
-            equals: localStorage.getItem("id"),
-          },
+          id: localStorage.getItem("id"),
         },
-      },
     });
 
-    if (user?.profileUsers.length > 0) {
-      sethasMaster(true);
-    }
-    const profile: any = await client.request(GET_USER, {
-      where: {
-        id: localStorage.getItem("id"),
-      },
-    });
+    console.log('seeing user in sidebar',user)
+    setRole(user?.user?.role);
 
-    console.log(profile, "profilefile");
-    setRole(profile?.user?.role);
+
+
+    setFormData((prevData: any) => ({
+      ...prevData,
+      ["stepperFilled"]: user?.user?.stepperFilled,
+    }));
+
+    // formData.setFieldValue('stepperFilled',user?.user?.stepperFilled)
+  
+
+
   };
 
   const {
@@ -112,19 +113,19 @@ function Sidebar() {
 
   const getHeight = () => {
     // alert('g')
-    console.log("ac", active);
+    // console.log("ac", active);
 
-    if (pathname === "/profile") {
-      return "h-screen";
-    }
+    // if (pathname === "/profile") {
+    //   return "h-screen";
+    // }
 
     return "h-screen-fit";
   };
 
   console.log("pathname", pathname);
 
-  return (
-    <div className={`sidebar  ${getHeight()}`} style={sidebarStyles}>
+  return     (   
+                <div className={`sidebar  ${getHeight()}`} style={sidebarStyles}>
       <div className="main-icon">
         <div className="">
           <img className="" src="/assets/company-logo.svg" />
@@ -467,10 +468,42 @@ function Sidebar() {
 }
 
 function SideBar() {
-  return (
+
+  const {
+    loggedIn,
+    setLoggedIn,
+    setFormData,
+    setActive,
+    hasMaster,
+    sethasMaster,
+    role,
+    setRole,
+    image,
+    setImage,
+    profileName,
+    setProfileName,
+    profileId,
+    setProfileId,
+  }: any = useThemeContext();
+
+
+
+  return   (
+
     <div className="sidebar-wrapper">
+
+
+{
+
       <Sidebar />
+
+}
+
+
+
+
     </div>
+
   );
 }
 

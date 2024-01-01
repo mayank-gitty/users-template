@@ -405,7 +405,7 @@ const ExperienceDetails = () => {
               className=" mt-4"
               style={{
                 position: "absolute",
-                left: "20%",
+                left: "12%",
               }}
             >
               <div className="heading">

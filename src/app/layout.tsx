@@ -18,6 +18,15 @@ import { MantineProvider } from "@mantine/core";
 
 import { ThemeProvider, THEME_ID, createTheme } from "@mui/material/styles";
 import { ToastContainer } from "react-toastify";
+import useThemeContext from '@/context/context';
+
+
+import client from '../../helpers/request';
+
+import { GET_USER } from '@/util/queries';
+
+
+import { useEffect } from 'react';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,26 +45,63 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+
+//   const {
+//     loggedIn,
+//     setLoggedIn,
+//     setFormData,
+//     setActive,
+//     hasMaster,
+//     sethasMaster,
+//     role,
+//     setRole,
+//   }: any = useThemeContext();
+
+// useEffect(()=>{
+
+
+//   alert('in role')
+
+//   const getData = async () => {
+//     const user: any = await client.request(GET_USER, {
+//       where: {
+//           id: localStorage.getItem("id"),
+//         },
+//     });
+
+//     console.log('seeing user in sidebar',user)
+//     setRole(user?.user?.role);
+
+//   };
+
+// },[])
+
+
   const pathname = usePathname();
 
-  console.log("pathname", pathname);
+  // console.log("role in sidebar", role);
 
   return (
     <html lang="en">
       <body className={inter.className}>
+
       <ToastContainer  />
         <ThemeContextProvider>
           <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>
             <div className="d-flex">
-              {pathname !== "/login" && <SideBar />}
 
-              <div className={pathname === "/login" ? "w-100" : "w-70"}>
+              {pathname !== "/login" &&   localStorage.getItem('role') !== 'employee'   &&  <SideBar />  }
+
+              <div className= {pathname === "/login" ||  localStorage.getItem('role') === 'employee'  ? "w-100" : "w-70"}>
              
                 {children}
               </div>
+              
             </div>
           </ThemeProvider>
         </ThemeContextProvider>
+
       </body>
     </html>
   );

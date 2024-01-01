@@ -137,16 +137,27 @@ export default function CustomizedSteppers() {
     setActive((current: any) => (current > 0 ? current - 1 : current));
 
   return (
-    <Stack sx={{ width: "100%" ,         }}    spacing={4}>
+    <Stack sx={{ width: "100%" ,      }}    spacing={4}>
+      <div className=""  style={{
+            width: "100%",
+            height:" 159.27px",
+            display:"flex",
+            alignItems:"center",
+            background: "#FFF",
+            boxShadow: "0px 4px 10px 0px rgba(0, 0, 0, 0.08)",
+      }} >
+
       <Stepper
         alternativeLabel
         activeStep={active}
         connector={<ColorlibConnector />}
         sx={{
-          width: "100%",
+          width: "84%",
+          margin:"auto",
           color: "success.main",
           ".MuiStepper-horizontal" : {
-               marginBottom:"7rem"
+               marginBottom:"7rem",
+               width:"yellow"
           },
           "& .MuiStepLabel-label.MuiStepLabel-alternativeLabel": {
             color: "#000",
@@ -172,6 +183,9 @@ export default function CustomizedSteppers() {
           </Step>
         ))}
       </Stepper>
+
+      </div>
+
 
       {active === 0 && <PhotoUpload />}
       {active === 1 && (

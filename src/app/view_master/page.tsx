@@ -10,6 +10,8 @@ import useThemeContext from "@/context/context";
 import { VIEW_MASTER, VIEW_USER } from "@/util/queries";
 import { toast } from "react-toastify";
 
+import { Dropzone } from "@mantine/dropzone";
+
 import {
   Button,
   Group,
@@ -30,6 +32,8 @@ import {
   Autocomplete,
   Radio,
   Textarea,
+  createStyles,
+  FileInput,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -63,6 +67,7 @@ import { useRouter } from "next/navigation";
 import { serialize } from "v8";
 import ProfileUser from "@/schemas/ProfileUser";
 import ExperienceDetails from "@/components/experience/page";
+import { transcode } from "buffer";
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -110,16 +115,344 @@ const USERS = gql`
 export interface IAppProps {}
 
 export default function View(props: IAppProps) {
-  const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
+
+  // const [onFileInputHover,setonFileInputHover]  = useState(false)
+
+  const { image, setImage }: any = useThemeContext();
+
+  const [inEditPhoto, setinEditPhoto] = useState(false);
+
+  const [inEditResume, setinEditResume] = useState(false);
+
+  const handleFileUploadResume = async (e) => {
+    const file = e;
+
+    // console.log("filiiiiiiiiiiiiiiiii", file.type);
+
+    // Allowing file type
+    var allowedTypes = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      setFormData((prevData: any) => ({
+        ...prevData,
+        ["resume"]: ``,
+      }));
+
+      return toast("Invalid file type. Please upload a  PDF file.", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    console.log("below");
+
+    const resumeData = new FormData();
+    resumeData.append("file", file);
+
+    try {
+      const response = await fetch("/api/upload2", {
+        method: "POST",
+        body: resumeData,
+      });
+
+      console.log("res", response);
+
+      if (response.ok) {
+        console.log("File uploaded successfully.");
+
+        setFormData((prevData) => ({
+          ...prevData,
+          ["resume"]: `files/${file.name}`,
+        }));
+
+        return toast("resume uploaded successfully", {
+          className: "green-background",
+          bodyClassName: "grow-font-size",
+          progressClassName: "fancy-progress-bar",
+        });
+      } else {
+        console.error("File upload failed.");
+      }
+    } catch (error) {
+      console.error("An error occurred while uploading the file:", error);
+      alert("please upload from your pc directory");
+    }
+  };
+
+  const handleFileUpload = async (e) => {
+    const file = e;
+
+    if (!file) {
+      return;
+    }
+
+    const i = e?.name;
+
+    console.log("e", e);
+
+    var allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/svg+xml",
+      "image/jpg",
+    ];
+
+    if (!allowedTypes.includes(e.type)) {
+      setFormData((prevData: any) => ({
+        ...prevData,
+        ["photograph"]: ``,
+      }));
+
+      toast("Invalid file type. Please upload a  image", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    setImage(i);
+
+    const resumeData = new FormData();
+    resumeData.append("file", file);
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: resumeData,
+      });
+
+      console.log("res", response);
+
+      if (response.ok) {
+        console.log("File uploaded successfully.");
+
+        setFormData((prevData: any) => ({
+          ...prevData,
+          ["photograph"]: `images/${file.name}`,
+        }));
+        toast("photograph uploaded successfully", {
+          className: "green-background",
+          bodyClassName: "grow-font-size",
+          progressClassName: "fancy-progress-bar",
+        });
+      } else {
+        // console.error("File upload failed.");
+      }
+    } catch (error) {
+      console.error("An error occurred while uploading the file:", error);
+
+      toast("An error occurred while uploading the file:", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+  };
+
+  const useStyles = createStyles((theme, props: any) => ({
+    inner: {
+      width: "90%",
+      margin: "auto",
+    },
+    ml: {
+      marginRight: "0.3em",
+    },
+    bar: {
+      background: "#FCA312",
+      width: "438px",
+      height: "201px",
+    },
+    barRoot: {
+      // background:"yellow",
+      width: "100%",
+    },
+    dropZoneRoot: {
+      marginTop: "20px",
+      width: "100%",
+      height: "201px",
+      border: "none",
+
+      outlineWidth: "2px",
+
+      outlineStyle: "dashed !important",
+      outlineColor: "#C6C6C6 !important",
+      background: "#FFF !important",
+
+      // background:"red",
+
+      // content:`"File Uploaded successfully"`,
+
+      cursor: "pointer",
+      "&:hover": {
+        // background: "red",
+        // display:"none"
+      },
+
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    step1: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    step1Content: {
+      color: "rgba(0, 0, 0, 0.45)",
+      textAlign: "center",
+      // fontFamily: Inter;
+      fontSize: "11px",
+      fontWeight: 400,
+      lineHeight: "16px",
+      width: "70%",
+      margin: "auto",
+      marginBottom: "1rem",
+    },
+    progress: {},
+    para: {
+      /* H5/regular */
+      marginTop: "0rem !important",
+      fontFamily: "Roboto",
+      fontSize: "16px",
+      fontStyle: "normal",
+      fontWeight: 400,
+      lineHeight: "24px",
+    },
+    marginTop: {
+      marginTop: "1rem",
+    },
+    spaceBetween: {
+      width: "20rem",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    image: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      // width:"80%"
+    },
+    dragBar: {
+      display: "flex",
+      flexDirection: "column",
+      transform: "translateX(-40px)",
+      //  justifyContent:"start"
+    },
+    flex: {
+      display: "flex",
+      width: "8rem",
+      // background:"red",
+      justifyContent: "space-between",
+    },
+    imgUpload: {
+      display: "flex",
+      alignItems: "center",
+      height: "2rem",
+    },
+    upload: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column",
+      width: "96%",
+      height: "80%",
+      margin: "auto",
+    },
+    wrapper: {
+      width: "161.934px",
+      height: "43.816px",
+      display: "flex",
+      justifyContent: "space-evenly",
+      alignItems: "center",
+      zIndex: 4,
+      ".mantine-Input-icon": {
+        marginLeft: "1rem",
+      },
+    },
+    dragOverPara: {
+      transform: "translateY(-38px)",
+    },
+    paraUpload: {
+      color: "#000000",
+      fontSize: "20px",
+      fontStyle: "normal",
+      fontWeight: 600,
+    },
+    icon: {
+      padding: "0 1rem",
+      img: {
+        width: "200px",
+        height: "200px",
+      },
+    },
+    paraDrag: {
+      color: "rgba(0, 0, 0, 0.85)",
+      textAlign: "center",
+      fontSize: "14px",
+      fontWeight: 600,
+      lineHeight: "24px",
+    },
+    message: {
+      color: "#000",
+      fontSize: "20px",
+      fontStyle: "normal",
+      fontWeight: 500,
+      lineHeight: "24px",
+    },
+    input: {
+      // background: "orange",
+      ".mantine-Text-root": {
+        paddingLeft: "1rem",
+      },
+      span: {
+        paddingLeft: "1rem",
+      },
+    },
+    rightSection: {},
+    root: {
+      display: "flex",
+      justifyContent: "center",
+      flexDirection: "column",
+      alignItems: "center",
+    },
+    camera: {
+      width: "200px",
+      height: "200px",
+    },
+    label: {},
+    error: {},
+    description: {},
+    required: {},
+    placeholder: {
+      color: "#4D47C3 !important",
+      textAlign: "center",
+      // font-family: Inter;
+      fontSize: "10px",
+
+      fontWeight: 400,
+      lineHeight: "10px",
+    },
+  }));
+
+  const { classes } = useStyles(props);
+
   // const [true, settrue] = useState(true);
 
-  const { setActive, formData, setFormData, setexperienceOpen, seteditopen } =
-    useThemeContext();
-
-  const [schoolOther, setSchoolOther] = useState("");
-  const [degreeOther, setDegreeOther] = useState("");
-  const [fieldOther, setFieldOther] = useState("");
+  const {
+    setActive,
+    formData,
+    setFormData,
+    setexperienceOpen,
+    seteditopen,
+  }: any = useThemeContext();
 
   console.log("formdata", formData);
 
@@ -145,7 +478,6 @@ export default function View(props: IAppProps) {
     });
 
     // console.log("response", checking?.user?.email);
-
     return checking?.user?.email;
   };
 
@@ -158,8 +490,10 @@ export default function View(props: IAppProps) {
       education: null,
       keyskills: [],
       userkeyskills: [],
+      resume_headlineForMutation: "",
       resume_headline: "",
       profile_summary: "",
+      profile_summaryForMutation: "",
       total_experience: "",
       relevent_experience: "",
       photograph: "",
@@ -463,9 +797,10 @@ export default function View(props: IAppProps) {
       keyskills: user?.user?.keyskills?.map((item: any) => item.id),
       userkeyskills: user?.user?.keyskills?.map((item: any) => item.name),
       resume_headline: user?.user?.resume_headline,
+      resume_headlineForMutation: user?.user?.resume_headline,
       profile_summary: user?.user?.profile_summary,
       photograph: user?.user?.photograph,
-      name: user?.user?.user?.name,
+      name: user?.user?.name,
       work: user?.user?.open_to_work,
       status: user?.user?.active,
       workForMutation: user?.user?.open_to_work,
@@ -662,6 +997,7 @@ export default function View(props: IAppProps) {
         projectLocation: project.projectLocation,
         projectSite: project.projectSite,
         natureOfEmployment: project.natureOfEmployment,
+        detailsOfProject:project.detailsOfProject,
         teamSize: project.teamSize,
         role: project.role,
         roleDescription: project.roleDescription,
@@ -824,8 +1160,10 @@ export default function View(props: IAppProps) {
     }
   };
 
+
   const updateKeySkills = async () => {
-    console.log("update skills hitting", search);
+    console.log("update skills hitting", search,form);
+
 
     const user: any = await client.request(updateUser, {
       where: {
@@ -839,7 +1177,17 @@ export default function View(props: IAppProps) {
             };
           }),
         },
+        // itskills: {
+        //   set: form.getInputProps("itskills")?.value?.map((item: any) => {
+        //     return {
+        //       id: item,
+        //     };
+        //   }),
+        // },
+        profile_summary:form.getInputProps("profile_summaryForMutation")?.value
       },
+      
+
     });
 
     console.log("skils updated", user);
@@ -1393,11 +1741,528 @@ export default function View(props: IAppProps) {
     //   skillUsed: "",
     // });
   };
+
+  const addResume = async () => {
+    const user: any = await client.request(updateUser, {
+      where: {
+        id: search,
+      },
+      data: {
+        resume: formData.resume,
+      },
+    });
+
+    console.log("skils updated", user);
+
+    if (user.updateUser) {
+      const button = document.getElementById("closeAddResume");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+  };
+
+  const addPhotoGraph = async () => {
+    const user: any = await client.request(updateUser, {
+      where: {
+        id: search,
+      },
+      data: {
+        photograph: formData.photograph,
+      },
+    });
+
+    console.log("skils updated", user);
+
+    if (user.updateUser) {
+      const button = document.getElementById("closeAddPhotograph");
+
+      console.log("bu", button);
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+  };
+
+  const addHeadline = async () => {
+    // console.log("update skills hitting", search);
+
+    const user: any = await client.request(updateUser, {
+      where: {
+        id: search,
+      },
+      data: {
+        resume_headline: form.getInputProps("resume_headlineForMutation")
+          ?.value,
+      },
+    });
+
+    console.log("skils updated", user);
+
+    if (user.updateUser) {
+      const button = document.getElementById("closeAddHeadline");
+
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+  };
+
   return (
     <Box
       mx="auto"
       className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]"
     >
+      <div
+        class="modal fade"
+        id="addResume"
+        tabindex="-1"
+        aria-labelledby="addResume"
+        aria-hidden="true"
+      >
+        <form>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <div className="custom-align">
+                  <img className="experience-icon" src="images/education.svg" />
+
+                  <h6> {inEditResume ? "" : "Add"} Resume </h6>
+                </div>
+
+                <div>
+                  <img
+                    id="closeAddResume"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    className="modal-close-icon"
+                    src={"images/Close.svg"}
+                  />
+                </div>
+              </div>
+              <div class="modal-body">
+                <Paper p="md">
+                  <form>
+                    <Group
+                      position="center"
+                      mt="xl"
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      {/* <div className="profile-upload">
+            {formData.photograph && <img src={formData.photograph} />}
+            {formData.photogarph}
+          </div> */}
+
+                      <Container px="xs" className="">
+                        {/* <div className="profile-upload">
+                      {formData.photograph && <img src={formData.photograph} />}
+                      {formData.photogarph}
+                    </div> */}
+
+                        <div className="">
+                          <Paper
+                            // shadow="xl"
+                            // p="md"
+                            style={{
+                              width: "100%",
+
+                              // padding:"16px"
+                            }}
+                          >
+                            <h6 className="box-heading text-left">
+                              {" "}
+                              Upload resume{" "}
+                            </h6>
+                            <p className="box-sub-heading">
+                              Insert a high-quality, professional headshot
+                            </p>
+
+                            <Dropzone
+                              multiple
+                              activateOnClick={false}
+                              styles={{ inner: { pointerEvents: "all" } }}
+                              onDragEnter={() => {
+                                props.setonFileInputHover(true);
+                                // console.log('kk')
+                              }}
+                              onDragLeave={() => {
+                                props.setonFileInputHover(false);
+                              }}
+                              // onDrop={(files: any) => customDrop(files)}
+                              // onReject={(files: any) => console.log("rejected files", files)}
+                              maxSize={3 * 1024 ** 2}
+                              classNames={{
+                                inner: classes.inner,
+                                root: classes.dropZoneRoot,
+                              }}
+                              accept={[
+                                "image/png",
+                                "image/jpeg",
+                                "image/sgv+xml",
+                                "image/gif",
+                              ]}
+                            >
+                              <div>
+                                <div>
+                                  <div className={classes.step1}>
+                                    <p className={classes.paraDrag}>
+                                      {" "}
+                                      Click or drag file to this area to upload{" "}
+                                    </p>
+                                    <p className={classes.step1Content}>
+                                      {" "}
+                                      Support for a single or bulk upload.
+                                      Strictly prohibit from uploading company
+                                      data or other band files{" "}
+                                    </p>
+                                  </div>
+
+                                  <FileInput
+                                    name="myImage"
+                                    icon={
+                                      // <img
+                                      //   className={classes.camera}
+                                      //   alt="camera"
+                                      //   src={"/assets/camera.svg"}
+                                      // />
+                                      <Image
+                                        alt=""
+                                        src="assets/document.svg"
+                                        width={20}
+                                        height={20}
+                                      />
+                                    }
+                                    onChange={(files) => {
+                                      // customDrop(files);
+                                      handleFileUploadResume(files);
+                                    }}
+                                    classNames={{
+                                      wrapper: classes.wrapper,
+                                      // icon: classes.icon,
+                                      input: classes.input,
+                                      rightSection: classes.rightSection,
+                                      root: classes.root,
+                                      // label: classes.label,
+                                      error: classes.error,
+                                      description: classes.description,
+                                      required: classes.required,
+                                      placeholder: classes.placeholder,
+                                    }}
+                                    placeholder={
+                                      formData.resume ||
+                                      form.getInputProps("resume")?.value
+                                        ? inEditResume
+                                          ? form
+                                              .getInputProps("resume")
+                                              ?.value?.slice(6, 28)
+                                          : formData.resume.slice(6, 28)
+                                        : "Upload file"
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </Dropzone>
+                          </Paper>
+                        </div>
+                      </Container>
+                    </Group>
+                  </form>
+                </Paper>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="save-btn-modal-footer"
+                  style={{
+                    width: "100%",
+                  }}
+                  onClick={() => addResume()}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div
+        class="modal fade"
+        id="addPhotograph"
+        tabindex="-1"
+        aria-labelledby="closeAddPhotograph"
+        aria-hidden="true"
+      >
+        <form>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <div className="custom-align">
+                  <img className="experience-icon" src="images/education.svg" />
+
+                  <h6> {inEditPhoto ? "" : "Add"} Photograph </h6>
+                </div>
+
+                <div>
+                  <img
+                    id="closeAddPhotograph"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    className="modal-close-icon"
+                    src={"images/Close.svg"}
+                  />
+                </div>
+              </div>
+              <div class="modal-body">
+                <Paper p="md">
+                  <form>
+                    <Group
+                      position="center"
+                      mt="xl"
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      {/* <div className="profile-upload">
+            {formData.photograph && <img src={formData.photograph} />}
+            {formData.photogarph}
+          </div> */}
+
+                      <Container px="xs" className="">
+                        {/* <div className="profile-upload">
+                      {formData.photograph && <img src={formData.photograph} />}
+                      {formData.photogarph}
+                    </div> */}
+
+                        <div className="">
+                          <Paper
+                            // shadow="xl"
+                            // p="md"
+                            style={{
+                              width: "100%",
+
+                              // padding:"16px"
+                            }}
+                          >
+                            <h6 className="box-heading text-left">
+                              {" "}
+                              Upload profile photo{" "}
+                            </h6>
+                            <p className="box-sub-heading">
+                              Insert a high-quality, professional headshot
+                            </p>
+
+                            <Dropzone
+                              activateOnClick={false}
+                              styles={{ inner: { pointerEvents: "all" } }}
+                              onDragEnter={() => {
+                                // setonFileInputHover(true);
+                                console.log("kk");
+                              }}
+                              onDragLeave={() => {
+                                // setonFileInputHover(false);
+                                console.log("ma");
+                              }}
+                              onDrop={(files: any) =>
+                                handleFileUpload(files[0])
+                              }
+                              // onReject={(files: any) => console.log("rejected files", files)}
+                              maxSize={3 * 1024 ** 2}
+                              classNames={{
+                                inner: classes.inner,
+                                root: classes.dropZoneRoot,
+                              }}
+                            >
+                              <div>
+                                <div>
+                                  <div className={classes.step1}>
+                                    <p className={classes.paraDrag}>
+                                      {" "}
+                                      Click or drag file to this area to upload{" "}
+                                    </p>
+                                    <p className={classes.step1Content}>
+                                      {" "}
+                                      Support for a single upload. Strictly
+                                      prohibit from uploading company data or
+                                      other band files{" "}
+                                    </p>
+                                  </div>
+
+                                  <FileInput
+                                    name="myImage"
+                                    icon={
+                                      <Image
+                                        alt=""
+                                        src="assets/camera.svg"
+                                        width={20}
+                                        height={20}
+                                      />
+                                    }
+                                    onChange={(files) => {
+                                      // customDrop(files);
+                                      handleFileUpload(files);
+                                    }}
+                                    classNames={{
+                                      wrapper: classes.wrapper,
+                                      // icon: classes.icon,
+                                      input: classes.input,
+                                      rightSection: classes.rightSection,
+                                      root: classes.root,
+                                      // label: classes.label,
+                                      error: classes.error,
+                                      description: classes.description,
+                                      required: classes.required,
+                                      placeholder: classes.placeholder,
+                                    }}
+                                    placeholder={
+                                      image ||
+                                      form
+                                        .getInputProps("photograph")
+                                        ?.value.slice(0, 17)
+                                        ? (
+                                            image?.slice(0, 17) ||
+                                            form.getInputProps("photograph")
+                                              ?.value
+                                          ).slice(0, 17)
+                                        : "Upload Photo"
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </Dropzone>
+                          </Paper>
+                        </div>
+                      </Container>
+                    </Group>
+                  </form>
+                </Paper>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="save-btn-modal-footer"
+                  style={{
+                    width: "100%",
+                  }}
+                  onClick={() => addPhotoGraph()}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div
+        class="modal fade"
+        id="addHeadline"
+        tabindex="-1"
+        aria-labelledby="addProject"
+        aria-hidden="true"
+      >
+        <form>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <div className="custom-align">
+                  <img className="experience-icon" src="images/education.svg" />
+
+                  <h6> Add Headline </h6>
+                </div>
+
+                <div>
+                  <img
+                    id="closeAddHeadline"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    className="modal-close-icon"
+                    src={"images/Close.svg"}
+                  />
+                </div>
+              </div>
+              <div
+                class="modal-body headline"
+                style={{
+                  height: "auto !important",
+                }}
+              >
+                <Paper p="md">
+                  <form>
+                    <Grid>
+                      {/* <h6 className="box-heading">Add Project</h6> */}
+                      <Grid.Col span={12}>
+                        <Input
+                          placeholder="Headline"
+                          required
+                          value={
+                            form.getInputProps("resume_headlineForMutation")
+                              .value
+                          }
+                          styles={(theme) => ({
+                            input: {
+                              height: "100%",
+                              "::placeholder": {
+                                color: "#9D9D9D",
+                                fontSize: "16px",
+                                fontStyle: "normal",
+                                fontWeight: 500,
+                                lineHeight: "normal",
+                              },
+                            },
+                            values: {
+                              height: "100%",
+                            },
+                            wrapper: {
+                              height: "50px",
+                            },
+
+                            leftIcon: {
+                              marginRight: theme.spacing.md,
+                            },
+                          })}
+                          onChange={(e) =>
+                            form.setFieldValue(
+                              "resume_headlineForMutation",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </Grid.Col>
+                    </Grid>
+                  </form>
+                </Paper>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="save-btn-modal-footer"
+                  style={{
+                    width: "100%",
+                  }}
+                  onClick={() => addHeadline()}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
       <div
         class="modal fade"
         id="addProject"
@@ -1702,6 +2567,8 @@ export default function View(props: IAppProps) {
                               },
                             },
                           })}
+
+                          
                           value={project.detailsOfProject}
                           onChange={(e) =>
                             handleChangeProject(
@@ -3155,6 +4022,7 @@ export default function View(props: IAppProps) {
               >
                 <form>
                   <Grid>
+
                     <Grid.Col span={12}>
                       <MultiSelect
                         styles={(theme) => ({
@@ -3215,7 +4083,7 @@ export default function View(props: IAppProps) {
                           },
                         })}
                         // label="select skill"
-                        placeholder="Select your skills"
+                        placeholder="Select your Key skills"
                         searchable
                         maxSelectedValues={5}
                         onChange={(e) => form.setFieldValue("keyskills", e)}
@@ -3223,7 +4091,6 @@ export default function View(props: IAppProps) {
                         data={DefaultSkills}
                       />
                     </Grid.Col>
-                  </Grid>
 
                   <small
                     style={{
@@ -3233,6 +4100,114 @@ export default function View(props: IAppProps) {
                     {" "}
                     maximum 5 allowed{" "}
                   </small>
+
+
+                  <Grid.Col span={12}>
+
+{/*                     
+                <MultiSelect
+                  placeholder="Select your It skills"
+                  searchable
+                  maxSelectedValues={5}
+                  onChange={(e) => form.setFieldValue("itskills", e)}
+                  value={form.getInputProps("itskills")?.value}
+                  data={DefaultSkills}
+
+
+                  styles={(theme) => ({
+                    // ".mantine-MultiSelect-value mantine-u656bh":{
+                    //    backgroundColor:"red !important"
+                    // },
+                    input: {
+                      padding: "6px 8px",
+                      ".mantine-MultiSelect-value": {
+                        background: "#FFFFFF",
+                        boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.18)",
+                        border: "1px solid #DCDCDC",
+                        borderLeft: "5px solid #478FC3",
+                        color: "#000",
+                        // font-family: Inter;
+                        fontSize: "12px",
+
+                        fontWeight: 500,
+
+                        padding: "14px 0px",
+                        "::before": {
+                          content: '""',
+                        },
+                      },
+                      ".mantine-MultiSelect-defaultValueLabel": {
+                        paddingLeft: "6px",
+                      },
+                      ".mantine-CloseButton-root": {
+                        // margin:"0 10px",
+                        marginRight: "4px",
+                        marginLeft: "18px",
+                        background: "#2E3A59",
+                        borderRadius: "50%",
+                        height: "14px",
+                        minHeight: "18px",
+                        minWidth: "18px",
+
+                        svg: {
+                          color: "#fff",
+                          height: "12px !important",
+                          width: "10px !important",
+                        },
+                      },
+                    },
+                    values: {
+                      height: "100%",
+                      // color:"red",
+                      // background:"red"
+                    },
+                    wrapper: {
+                      // height: "50px",
+                      // background:"red",
+                      height: "auto",
+                    },
+
+                    leftIcon: {
+                      marginRight: theme.spacing.md,
+                      background: "red",
+                    },
+                    pill: {
+                      background: "red",
+                      color: "yellow",
+                    },
+                    option: {
+                      background: "red",
+                    },
+                  })}
+                /> */}
+              </Grid.Col> 
+
+
+              <Grid.Col span={12}>
+                <Textarea
+                  placeholder="Enter profile summary "
+                  size="md"
+                  value={form.getInputProps("profile_summaryForMutation")?.value}
+                  minLength={10}
+                  maxLength={1000}
+                  styles={(theme) => ({
+                    input: {
+                      height: "125.324px",
+                    },  
+           
+                  })}
+                  onChange={(e) =>                     
+                    form.setFieldValue("profile_summaryForMutation", e.target.value)
+                  }
+                />
+              </Grid.Col>{" "}
+
+
+
+
+                  </Grid>
+
+                  
                 </form>
 
                 <button
@@ -3247,6 +4222,8 @@ export default function View(props: IAppProps) {
                 </button>
               </Paper>
             </div>
+
+            
 
             <div class="modal-footer">
               {/* <button
@@ -4646,7 +5623,9 @@ export default function View(props: IAppProps) {
 
       <div
         className=""
-        // style={{ alignItems: "center", justifyContent: "center" }}
+        style={{
+          width: "100%",
+        }}
       >
         <div className="text-black text-2xl py-3  font-semibold">Profile</div>
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
@@ -4659,21 +5638,191 @@ export default function View(props: IAppProps) {
                   borderRadius: "7px",
                 }}
               >
-                <img
-                  src={form.getInputProps("photograph").value}
-                  alt="User Photograph"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                  }}
-                />
+                {form.getInputProps("photograph")?.value ? (
+                  <div
+                    style={{
+                      position: "relative",
+                    }}
+                  >
+                    <Image
+                      width={24}
+                      className="custom-align-image"
+                      data-bs-toggle="modal"
+                      data-bs-target="#addPhotograph"
+                      alt="Google"
+                      style={{
+                        width: "24px",
+                        height: "24px",
+                        // marginLeft: "10rem",
+                      }}
+                      src="/images/Edit.svg"
+                      alt="Google"
+                      style={{
+                        width: "24px",
+                        height: "32px",
+                        cursor: "pointer",
+                        position: "absolute",
+                        right: 0,
+                      }}
+                      onClick={() => {
+                        setinEditPhoto(true);
+                      }}
+                    />
+
+                    <img
+                      src={form.getInputProps("photograph").value}
+                      alt="User Photograph"
+                      style={{
+                        width: "100%",
+                        height: "144.913px",
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className="empty-state-content d-flex align-items-center justify-content-center"
+                    style={{
+                      height: "100%",
+                      // background:"red"
+                    }}
+                  >
+                    <div className="">
+                      {/* <span  className="user-no-information-text" >  No Information here   </span> */}
+
+                      <div className="d-flex align-items-center">
+                        <Image
+                          width={24}
+                          className="custom-align-image"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addPhotograph"
+                          alt="Google"
+                          style={{
+                            width: "24px",
+                            height: "24px",
+                            // marginLeft: "10rem",
+                          }}
+                          src="./assets/addIcon.svg"
+                          alt="Google"
+                          style={{
+                            width: "24px",
+                            height: "32px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {}}
+                        />
+
+                        <span className="user-add-education-text">
+                          {" "}
+                          Add Photo{" "}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-              <div>
+
+              <div
+                style={{
+                  width: "100%",
+                  position: "relative",
+                }}
+              >
                 <div className="text-black text-[28px] font-semibold pt-3 flex items-center justify-center">
                   {form.getInputProps("name")?.value}
                 </div>
-                <div className="text-[#ABABAB] text-base font-medium flex items-center justify-center">
-                  {form.getInputProps("resume_headline").value}
+                <div
+                  className="text-[#ABABAB] text-base font-medium flex items-center justify-center"
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  {form.getInputProps("resume_headline").value ? (
+                    <>
+                      {form.getInputProps("resume_headline").value}
+
+                      <Image
+                        width={24}
+                        className="custom-align-image headline-edit-icon"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addHeadline"
+                        alt="Google"
+                        src="/images/Edit.svg"
+                        alt="Google"
+                        style={{
+                          width: "24px",
+                          height: "32px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          // setExperience({
+                          //   id: "",
+                          //   title: "",
+                          //   employment_type: "",
+                          //   company: "",
+                          //   location: "",
+                          //   location_type: "",
+                          //   start_year: "",
+                          //   start_year_month: "",
+                          //   end_year: "",
+                          //   currently_working: false,
+                          //   end_year_month: "",
+                          // });
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <div
+                      className="empty-state-content d-flex align-items-center justify-content-center"
+                      style={{
+                        height: "100%",
+                        // background:"red"
+                      }}
+                    >
+                      <div className="">
+                        <div className="d-flex align-items-center">
+                          <Image
+                            width={24}
+                            className="custom-align-image"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addHeadline"
+                            alt="Google"
+                            style={{
+                              width: "24px",
+                              height: "24px",
+                              // marginLeft: "10rem",
+                            }}
+                            src="./assets/addIcon.svg"
+                            alt="Google"
+                            style={{
+                              width: "24px",
+                              height: "32px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              // setExperience({
+                              //   id: "",
+                              //   title: "",
+                              //   employment_type: "",
+                              //   company: "",
+                              //   location: "",
+                              //   location_type: "",
+                              //   start_year: "",
+                              //   start_year_month: "",
+                              //   end_year: "",
+                              //   currently_working: false,
+                              //   end_year_month: "",
+                              // });
+                            }}
+                          />
+
+                          <span className="user-add-education-text">
+                            {" "}
+                            Add headline{" "}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="text-[#797878] text-xs font-medium flex items-center justify-center profile-summary-box">
                   {form.getInputProps("profile_summary").value}
@@ -4714,15 +5863,17 @@ export default function View(props: IAppProps) {
                     </div>
                   </div>
 
-                  <div className="">
-                    <Image
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModalSkills"
-                      src="./images/Edit.svg"
-                      alt="Google"
-                      style={{ width: "24px", height: "24px" }}
-                    />
-                  </div>
+                  {form.getInputProps("userkeyskills")?.value.length !== 0 && (
+                    <div className="">
+                      <Image
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModalSkills"
+                        src="./images/Edit.svg"
+                        alt="Google"
+                        style={{ width: "24px", height: "24px" }}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <Group></Group>
@@ -4738,18 +5889,51 @@ export default function View(props: IAppProps) {
                   // background:"yellow"
                 }}
               >
-                {form
-                  .getInputProps("userkeyskills")
-                  ?.value?.map((item: any) => {
-                    return (
-                      <div className="w-28 flex border m-1 skill-chip">
-                        <div className="bg-[#5847C3] w-3 flex items-start justify-start"></div>
-                        <div className="px-2  text-black text-base font-semibold chip-inside">
-                          {item}
+                {form.getInputProps("userkeyskills")?.value.length !== 0 ? (
+                  form
+                    .getInputProps("userkeyskills")
+                    ?.value?.map((item: any) => {
+                      return (
+                        <div className="w-28 flex border m-1 skill-chip">
+                          <div className="bg-[#5847C3] w-3 flex items-start justify-start"></div>
+                          <div className="px-2  text-black text-base font-semibold chip-inside">
+                            {item}
+                          </div>
                         </div>
+                      );
+                    })
+                ) : (
+                  <div
+                    className="empty-state-content d-flex align-items-center justify-content-center"
+                    style={{
+                      height: "100%",
+                      width: "100%",
+                    }}
+                  >
+                    <div className="">
+                      <span className="user-no-information-text">
+                        {" "}
+                        No Information here{" "}
+                      </span>
+
+                      <div className="d-flex align-items-center">
+                        <Image
+                          className="custom-align-image"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModalSkills"
+                          src="./assets/addIcon.svg"
+                          alt="Google"
+                          style={{ width: "24px", height: "24px" }}
+                        />
+
+                        <span className="user-add-education-text">
+                          {" "}
+                          Add Information{" "}
+                        </span>
                       </div>
-                    );
-                  })}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -4831,7 +6015,13 @@ export default function View(props: IAppProps) {
                     </Stack>
                     <Stack>
                       <div className="text-black text-base font-semibold">
-                        {form.getInputProps("address").value}
+
+                      <Text w={200} truncate="end">
+                      {form.getInputProps("address").value}
+                                              </Text>
+
+  
+
                       </div>
                     </Stack>
                   </div>
@@ -4899,8 +6089,10 @@ export default function View(props: IAppProps) {
                         </div>
                       </Group>
 
-                      {true && (
+                      {form.getInputProps("experience")?.value?.length > 0 && (
                         <Image
+                          width={24}
+                          className="custom-align-image"
                           data-bs-toggle="modal"
                           data-bs-target="#addExperience"
                           alt="Google"
@@ -4909,7 +6101,7 @@ export default function View(props: IAppProps) {
                             height: "24px",
                             // marginLeft: "10rem",
                           }}
-                          src="./assets/addIcon.png"
+                          src="./assets/addIcon.svg"
                           alt="Google"
                           style={{
                             width: "24px",
@@ -4934,16 +6126,32 @@ export default function View(props: IAppProps) {
                         />
                       )}
                     </Group>
-                    <Group position="apart" py={12}>
+                    <Group
+                      position="apart"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        // background:"red"
+                      }}
+                      py={12}
+                    >
                       <div
                         style={{
                           width: "100%",
+                          height: "100%",
                           // background:"red"
                         }}
                       >
-                        <Stack spacing={8}>
+                        <Stack
+                          spacing={8}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            // background:"red"
+                          }}
+                        >
                           {form.getInputProps("experience")?.value?.length >
-                            0 &&
+                          0 ? (
                             form
                               .getInputProps("experience")
                               ?.value.slice(0, 3)
@@ -5028,7 +6236,65 @@ export default function View(props: IAppProps) {
                                     />
                                   </div>
                                 );
-                              })}
+                              })
+                          ) : (
+                            <div
+                              className="empty-state-content d-flex align-items-center justify-content-center"
+                              style={{
+                                height: "100%",
+                                // background:"red"
+                              }}
+                            >
+                              <div className="">
+                                <span className="user-no-information-text">
+                                  {" "}
+                                  No Information here{" "}
+                                </span>
+
+                                <div className="d-flex align-items-center">
+                                  <Image
+                                    width={24}
+                                    className="custom-align-image"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#addExperience"
+                                    alt="Google"
+                                    style={{
+                                      width: "24px",
+                                      height: "24px",
+                                      // marginLeft: "10rem",
+                                    }}
+                                    src="./assets/addIcon.svg"
+                                    alt="Google"
+                                    style={{
+                                      width: "24px",
+                                      height: "32px",
+                                      cursor: "pointer",
+                                    }}
+                                    onClick={() => {
+                                      setExperience({
+                                        id: "",
+                                        title: "",
+                                        employment_type: "",
+                                        company: "",
+                                        location: "",
+                                        location_type: "",
+                                        start_year: "",
+                                        start_year_month: "",
+                                        end_year: "",
+                                        currently_working: false,
+                                        end_year_month: "",
+                                      });
+                                    }}
+                                  />
+
+                                  <span className="user-add-education-text">
+                                    {" "}
+                                    Add Experience{" "}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </Stack>
                       </div>
                     </Group>
@@ -5049,6 +6315,7 @@ export default function View(props: IAppProps) {
                   >
                     <Group position="apart" className="border-b pb-[10px]">
                       <Group position="left">
+                  
                         <Image
                           src="./images/educationIcon.svg"
                           alt="Google"
@@ -5058,9 +6325,10 @@ export default function View(props: IAppProps) {
                           Education
                         </div>
                       </Group>
-                      {true && (
+
+                      {form.getInputProps("education")?.value?.length > 0 && (
                         <Image
-                          src="./assets/addIcon.png"
+                          src="/assets/addIcon.svg"
                           alt="Google"
                           style={{
                             width: "24px",
@@ -5090,24 +6358,61 @@ export default function View(props: IAppProps) {
                         />
                       )}
                     </Group>
-                    <Group position="apart" py={12}>
+
+                    <Group
+                      position="apart"
+                      py={12}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        // background:"red"
+                      }}
+                    >
                       <div
                         style={{
                           width: "100%",
+                          height: "100%",
                           // background:"red"
                         }}
                       >
-                        <Stack spacing={8}>
+                        <Stack
+                          spacing={8}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            // background:"red"
+                          }}
+                        >
                           <div className="text-indigo-950 text-sm font-bold">
                             {/* Highest Education */}
                             {/* {form.getInputProps("education")?.value?.length} */}
                           </div>
 
-                          <div className="text-custom-light">
-                            <div>
-                              <Stack spacing={8}>
+                          <div
+                            className="text-custom-light"
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              // background:"red"
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                // background:"red"
+                              }}
+                            >
+                              <Stack
+                                spacing={8}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  // background:"red"
+                                }}
+                              >
                                 {form.getInputProps("education")?.value
-                                  ?.length > 0 &&
+                                  ?.length > 0 ? (
                                   form
                                     .getInputProps("education")
                                     ?.value.slice(0, 3)
@@ -5116,8 +6421,9 @@ export default function View(props: IAppProps) {
                                         <div
                                           className="d-flex justify-content-between"
                                           style={{
-                                            // background:"yellow",
                                             width: "100%",
+                                            height: "100%",
+                                            // background:"red"
                                           }}
                                         >
                                           <div className="text-custom">
@@ -5191,7 +6497,57 @@ export default function View(props: IAppProps) {
                                           />
                                         </div>
                                       );
-                                    })}
+                                    })
+                                ) : (
+                                  <div
+                                    className="empty-state-content d-flex align-items-center justify-content-center"
+                                    style={{
+                                      height: "100%",
+                                      // background:"red"
+                                    }}
+                                  >
+                                    <div className="">
+                                      <span className="user-no-information-text">
+                                        {" "}
+                                        No Information here{" "}
+                                      </span>
+
+                                      <div className="d-flex align-items-center">
+                                        <Image
+                                          width={24}
+                                          className="custom-align-image"
+                                          src="./assets/addIcon.svg"
+                                          alt="Google"
+                                          data-bs-toggle="modal"
+                                          data-bs-target="#addEducation"
+                                          onClick={() => {
+                                            setEducation({
+                                              id: "",
+                                              school: "",
+                                              // schoolOther: "",
+                                              degree: "",
+                                              // degreeOther: "",
+                                              field_of_study: "",
+                                              // field_of_studyOther: "",
+                                              grade: "",
+                                              activities: "",
+                                              description: "",
+                                              start_year: "",
+                                              start_year_month: "",
+                                              end_year: "",
+                                              end_year_month: "",
+                                            });
+                                          }}
+                                        />
+
+                                        <span className="user-add-education-text">
+                                          {" "}
+                                          Add Education{" "}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                )}
                               </Stack>
                             </div>
                           </div>
@@ -5224,11 +6580,13 @@ export default function View(props: IAppProps) {
                       </div>
                     </Group>
 
-                    {true && (
+                    {form.getInputProps("project")?.value?.length > 0 && (
                       <Image
+                        width={24}
+                        className="custom-align-image"
                         data-bs-toggle="modal"
                         data-bs-target="#addProject"
-                        src="./assets/addIcon.png"
+                        src="./assets/addIcon.svg"
                         alt="Google"
                         style={{
                           width: "24px",
@@ -5284,7 +6642,7 @@ export default function View(props: IAppProps) {
                           >
                             <Stack spacing={8}>
                               {form.getInputProps("project")?.value?.length >
-                                0 &&
+                              0 ? (
                                 form
                                   .getInputProps("project")
                                   ?.value.slice(0, 3)
@@ -5395,7 +6753,7 @@ export default function View(props: IAppProps) {
                                                 workFromYear: item.workFromYear,
                                                 workFromMonth:
                                                   item.workFromMonth,
-                                                // detailsOfProject: "",
+                                                detailsOfProject: item.detailsOfProject,
                                                 projectLocation:
                                                   item.projectLocation,
                                                 projectSite: item.projectSite,
@@ -5421,7 +6779,61 @@ export default function View(props: IAppProps) {
                                         </div>
                                       </div>
                                     );
-                                  })}
+                                  })
+                              ) : (
+                                <div
+                                  className="empty-state-content d-flex align-items-center justify-content-center"
+                                  style={{
+                                    height: "100%",
+                                    // background:"red"
+                                  }}
+                                >
+                                  <div className="">
+                                    <span className="user-no-information-text">
+                                      {" "}
+                                      No Information here{" "}
+                                    </span>
+
+                                    <div className="d-flex align-items-center">
+                                      <Image
+                                        width={24}
+                                        className="custom-align-image"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#addProject"
+                                        src="./assets/addIcon.svg"
+                                        alt="Google"
+                                        style={{
+                                          width: "24px",
+                                          height: "32px",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={() => {
+                                          setProject({
+                                            id: "",
+                                            projectTitle: "",
+                                            client: "",
+                                            projectStatus: "inProgress",
+                                            workFromYear: "",
+                                            workFromMonth: "",
+                                            detailsOfProject: "",
+                                            projectLocation: "",
+                                            projectSite: "Offsite",
+                                            natureOfEmployment: "Full Time",
+                                            teamSize: "",
+                                            role: "",
+                                            roleDescription: "",
+                                          });
+                                        }}
+                                      />
+
+                                      <span className="user-add-education-text">
+                                        {" "}
+                                        Add Project{" "}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
                             </Stack>
                           </div>
                         </div>
@@ -5433,79 +6845,196 @@ export default function View(props: IAppProps) {
             </div>
             <div className=" flex flex-col lg:flex-row justify-center  gap-5 xl:12 mt-3">
               <div className="lg:w-full">
-                <Stack>
+                <Stack
+                  style={{
+                    width: "100%",
+                  }}
+                >
                   {/* <div className="p-4 h-full xl:w-[420px] rounded "></div> */}
                   <div className="p-4 h-full rounded bg-white ">
                     <Group position="apart" className="border-b pb-[10px]">
-                      <Group position="left">
-                        <Image
-                          src="./images/resume.svg"
-                          alt="Google"
-                          style={{ width: "24px", height: "24px" }}
-                          onClick={() =>
-                            router.push(
-                              `/edit_user?id=${localStorage.getItem("id")}`
-                            )
-                          }
-                        />
-                        <div className="text-black text-base font-semibold">
-                          Resume
-                        </div>
-                      </Group>
-                    </Group>
-
-                    <Group position="apart" py={12}>
-                      <div>
-                        <Stack spacing={8}>
-                          <div className="text-indigo-950 text-sm font-bold d-flex align-items-center">
+                      <Group
+                        position="left"
+                        style={{
+                          width: "100%",
+                        }}
+                      >
+                        <div
+                          className="d-flex justify-content-between"
+                          style={{
+                            width: "100%",
+                          }}
+                        >
+                          <div className="d-flex">
                             <Image
-                              src="./images/resumeIcon.svg"
-                              className="resume-icon"
+                              src="./images/resume.svg"
                               alt="Google"
-                              style={{
-                                width: "32px",
-                                height: "44px",
-                                marginRight: "1em",
-                                borderRadius: "100% !important",
-                              }}
+                              style={{ width: "24px", height: "24px" }}
                               onClick={() =>
                                 router.push(
                                   `/edit_user?id=${localStorage.getItem("id")}`
                                 )
                               }
                             />
+                            <div className="text-black text-base font-semibold" style={{
+                              marginLeft:"1rem"
+                            }} >
+                              Resume
+                            </div>
+                          </div>
 
-                            <a
-                              download={
-                                form
-                                  .getInputProps("resume")
-                                  ?.value?.includes("docx") ||
-                                form
-                                  .getInputProps("resume")
-                                  ?.value?.includes("doc")
-                                  ? true
-                                  : false
-                              }
-                              target="_blank"
-                              className="resume-link"
-                              href={form.getInputProps("resume")?.value}
-                            >
-                              {" "}
-                              {form
-                                .getInputProps("resume")
-                                ?.value?.substr(
-                                  6,
-                                  form.getInputProps("resume")?.value.length
-                                )}{" "}
-                            </a>
+                          {form.getInputProps("resume")?.value && (
+                            <div className="">
+                              <Image
+                                onClick={() => {
+                                  setinEditResume(true);
+                                  // setExperience({
+                                  //   title: item.title,
+                                  //   employment_type: item.employment_type,
+                                  //   company: item.company,
+                                  //   location: item.location,
+                                  //   location_type: item.location_type,
+                                  //   start_year: item.start_year,
+                                  //   start_year_month: item.start_year_month,
+                                  //   end_year: item.end_year,
+                                  //   end_year_month: item.end_year_month,
+                                  //   currently_working: item.currently_working,
+                                  //   id: item.id,
+                                  // });
+                                }}
+                                data-bs-toggle="modal"
+                                data-bs-target="#addResume"
+                                // data-toggle="modal"
+                                // data-target="#exampleModalLong"
+                                src="./images/Edit.svg"
+                                alt="Google"
+                                style={{
+                                  width: "24px",
+                                  height: "32px",
+                                  // marginLeft: "10rem",
+                                }}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </Group>
+                    </Group>
+
+                    <Group
+                      position="apart"
+                      py={12}
+                      style={{
+                        width: "100%",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "100%",
+                        }}
+                      >
+                        <Stack
+                          spacing={8}
+                          style={{
+                            width: "100%",
+                          }}
+                        >
+                          <div className="text-indigo-950 text-sm font-bold d-flex align-items-center">
+                            {form.getInputProps("resume")?.value ? (
+                              <>
+                                <Image
+                                  src="./images/resumeIcon.svg"
+                                  className="resume-icon"
+                                  alt="Google"
+                                  style={{
+                                    width: "32px",
+                                    height: "44px",
+                                    marginRight: "1em",
+                                    borderRadius: "100% !important",
+                                  }}
+                                  onClick={() =>
+                                    router.push(
+                                      `/edit_user?id=${localStorage.getItem(
+                                        "id"
+                                      )}`
+                                    )
+                                  }
+                                />
+
+                                <a
+                                  download={
+                                    form
+                                      .getInputProps("resume")
+                                      ?.value?.includes("docx") ||
+                                    form
+                                      .getInputProps("resume")
+                                      ?.value?.includes("doc")
+                                      ? true
+                                      : false
+                                  }
+                                  target="_blank"
+                                  className="resume-link"
+                                  href={form.getInputProps("resume")?.value}
+                                >
+                                  {" "}
+                                  {form
+                                    .getInputProps("resume")
+                                    ?.value?.substr(
+                                      6,
+                                      form.getInputProps("resume")?.value.length
+                                    )}{" "}
+                                </a>
+                              </>
+                            ) : (
+                              <div
+                                className="empty-state-content d-flex align-items-center justify-content-center"
+                                style={{
+                                  height: "100%",
+                                  width: "100%",
+                                }}
+                              >
+                                <div className="">
+                                  <span className="user-no-information-text">
+                                    {" "}
+                                    No Information here{" "}
+                                  </span>
+
+                                  <div className="d-flex align-items-center">
+                                    <Image
+                                      width={24}
+                                      className="custom-align-image"
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#addResume"
+                                      alt="Google"
+                                      style={{
+                                        width: "24px",
+                                        height: "24px",
+                                        // marginLeft: "10rem",
+                                      }}
+                                      src="./assets/addIcon.svg"
+                                      alt="Google"
+                                      style={{
+                                        width: "24px",
+                                        height: "32px",
+                                        cursor: "pointer",
+                                      }}
+                                      onClick={() => {}}
+                                    />
+
+                                    <span className="user-add-education-text">
+                                      {" "}
+                                      Add Resume{" "}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
-                          <div className="text-gray-600 text-xs font-normal">
-                            {/* 867 Kb. Feb 2022 */}
-                          </div>
+
+                          <div className="text-gray-600 text-xs font-normal"></div>
                         </Stack>
                       </div>
                       {/* <Image
-                        src="./images/Edit.svg"
+                        src="./images/Edit.svg" 
                         alt="Google"
                         style={{ width: "24px", height: "24px" }}
                       /> */}

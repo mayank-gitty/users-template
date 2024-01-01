@@ -20,6 +20,8 @@ export const ThemeContextProvider = ({ children }) => {
     experiences: [],
     photograph: "",
     resume: "",
+    stepperFilled:false
+    
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -53,6 +55,7 @@ export const ThemeContextProvider = ({ children }) => {
         setActive,
         loggedIn,
         setLoggedIn,
+      
         hasMaster,
         sethasMaster,
         role,

@@ -16,6 +16,10 @@ import client from "../../helpers/request";
 import Master from "../components/master/page";
 import { ADD_MULTIPLE_USER } from "@/util/mutationQueries";
 import { randomId } from "@mantine/hooks";
+import HomeProfile from "@/components/homeProfile/page";
+
+
+
 
 import {
   FiChevronDown,
@@ -106,26 +110,22 @@ export default function Home() {
     return password;
   }
 
-
   const form: any = useForm({
     initialValues: {
       userId: "",
-      role:"",
-      company:"",
+      role: "",
+      company: "",
+      stepperFilled:false,
       companies: [],
       profile_summary: "",
       resume_headline: "",
       name: "",
       status: "",
-
     },
-    validate: {      
-      company: (value) =>
-        value ? null : "please select company",
-
+    validate: {
+      company: (value) => (value ? null : "please select company"),
     },
   });
-  
 
   const formEmployees: any = useForm({
     initialValues: {
@@ -193,11 +193,9 @@ export default function Home() {
         address: (value) => (value ? null : "add address"),
         // company: (value) => (value ? null : "please select company"),
       },
-  }
-})
+    },
+  });
 
-
-  
   const formManagers: any = useForm({
     initialValues: {
       company: "",
@@ -264,15 +262,10 @@ export default function Home() {
         address: (value) => (value ? null : "add address"),
         // company: (value) => (value ? null : "please select company"),
       },
-
-
     },
   });
 
-
   const getUser = async () => {
-
-
     const user: any = await client.request(VIEW_USER, {
       where: {
         id: localStorage.getItem("id"),
@@ -282,24 +275,22 @@ export default function Home() {
     console.log("user profile gotttttttttttttttttttttttttttttttttt", user);
 
     if (user?.user) {
+
+
+      console.log('mmmm')
       // alert('insi')
       // settrue(false);
     }
 
-if(localStorage.getItem('role') === 'manager' )   {
+    if (localStorage.getItem("role") === "manager") {
+      // alert("here");
 
-  alert('here')
+      // console.log(  'sss',localStorage.getItem('company') )
 
-  // console.log(  'sss',localStorage.getItem('company') )
-
-  formEmployees.setValues({
-
-    company: user?.user?.company?.id,
-
-
-  })
-
-}
+      formEmployees.setValues({
+        company: user?.user?.company?.id,
+      });
+    }
 
     form.setValues({
       // profileUserId: user?.user?.id,
@@ -316,6 +307,7 @@ if(localStorage.getItem('role') === 'manager' )   {
       status: user?.user?.active,
       role: user?.user.role,
       company: user?.user?.company?.name,
+      stepperFilled:user?.user?.stepperFilled
       // workForMutation: user?.user?.open_to_work,
       // statusForMutation: user?.user?.active,
       // resume: user?.user?.resume,
@@ -331,7 +323,6 @@ if(localStorage.getItem('role') === 'manager' )   {
       // userAddress: user?.user?.address,
       // experience: user?.user?.experience,
     });
-
   };
 
   const GET_ALL_USERS = gql`
@@ -395,27 +386,25 @@ if(localStorage.getItem('role') === 'manager' )   {
   `;
 
   const getData = async () => {
-
-    console.log('getData',getData)
+    console.log("getData", getData);
 
     const user: any = await client.request(USERS, {
       where: {
         role: {
           equals: "employee",
         },
-        
-          // company: {
-          //   name: {
-          //     equals: localStorage.getItem('company')
-          //   }
-          // }
+
+        // company: {
+        //   name: {
+        //     equals: localStorage.getItem('company')
+        //   }
+        // }
       },
       orderBy: [
         {
           createdAt: "asc",
         },
       ],
-
     });
 
     console.log("userInsssss", user);
@@ -582,34 +571,29 @@ if(localStorage.getItem('role') === 'manager' )   {
 
     setMain(test);
   };
-
-
 
   const getManagersEmployees = async () => {
+    console.log("checkCompany", form.getInputProps("company")?.value);
 
-   console.log('checkCompany',form.getInputProps('company')?.value) 
-
-
-   console.log('checkCompanyU',localStorage.getItem('company')) 
+    console.log("checkCompanyU", localStorage.getItem("company"));
 
     const user: any = await client.request(USERS, {
       where: {
         role: {
           equals: "employee",
         },
-        
-          company: {
-            name: {
-              equals: localStorage.getItem('company')
-            }
-          }
+
+        company: {
+          name: {
+            equals: localStorage.getItem("company"),
+          },
+        },
       },
       orderBy: [
         {
           createdAt: "asc",
         },
       ],
-
     });
 
     console.log("userInsssss", user);
@@ -777,9 +761,9 @@ if(localStorage.getItem('role') === 'manager' )   {
     setMain(test);
   };
 
-
-
   useEffect(() => {
+
+
     var element: any = document.getElementsByClassName("table-bordered");
 
     console.log(element);
@@ -789,19 +773,12 @@ if(localStorage.getItem('role') === 'manager' )   {
       element[0]?.classList?.remove("table-bordered");
     }
 
-    if( localStorage.getItem('role'))  {
-
+    if (localStorage.getItem("role")) {
       getData();
-
-    }
-
-    else {
-
+    } else {
       getManagersEmployees();
-
     }
 
-  
     getUser();
   }, []);
 
@@ -814,6 +791,7 @@ if(localStorage.getItem('role') === 'manager' )   {
     sethasMaster,
     role,
     setRole,
+    formData
   }: any = useThemeContext();
 
   useEffect(() => {
@@ -877,13 +855,10 @@ if(localStorage.getItem('role') === 'manager' )   {
   const addEntryEmployee = () => {
     console.log("mmmmm", form.getInputProps("company")?.value);
 
-
-    if(formEmployees.getInputProps("role")?.value === 'admin') {
-
+    if (formEmployees.getInputProps("role")?.value === "admin") {
       if (!formEmployees.getInputProps("company")?.value) {
         return formEmployees.setFieldError("company", "select company");
       }
-
     }
 
     console.log("form", form.values);
@@ -896,14 +871,26 @@ if(localStorage.getItem('role') === 'manager' )   {
     });
   };
 
+  const getRole = async () => {
+    const user: any = await client.request(GET_USER, {
+      where: {
+        id: localStorage.getItem("id"),
+      },
+    });
+
+    console.log("seeing user in sidebar", user);
+    setRole(user?.user?.role);
+  };
+
   useEffect(() => {
     getComapanies();
+
+    getRole();
   }, []);
 
-
+  console.log("rolessssssssssssssssssssssssssss", role);
 
   const saveAllManagers = async () => {
-
     console.log("form enteries", formManagers.values.entries);
 
     if (formManagers.validate().hasErrors) {
@@ -911,8 +898,6 @@ if(localStorage.getItem('role') === 'manager' )   {
 
       return;
     } else {
-
-      
       console.log("formManagers valuess ", formManagers.values);
 
       const users: any = await client.request(GET_ALL_USERS);
@@ -998,7 +983,6 @@ if(localStorage.getItem('role') === 'manager' )   {
           progressClassName: "fancy-progress-bar",
         });
 
-        
         formManagers.setFieldValue("entries", [
           {
             userName: "",
@@ -1036,15 +1020,11 @@ if(localStorage.getItem('role') === 'manager' )   {
   const saveAllEmployees = async () => {
     console.log("formManagers enteries", form.entries);
 
-
-  
     if (formEmployees.validate().hasErrors) {
       console.log("yes", formEmployees.errors);
-      
+
       return;
-    }
-    
-    else {
+    } else {
       console.log("formEmployees valuess ", formEmployees.values);
 
       const users: any = await client.request(GET_ALL_USERS);
@@ -1152,8 +1132,6 @@ if(localStorage.getItem('role') === 'manager' )   {
             progressClassName: "fancy-progress-bar",
           });
 
-
-
           // Redirect or perform other actions
           setTimeout(() => {
             // router.push("/invited_employees");
@@ -1189,36 +1167,61 @@ if(localStorage.getItem('role') === 'manager' )   {
   //   setRole(profile?.user?.role);
   // };
 
-  console.log("hasMaster", hasMaster);
+  console.log("hasMaster", form.getInputProps('stepperFilled')?.value ,role);
+
+
+
+
+
+
+
+
+  const renderMaster=()=>{
+
+
+         console.log('home')
+
+
+  }
+
 
   return (
     <>
       {/* <ToastContainer /> */}
       <MantineProvider>
+
         <div className="">
-          {hasMaster && (
-            <h2 className="page-main-heading px-4">
-              {" "}
-              Welcome {localStorage.getItem("name")}{" "}
-            </h2>
-          )}
 
-          <div className="dashboard mt-[80px]">
+      
 
-            <div className="" style={{
-              marginBottom:"18px"
-            }} >
+          <div className="dashboard">
 
-            <span className="px-[48px] dashboard-heading">Dashboard</span>
 
-            </div>
-   
+{
+
+role !== 'employee' &&    <div className="" style={{
+  marginBottom:"18px",
+  marginTop:"80px"
+}} >
+
+<span className="px-[48px] dashboard-heading">Dashboard</span>
+
+</div>
+
+}
+
+        
 
             {form.getInputProps("role")?.value ===
-              ("employee" || "managers") && (
-              <div className="profile-block">
+              ("manager" ) && (
+              <div className="profile-block"  >
                 <div className="">
-                  <div className="custom-rounded-dashboard custom-box-shadow-dashboard">
+                  <div className="custom-rounded-dashboard custom-box-shadow-dashboard"  style={{
+                padding:"17px 17px",
+                marginTop:"1rem",
+                marginRight:"1rem"
+
+              }} >
                     <div className="profile-header d-flex justify-content-between mb-4">
                       <span
                         className="page-main-heading-dashboard"
@@ -1294,10 +1297,8 @@ if(localStorage.getItem('role') === 'manager' )   {
               </div>
             )}
 
-            { (form.getInputProps("role")?.value === "admin" ) && (
+            {form.getInputProps("role")?.value === "admin" && (
               <div className="create-managers-block">
-
-
                 <form onSubmit={formManagers.onSubmit((values) => {})}>
                   <div className="px-5  ">
                     <div className="custom-rounded-dashboard">
@@ -1486,7 +1487,8 @@ if(localStorage.getItem('role') === 'manager' )   {
               </div>
             )}
 
-            { (  form.getInputProps("role")?.value === ("admin") ||   form.getInputProps("role")?.value === ("manager") ) && (
+            {(form.getInputProps("role")?.value === "admin" ||
+              form.getInputProps("role")?.value === "manager") && (
               <div className="create-employee-block mt-16">
                 <form onSubmit={formEmployees.onSubmit((values) => {})}>
                   <div className="px-5 ">
@@ -1502,27 +1504,17 @@ if(localStorage.getItem('role') === 'manager' )   {
                         </div>
                         <div className="d-flex justify-content-between">
                           <div className="d-flex justify-content-between">
-
-
-{
-
-form.getInputProps('role')?.value !== "manager" && 
-
-<Select
-style={{
-  marginRight: "1.5rem",
-}}
-placeholder="Please select company"
-{...formEmployees.getInputProps(
-  `company`
-)}
-data={form.getInputProps("companies").value}
-/>
-
-
-}
-
-
+                            {form.getInputProps("role")?.value !==
+                              "manager" && (
+                              <Select
+                                style={{
+                                  marginRight: "1.5rem",
+                                }}
+                                placeholder="Please select company"
+                                {...formEmployees.getInputProps(`company`)}
+                                data={form.getInputProps("companies").value}
+                              />
+                            )}
 
                             <button
                               onClick={() => saveAllEmployees()}
@@ -1583,19 +1575,18 @@ data={form.getInputProps("companies").value}
                                           <TextInput
                                             //   label="Name"
                                             //   description="Input description"
-                                   
-                                            disabled={
 
-                                               form.getInputProps(
-                                                "role"
-                                              )?.value === 'admin' && formEmployees.getInputProps(
+                                            disabled={
+                                              form.getInputProps("role")
+                                                ?.value === "admin" &&
+                                              formEmployees.getInputProps(
                                                 "company"
                                               )?.value
                                                 ? false
-                                                :  form.getInputProps(
-                                                  "role"
-                                                )?.value === 'manager' ? false : true
-
+                                                : form.getInputProps("role")
+                                                    ?.value === "manager"
+                                                ? false
+                                                : true
                                             }
                                             className=" h-10 w-48 p-2"
                                             placeholder="Name"
@@ -1609,16 +1600,16 @@ data={form.getInputProps("companies").value}
                                             //   label="Name"
                                             //   description="Input description"
                                             disabled={
-                                   
-                                              form.getInputProps(
-                                                "role"
-                                              )?.value === 'admin' && formEmployees.getInputProps(
+                                              form.getInputProps("role")
+                                                ?.value === "admin" &&
+                                              formEmployees.getInputProps(
                                                 "company"
                                               )?.value
                                                 ? false
-                                                :  form.getInputProps(
-                                                  "role"
-                                                )?.value === 'manager' ? false : true
+                                                : form.getInputProps("role")
+                                                    ?.value === "manager"
+                                                ? false
+                                                : true
                                             }
                                             className=" h-10 w-48 p-2"
                                             placeholder="Mobile Number"
@@ -1632,16 +1623,16 @@ data={form.getInputProps("companies").value}
                                             //   label="Name"
                                             //   description="Input description"
                                             disabled={
-                                     
-                                              form.getInputProps(
-                                                "role"
-                                              )?.value === 'admin' && formEmployees.getInputProps(
+                                              form.getInputProps("role")
+                                                ?.value === "admin" &&
+                                              formEmployees.getInputProps(
                                                 "company"
                                               )?.value
                                                 ? false
-                                                :  form.getInputProps(
-                                                  "role"
-                                                )?.value === 'manager' ? false : true
+                                                : form.getInputProps("role")
+                                                    ?.value === "manager"
+                                                ? false
+                                                : true
                                             }
                                             className="h-10 w-48 p-2"
                                             placeholder="Email"
@@ -1655,16 +1646,16 @@ data={form.getInputProps("companies").value}
                                             //   label="Name"
                                             //   description="Input description"
                                             disabled={
-                                     
-                                              form.getInputProps(
-                                                "role"
-                                              )?.value === 'admin' && formEmployees.getInputProps(
+                                              form.getInputProps("role")
+                                                ?.value === "admin" &&
+                                              formEmployees.getInputProps(
                                                 "company"
                                               )?.value
                                                 ? false
-                                                :  form.getInputProps(
-                                                  "role"
-                                                )?.value === 'manager' ? false : true
+                                                : form.getInputProps("role")
+                                                    ?.value === "manager"
+                                                ? false
+                                                : true
                                             }
                                             className=" h-10 w-48 p-2"
                                             placeholder="Address"
@@ -1711,8 +1702,8 @@ data={form.getInputProps("companies").value}
               </div>
             )}
 
-
-            { ( form.getInputProps("role")?.value === ("admin") ||  form.getInputProps("role")?.value === ("manager") ) && (
+            {(form.getInputProps("role")?.value === "admin" ||
+              form.getInputProps("role")?.value === "manager") && (
               <div className="employees-profile-block mt-16">
                 <div className="create-employee-block">
                   <form onSubmit={form.onSubmit((values) => {})}>
@@ -1756,11 +1747,29 @@ Employees profile{" "}
                 </div>
               </div>
             )}
-            
           </div>
         </div>
 
-        {role === "employee" && <Master />}
+       {
+
+   role === 'employee' &&  form.getInputProps('stepperFilled')?.value === false ?  <Master/> :   ''  
+
+       }
+
+
+
+  {
+
+
+<HomeProfile/>
+                      
+
+  }
+
+
+  
+
+      
       </MantineProvider>
     </>
   );

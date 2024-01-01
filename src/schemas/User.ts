@@ -26,9 +26,9 @@ type Session = {
     }
   
     // If admin roles are found, consider the user as admin
-    if ( admin == "admin"  || admin == "manager" ) {
-      return true;
-    }
+    // if ( admin == "admin"  || admin == "manager" ) {
+    //   return true;
+    // }
   
     // Otherwise, consider the user as a regular user
     return false;
@@ -36,21 +36,24 @@ type Session = {
 
 export default list({
     access: {
-        operation: {
-          // Set access control rules for create, update, delete, and query operations
-          create: isAdmin,
-          update: isAdmin,
-          delete: isAdmin,
-          query: () => {
-            return true; // Allow all users to perform queries
-          },
-        },
+      operation:allowAll
+        // operation: {
+        //   // Set access control rules for create, update, delete, and query operations
+        //   // create: isAdmin,
+        //   // update: isAdmin,
+        //   // delete: isAdmin,
+        //   // query: () => {
+        //   //   return true; // Allow all users to perform queries
+        //   // },
+        // },
       },
   fields: {
     name: text({ validation: { isRequired: true } } ),
     email: text({ validation: { isRequired: true }, isIndexed: "unique" }),
     password: password({ validation: { isRequired: true } }),
     company: relationship({ ref: "Company", many: false }),
+
+
     createdAt: timestamp({
       defaultValue: { kind: 'now' },
     }),
@@ -106,7 +109,11 @@ export default list({
       //   searchFields: ["name", "version"],
       // },
     }),
+    stepperFilled:  checkbox({
+      defaultValue: false,
+    }),
     profile_summary: text(),
+    
     // Add other fields here if needed
   },
   hooks: {
@@ -127,5 +134,15 @@ export default list({
 
       }
     },
+  },
+  ui: {
+    searchFields: [
+      "email",
+      "name",
+      "resume_headline",
+      "itskills",
+      "keyskills",
+      "profile_summary",
+    ],
   },
 });

@@ -26,6 +26,7 @@ type User {
   keyskillsCount(where: KeySkillWhereInput! = {}): Int
   experience(where: AddExperienceWhereInput! = {}, orderBy: [AddExperienceOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AddExperienceWhereUniqueInput): [AddExperience!]
   experienceCount(where: AddExperienceWhereInput! = {}): Int
+  stepperFilled: Boolean
   profile_summary: String
 }
 
@@ -62,6 +63,7 @@ input UserWhereInput {
   open_to_work: BooleanFilter
   keyskills: KeySkillManyRelationFilter
   experience: AddExperienceManyRelationFilter
+  stepperFilled: BooleanFilter
   profile_summary: StringFilter
 }
 
@@ -184,6 +186,7 @@ input UserOrderByInput {
   resume_headline: OrderDirection
   active: OrderDirection
   open_to_work: OrderDirection
+  stepperFilled: OrderDirection
   profile_summary: OrderDirection
 }
 
@@ -211,6 +214,7 @@ input UserUpdateInput {
   open_to_work: Boolean
   keyskills: KeySkillRelateToManyForUpdateInput
   experience: AddExperienceRelateToManyForUpdateInput
+  stepperFilled: Boolean
   profile_summary: String
 }
 
@@ -279,6 +283,7 @@ input UserCreateInput {
   open_to_work: Boolean
   keyskills: KeySkillRelateToManyForCreateInput
   experience: AddExperienceRelateToManyForCreateInput
+  stepperFilled: Boolean
   profile_summary: String
 }
 

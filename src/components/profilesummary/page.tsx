@@ -93,7 +93,7 @@ const Profile = () => {
 
     const user: any = await client.request(updateUser, {
       where: {
-        id: formData.profileUserId,
+        id: localStorage.getItem('id'),
       },
       data: {
         // total_experience: formData.total_experience,

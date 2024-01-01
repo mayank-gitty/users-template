@@ -116,8 +116,11 @@ const USERS = gql`
 
 export interface IAppProps {}
 
-export default function View(props: IAppProps) {
+export default function HomeProfile(props: IAppProps) {
 
+
+  const { setActive, formData, setexperienceOpen, seteditopen , setFormData , setRole , setProfileId,sethasMaster,   setProfileName  }:any =
+  useThemeContext();
 
   const logOut = () => {
     // console.log("logout");
@@ -146,7 +149,7 @@ export default function View(props: IAppProps) {
     setActive(0);
     setImage(null);
     setRole("");
-    setProfileId("")
+    setProfileId("");
     sethasMaster(false);
     setProfileName("");
     
@@ -491,11 +494,8 @@ export default function View(props: IAppProps) {
 
 
 
-
   // const [true, settrue] = useState(true);
 
-  const { setActive, formData, setFormData, setexperienceOpen, seteditopen }:any =
-    useThemeContext();
 
 
 
@@ -821,11 +821,12 @@ export default function View(props: IAppProps) {
 
   console.log("skils", form.getInputProps("itskills").value);
 
+
   const getData = async (search: any) => {
     // console.log("id", search);
     const user: any = await client.request(VIEW_USER, {
       where: {
-        id: search,
+        id: localStorage.getItem('id'),
       },
     });
 

@@ -33,6 +33,7 @@ model User {
   open_to_work          Boolean         @default(true)
   keyskills             KeySkill[]      @relation("User_keyskills")
   experience            AddExperience[] @relation("User_experience")
+  stepperFilled         Boolean         @default(false)
   profile_summary       String          @default("")
   from_ProfileUser_user ProfileUser[]   @relation("ProfileUser_user")
 
