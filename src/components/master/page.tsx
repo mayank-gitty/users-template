@@ -113,7 +113,7 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
       delete formData.educations[i].id;
     }
 
-    for (var i = 0, len = formData.educations.length; i < len; i++) {
+    for (var i = 0, len = formData.projects.length; i < len; i++) {
       delete formData.projects[i].id;
     }
 

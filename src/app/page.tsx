@@ -1215,9 +1215,9 @@ role !== 'employee' &&    <div className="" style={{
             {form.getInputProps("role")?.value ===
               ("manager" ) && (
               <div className="profile-block"  >
-                <div className="">
-                  <div className="custom-rounded-dashboard custom-box-shadow-dashboard"  style={{
-                padding:"17px 17px",
+                <div className="px-5">
+                  <div className="py-4 px-5 custom-rounded-dashboard custom-box-shadow-dashboard"  style={{
+                // padding:"17px 17px",
                 marginTop:"1rem",
                 marginRight:"1rem"
 
@@ -1736,7 +1736,9 @@ Employees profile{" "}
 </h2>
 </div> */}
 
-                            <div className="home-page profile-table">
+                            <div className="home-page profile-table no-lift" style={{
+                        
+                            }} >
                               <MDBDataTable bordered small data={main} />
                             </div>
                           </div>

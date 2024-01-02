@@ -20,7 +20,7 @@ import {
 } from "@tabler/icons-react";
 
 const Thanku = () => {
-  const { loggedIn, setLoggedIn, role ,profileUserId }: any = useThemeContext();
+  const { loggedIn, setLoggedIn,  role ,profileUserId }: any = useThemeContext();
 
   const router = useRouter();
 
@@ -131,7 +131,7 @@ const Thanku = () => {
                     type="button"
                     className="text-gray-800 bg-gray-200 d-flex items-center justify-content-center px-4 py-2 w-full font-semibold rounded-[8px] text-sm hover:bg-violet-100"
                     onClick={() => {
-                      router.push(`/profile?id=${localStorage.getItem('id')}`);
+                      router.push(`/`);
                     }}
                   >
                     View profile

@@ -241,7 +241,7 @@ div.dataTables_wrapper div.dataTables_info {
 }
 
 .twenty-percent {
-  height: 5%;
+  height: 14%;
   width: 100%;
 }
 
@@ -303,12 +303,20 @@ div.dataTables_wrapper div.dataTables_info {
 
 .profile-table {
   width: 97%;
-  height: 95%;
+  height: 86%;
   margin: auto;
   /* background:blue; */
   padding-right: 20px;
   padding-left: 6px;
+  transform: translateY(-20px);
   /* background: #fff; */
+}
+
+
+.profile-table.no-lift {
+
+  transform: translateY(0px);
+
 }
 
 .modal-close-icon {
@@ -487,8 +495,8 @@ div.dataTables_wrapper div.dataTables_paginate {
 
 table.table-sm th, table.table-sm td  {
 
-  padding-top: 0.44rem !important;
-  padding-bottom: 0.44rem !important;
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
 
 }
 
@@ -856,6 +864,28 @@ table.table-sm th, table.table-sm td  {
 .pagination .page-item.active .page-link {
   border-radius: 6px;
   background: #3d39d8;
+}
+
+
+.table thead th {
+
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.2rem !important;
+
+}
+
+div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTables_paginate {
+
+  padding-top: 0.3rem;
+
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination  {
+
+padding-top: 0.4rem !important;
+  padding-bottom: 0rem;
+  margin-bottom: 0rem;
+
 }
 
 [data-test="page-item"] {
