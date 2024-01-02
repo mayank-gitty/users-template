@@ -990,17 +990,13 @@ const ProjectForm = () => {
                     placeholder="Role"
                     data={[
                       "java dev",
-                      "react dev",
+                      "reactJs dev",
                       "python dev",
-                      "4",
-                      "5",
-                      "6",
-                      "7",
-                      "8",
-                      "9",
-                      "10",
-                      "11",
-                      "12",
+                      "javascript dev",
+                      "nextJs dev",
+                    
+                 
+                 
                     ]} // Your list of size
                     value={project.role}
                     styles={(theme) => ({

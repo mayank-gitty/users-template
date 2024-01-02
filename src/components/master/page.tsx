@@ -36,6 +36,8 @@ import { gql } from "graphql-request";
 import { useEffect } from "react";
 import { updateUser } from "@/util/mutationQueries";
 
+import { VIEW_USER } from "@/util/queries";
+
 
 export default function Master() {
   const {
@@ -99,7 +101,9 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
         id: item,
       };
     });
-    // console.log("fm", keyskills);
+
+    console.log("fm", formData.projects) 
+  
 
     for (var i = 0, len = formData.experiences.length; i < len; i++) {
       delete formData.experiences[i].id;
@@ -232,9 +236,62 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
   ];
 
 
+
+
+
+  const getData = async ()=>{
+
+    const user: any = await client.request(VIEW_USER, {
+      where: {
+        id: localStorage.getItem('id'),
+      },
+    });
+
+    console.log("user profile gotttttttttttttttttttttttttttttttttt", user);
+
+    if (user?.user) {
+      // alert('insi')
+      // settrue(false);
+    }
+
+
+        
+
+    setFormData((prevData: any) => ({
+      ...prevData,
+    
+      itskills: user?.user?.itskills?.map((item: any) => item.name),
+      educations: user?.user?.education,
+      projects: user?.user?.project,
+      keyskills: user?.user?.keyskills?.map((item: any) => item.id),
+
+      resume_headline: user?.user?.resume_headline,
+
+      profile_summary: user?.user?.profile_summary,
+      photograph: user?.user?.photograph,
+
+
+   
+      resume: user?.user?.resume,
+
+
+
+ 
+
+      experiences: user?.user?.experience,
+    }));
+
+
+  }
+
+
   useEffect(()=>{
 
-  //  alert('in master')
+
+    getData()
+
+
+
 
   },[])
 

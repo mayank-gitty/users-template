@@ -1761,7 +1761,7 @@ Employees profile{" "}
   {
 
 
-<HomeProfile/>
+role === 'employee' &&  form.getInputProps('stepperFilled')?.value === true  && <HomeProfile/>
                       
 
   }

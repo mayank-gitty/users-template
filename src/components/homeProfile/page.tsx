@@ -5574,13 +5574,16 @@ const addPhotoGraph = async () =>{
           width: "100%",
         }}
       >
-        <div className="text-black text-2xl py-3  font-semibold">Profile</div>
+
+<div className="d-flex justify-content-between">
+
+<div className="text-black text-2xl py-3  font-semibold">Profile</div>
 
 
 {
  
 localStorage.getItem('role') === 'employee' && 
-<button  className="btn btn-infor mb-2"  onClick={() => logOut()}  >
+<button  className="btn btn-info mb-2"  onClick={() => logOut()}  >
 
 logout
 
@@ -5588,6 +5591,11 @@ logout
 
 
 }
+
+</div>
+
+
+
 
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
           <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
