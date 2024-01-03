@@ -990,10 +990,10 @@ const ProjectForm = () => {
                     placeholder="Role"
                     data={[
                       "java dev",
-                      "reactJs dev",
+                      "react dev",
                       "python dev",
                       "javascript dev",
-                      "nextJs dev",
+                      "next dev",
                     
                  
                  

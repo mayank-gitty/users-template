@@ -566,6 +566,7 @@ const Education1: React.FC = () => {
     }
 
     if (!education.description) {
+      
       return toast("please add  description", {
         className: "black-background",
         bodyClassName: "grow-font-size",

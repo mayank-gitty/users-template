@@ -89,6 +89,41 @@ tbody tr td {
   font-size: 12.3px;
 }
 
+
+button:focus 
+
+{
+    border: transparent !important;
+    border: none !important;
+    outline: none !important;
+ }
+
+
+button
+{
+    border: transparent !important;
+    border: none !important;
+ }
+
+
+
+
+
+.modal-open .modal {
+
+display: flex !important; 
+align-items: center !important;
+justify-content: center;
+}
+.modal-content.login  {
+  width: 500px;
+}
+
+.modal-content.login .modal-body {
+  height: auto !important;
+}
+
+
 .title {
   color: #150b3d;
   /* font-family: DM Sans; */

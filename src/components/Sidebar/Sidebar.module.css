@@ -50,7 +50,7 @@
     &[data-active] {
       &,
       &:hover {
-        box-shadow: var(--mantine-shadow-sm);
+        /* box-shadow: var(--mantine-shadow-sm); */
         background-color: var(--mantine-color-white);
         color: var(--mantine-color-blue-filled);
   

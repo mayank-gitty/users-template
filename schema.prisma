@@ -40,6 +40,12 @@ model User {
   @@index([companyId])
 }
 
+model Code {
+  id     String  @id @default(cuid())
+  expire Boolean @default(true)
+  value  String  @default("")
+}
+
 model ProfileUser {
   id              String          @id @default(cuid())
   user            User?           @relation("ProfileUser_user", fields: [userId], references: [id])

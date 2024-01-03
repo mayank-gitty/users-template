@@ -8,8 +8,17 @@ mutation Mutation($where: UserWhereUniqueInput!, $data: UserUpdateInput!) {
 }
 `;
 
+const createCode =  gql`
 
+mutation CreateCode($data: CodeCreateInput!) {
+  createCode(data: $data) {
+    value
+    id
+    expire
+  }
+}
 
+`
 const updateEmployeeBasicDetails = gql`
 mutation Mutation($where: UserWhereUniqueInput!, $data: UserUpdateInput!) {
   updateUser(where: $where, data: $data) {
@@ -170,6 +179,7 @@ const ADD_MULTIPLE_USER = gql`
 
 export {
   updateUser,
+  createCode ,
   AUTH_MUTATION,
   UPDATE_PASSWORD,
   updateUserExperience,

@@ -13,9 +13,11 @@ import AddEducation from '../schemas/AddEducation';
 import Company from '../schemas/Company';
 import KeySkill from '../schemas/KeySkill';
 import AddExperience from '../schemas/AddExperience';
+import Code from "../schemas/Code"
 
 export const lists= {
    User,
+   Code,
    ProfileUser,
    Education,
    ItSkill,

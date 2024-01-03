@@ -464,7 +464,9 @@ export default function View(props: IAppProps) {
 
   const [formErrors, setFormErrors] = useState({});
 
-  const [DefaultSkills, setDefaultSkills] = useState([]);
+  const [DefaultKeySkills, setDefaultKeySkills] = useState([]);
+  
+  const [DefaultItSkills, setDefaultItSkills] = useState([]);
 
   //   const { data: session }: any = useSession();
 
@@ -481,12 +483,14 @@ export default function View(props: IAppProps) {
     return checking?.user?.email;
   };
 
+
   const form: any = useForm({
     initialValues: {
       profileUserId: "",
       allItskills: [],
       allKeyskills: [],
       itskills: [],
+      itskillsForMutation:[],
       education: null,
       keyskills: [],
       userkeyskills: [],
@@ -500,10 +504,9 @@ export default function View(props: IAppProps) {
       name: "",
       status: "",
       work: "",
-      statusForMutation: "",
-      workForMutation: "",
-      status: "",
-      work: "",
+      statusForMutation: null,
+      workForMutation: null,
+   
       email: "",
       userEmail: "",
       userEmailForMutation: "",
@@ -519,6 +522,9 @@ export default function View(props: IAppProps) {
       userAddress: "",
     },
   });
+
+
+  console.log('=======O', form.getInputProps('statusForMutation')?.value)
 
   console.log("formssssssssssssssssss", form);
 
@@ -591,7 +597,6 @@ export default function View(props: IAppProps) {
   ];
 
   const fields = [
-    "Delhi Public",
     "Computer Science",
     "Electrical Engineering",
     "Mechanical Engineering",
@@ -792,6 +797,7 @@ export default function View(props: IAppProps) {
     form.setValues({
       profileUserId: user?.user?.id,
       itskills: user?.user?.itskills?.map((item: any) => item.name),
+      itskillsForMutation: user?.user?.itskills?.map((item: any) => item.id),
       education: user?.user?.education,
       project: user?.user?.project,
       keyskills: user?.user?.keyskills?.map((item: any) => item.id),
@@ -799,12 +805,13 @@ export default function View(props: IAppProps) {
       resume_headline: user?.user?.resume_headline,
       resume_headlineForMutation: user?.user?.resume_headline,
       profile_summary: user?.user?.profile_summary,
+      profile_summaryForMutation:user?.user?.profile_summary,
       photograph: user?.user?.photograph,
       name: user?.user?.name,
       work: user?.user?.open_to_work,
       status: user?.user?.active,
-      workForMutation: user?.user?.open_to_work,
-      statusForMutation: user?.user?.active,
+      workForMutation:user?.user?.open_to_work.toString(),
+      statusForMutation:   user?.user?.active.toString(),
       resume: user?.user?.resume,
       email: user?.user?.email,
       userEmail: user?.user?.email,
@@ -848,6 +855,9 @@ export default function View(props: IAppProps) {
     );
   };
 
+
+
+
   useEffect(() => {
     // alert('refresh')
     getData(search);
@@ -855,7 +865,12 @@ export default function View(props: IAppProps) {
     // console.log("kas", form.getInputProps("education"));
   }, [search, flag]);
 
-  const getSkills = async () => {
+  
+
+  console.log('checking',form)
+
+
+  const  getKeySkills = async () => {
     const users: any = await client.request(KEY_SKILLS);
 
     console.log("usersaa", users);
@@ -867,11 +882,31 @@ export default function View(props: IAppProps) {
       };
     });
 
-    setDefaultSkills(DefaultSkills);
+    setDefaultKeySkills(DefaultSkills);
+
   };
 
+
+  const getItSkills = async () => {
+    const users: any = await client.request(IT_SKILLS);
+
+    console.log("usersaa", users);
+
+    const DefaultSkills = users?.itSkills?.map((item: any) => {
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    });
+
+    setDefaultItSkills(DefaultSkills);
+
+  };
+
+  
   useEffect(() => {
-    getSkills();
+    getKeySkills();
+    getItSkills();
   }, []);
 
   const handleChangeProject = (field: any, e: any) => {
@@ -1144,6 +1179,9 @@ export default function View(props: IAppProps) {
             id: form.getInputProps("userCompany")?.value,
           },
         },
+        open_to_work:form.getInputProps("workForMutation")?.value === 'true' ? true : false,
+        active:form.getInputProps("statusForMutation")?.value === 'true'  ? true : false
+
       },
     });
 
@@ -1159,6 +1197,10 @@ export default function View(props: IAppProps) {
       }, 1000);
     }
   };
+
+
+
+  console.log('fffffff',form)
 
 
   const updateKeySkills = async () => {
@@ -1177,13 +1219,13 @@ export default function View(props: IAppProps) {
             };
           }),
         },
-        // itskills: {
-        //   set: form.getInputProps("itskills")?.value?.map((item: any) => {
-        //     return {
-        //       id: item,
-        //     };
-        //   }),
-        // },
+        itskills: {
+          set: form.getInputProps("itskillsForMutation")?.value?.map((item: any) => {
+            return {
+              id: item,
+            };
+          }),
+        },
         profile_summary:form.getInputProps("profile_summaryForMutation")?.value
       },
       
@@ -1364,7 +1406,7 @@ export default function View(props: IAppProps) {
 
     if (user.updateUser) {
       // alert('inside')
-      toast(`experience added`, {
+      toast(`education added`, {
         className: "green-background",
         bodyClassName: "grow-font-size",
         progressClassName: "fancy-progress-bar",
@@ -1815,6 +1857,10 @@ export default function View(props: IAppProps) {
       }, 1000);
     }
   };
+
+
+console.log('mmmmmmmmmmmmmmmm',form.values)
+
 
   return (
     <Box
@@ -2801,10 +2847,10 @@ export default function View(props: IAppProps) {
                           placeholder="Role"
                           data={[
                             "java dev",
-                            "reactJs dev",
+                            "react dev",
                             "python dev",
                             "javascript dev",
-                            "nextJs dev",
+                            "next dev",
                           ]} // Your list of size
                           value={project.role}
                           styles={(theme) => ({
@@ -3887,11 +3933,14 @@ export default function View(props: IAppProps) {
                         </Input.Wrapper>
                       </Grid.Col>
 
-                      {/* <Grid.Col>
+                      <Grid.Col span={6} >
+
                         <Radio.Group
-                           name="favoriteFramework"
+                   
+                           name="favoriteFramework1"
                            label="Status"
-                           value={form.getInputProps(`statusForMutation`)?.value}
+                           value={form.getInputProps('statusForMutation')?.value}
+
                            onChange={(e:any)=> 
 
                             {
@@ -3906,8 +3955,11 @@ export default function View(props: IAppProps) {
                           
                           }
                           // description="This is anonymous"
+
+
                           withAsterisk
                         >
+
                           <Group mt="xs">
                             <Radio  value={'true'} label="Active" />
                             <Radio  value={'false'} label="Not Active" />
@@ -3915,45 +3967,37 @@ export default function View(props: IAppProps) {
                         </Radio.Group>
                       </Grid.Col>
 
-                      <Grid.Col>
+                       <Grid.Col   span={6} >
                         <Radio.Group
-                          name="favoriteFramework"
+                          name="favoriteFramework2"
                           label="Work Status"
+                      
+                          value={form.getInputProps('workForMutation')?.value}
+                          
+                          onChange={(e:any)=> 
+
+                           {
+                            console.log('e',e)
+                                                        
+                           form.setFieldValue(`workForMutation`,e) 
+
+                           console.log('mmmm',e)
+
+                           }
+
+                         
+                         }
                           // description="This is anonymous"
                           withAsterisk
                         >
                           <Group mt="xs">
-                            <Radio label="Open to work" />
-                            <Radio label="Engaged" />
+                            <Radio  value={'true'}  label="Open to work" />
+                            <Radio  value={'false'}  label="Engaged" />
                           </Group>
                         </Radio.Group>
-                      </Grid.Col> */}
+                      </Grid.Col>  
 
-                      {/* <Grid.Col span={12}>
-                        <Radio
-                          label="active"
-                          // checked={
-                          //   form.getInputProps(`statusForMutation`)?.value
-                          // }
-                          onChange={(event) => {
-                            console.log("sss", event.currentTarget.checked);
-                            // form.setFieldValue(`statusForMutation`,event.currentTarget.checked)
-                          }}
-                        />
-                      </Grid.Col>
-
-                      <Grid.Col span={12}>
-                        <Radio
-                          label="open to work"
-                          checked={form.getInputProps(`workForMutation`)?.value}
-                          onChange={(event) =>
-                            form.setFieldValue(
-                              `workForMutation`,
-                              event.currentTarget.checked
-                            )
-                          }
-                        />
-                      </Grid.Col> */}
+                
                     </Grid>
 
                     <button
@@ -4017,7 +4061,21 @@ export default function View(props: IAppProps) {
                   <Grid>
 
                     <Grid.Col span={12}>
-                      <MultiSelect
+
+                    <Input.Wrapper
+                          label="key skills"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                  
+                  <MultiSelect
                         styles={(theme) => ({
                           input: {
                             // height: "50px",
@@ -4065,7 +4123,7 @@ export default function View(props: IAppProps) {
                                 width: "10px !important",
                               },
                             },
-                          },
+                          },  
                           pill: {
                             color: "red",
                             background: "red",
@@ -4081,8 +4139,9 @@ export default function View(props: IAppProps) {
                         maxSelectedValues={5}
                         onChange={(e) => form.setFieldValue("keyskills", e)}
                         value={form.getInputProps("keyskills")?.value}
-                        data={DefaultSkills}
+                        data={DefaultKeySkills}
                       />
+                         </Input.Wrapper>
                     </Grid.Col>
 
                   <small
@@ -4094,17 +4153,30 @@ export default function View(props: IAppProps) {
                     maximum 5 allowed{" "}
                   </small>
 
-
                   <Grid.Col span={12}>
 
-{/*                     
+
+                  <Input.Wrapper
+                          label="It skills"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                  
+                    
                 <MultiSelect
                   placeholder="Select your It skills"
                   searchable
                   maxSelectedValues={5}
-                  onChange={(e) => form.setFieldValue("itskills", e)}
-                  value={form.getInputProps("itskills")?.value}
-                  data={DefaultSkills}
+                  onChange={(e) => form.setFieldValue("itskillsForMutation", e)}
+                  value={form.getInputProps("itskillsForMutation")?.value}
+                  data={DefaultItSkills}
 
 
                   styles={(theme) => ({
@@ -4172,11 +4244,34 @@ export default function View(props: IAppProps) {
                       background: "red",
                     },
                   })}
-                /> */}
+                />
+
+                 </Input.Wrapper>
+
+
               </Grid.Col> 
 
 
               <Grid.Col span={12}>
+
+
+              <Input.Wrapper
+                          label="profile summary"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        
+
+                          > 
+                          
+                          
+                          
                 <Textarea
                   placeholder="Enter profile summary "
                   size="md"
@@ -4193,6 +4288,16 @@ export default function View(props: IAppProps) {
                     form.setFieldValue("profile_summaryForMutation", e.target.value)
                   }
                 />
+
+                          
+                           </Input.Wrapper>
+                  
+
+
+
+
+            
+
               </Grid.Col>{" "}
 
 
@@ -6044,7 +6149,7 @@ export default function View(props: IAppProps) {
                         Open to Work
                       </span>
                     ) : (
-                      <span className="bg-rose-100 rounded-sm text-red-700 text-xs font-medium">
+                      <span className="px-4 py-2 bg-rose-100 rounded-sm text-red-700 text-xs font-medium">
                         Engaged
                       </span>
                     )}

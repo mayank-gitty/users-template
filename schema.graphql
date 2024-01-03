@@ -317,6 +317,46 @@ input AddExperienceRelateToManyForCreateInput {
   connect: [AddExperienceWhereUniqueInput!]
 }
 
+type Code {
+  id: ID!
+  expire: Boolean
+  value: String
+}
+
+input CodeWhereUniqueInput {
+  id: ID
+}
+
+input CodeWhereInput {
+  AND: [CodeWhereInput!]
+  OR: [CodeWhereInput!]
+  NOT: [CodeWhereInput!]
+  id: IDFilter
+  expire: BooleanFilter
+  value: StringFilter
+}
+
+input CodeOrderByInput {
+  id: OrderDirection
+  expire: OrderDirection
+  value: OrderDirection
+}
+
+input CodeUpdateInput {
+  expire: Boolean
+  value: String
+}
+
+input CodeUpdateArgs {
+  where: CodeWhereUniqueInput!
+  data: CodeUpdateInput!
+}
+
+input CodeCreateInput {
+  expire: Boolean
+  value: String
+}
+
 type ProfileUser {
   id: ID!
   user: User
@@ -929,6 +969,12 @@ type Mutation {
   updateUsers(data: [UserUpdateArgs!]!): [User]
   deleteUser(where: UserWhereUniqueInput!): User
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
+  createCode(data: CodeCreateInput!): Code
+  createCodes(data: [CodeCreateInput!]!): [Code]
+  updateCode(where: CodeWhereUniqueInput!, data: CodeUpdateInput!): Code
+  updateCodes(data: [CodeUpdateArgs!]!): [Code]
+  deleteCode(where: CodeWhereUniqueInput!): Code
+  deleteCodes(where: [CodeWhereUniqueInput!]!): [Code]
   createProfileUser(data: ProfileUserCreateInput!): ProfileUser
   createProfileUsers(data: [ProfileUserCreateInput!]!): [ProfileUser]
   updateProfileUser(where: ProfileUserWhereUniqueInput!, data: ProfileUserUpdateInput!): ProfileUser
@@ -1003,6 +1049,9 @@ type Query {
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   user(where: UserWhereUniqueInput!): User
   usersCount(where: UserWhereInput! = {}): Int
+  codes(where: CodeWhereInput! = {}, orderBy: [CodeOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CodeWhereUniqueInput): [Code!]
+  code(where: CodeWhereUniqueInput!): Code
+  codesCount(where: CodeWhereInput! = {}): Int
   profileUsers(where: ProfileUserWhereInput! = {}, orderBy: [ProfileUserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProfileUserWhereUniqueInput): [ProfileUser!]
   profileUser(where: ProfileUserWhereUniqueInput!): ProfileUser
   profileUsersCount(where: ProfileUserWhereInput! = {}): Int
