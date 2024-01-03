@@ -254,6 +254,8 @@ const Login = () => {
             progressClassName: "fancy-progress-bar",
           });
         }, 1000);
+
+        
       }
     } else {
       return toast("invalid code", {

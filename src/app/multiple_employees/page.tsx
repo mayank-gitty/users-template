@@ -386,6 +386,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
       console.log("valuessssssssssssinngg", checkDuplicatesMail);
 
       if (checkDuplicatesMail.length > 0) {
+
         return toast(`${checkDuplicatesMail[0]} already registered`, {
           className: "black-background",
           bodyClassName: "grow-font-size",

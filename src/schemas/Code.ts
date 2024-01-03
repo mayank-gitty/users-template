@@ -7,7 +7,7 @@ export default list({
   fields: {
  
 expire: checkbox({
-  defaultValue: true,
+  defaultValue: false,
 }),
 value:text()
    
