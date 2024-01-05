@@ -8,11 +8,10 @@ import { link } from "fs";
 import { useRouter } from "next/navigation";
 import { PROFILE_USERS } from "@/util/queries";
 import { USERS } from "../../util/queries";
-
 import { Select } from "@mantine/core";
-
 import { useForm } from "@mantine/form";
 
+import { useSession } from "next-auth/react";
 
 
 const COMPANIES = gql`
@@ -30,7 +29,7 @@ const DatatablePage = () => {
   const [main, setMain] = useState();
   const [alldata, setAllData] = useState([]);
 
-
+  const session = useSession()
 
   const form = useForm({
     initialValues: {
@@ -64,12 +63,7 @@ const DatatablePage = () => {
           role: {
             equals: "employee",
           },
-          //   company: {
-          //     name: {
-          //       equals: localStorage.getItem('company')
-          //     }
-          //   }
-        // },
+      
       },
       orderBy: [
         {

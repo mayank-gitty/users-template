@@ -43,6 +43,7 @@ const AUTH_MUTATION = gql`
           role
           company {
             name
+            id
           }
         }
         sessionToken

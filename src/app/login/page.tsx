@@ -18,6 +18,10 @@ import { IconEyeCheck, IconEyeOff } from "@tabler/icons-react";
 import { AUTH_MUTATION, createCode, updateUser } from "@/util/mutationQueries";
 import { GET_USER } from "@/util/queries";
 
+import { useSession } from "next-auth/react";
+
+import { signIn, signOut } from "next-auth/react";
+
 import { toast } from "react-toastify";
 
 const updateCode = gql`
@@ -100,32 +104,17 @@ const Login = () => {
         return alert("please login as user");
       }
 
-      localStorage.setItem(
-        "token",
-        user?.authenticateUserWithPassword?.sessionToken
-      );
-      localStorage.setItem("id", user?.authenticateUserWithPassword?.item?.id);
-      localStorage.setItem(
-        "name",
-        user?.authenticateUserWithPassword?.item?.name
-      );
-      localStorage.setItem(
-        "role",
-        user?.authenticateUserWithPassword?.item?.role
-      );
-      localStorage.setItem(
-        "company",
-        user?.authenticateUserWithPassword?.item?.company?.name
-      );
-
       setLoggedIn(true);
       setTimeout(() => {
         router.push("/");
       }, 1000);
+
+
     }
   };
 
   const getLogin = async () => {
+
     console.log(form.getInputProps("password").value);
 
     const user: any = await client.request(AUTH_MUTATION, {
@@ -133,41 +122,47 @@ const Login = () => {
       password: form.getInputProps("password").value,
     });
 
+
+    if (user?.authenticateUserWithPassword.item) {
+
+
+      console.log('inside',user?.authenticateUserWithPassword?.item)
+
+      let response = await signIn("credentials", {
+        redirect: false,
+        id: user?.authenticateUserWithPassword.item.id,
+        name: user?.authenticateUserWithPassword.item.name,
+        email:user?.authenticateUserWithPassword.item.email,
+        role:user?.authenticateUserWithPassword.item.role,
+        company_id:user?.authenticateUserWithPassword.item?.company?.id,
+        company_name:user?.authenticateUserWithPassword.item?.company?.name
+      
+      
+      });
+
+      console.log("ssss", response?.error);
+
+      if (response?.error) { 
+        return alert("invalid credentials");
+      }
+      
+      if (!response?.error) {
+        console.log(response.error);
+        return router.push("/");
+      }
+      
+    }
+
+
     if (user?.authenticateUserWithPassword?.message) {
       return alert("invalid credentials");
     } else {
-      console.log("dd", user?.authenticateUserWithPassword?.item);
 
-      // if (user?.authenticateUserWithPassword?.item?.role === "manager") {
-      //   return alert("please  login as manager  ");
-      // }
 
-      // if (user?.authenticateUserWithPassword?.item?.role === "admin") {
-      //   return alert("please login as admin");
-      // }
+      
 
-      localStorage.setItem(
-        "token",
-        user?.authenticateUserWithPassword?.sessionToken
-      );
-      localStorage.setItem("id", user?.authenticateUserWithPassword?.item?.id);
-      localStorage.setItem(
-        "name",
-        user?.authenticateUserWithPassword?.item?.name
-      );
-      localStorage.setItem(
-        "role",
-        user?.authenticateUserWithPassword?.item?.role
-      );
-      localStorage.setItem(
-        "company",
-        user?.authenticateUserWithPassword?.item?.company?.name
-      );
 
-      setLoggedIn(true);
-      setTimeout(() => {
-        router.push("/");
-      }, 1000);
+   
     }
   };
 
@@ -268,7 +263,7 @@ const Login = () => {
     // console.log('up',user)
   };
 
-  const signIn = (e) => {
+  const signInProceed = (e) => {
     
     e.preventDefault();
 
@@ -710,7 +705,7 @@ const Login = () => {
                 <button
                   type="submit"
                   className="text-white bg-[#4D47C3]  px-40 py-3 w-full  font-semibold rounded-[8px] text-sm hover-bg-[#7973ef]"
-                  onClick={(e) => signIn(e)}
+                  onClick={(e) => signInProceed(e)}
                 >
                   Login
                 </button>

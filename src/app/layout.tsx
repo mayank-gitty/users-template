@@ -14,6 +14,9 @@ import { Inter } from "next/font/google";
 import { ThemeContextProvider } from "@/context/context";
 import SideBar from "@/components/Sidebar/page";
 
+
+import { SessionProvider } from "next-auth/react";
+
 import { MantineProvider } from "@mantine/core";
 
 import { ThemeProvider, THEME_ID, createTheme } from "@mui/material/styles";
@@ -87,6 +90,9 @@ export default function RootLayout({
       <body className={inter.className}>
 
       <ToastContainer  />
+
+      <SessionProvider>
+        
         <ThemeContextProvider>
           <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>
             <div className="d-flex">
@@ -101,6 +107,9 @@ export default function RootLayout({
             </div>
           </ThemeProvider>
         </ThemeContextProvider>
+
+        </SessionProvider>
+
 
       </body>
     </html>

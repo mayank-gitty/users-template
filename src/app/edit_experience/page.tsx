@@ -14,10 +14,14 @@ import ExperienceDetails from "@/components/experience/page";
 import { updateUser, updateUserExperience } from "@/util/mutationQueries";
 import { useRouter } from "next/navigation";
 
+import { useSession } from "next-auth/react";
+
 export interface IAppProps {}
 
 export function EditUser(props: IAppProps) {
   const searchParams: any = useSearchParams();
+
+  const {data:session} :any = useSession()
 
   const router = useRouter();
 
@@ -103,7 +107,7 @@ export function EditUser(props: IAppProps) {
         progressClassName: "fancy-progress-bar",
       });
 
-      return router.push(`profile?id=${localStorage.getItem("id")}`);
+      return router.push(`profile?id=${session.user.user.id}`);
     }
   };
 

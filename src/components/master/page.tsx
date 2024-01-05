@@ -38,6 +38,8 @@ import { updateUser } from "@/util/mutationQueries";
 
 import { VIEW_USER } from "@/util/queries";
 
+import { useSession } from "next-auth/react";
+
 
 export default function Master() {
   const {
@@ -59,6 +61,11 @@ export default function Master() {
   }: any = useThemeContext();
 
 
+  const router = useRouter();
+
+
+  const  { data: session  } :any = useSession()
+
   // Define mutation
 const PROFILE_USER = gql`
 mutation CreateProfileUser($data: ProfileUserCreateInput!) {
@@ -69,8 +76,6 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
   }
 }
 `;
-
-  const router = useRouter();
 
   const save = async () => {
     // console.log(formData, formData);
@@ -118,11 +123,14 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
     }
 
 
-    console.log('ss',localStorage.getItem('id'))
+
+
+
+
 
     const user = await client.request(updateUser, {
       where: {
-        id: localStorage.getItem('id'),
+        id: session.user.user.id,
       },
       data: {
         keyskills: {
@@ -243,7 +251,7 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
 
     const user: any = await client.request(VIEW_USER, {
       where: {
-        id: localStorage.getItem('id'),
+        id: session.user.user.id,
       },
     });
 
@@ -254,8 +262,6 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
       // settrue(false);
     }
 
-
-        
 
     setFormData((prevData: any) => ({
       ...prevData,
@@ -293,7 +299,7 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
 
 
 
-  },[])
+  },[session])
 
   return (
     <div className="employee-details" >

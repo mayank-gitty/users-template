@@ -25,7 +25,7 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 
-// import LayoutNav from "../../components/LayoutNav";
+// import LayoutNav from "../../components/LayoutNav";s
 import { useRouter } from "next/navigation";
 import { gql, useQuery, useMutation } from "@apollo/client";
 const manrope = Manrope({ subsets: ["latin"] });
@@ -43,6 +43,9 @@ import { createMultipleUsers } from "../../utils/serverMutations";
 import { useTransition } from "react";
 import client from "../../../helpers/request";
 import { Console } from "console";
+
+
+import { useSession } from "next-auth/react";
 
 const COMPANIES = gql`
   query Query {
@@ -84,7 +87,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
   let [isPending, startTransition] = useTransition();
 
-  //   const { data: session }: any = useSession();
+    const { data: session }: any = useSession();
 
   const checkExistingUser = async (email) => {
     console.log("checking email", email);
@@ -183,10 +186,10 @@ const AddTimeLine = ({ AllProjects }: any) => {
       };
     });
 
-    console.log("dsss", localStorage.getItem("company"), DefaultSkills);
+    console.log("dssssssssssssssssssssssssssssssssssssssss" , session);
 
     const managerCompany = DefaultSkills?.filter(
-      (item) => item.label === localStorage.getItem("company")
+      (item) => item.label === session.user.user.company_name
     );
 
     console.log("mc", managerCompany);
@@ -209,8 +212,9 @@ const AddTimeLine = ({ AllProjects }: any) => {
   };
 
   useEffect(() => {
+    
     getComapanies();
-  }, []);
+  }, [session]);
 
   function generateSecurePassword5(inputString, length, company) {
     const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";

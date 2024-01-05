@@ -9,6 +9,9 @@ import { useRouter } from "next/navigation";
 import { PROFILE_USERS } from "@/util/queries";
 import { USERS } from "../../util/queries";
 
+import { useSession } from "next-auth/react";
+
+
 
 // Define mutation
 
@@ -17,8 +20,9 @@ const DatatablePage = () => {
 
   const router = useRouter();
 
-  const getData = async () => {
+  const session = useSession()
 
+  const getData = async () => {
 
     const user: any = await client.request(USERS, {
       where: {
@@ -28,7 +32,7 @@ const DatatablePage = () => {
           },
             company: {
               name: {
-                equals: localStorage.getItem('company')
+                equals: session?.user?.user?.company_name
               }
             }
       },

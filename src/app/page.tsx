@@ -17,9 +17,7 @@ import Master from "../components/master/page";
 import { ADD_MULTIPLE_USER } from "@/util/mutationQueries";
 import { randomId } from "@mantine/hooks";
 import HomeProfile from "@/components/homeProfile/page";
-
-
-
+import { useSession } from "next-auth/react";
 
 import {
   FiChevronDown,
@@ -39,6 +37,8 @@ const COMPANIES = gql`
 
 export default function Home() {
   const [main, setMain] = useState();
+
+  const { data: session }: any = useSession();
 
   const router = useRouter();
 
@@ -115,7 +115,8 @@ export default function Home() {
       userId: "",
       role: "",
       company: "",
-      stepperFilled:false,
+      photograph:"",
+      stepperFilled: false,
       companies: [],
       profile_summary: "",
       resume_headline: "",
@@ -266,29 +267,29 @@ export default function Home() {
   });
 
   const getUser = async () => {
+    console.log("dddddddMMMMMMM", session);
+
     const user: any = await client.request(VIEW_USER, {
       where: {
-        id: localStorage.getItem("id"),
+        id: session?.user.user.id,
       },
     });
 
     console.log("user profile gotttttttttttttttttttttttttttttttttt", user);
 
     if (user?.user) {
-
-
-      console.log('mmmm')
+      console.log("mmmm");
       // alert('insi')
       // settrue(false);
     }
 
-    if (localStorage.getItem("role") === "manager") {
+    if (session?.user.user.role === "manager") {
       // alert("here");
 
       // console.log(  'sss',localStorage.getItem('company') )
 
       formEmployees.setValues({
-        company: user?.user?.company?.id,
+        company: session?.user?.user?.company_name,
       });
     }
 
@@ -301,13 +302,13 @@ export default function Home() {
       // userkeyskills: user?.user?.keyskills?.map((item: any) => item.name),
       resume_headline: user?.user?.resume_headline,
       profile_summary: user?.user?.profile_summary,
-      // photograph: user?.user?.photograph,
+      photograph: user?.user?.photograph,
       name: user?.user?.name,
       work: user?.user?.open_to_work,
       status: user?.user?.active,
-      role: user?.user.role,
+      role: user?.user?.role,
       company: user?.user?.company?.name,
-      stepperFilled:user?.user?.stepperFilled
+      stepperFilled: user?.user?.stepperFilled,
       // workForMutation: user?.user?.open_to_work,
       // statusForMutation: user?.user?.active,
       // resume: user?.user?.resume,
@@ -393,12 +394,6 @@ export default function Home() {
         role: {
           equals: "employee",
         },
-
-        // company: {
-        //   name: {
-        //     equals: localStorage.getItem('company')
-        //   }
-        // }
       },
       orderBy: [
         {
@@ -456,6 +451,10 @@ export default function Home() {
         ),
       };
     });
+
+
+
+
 
     const test: any = {
       columns: [
@@ -575,8 +574,6 @@ export default function Home() {
   const getManagersEmployees = async () => {
     console.log("checkCompany", form.getInputProps("company")?.value);
 
-    console.log("checkCompanyU", localStorage.getItem("company"));
-
     const user: any = await client.request(USERS, {
       where: {
         role: {
@@ -585,7 +582,7 @@ export default function Home() {
 
         company: {
           name: {
-            equals: localStorage.getItem("company"),
+            equals: session?.user?.user?.company_name,
           },
         },
       },
@@ -761,8 +758,10 @@ export default function Home() {
     setMain(test);
   };
 
-  useEffect(() => {
+  console.log("---------------------------------------", session);
 
+  useEffect(() => {
+    console.log("session122222", session);
 
     var element: any = document.getElementsByClassName("table-bordered");
 
@@ -773,14 +772,14 @@ export default function Home() {
       element[0]?.classList?.remove("table-bordered");
     }
 
-    if (localStorage.getItem("role")) {
+    if (session?.user.user.role === "employee") {
       getData();
     } else {
       getManagersEmployees();
     }
 
     getUser();
-  }, []);
+  }, [session]);
 
   const {
     loggedIn,
@@ -791,18 +790,23 @@ export default function Home() {
     sethasMaster,
     role,
     setRole,
-    formData
+    formData,
   }: any = useThemeContext();
 
   useEffect(() => {
-    const id = localStorage.getItem("id");
+    console.log(
+      "session idggggggggggggggggg---------------------------------",
+      session
+    );
+
+    const id = session?.user?.user.id;
+
+    console.log("session id---------------------------------");
 
     if (id) {
-      // getData();
-    } else {
-      router.push("/login");
+      getData();
     }
-  }, []);
+  }, [session]);
 
   const checkExistingUser = async (email) => {
     console.log("checking email", email);
@@ -874,7 +878,7 @@ export default function Home() {
   const getRole = async () => {
     const user: any = await client.request(GET_USER, {
       where: {
-        id: localStorage.getItem("id"),
+        id: session?.user?.user?.id,
       },
     });
 
@@ -886,7 +890,7 @@ export default function Home() {
     getComapanies();
 
     getRole();
-  }, []);
+  }, [session]);
 
   console.log("rolessssssssssssssssssssssssssss", role);
 
@@ -1144,84 +1148,42 @@ export default function Home() {
     }
   };
 
-  // const getData = async () => {
-  //   const user: any = await client.request(HAS_MASTER, {
-  //     where: {
-  //       user: {
-  //         id: {
-  //           equals: localStorage.getItem("id"),
-  //         },
-  //        },
-  //     },
-  //   });
-
-  //   if (user?.profileUsers.length > 0) {
-  //     sethasMaster(true);
-  //   }
-  //   const profile: any = await client.request(GET_USER, {
-  //     where: {
-  //       id: localStorage.getItem("id"),
-  //     },
-  //   });
-
-  //   setRole(profile?.user?.role);
-  // };
-
-  console.log("hasMaster", form.getInputProps('stepperFilled')?.value ,role);
+  const renderMaster = () => {
+    console.log("home");
+  };
 
 
-
-
-
-
-
-
-  const renderMaster=()=>{
-
-
-         console.log('home')
-
-
-  }
-
+  console.log('seeing photographhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',form.getInputProps('photograph')?.value)
 
   return (
     <>
       {/* <ToastContainer /> */}
       <MantineProvider>
-
         <div className="">
-
-      
-
           <div className="dashboard">
+            {role !== "employee" && (
+              <div
+                className=""
+                style={{
+                  marginBottom: "18px",
+                  marginTop: "80px",
+                }}
+              >
+                <span className="px-[48px] dashboard-heading">Dashboard</span>
+              </div>
+            )}
 
-
-{
-
-role !== 'employee' &&    <div className="" style={{
-  marginBottom:"18px",
-  marginTop:"80px"
-}} >
-
-<span className="px-[48px] dashboard-heading">Dashboard</span>
-
-</div>
-
-}
-
-        
-
-            {form.getInputProps("role")?.value ===
-              ("manager" ) && (
-              <div className="profile-block"  >
+            {form.getInputProps("role")?.value === "manager" && (
+              <div className="profile-block">
                 <div className="px-5">
-                  <div className="py-4 px-5 custom-rounded-dashboard custom-box-shadow-dashboard"  style={{
-                // padding:"17px 17px",
-                marginTop:"1rem",
-                marginRight:"1rem"
-
-              }} >
+                  <div
+                    className="py-4 px-5 custom-rounded-dashboard custom-box-shadow-dashboard"
+                    style={{
+                      // padding:"17px 17px",
+                      marginTop: "1rem",
+                      marginRight: "1rem",
+                    }}
+                  >
                     <div className="profile-header d-flex justify-content-between mb-4">
                       <span
                         className="page-main-heading-dashboard"
@@ -1231,8 +1193,8 @@ role !== 'employee' &&    <div className="" style={{
                       >
                         Profile
                       </span>
-
                       <Image
+                        onClick={()=>router.push(`profile?id=${session.user.user.id}`) }
                         width={15}
                         height={15}
                         src="images/dashboard-profile-edit.svg"
@@ -1243,7 +1205,7 @@ role !== 'employee' &&    <div className="" style={{
                         <Image
                           width={184}
                           height={138}
-                          src="images/profile-photo.svg"
+                          src={form.getInputProps("photograph")?.value}
                         />
                       </div>
 
@@ -1721,24 +1683,21 @@ role !== 'employee' &&    <div className="" style={{
                             </div>
 
                             <div className="">
-                              <button className="view-all-employees-btn">
+                              <button className="view-all-employees-btn"  onClick={()=>{
+
+                               router.push(`${role === 'manager' ? 'profileUsers' : 'profileEmployees' }`)
+
+                              }} >
                                 View all
                               </button>
                             </div>
                           </div>
                           <div className="">
-                            {/* <div className="page-heading   pt-2 pb-2  twenty-percent">
-<h2
-className="page-main-heading mt-2 px-4"
->
-{" "}
-Employees profile{" "}
-</h2>
-</div> */}
-
-                            <div className="home-page profile-table no-lift" style={{
-                        
-                            }} >
+ 
+                            <div
+                              className="home-page profile-table no-lift"
+                              style={{}}
+                            >
                               <MDBDataTable bordered small data={main} />
                             </div>
                           </div>
@@ -1752,26 +1711,17 @@ Employees profile{" "}
           </div>
         </div>
 
-       {
+        {role === "employee" &&
+        form.getInputProps("stepperFilled")?.value === false ? (
+          <Master />
+        ) : (
+          ""
+        )}
 
-   role === 'employee' &&  form.getInputProps('stepperFilled')?.value === false ?  <Master/> :   ''  
-
-       }
-
-
-
-  {
-
-
-role === 'employee' &&  form.getInputProps('stepperFilled')?.value === true  && <HomeProfile/>
-                      
-
-  }
-
-
-  
-
-      
+        {role === "employee" &&
+          form.getInputProps("stepperFilled")?.value === true && (
+            <HomeProfile />
+          )}
       </MantineProvider>
     </>
   );

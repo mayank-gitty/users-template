@@ -120,7 +120,7 @@ const DatatablePage = () => {
         },
         company: {
           name: {
-            equals: localStorage.getItem("company"),
+            equals: ,
           },
         },
       },

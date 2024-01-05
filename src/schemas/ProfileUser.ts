@@ -130,7 +130,7 @@ export default list({
     createdAt: timestamp({
       defaultValue: { kind: "now" },
     }),
-    // resume: file({ storage: "my_local_files" }),
+
   },
   hooks: {
     validateInput: async ({ resolvedData, addValidationError, context }) => {},

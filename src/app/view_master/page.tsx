@@ -69,6 +69,8 @@ import ProfileUser from "@/schemas/ProfileUser";
 import ExperienceDetails from "@/components/experience/page";
 import { transcode } from "buffer";
 
+import { useSession } from "next-auth/react";
+
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
   { value: "masters/post-graduation", label: "Masters/Post-Graduation" },
@@ -117,7 +119,7 @@ export interface IAppProps {}
 export default function View(props: IAppProps) {
   const [createObjectURL, setCreateObjectURL] = useState(null);
 
-  // const [onFileInputHover,setonFileInputHover]  = useState(false)
+  const session = useSession()
 
   const { image, setImage }: any = useThemeContext();
 
@@ -3759,6 +3761,7 @@ console.log('mmmmmmmmmmmmmmmm',form.values)
         </form>
       </div>
 
+
       <div
         class="modal fade"
         id="exampleModalBasic"
@@ -6963,7 +6966,7 @@ console.log('mmmmmmmmmmmmmmmm',form.values)
                               style={{ width: "24px", height: "24px" }}
                               onClick={() =>
                                 router.push(
-                                  `/edit_user?id=${localStorage.getItem("id")}`
+                                  `/edit_user?id=${session?.user?.user.id}`
                                 )
                               }
                             />
@@ -7044,9 +7047,8 @@ console.log('mmmmmmmmmmmmmmmm',form.values)
                                   }}
                                   onClick={() =>
                                     router.push(
-                                      `/edit_user?id=${localStorage.getItem(
-                                        "id"
-                                      )}`
+                                      `/edit_user?id=${session?.user.user.id
+                                      }`
                                     )
                                   }
                                 />

@@ -20,6 +20,8 @@ import { updateUser } from "@/util/mutationQueries";
 import { toast } from "react-toastify";
 import client from "../../../helpers/request";
 
+import { useSession } from "next-auth/react";
+
 // Define mutation
 const PROFILE_USER = gql`
   mutation CreateProfileUser($data: ProfileUserCreateInput!) {
@@ -63,6 +65,7 @@ const Profile = () => {
   const router = useRouter();
   const [opened, { open, close }] = useDisclosure(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const  {  data: session } :any = useSession()
 
   const {
     setFormData,
@@ -72,7 +75,6 @@ const Profile = () => {
     inEditPage,
     setinEditPage,
     profileId,
-  
   }: // createdExperiencesOnEdit,
   // deletedExperiencesOnEdit
   any = useThemeContext();
@@ -93,7 +95,7 @@ const Profile = () => {
 
     const user: any = await client.request(updateUser, {
       where: {
-        id: localStorage.getItem('id'),
+        id: session.user.user.id,
       },
       data: {
         // total_experience: formData.total_experience,
@@ -150,7 +152,7 @@ const Profile = () => {
         progressClassName: "fancy-progress-bar",
       });
 
-      return router.push(`profile?id=${localStorage.getItem("id")}`);
+      return router.push(`profile?id=${session?.user?.user?.id}`);
     }
   };
 

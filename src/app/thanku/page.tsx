@@ -50,15 +50,8 @@ const Thanku = () => {
     if (user?.authenticateUserWithPassword?.message) {
       return alert("invalid credentials");
     } else {
-      localStorage.setItem(
-        "token",
-        user?.authenticateUserWithPassword?.sessionToken
-      );
-      localStorage.setItem("id", user?.authenticateUserWithPassword?.item?.id);
-      localStorage.setItem(
-        "name",
-        user?.authenticateUserWithPassword?.item?.name
-      );
+  
+ 
 
       setLoggedIn(true);
       setTimeout(() => {
@@ -118,7 +111,7 @@ const Thanku = () => {
                 type="submit"
                 className="text-gray-800 bg-gray-200 flex items-center justify-center px-4 py-2 w-full  font-semibold rounded-[8px] text-sm hover:bg-violet-100"
                 onClick={() => {
-                  router.push(`/profile?id=${localStorage.getItem("id")}`);
+                  router.push(`/profile?id=${session?.user?.user?.id}`);
                 }}
               >
                 Go back

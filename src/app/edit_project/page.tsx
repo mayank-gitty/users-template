@@ -98,7 +98,7 @@ export function EditUser(props: IAppProps) {
         progressClassName: "fancy-progress-bar",
       });
 
-      return router.push(`profile?id=${localStorage.getItem("id")}`);
+      return router.push(`profile?id=${session?.user?.user?.id}`);
     }
   };
 

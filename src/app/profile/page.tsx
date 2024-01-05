@@ -12,8 +12,6 @@ import { toast } from "react-toastify";
 
 import { Dropzone } from "@mantine/dropzone";
 
-
-
 import {
   Button,
   Group,
@@ -35,7 +33,7 @@ import {
   Radio,
   Textarea,
   createStyles,
-  FileInput
+  FileInput,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -70,6 +68,8 @@ import { serialize } from "v8";
 import ProfileUser from "@/schemas/ProfileUser";
 import ExperienceDetails from "@/components/experience/page";
 import { transcode } from "buffer";
+
+import { useSession } from "next-auth/react";
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -117,117 +117,75 @@ const USERS = gql`
 export interface IAppProps {}
 
 export default function View(props: IAppProps) {
-
-
-  const logOut = () => {
-    // console.log("logout");
-
-    localStorage.removeItem("token");
-    localStorage.removeItem("id");
-    localStorage.removeItem("name");
-    localStorage.removeItem("role");
-    localStorage.removeItem("company");
-
-    setLoggedIn(false);
-    setFormData({
-      profileUserId: "",
-      itskills: [],
-      educations: [],
-      projects: [],
-      keyskills: [],
-      resume_headline: "",
-      profile_summary: "",
-      total_experience_months: "",
-      total_relevant_months: "",
-      experiences: [],
-      photograph: "",
-      resume: "",
-    });
-    setActive(0);
-    setImage(null);
-    setRole("");
-    setProfileId("")
-    sethasMaster(false);
-    setProfileName("");
-    
-    router.push("/login");
-  };
-
-
-  
   const [createObjectURL, setCreateObjectURL] = useState(null);
 
-  // const [onFileInputHover,setonFileInputHover]  = useState(false)
+  const session = useSession()
 
-  const {  image, setImage,setLoggedIn }: any = useThemeContext();
+  const { image, setImage }: any = useThemeContext();
 
-  const [inEditPhoto,setinEditPhoto]   = useState(false) 
+  const [inEditPhoto, setinEditPhoto] = useState(false);
 
-  const [inEditResume,setinEditResume]   = useState(false) 
+  const [inEditResume, setinEditResume] = useState(false);
 
-    const handleFileUploadResume = async (e) => {
-      const file = e;
-  
-      // console.log("filiiiiiiiiiiiiiiiii", file.type);
-  
-      // Allowing file type
-      var allowedTypes = [
-        "application/pdf",
-        "application/msword",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      ];
-  
-      if (!allowedTypes.includes(file.type)) {
-        setFormData((prevData: any) => ({
+  const handleFileUploadResume = async (e) => {
+    const file = e;
+
+    // console.log("filiiiiiiiiiiiiiiiii", file.type);
+
+    // Allowing file type
+    var allowedTypes = [
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+      setFormData((prevData: any) => ({
+        ...prevData,
+        ["resume"]: ``,
+      }));
+
+      return toast("Invalid file type. Please upload a  PDF file.", {
+        className: "black-background",
+        bodyClassName: "grow-font-size",
+        progressClassName: "fancy-progress-bar",
+      });
+    }
+
+    console.log("below");
+
+    const resumeData = new FormData();
+    resumeData.append("file", file);
+
+    try {
+      const response = await fetch("/api/upload2", {
+        method: "POST",
+        body: resumeData,
+      });
+
+      console.log("res", response);
+
+      if (response.ok) {
+        console.log("File uploaded successfully.");
+
+        setFormData((prevData) => ({
           ...prevData,
-          ["resume"]: ``,
+          ["resume"]: `files/${file.name}`,
         }));
-  
-        return toast("Invalid file type. Please upload a  PDF file.", {
-          className: "black-background",
+
+        return toast("resume uploaded successfully", {
+          className: "green-background",
           bodyClassName: "grow-font-size",
           progressClassName: "fancy-progress-bar",
         });
-  
+      } else {
+        console.error("File upload failed.");
       }
-  
-      console.log("below");
-  
-      const resumeData = new FormData();
-      resumeData.append("file", file);
-  
-      try {
-        const response = await fetch("/api/upload2", {
-          method: "POST",
-          body: resumeData,
-        });
-  
-        console.log("res", response);
-  
-        if (response.ok) {
-          console.log("File uploaded successfully.");
-  
-          setFormData((prevData) => ({
-            ...prevData,
-            ["resume"]: `files/${file.name}`,
-          }));
-  
-          return toast("resume uploaded successfully", {
-            className: "green-background",
-            bodyClassName: "grow-font-size",
-            progressClassName: "fancy-progress-bar",
-          });
-  
-        } else {
-          console.error("File upload failed.");
-        }
-      } catch (error) {
-        console.error("An error occurred while uploading the file:", error);
-        alert("please upload from your pc directory");
-      }
-    };
-  
-  
+    } catch (error) {
+      console.error("An error occurred while uploading the file:", error);
+      alert("please upload from your pc directory");
+    }
+  };
 
   const handleFileUpload = async (e) => {
     const file = e;
@@ -321,23 +279,23 @@ export default function View(props: IAppProps) {
       width: "100%",
       height: "201px",
       border: "none",
-  
+
       outlineWidth: "2px",
-  
+
       outlineStyle: "dashed !important",
       outlineColor: "#C6C6C6 !important",
       background: "#FFF !important",
-  
+
       // background:"red",
-  
+
       // content:`"File Uploaded successfully"`,
-  
+
       cursor: "pointer",
       "&:hover": {
         // background: "red",
         // display:"none"
       },
-  
+
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -480,24 +438,23 @@ export default function View(props: IAppProps) {
       textAlign: "center",
       // font-family: Inter;
       fontSize: "10px",
-  
+
       fontWeight: 400,
       lineHeight: "10px",
     },
   }));
 
-
   const { classes } = useStyles(props);
-
-
-
 
   // const [true, settrue] = useState(true);
 
-  const { setActive, formData, setFormData, setexperienceOpen, seteditopen }:any =
-    useThemeContext();
-
-
+  const {
+    setActive,
+    formData,
+    setFormData,
+    setexperienceOpen,
+    seteditopen,
+  }: any = useThemeContext();
 
   console.log("formdata", formData);
 
@@ -509,7 +466,9 @@ export default function View(props: IAppProps) {
 
   const [formErrors, setFormErrors] = useState({});
 
-  const [DefaultSkills, setDefaultSkills] = useState([]);
+  const [DefaultKeySkills, setDefaultKeySkills] = useState([]);
+  
+  const [DefaultItSkills, setDefaultItSkills] = useState([]);
 
   //   const { data: session }: any = useSession();
 
@@ -527,30 +486,29 @@ export default function View(props: IAppProps) {
   };
 
 
-  
-
   const form: any = useForm({
     initialValues: {
       profileUserId: "",
       allItskills: [],
       allKeyskills: [],
       itskills: [],
+      itskillsForMutation:[],
       education: null,
       keyskills: [],
       userkeyskills: [],
       resume_headlineForMutation: "",
       resume_headline: "",
       profile_summary: "",
+      profile_summaryForMutation: "",
       total_experience: "",
       relevent_experience: "",
       photograph: "",
       name: "",
       status: "",
       work: "",
-      statusForMutation: "",
-      workForMutation: "",
-      status: "",
-      work: "",
+      statusForMutation: null,
+      workForMutation: null,
+   
       email: "",
       userEmail: "",
       userEmailForMutation: "",
@@ -566,6 +524,9 @@ export default function View(props: IAppProps) {
       userAddress: "",
     },
   });
+
+
+  console.log('=======O', form.getInputProps('statusForMutation')?.value)
 
   console.log("formssssssssssssssssss", form);
 
@@ -638,7 +599,6 @@ export default function View(props: IAppProps) {
   ];
 
   const fields = [
-    "Delhi Public",
     "Computer Science",
     "Electrical Engineering",
     "Mechanical Engineering",
@@ -839,6 +799,7 @@ export default function View(props: IAppProps) {
     form.setValues({
       profileUserId: user?.user?.id,
       itskills: user?.user?.itskills?.map((item: any) => item.name),
+      itskillsForMutation: user?.user?.itskills?.map((item: any) => item.id),
       education: user?.user?.education,
       project: user?.user?.project,
       keyskills: user?.user?.keyskills?.map((item: any) => item.id),
@@ -846,12 +807,13 @@ export default function View(props: IAppProps) {
       resume_headline: user?.user?.resume_headline,
       resume_headlineForMutation: user?.user?.resume_headline,
       profile_summary: user?.user?.profile_summary,
+      profile_summaryForMutation:user?.user?.profile_summary,
       photograph: user?.user?.photograph,
       name: user?.user?.name,
       work: user?.user?.open_to_work,
       status: user?.user?.active,
-      workForMutation: user?.user?.open_to_work,
-      statusForMutation: user?.user?.active,
+      workForMutation:user?.user?.open_to_work.toString(),
+      statusForMutation:   user?.user?.active.toString(),
       resume: user?.user?.resume,
       email: user?.user?.email,
       userEmail: user?.user?.email,
@@ -895,6 +857,9 @@ export default function View(props: IAppProps) {
     );
   };
 
+
+
+
   useEffect(() => {
     // alert('refresh')
     getData(search);
@@ -902,7 +867,12 @@ export default function View(props: IAppProps) {
     // console.log("kas", form.getInputProps("education"));
   }, [search, flag]);
 
-  const getSkills = async () => {
+  
+
+  console.log('checking',form)
+
+
+  const  getKeySkills = async () => {
     const users: any = await client.request(KEY_SKILLS);
 
     console.log("usersaa", users);
@@ -914,11 +884,31 @@ export default function View(props: IAppProps) {
       };
     });
 
-    setDefaultSkills(DefaultSkills);
+    setDefaultKeySkills(DefaultSkills);
+
   };
 
+
+  const getItSkills = async () => {
+    const users: any = await client.request(IT_SKILLS);
+
+    console.log("usersaa", users);
+
+    const DefaultSkills = users?.itSkills?.map((item: any) => {
+      return {
+        label: item.name,
+        value: item.id,
+      };
+    });
+
+    setDefaultItSkills(DefaultSkills);
+
+  };
+
+  
   useEffect(() => {
-    getSkills();
+    getKeySkills();
+    getItSkills();
   }, []);
 
   const handleChangeProject = (field: any, e: any) => {
@@ -1044,6 +1034,7 @@ export default function View(props: IAppProps) {
         projectLocation: project.projectLocation,
         projectSite: project.projectSite,
         natureOfEmployment: project.natureOfEmployment,
+        detailsOfProject:project.detailsOfProject,
         teamSize: project.teamSize,
         role: project.role,
         roleDescription: project.roleDescription,
@@ -1190,6 +1181,9 @@ export default function View(props: IAppProps) {
             id: form.getInputProps("userCompany")?.value,
           },
         },
+        // open_to_work:form.getInputProps("workForMutation")?.value === 'true' ? true : false,
+        // active:form.getInputProps("statusForMutation")?.value === 'true'  ? true : false
+
       },
     });
 
@@ -1206,8 +1200,14 @@ export default function View(props: IAppProps) {
     }
   };
 
+
+
+  console.log('fffffff',form)
+
+
   const updateKeySkills = async () => {
-    console.log("update skills hitting", search);
+    console.log("update skills hitting", search,form);
+
 
     const user: any = await client.request(updateUser, {
       where: {
@@ -1221,7 +1221,17 @@ export default function View(props: IAppProps) {
             };
           }),
         },
+        itskills: {
+          set: form.getInputProps("itskillsForMutation")?.value?.map((item: any) => {
+            return {
+              id: item,
+            };
+          }),
+        },
+        profile_summary:form.getInputProps("profile_summaryForMutation")?.value
       },
+      
+
     });
 
     console.log("skils updated", user);
@@ -1398,7 +1408,7 @@ export default function View(props: IAppProps) {
 
     if (user.updateUser) {
       // alert('inside')
-      toast(`experience added`, {
+      toast(`education added`, {
         className: "green-background",
         bodyClassName: "grow-font-size",
         progressClassName: "fancy-progress-bar",
@@ -1776,73 +1786,53 @@ export default function View(props: IAppProps) {
     // });
   };
 
+  const addResume = async () => {
+    const user: any = await client.request(updateUser, {
+      where: {
+        id: search,
+      },
+      data: {
+        resume: formData.resume,
+      },
+    });
 
+    console.log("skils updated", user);
 
-const addResume = async () =>{
+    if (user.updateUser) {
+      const button = document.getElementById("closeAddResume");
 
-  const user: any = await client.request(updateUser, {
-    where: {
-      id: search,
-    },
-    data: {
-      resume:formData.resume
-    },
-  });
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+  };
 
-  console.log("skils updated", user);
+  const addPhotoGraph = async () => {
+    const user: any = await client.request(updateUser, {
+      where: {
+        id: search,
+      },
+      data: {
+        photograph: formData.photograph,
+      },
+    });
 
+    console.log("skils updated", user);
 
-  if (user.updateUser) {
-    const button = document.getElementById("closeAddResume");
+    if (user.updateUser) {
+      const button = document.getElementById("closeAddPhotograph");
 
-    setTimeout(() => {
-      button?.click();
-      setFlag(!flag);
-      router.refresh();
-    }, 1000);
+      console.log("bu", button);
 
-  }
-
-}
-
-
-const addPhotoGraph = async () =>{
-
-
-
-  const user: any = await client.request(updateUser, {
-    where: {
-      id: search,
-    },
-    data: {
-      photograph:formData.photograph
-    },
-  });
-
-  console.log("skils updated", user);
-
-  if (user.updateUser) {
-
-
-
-    const button = document.getElementById("closeAddPhotograph");
-
-
-    console.log('bu',button)
-
-
-
-
-    setTimeout(() => {
-      button?.click();
-      setFlag(!flag);
-      router.refresh();
-    }, 1000);
-  }
-
-
-
-}
+      setTimeout(() => {
+        button?.click();
+        setFlag(!flag);
+        router.refresh();
+      }, 1000);
+    }
+  };
 
   const addHeadline = async () => {
     // console.log("update skills hitting", search);
@@ -1868,12 +1858,10 @@ const addPhotoGraph = async () =>{
         router.refresh();
       }, 1000);
     }
-
-
   };
 
 
-
+console.log('mmmmmmmmmmmmmmmm',form.values)
 
 
   return (
@@ -1881,8 +1869,7 @@ const addPhotoGraph = async () =>{
       mx="auto"
       className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]"
     >
-
-<div
+      <div
         class="modal fade"
         id="addResume"
         tabindex="-1"
@@ -1890,16 +1877,13 @@ const addPhotoGraph = async () =>{
         aria-hidden="true"
       >
         <form>
-
-
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <div className="custom-align">
                   <img className="experience-icon" src="images/education.svg" />
 
-                  <h6>  { inEditResume  ? '' : 'Add' }   Resume  </h6>
-
+                  <h6> {inEditResume ? "" : "Add"} Resume </h6>
                 </div>
 
                 <div>
@@ -1912,125 +1896,134 @@ const addPhotoGraph = async () =>{
                   />
                 </div>
               </div>
-              <div class="modal-body"  >
+              <div class="modal-body">
                 <Paper p="md">
                   <form>
-                  <Group
-          position="center"
-          mt="xl"
-          style={{
-            position: "relative",
-          }}
-        >
-          {/* <div className="profile-upload">
+                    <Group
+                      position="center"
+                      mt="xl"
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      {/* <div className="profile-upload">
             {formData.photograph && <img src={formData.photograph} />}
             {formData.photogarph}
           </div> */}
 
-          <Container px="xs" className="">
-            
-            {/* <div className="profile-upload">
+                      <Container px="xs" className="">
+                        {/* <div className="profile-upload">
                       {formData.photograph && <img src={formData.photograph} />}
                       {formData.photogarph}
                     </div> */}
 
-            <div className="">
-              <Paper
-                // shadow="xl"
-                // p="md"
-                style={{
-                  width: "100%",
-      
-                  // padding:"16px"
-                }}
-              >
-                <h6 className="box-heading text-left">
-                  {" "}
-                  Upload resume{" "}
-                </h6>
-                <p className="box-sub-heading">
-                  Insert a high-quality, professional headshot
-                </p>
+                        <div className="">
+                          <Paper
+                            // shadow="xl"
+                            // p="md"
+                            style={{
+                              width: "100%",
 
-       
-                <Dropzone
-              multiple
-              activateOnClick={false}
-              styles={{ inner: { pointerEvents: "all" } }}
-              onDragEnter={() => {
-                props.setonFileInputHover(true);
-                // console.log('kk')
-              }}
-              onDragLeave={() => {
-                props.setonFileInputHover(false);
-              }}
-              // onDrop={(files: any) => customDrop(files)}
-              // onReject={(files: any) => console.log("rejected files", files)}
-              maxSize={3 * 1024 ** 2}
-              classNames={{
-                inner: classes.inner,
-                root: classes.dropZoneRoot,
-              }}
-              accept={["image/png", "image/jpeg", "image/sgv+xml", "image/gif"]}
-            >
-              <div>
-                <div>
-                  <div className={classes.step1}>
-                    <p className={classes.paraDrag}>
-                      {" "}
-                      Click or drag file to this area to upload{" "}
-                    </p>
-                    <p className={classes.step1Content}>
-                      {" "}
-                      Support for a single or bulk upload. Strictly prohibit
-                      from uploading company data or other band files{" "}
-                    </p>
-                  </div>
+                              // padding:"16px"
+                            }}
+                          >
+                            <h6 className="box-heading text-left">
+                              {" "}
+                              Upload resume{" "}
+                            </h6>
+                            <p className="box-sub-heading">
+                              Insert a high-quality, professional headshot
+                            </p>
 
-                  <FileInput
-                    name="myImage"
-                    icon={
-                      // <img
-                      //   className={classes.camera}
-                      //   alt="camera"
-                      //   src={"/assets/camera.svg"}
-                      // />
-                      <Image
-                      alt=""
-                      src="assets/document.svg"
-                      width={20}
-                      height={20}
-                    />
-                    }
-                    onChange={(files) => {
-                      // customDrop(files);
-                      handleFileUploadResume(files);
-                    }}
-                    classNames={{
-                      wrapper: classes.wrapper,
-                      // icon: classes.icon,
-                      input: classes.input,
-                      rightSection: classes.rightSection,
-                      root: classes.root,
-                      // label: classes.label,
-                      error: classes.error,
-                      description: classes.description,
-                      required: classes.required,
-                      placeholder: classes.placeholder,
-                    }}
-                    placeholder={   ( formData.resume || form.getInputProps('resume')?.value )  ? 
-                       ( inEditResume ?   form.getInputProps('resume')?.value?.slice(6,28)  :  formData.resume.slice(6,28)    ): "Upload file" }
-                  />
-                </div>
-              </div>
-            </Dropzone>
+                            <Dropzone
+                              multiple
+                              activateOnClick={false}
+                              styles={{ inner: { pointerEvents: "all" } }}
+                              onDragEnter={() => {
+                                props.setonFileInputHover(true);
+                                // console.log('kk')
+                              }}
+                              onDragLeave={() => {
+                                props.setonFileInputHover(false);
+                              }}
+                              // onDrop={(files: any) => customDrop(files)}
+                              // onReject={(files: any) => console.log("rejected files", files)}
+                              maxSize={3 * 1024 ** 2}
+                              classNames={{
+                                inner: classes.inner,
+                                root: classes.dropZoneRoot,
+                              }}
+                              accept={[
+                                "image/png",
+                                "image/jpeg",
+                                "image/sgv+xml",
+                                "image/gif",
+                              ]}
+                            >
+                              <div>
+                                <div>
+                                  <div className={classes.step1}>
+                                    <p className={classes.paraDrag}>
+                                      {" "}
+                                      Click or drag file to this area to upload{" "}
+                                    </p>
+                                    <p className={classes.step1Content}>
+                                      {" "}
+                                      Support for a single or bulk upload.
+                                      Strictly prohibit from uploading company
+                                      data or other band files{" "}
+                                    </p>
+                                  </div>
 
-
-                
-              </Paper>
-            </div>
-          </Container>
-        </Group>
+                                  <FileInput
+                                    name="myImage"
+                                    icon={
+                                      // <img
+                                      //   className={classes.camera}
+                                      //   alt="camera"
+                                      //   src={"/assets/camera.svg"}
+                                      // />
+                                      <Image
+                                        alt=""
+                                        src="assets/document.svg"
+                                        width={20}
+                                        height={20}
+                                      />
+                                    }
+                                    onChange={(files) => {
+                                      // customDrop(files);
+                                      handleFileUploadResume(files);
+                                    }}
+                                    classNames={{
+                                      wrapper: classes.wrapper,
+                                      // icon: classes.icon,
+                                      input: classes.input,
+                                      rightSection: classes.rightSection,
+                                      root: classes.root,
+                                      // label: classes.label,
+                                      error: classes.error,
+                                      description: classes.description,
+                                      required: classes.required,
+                                      placeholder: classes.placeholder,
+                                    }}
+                                    placeholder={
+                                      formData.resume ||
+                                      form.getInputProps("resume")?.value
+                                        ? inEditResume
+                                          ? form
+                                              .getInputProps("resume")
+                                              ?.value?.slice(6, 28)
+                                          : formData.resume.slice(6, 28)
+                                        : "Upload file"
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </Dropzone>
+                          </Paper>
+                        </div>
+                      </Container>
+                    </Group>
                   </form>
                 </Paper>
               </div>
@@ -2052,7 +2045,6 @@ const addPhotoGraph = async () =>{
         </form>
       </div>
 
-      
       <div
         class="modal fade"
         id="addPhotograph"
@@ -2061,16 +2053,13 @@ const addPhotoGraph = async () =>{
         aria-hidden="true"
       >
         <form>
-
-
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <div className="custom-align">
                   <img className="experience-icon" src="images/education.svg" />
 
-                  <h6>  { inEditPhoto  ? '' : 'Add' }   Photograph </h6>
-
+                  <h6> {inEditPhoto ? "" : "Add"} Photograph </h6>
                 </div>
 
                 <div>
@@ -2083,129 +2072,127 @@ const addPhotoGraph = async () =>{
                   />
                 </div>
               </div>
-              <div class="modal-body"  >
+              <div class="modal-body">
                 <Paper p="md">
                   <form>
-                  <Group
-          position="center"
-          mt="xl"
-          style={{
-            position: "relative",
-          }}
-        >
-          {/* <div className="profile-upload">
+                    <Group
+                      position="center"
+                      mt="xl"
+                      style={{
+                        position: "relative",
+                      }}
+                    >
+                      {/* <div className="profile-upload">
             {formData.photograph && <img src={formData.photograph} />}
             {formData.photogarph}
           </div> */}
 
-          <Container px="xs" className="">
-            
-            {/* <div className="profile-upload">
+                      <Container px="xs" className="">
+                        {/* <div className="profile-upload">
                       {formData.photograph && <img src={formData.photograph} />}
                       {formData.photogarph}
                     </div> */}
 
-            <div className="">
-              <Paper
-                // shadow="xl"
-                // p="md"
-                style={{
-                  width: "100%",
-      
-                  // padding:"16px"
-                }}
-              >
-                <h6 className="box-heading text-left">
-                  {" "}
-                  Upload profile photo{" "}
-                </h6>
-                <p className="box-sub-heading">
-                  Insert a high-quality, professional headshot
-                </p>
+                        <div className="">
+                          <Paper
+                            // shadow="xl"
+                            // p="md"
+                            style={{
+                              width: "100%",
 
-                <Dropzone
-                  activateOnClick={false}
-                  styles={{ inner: { pointerEvents: "all" } }}
-                  onDragEnter={() => {
-                    // setonFileInputHover(true);
-                    console.log("kk");
-                  }}
-                  onDragLeave={() => {
-                    // setonFileInputHover(false);
-                    console.log("ma");
-                  }}
-                  onDrop={(files: any) => handleFileUpload(files[0])}
-                  // onReject={(files: any) => console.log("rejected files", files)}
-                  maxSize={3 * 1024 ** 2}
-                  classNames={{
-                    inner: classes.inner,
-                    root: classes.dropZoneRoot,
-                  }}
-                >
+                              // padding:"16px"
+                            }}
+                          >
+                            <h6 className="box-heading text-left">
+                              {" "}
+                              Upload profile photo{" "}
+                            </h6>
+                            <p className="box-sub-heading">
+                              Insert a high-quality, professional headshot
+                            </p>
 
+                            <Dropzone
+                              activateOnClick={false}
+                              styles={{ inner: { pointerEvents: "all" } }}
+                              onDragEnter={() => {
+                                // setonFileInputHover(true);
+                                console.log("kk");
+                              }}
+                              onDragLeave={() => {
+                                // setonFileInputHover(false);
+                                console.log("ma");
+                              }}
+                              onDrop={(files: any) =>
+                                handleFileUpload(files[0])
+                              }
+                              // onReject={(files: any) => console.log("rejected files", files)}
+                              maxSize={3 * 1024 ** 2}
+                              classNames={{
+                                inner: classes.inner,
+                                root: classes.dropZoneRoot,
+                              }}
+                            >
+                              <div>
+                                <div>
+                                  <div className={classes.step1}>
+                                    <p className={classes.paraDrag}>
+                                      {" "}
+                                      Click or drag file to this area to upload{" "}
+                                    </p>
+                                    <p className={classes.step1Content}>
+                                      {" "}
+                                      Support for a single upload. Strictly
+                                      prohibit from uploading company data or
+                                      other band files{" "}
+                                    </p>
+                                  </div>
 
-                  <div>
-
-                    
-                    <div>
-
-                      <div className={classes.step1}>
-                        <p className={classes.paraDrag}>
-                          {" "}
-                          Click or drag file to this area to upload{" "}
-                        </p>
-                        <p className={classes.step1Content}>
-                          {" "}
-                          Support for a single upload. Strictly prohibit from
-                          uploading company data or other band files{" "}
-                        </p>
-                      </div>
-
-                      <FileInput
-                        name="myImage"
-                        icon={
-                          <Image
-                            alt=""
-                            src="assets/camera.svg"
-                            width={20}
-                            height={20}
-                          />
-                        }
-                        onChange={(files) => {
-                          // customDrop(files);
-                          handleFileUpload(files);
-                        }}
-                        classNames={{
-                          wrapper: classes.wrapper,
-                          // icon: classes.icon,
-                          input: classes.input,
-                          rightSection: classes.rightSection,
-                          root: classes.root,
-                          // label: classes.label,
-                          error: classes.error,
-                          description: classes.description,
-                          required: classes.required,
-                          placeholder: classes.placeholder,
-                        }}
-                        placeholder={
-
-                         (    image || form.getInputProps('photograph')?.value?.slice(0, 17)  ? ( image?.slice(0, 17) ||  form.getInputProps('photograph')?.value )?.slice(0, 17) : "Upload Photo"  )
- 
-                          
-                        }
-                      />
-                    </div>
-
-
-                  </div>
-
-                </Dropzone>
-
-                
-              </Paper>
-            </div>
-          </Container>
-        </Group>
+                                  <FileInput
+                                    name="myImage"
+                                    icon={
+                                      <Image
+                                        alt=""
+                                        src="assets/camera.svg"
+                                        width={20}
+                                        height={20}
+                                      />
+                                    }
+                                    onChange={(files) => {
+                                      // customDrop(files);
+                                      handleFileUpload(files);
+                                    }}
+                                    classNames={{
+                                      wrapper: classes.wrapper,
+                                      // icon: classes.icon,
+                                      input: classes.input,
+                                      rightSection: classes.rightSection,
+                                      root: classes.root,
+                                      // label: classes.label,
+                                      error: classes.error,
+                                      description: classes.description,
+                                      required: classes.required,
+                                      placeholder: classes.placeholder,
+                                    }}
+                                    placeholder={
+                                      image ||
+                                      form
+                                        .getInputProps("photograph")
+                                        ?.value.slice(0, 17)
+                                        ? (
+                                            image?.slice(0, 17) ||
+                                            form.getInputProps("photograph")
+                                              ?.value
+                                          ).slice(0, 17)
+                                        : "Upload Photo"
+                                    }
+                                  />
+                                </div>
+                              </div>
+                            </Dropzone>
+                          </Paper>
+                        </div>
+                      </Container>
+                    </Group>
                   </form>
                 </Paper>
               </div>
@@ -2254,9 +2241,12 @@ const addPhotoGraph = async () =>{
                   />
                 </div>
               </div>
-              <div class="modal-body headline"  style={{
-                height:"auto !important"
-              }} >
+              <div
+                class="modal-body headline"
+                style={{
+                  height: "auto !important",
+                }}
+              >
                 <Paper p="md">
                   <form>
                     <Grid>
@@ -2625,6 +2615,8 @@ const addPhotoGraph = async () =>{
                               },
                             },
                           })}
+
+                          
                           value={project.detailsOfProject}
                           onChange={(e) =>
                             handleChangeProject(
@@ -2859,15 +2851,8 @@ const addPhotoGraph = async () =>{
                             "java dev",
                             "react dev",
                             "python dev",
-                            "4",
-                            "5",
-                            "6",
-                            "7",
-                            "8",
-                            "9",
-                            "10",
-                            "11",
-                            "12",
+                            "javascript dev",
+                            "next dev",
                           ]} // Your list of size
                           value={project.role}
                           styles={(theme) => ({
@@ -3950,11 +3935,14 @@ const addPhotoGraph = async () =>{
                         </Input.Wrapper>
                       </Grid.Col>
 
-                      {/* <Grid.Col>
+                      {/* <Grid.Col span={6} >
+
                         <Radio.Group
-                           name="favoriteFramework"
+                   
+                           name="favoriteFramework1"
                            label="Status"
-                           value={form.getInputProps(`statusForMutation`)?.value}
+                           value={form.getInputProps('statusForMutation')?.value}
+
                            onChange={(e:any)=> 
 
                             {
@@ -3969,8 +3957,11 @@ const addPhotoGraph = async () =>{
                           
                           }
                           // description="This is anonymous"
+
+
                           withAsterisk
                         >
+
                           <Group mt="xs">
                             <Radio  value={'true'} label="Active" />
                             <Radio  value={'false'} label="Not Active" />
@@ -3978,45 +3969,37 @@ const addPhotoGraph = async () =>{
                         </Radio.Group>
                       </Grid.Col>
 
-                      <Grid.Col>
+                       <Grid.Col   span={6} >
                         <Radio.Group
-                          name="favoriteFramework"
+                          name="favoriteFramework2"
                           label="Work Status"
+                      
+                          value={form.getInputProps('workForMutation')?.value}
+                          
+                          onChange={(e:any)=> 
+
+                           {
+                            console.log('e',e)
+                                                        
+                           form.setFieldValue(`workForMutation`,e) 
+
+                           console.log('mmmm',e)
+
+                           }
+
+                         
+                         }
                           // description="This is anonymous"
                           withAsterisk
                         >
                           <Group mt="xs">
-                            <Radio label="Open to work" />
-                            <Radio label="Engaged" />
+                            <Radio  value={'true'}  label="Open to work" />
+                            <Radio  value={'false'}  label="Engaged" />
                           </Group>
                         </Radio.Group>
-                      </Grid.Col> */}
+                      </Grid.Col>   */}
 
-                      {/* <Grid.Col span={12}>
-                        <Radio
-                          label="active"
-                          // checked={
-                          //   form.getInputProps(`statusForMutation`)?.value
-                          // }
-                          onChange={(event) => {
-                            console.log("sss", event.currentTarget.checked);
-                            // form.setFieldValue(`statusForMutation`,event.currentTarget.checked)
-                          }}
-                        />
-                      </Grid.Col>
-
-                      <Grid.Col span={12}>
-                        <Radio
-                          label="open to work"
-                          checked={form.getInputProps(`workForMutation`)?.value}
-                          onChange={(event) =>
-                            form.setFieldValue(
-                              `workForMutation`,
-                              event.currentTarget.checked
-                            )
-                          }
-                        />
-                      </Grid.Col> */}
+                
                     </Grid>
 
                     <button
@@ -4078,8 +4061,23 @@ const addPhotoGraph = async () =>{
               >
                 <form>
                   <Grid>
+
                     <Grid.Col span={12}>
-                      <MultiSelect
+
+                    <Input.Wrapper
+                          label="key skills"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                  
+                  <MultiSelect
                         styles={(theme) => ({
                           input: {
                             // height: "50px",
@@ -4127,7 +4125,7 @@ const addPhotoGraph = async () =>{
                                 width: "10px !important",
                               },
                             },
-                          },
+                          },  
                           pill: {
                             color: "red",
                             background: "red",
@@ -4138,15 +4136,15 @@ const addPhotoGraph = async () =>{
                           },
                         })}
                         // label="select skill"
-                        placeholder="Select your skills"
+                        placeholder="Select your Key skills"
                         searchable
                         maxSelectedValues={5}
                         onChange={(e) => form.setFieldValue("keyskills", e)}
                         value={form.getInputProps("keyskills")?.value}
-                        data={DefaultSkills}
+                        data={DefaultKeySkills}
                       />
+                         </Input.Wrapper>
                     </Grid.Col>
-                  </Grid>
 
                   <small
                     style={{
@@ -4156,6 +4154,160 @@ const addPhotoGraph = async () =>{
                     {" "}
                     maximum 5 allowed{" "}
                   </small>
+
+                  <Grid.Col span={12}>
+
+
+                  <Input.Wrapper
+                          label="It skills"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        >
+                  
+                    
+                <MultiSelect
+                  placeholder="Select your It skills"
+                  searchable
+                  maxSelectedValues={5}
+                  onChange={(e) => form.setFieldValue("itskillsForMutation", e)}
+                  value={form.getInputProps("itskillsForMutation")?.value}
+                  data={DefaultItSkills}
+
+
+                  styles={(theme) => ({
+                    // ".mantine-MultiSelect-value mantine-u656bh":{
+                    //    backgroundColor:"red !important"
+                    // },
+                    input: {
+                      padding: "6px 8px",
+                      ".mantine-MultiSelect-value": {
+                        background: "#FFFFFF",
+                        boxShadow: "0px 0px 2px 0px rgba(0, 0, 0, 0.18)",
+                        border: "1px solid #DCDCDC",
+                        borderLeft: "5px solid #478FC3",
+                        color: "#000",
+                        // font-family: Inter;
+                        fontSize: "12px",
+
+                        fontWeight: 500,
+
+                        padding: "14px 0px",
+                        "::before": {
+                          content: '""',
+                        },
+                      },
+                      ".mantine-MultiSelect-defaultValueLabel": {
+                        paddingLeft: "6px",
+                      },
+                      ".mantine-CloseButton-root": {
+                        // margin:"0 10px",
+                        marginRight: "4px",
+                        marginLeft: "18px",
+                        background: "#2E3A59",
+                        borderRadius: "50%",
+                        height: "14px",
+                        minHeight: "18px",
+                        minWidth: "18px",
+
+                        svg: {
+                          color: "#fff",
+                          height: "12px !important",
+                          width: "10px !important",
+                        },
+                      },
+                    },
+                    values: {
+                      height: "100%",
+                      // color:"red",
+                      // background:"red"
+                    },
+                    wrapper: {
+                      // height: "50px",
+                      // background:"red",
+                      height: "auto",
+                    },
+
+                    leftIcon: {
+                      marginRight: theme.spacing.md,
+                      background: "red",
+                    },
+                    pill: {
+                      background: "red",
+                      color: "yellow",
+                    },
+                    option: {
+                      background: "red",
+                    },
+                  })}
+                />
+
+                 </Input.Wrapper>
+
+
+              </Grid.Col> 
+
+
+              <Grid.Col span={12}>
+
+
+              <Input.Wrapper
+                          label="profile summary"
+                          styles={() => ({
+                            label: {
+                              color: "#01041b",
+                              fontSize: "1.2em",
+                              fontWeight: 500,
+                              lineHeight: 1.2,
+                              marginBottom: 10,
+                            },
+                          })}
+                        
+
+                          > 
+                          
+                          
+                          
+                <Textarea
+                  placeholder="Enter profile summary "
+                  size="md"
+                  value={form.getInputProps("profile_summaryForMutation")?.value}
+                  minLength={10}
+                  maxLength={1000}
+                  styles={(theme) => ({
+                    input: {
+                      height: "125.324px",
+                    },  
+           
+                  })}
+                  onChange={(e) =>                     
+                    form.setFieldValue("profile_summaryForMutation", e.target.value)
+                  }
+                />
+
+                          
+                           </Input.Wrapper>
+                  
+
+
+
+
+            
+
+              </Grid.Col>{" "}
+
+
+
+
+                  </Grid>
+
+                  
                 </form>
 
                 <button
@@ -4170,6 +4322,8 @@ const addPhotoGraph = async () =>{
                 </button>
               </Paper>
             </div>
+
+            
 
             <div class="modal-footer">
               {/* <button
@@ -5444,17 +5598,10 @@ const addPhotoGraph = async () =>{
                             placeholder="Role"
                             data={[
                               "java dev",
-                              "react dev",
+                              "reactJs dev",
                               "python dev",
-                              "4",
-                              "5",
-                              "6",
-                              "7",
-                              "8",
-                              "9",
-                              "10",
-                              "11",
-                              "12",
+                              "javascript dev",
+                              "nextJs dev",
                             ]} // Your list of size
                             value={project.role}
                             onChange={(value) =>
@@ -5574,20 +5721,6 @@ const addPhotoGraph = async () =>{
         }}
       >
         <div className="text-black text-2xl py-3  font-semibold">Profile</div>
-
-
-{
- 
-localStorage.getItem('role') === 'employee' && 
-<button  className="btn btn-infor mb-2"  onClick={() => logOut()}  >
-
-logout
-
-</button>
-
-
-}
-
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
           <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
             <div className="flex items-center justify-center flex-col bg-white">
@@ -5599,57 +5732,45 @@ logout
                 }}
               >
                 {form.getInputProps("photograph")?.value ? (
-
-
-                  <div style={{
-                    position:"relative"
-                  }} >
-
-<Image
-                          width={24}
-                          className="custom-align-image"
-                          data-bs-toggle="modal"
-                          data-bs-target="#addPhotograph"
-                          alt="Google"
-                          style={{
-                            width: "24px",
-                            height: "24px",
-                            // marginLeft: "10rem",
-                          }}
-                          src="/images/Edit.svg"
-                          alt="Google"
-                          style={{
-                            width: "24px",
-                            height: "32px",
-                            cursor: "pointer",
-                            position:"absolute",
-                            right:0,
-                        
-                          
-
-                          }}
-                          onClick={() => {
-                            setinEditPhoto(true)
-                          }}
-                        />
-
-<img
-                    src={form.getInputProps("photograph").value}
-                    alt="User Photograph"
+                  <div
                     style={{
-                      width: "100%",
-                      height: "144.913px",
+                      position: "relative",
                     }}
-                  />
+                  >
+                    <Image
+                      width={24}
+                      className="custom-align-image"
+                      data-bs-toggle="modal"
+                      data-bs-target="#addPhotograph"
+                      alt="Google"
+                      style={{
+                        width: "24px",
+                        height: "24px",
+                        // marginLeft: "10rem",
+                      }}
+                      src="/images/Edit.svg"
+                      alt="Google"
+                      style={{
+                        width: "24px",
+                        height: "32px",
+                        cursor: "pointer",
+                        position: "absolute",
+                        right: 0,
+                      }}
+                      onClick={() => {
+                        setinEditPhoto(true);
+                      }}
+                    />
 
-
-</div>
-
-
-
-                  
-           
-
+                    <img
+                      src={form.getInputProps("photograph").value}
+                      alt="User Photograph"
+                      style={{
+                        width: "100%",
+                        height: "144.913px",
+                      }}
+                    />
+                  </div>
                 ) : (
                   <div
                     className="empty-state-content d-flex align-items-center justify-content-center"
@@ -5680,17 +5801,13 @@ logout
                             height: "32px",
                             cursor: "pointer",
                           }}
-                          onClick={() => {
-                 
-                          }}
+                          onClick={() => {}}
                         />
 
                         <span className="user-add-education-text">
                           {" "}
                           Add Photo{" "}
                         </span>
-
-
                       </div>
                     </div>
                   </div>
@@ -5839,7 +5956,7 @@ logout
                     </div>
                   </div>
 
-                  {form.getInputProps("userkeyskills")?.value?.length !== 0 && (
+                  {form.getInputProps("userkeyskills")?.value.length !== 0 && (
                     <div className="">
                       <Image
                         data-bs-toggle="modal"
@@ -5865,7 +5982,7 @@ logout
                   // background:"yellow"
                 }}
               >
-                {form.getInputProps("userkeyskills")?.value?.length !== 0 ? (
+                {form.getInputProps("userkeyskills")?.value.length !== 0 ? (
                   form
                     .getInputProps("userkeyskills")
                     ?.value?.map((item: any) => {
@@ -5991,7 +6108,13 @@ logout
                     </Stack>
                     <Stack>
                       <div className="text-black text-base font-semibold">
-                        {form.getInputProps("address").value}
+
+                      <Text w={200} truncate="end">
+                      {form.getInputProps("address").value}
+                                              </Text>
+
+  
+
                       </div>
                     </Stack>
                   </div>
@@ -6028,7 +6151,7 @@ logout
                         Open to Work
                       </span>
                     ) : (
-                      <span className="bg-rose-100 rounded-sm text-red-700 text-xs font-medium">
+                      <span className="px-4 py-2 bg-rose-100 rounded-sm text-red-700 text-xs font-medium">
                         Engaged
                       </span>
                     )}
@@ -6058,6 +6181,43 @@ logout
                           Experience
                         </div>
                       </Group>
+
+                      {form.getInputProps("experience")?.value?.length > 0 && (
+                        <Image
+                          width={24}
+                          className="custom-align-image"
+                          data-bs-toggle="modal"
+                          data-bs-target="#addExperience"
+                          alt="Google"
+                          style={{
+                            width: "24px",
+                            height: "24px",
+                            // marginLeft: "10rem",
+                          }}
+                          src="./assets/addIcon.svg"
+                          alt="Google"
+                          style={{
+                            width: "24px",
+                            height: "32px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => {
+                            setExperience({
+                              id: "",
+                              title: "",
+                              employment_type: "",
+                              company: "",
+                              location: "",
+                              location_type: "",
+                              start_year: "",
+                              start_year_month: "",
+                              end_year: "",
+                              currently_working: false,
+                              end_year_month: "",
+                            });
+                          }}
+                        />
+                      )}
                     </Group>
                     <Group
                       position="apart"
@@ -6248,6 +6408,7 @@ logout
                   >
                     <Group position="apart" className="border-b pb-[10px]">
                       <Group position="left">
+                  
                         <Image
                           src="./images/educationIcon.svg"
                           alt="Google"
@@ -6257,6 +6418,38 @@ logout
                           Education
                         </div>
                       </Group>
+
+                      {form.getInputProps("education")?.value?.length > 0 && (
+                        <Image
+                          src="/assets/addIcon.svg"
+                          alt="Google"
+                          style={{
+                            width: "24px",
+                            height: "32px",
+                            cursor: "pointer",
+                          }}
+                          data-bs-toggle="modal"
+                          data-bs-target="#addEducation"
+                          onClick={() => {
+                            setEducation({
+                              id: "",
+                              school: "",
+                              // schoolOther: "",
+                              degree: "",
+                              // degreeOther: "",
+                              field_of_study: "",
+                              // field_of_studyOther: "",
+                              grade: "",
+                              activities: "",
+                              description: "",
+                              start_year: "",
+                              start_year_month: "",
+                              end_year: "",
+                              end_year_month: "",
+                            });
+                          }}
+                        />
+                      )}
                     </Group>
 
                     <Group
@@ -6479,6 +6672,39 @@ logout
                         Projects
                       </div>
                     </Group>
+
+                    {form.getInputProps("project")?.value?.length > 0 && (
+                      <Image
+                        width={24}
+                        className="custom-align-image"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addProject"
+                        src="./assets/addIcon.svg"
+                        alt="Google"
+                        style={{
+                          width: "24px",
+                          height: "32px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          setProject({
+                            id: "",
+                            projectTitle: "",
+                            client: "",
+                            projectStatus: "inProgress",
+                            workFromYear: "",
+                            workFromMonth: "",
+                            detailsOfProject: "",
+                            projectLocation: "",
+                            projectSite: "Offsite",
+                            natureOfEmployment: "Full Time",
+                            teamSize: "",
+                            role: "",
+                            roleDescription: "",
+                          });
+                        }}
+                      />
+                    )}
                   </Group>
                   <Group
                     position="apart"
@@ -6620,7 +6846,7 @@ logout
                                                 workFromYear: item.workFromYear,
                                                 workFromMonth:
                                                   item.workFromMonth,
-                                                // detailsOfProject: "",
+                                                detailsOfProject: item.detailsOfProject,
                                                 projectLocation:
                                                   item.projectLocation,
                                                 projectSite: item.projectSite,
@@ -6720,93 +6946,70 @@ logout
                   {/* <div className="p-4 h-full xl:w-[420px] rounded "></div> */}
                   <div className="p-4 h-full rounded bg-white ">
                     <Group position="apart" className="border-b pb-[10px]">
-                      <Group position="left" style={{
-                          width:"100%"
-                      }}  >
+                      <Group
+                        position="left"
+                        style={{
+                          width: "100%",
+                        }}
+                      >
+                        <div
+                          className="d-flex justify-content-between"
+                          style={{
+                            width: "100%",
+                          }}
+                        >
+                          <div className="d-flex">
+                            <Image
+                              src="./images/resume.svg"
+                              alt="Google"
+                              style={{ width: "24px", height: "24px" }}
+                              onClick={() =>
+                                router.push(
+                                  `/edit_user?id=${session?.user?.user.id}`
+                                )
+                              }
+                            />
+                            <div className="text-black text-base font-semibold" style={{
+                              marginLeft:"1rem"
+                            }} >
+                              Resume
+                            </div>
+                          </div>
 
-<div className="d-flex justify-content-between"  style={{
-  width:"100%"
-}} >
-
-<div className="d-flex">
-<Image
-                          src="./images/resume.svg"
-                          alt="Google"
-                          style={{ width: "24px", height: "24px" }}
-                          onClick={() =>
-                            router.push(
-                              `/edit_user?id=${localStorage.getItem("id")}`
-                            )
-                          }
-                        />
-                        <div className="text-black text-base font-semibold">
-                          Resume
+                          {form.getInputProps("resume")?.value && (
+                            <div className="">
+                              <Image
+                                onClick={() => {
+                                  setinEditResume(true);
+                                  // setExperience({
+                                  //   title: item.title,
+                                  //   employment_type: item.employment_type,
+                                  //   company: item.company,
+                                  //   location: item.location,
+                                  //   location_type: item.location_type,
+                                  //   start_year: item.start_year,
+                                  //   start_year_month: item.start_year_month,
+                                  //   end_year: item.end_year,
+                                  //   end_year_month: item.end_year_month,
+                                  //   currently_working: item.currently_working,
+                                  //   id: item.id,
+                                  // });
+                                }}
+                                data-bs-toggle="modal"
+                                data-bs-target="#addResume"
+                                // data-toggle="modal"
+                                // data-target="#exampleModalLong"
+                                src="./images/Edit.svg"
+                                alt="Google"
+                                style={{
+                                  width: "24px",
+                                  height: "32px",
+                                  // marginLeft: "10rem",
+                                }}
+                              />
+                            </div>
+                          )}
                         </div>
-
-</div>
-
-
-
-
-
-{
-
-
-
-form.getInputProps('resume')?.value ? <div className="">
-
-<Image
-                    onClick={() => {
-                      setinEditResume(true)
-                      // setExperience({
-                      //   title: item.title,
-                      //   employment_type: item.employment_type,
-                      //   company: item.company,
-                      //   location: item.location,
-                      //   location_type: item.location_type,
-                      //   start_year: item.start_year,
-                      //   start_year_month: item.start_year_month,
-                      //   end_year: item.end_year,
-                      //   end_year_month: item.end_year_month,
-                      //   currently_working: item.currently_working,
-                      //   id: item.id,
-                      // });
-                    }}
-                    data-bs-toggle="modal"
-                    data-bs-target="#addResume"
-                    // data-toggle="modal"
-                    // data-target="#exampleModalLong"
-                    src="./images/Edit.svg"
-                    alt="Google"
-                    style={{
-                      width: "24px",
-                      height: "32px",
-                      // marginLeft: "10rem",
-                    }}
-                  />
-
-</div> : ''
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-
-                        
-
-                 
-
                       </Group>
                     </Group>
 
@@ -6829,7 +7032,6 @@ form.getInputProps('resume')?.value ? <div className="">
                           }}
                         >
                           <div className="text-indigo-950 text-sm font-bold d-flex align-items-center">
-
                             {form.getInputProps("resume")?.value ? (
                               <>
                                 <Image
@@ -6844,9 +7046,8 @@ form.getInputProps('resume')?.value ? <div className="">
                                   }}
                                   onClick={() =>
                                     router.push(
-                                      `/edit_user?id=${localStorage.getItem(
-                                        "id"
-                                      )}`
+                                      `/edit_user?id=${session?.user.user.id
+                                      }`
                                     )
                                   }
                                 />
@@ -6908,28 +7109,21 @@ form.getInputProps('resume')?.value ? <div className="">
                                         height: "32px",
                                         cursor: "pointer",
                                       }}
-                                      onClick={() => {
-                         
-                                      }}
+                                      onClick={() => {}}
                                     />
 
                                     <span className="user-add-education-text">
                                       {" "}
                                       Add Resume{" "}
                                     </span>
-
-
                                   </div>
                                 </div>
                               </div>
                             )}
                           </div>
 
-                          <div className="text-gray-600 text-xs font-normal">
-                 
-                          </div>
+                          <div className="text-gray-600 text-xs font-normal"></div>
                         </Stack>
-
                       </div>
                       {/* <Image
                         src="./images/Edit.svg" 

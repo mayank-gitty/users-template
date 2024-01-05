@@ -42,7 +42,7 @@ model User {
 
 model Code {
   id     String  @id @default(cuid())
-  expire Boolean @default(true)
+  expire Boolean @default(false)
   value  String  @default("")
 }
 

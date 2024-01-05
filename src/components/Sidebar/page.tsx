@@ -7,16 +7,31 @@ import client from "../../../helpers/request";
 import { GET_USER, HAS_MASTER, PROFILE_USER } from "@/util/queries";
 import { useSearchParams } from "next/navigation";
 
-import { IconUsers, IconCirclePlus ,IconUser,IconDashboard} from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
+
+import {
+  IconUsers,
+  IconCirclePlus,
+  IconUser,
+  IconDashboard,
+} from "@tabler/icons-react";
 import { rem } from "@mantine/core";
 import { IconCactus } from "@tabler/icons-react";
 
+import { signOut } from "next-auth/react";
+
 function Sidebar() {
-
-
   const router = useRouter();
 
-  const { active,formData } : any = useThemeContext();
+  const { active, formData }: any = useThemeContext();
+
+  const { data: session } = useSession();
+
+  // console.log(session)
+
+  if (session === null) {
+    router.push("/login");
+  }
 
   const pathname = usePathname();
 
@@ -28,14 +43,12 @@ function Sidebar() {
   const getData = async () => {
     const user: any = await client.request(GET_USER, {
       where: {
-          id: localStorage.getItem("id"),
-        },
+        id: session?.user?.user?.id,
+      },
     });
 
-    console.log('seeing user in sidebar',user)
+    console.log("seeing user in sidebar", user);
     setRole(user?.user?.role);
-
-
 
     setFormData((prevData: any) => ({
       ...prevData,
@@ -43,9 +56,6 @@ function Sidebar() {
     }));
 
     // formData.setFieldValue('stepperFilled',user?.user?.stepperFilled)
-  
-
-
   };
 
   const {
@@ -66,25 +76,30 @@ function Sidebar() {
   }: any = useThemeContext();
 
   useEffect(() => {
-    const id = localStorage.getItem("id");
+    // alert("in sidebar");
+
+    console.log("in sidebar useeffect", session?.user?.user?.id);
+
+    const id = session?.user?.user?.id;
 
     if (id) {
       getData();
-    } else {
-      router.push("/login");
     }
-  }, []);
+  }, [session]);
 
   console.log("role", role);
 
-  const logOut = () => {
+  const logOut = async () => {
     // console.log("logout");
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("id");
-    localStorage.removeItem("name");
-    localStorage.removeItem("role");
-    localStorage.removeItem("company");
+
+
+    const data = await signOut({ redirect: false, callbackUrl: "/login" });
+
+    console.log("data", data);
+
+    router.push(data.url);
+
 
     setLoggedIn(false);
     setFormData({
@@ -104,10 +119,10 @@ function Sidebar() {
     setActive(0);
     setImage(null);
     setRole("");
-    setProfileId("")
+    setProfileId("");
     sethasMaster(false);
     setProfileName("");
-    
+
     router.push("/login");
   };
 
@@ -124,8 +139,8 @@ function Sidebar() {
 
   console.log("pathname", pathname);
 
-  return     (   
-                <div className={`sidebar  ${getHeight()}`} style={sidebarStyles}>
+  return (
+    <div className={`sidebar  ${getHeight()}`} style={sidebarStyles}>
       <div className="main-icon">
         <div className="">
           <img className="" src="/assets/company-logo.svg" />
@@ -145,7 +160,7 @@ function Sidebar() {
             }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
           >
             <div className="icon">
-              {pathname === "/profile_creation" || pathname === "/"  ?  (
+              {pathname === "/profile_creation" || pathname === "/" ? (
                 <IconDashboard
                   style={{ width: rem(30), height: rem(30) }}
                   stroke={2}
@@ -178,7 +193,7 @@ function Sidebar() {
         {role !== "admin" && (
           <li
             onClick={() =>
-              router.push(`/profile?id=${localStorage.getItem("id")}`)
+              router.push(`/profile?id=${session?.user?.user?.id}`)
             }
             className={`d-flex align-items-center  mt-[5%] font-semibold ${
               pathname === "/profile" ? "custom-border-bottom" : ""
@@ -361,7 +376,7 @@ function Sidebar() {
                   href=""
                 >
                   {" "}
-                  Employees Profiles {" "}
+                  Employees Profiles{" "}
                 </a>
               </li>
               <li
@@ -414,8 +429,6 @@ function Sidebar() {
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
-         
-
                   {pathname === "/multiple_managers" ? (
                     <IconCirclePlus
                       style={{ width: rem(30), height: rem(30) }}
@@ -441,12 +454,6 @@ function Sidebar() {
                   Create Managers{" "}
                 </a>
               </li>
-
-
-
-
-          
-
             </>
           )}
         </div>
@@ -468,7 +475,6 @@ function Sidebar() {
 }
 
 function SideBar() {
-
   const {
     loggedIn,
     setLoggedIn,
@@ -486,25 +492,7 @@ function SideBar() {
     setProfileId,
   }: any = useThemeContext();
 
-
-
-  return   (
-
-    <div className="sidebar-wrapper">
-
-
-{
-
-      <Sidebar />
-
-}
-
-
-
-
-    </div>
-
-  );
+  return <div className="sidebar-wrapper">{<Sidebar />}</div>;
 }
 
 export default SideBar;
