@@ -8,7 +8,7 @@ import { keystoneContext } from "@/keystone/context";
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
-    maxAge: 9480,
+    maxAge: 480,
   },
   pages: {
     signIn: "/",

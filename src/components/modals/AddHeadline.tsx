@@ -3,9 +3,9 @@ import * as React from 'react';
 export interface IAppProps {
 }
 
-import { Container, FileInput, Image,Paper,Group } from "@mantine/core";
+import { Container, FileInput, Image,Paper,Group,Grid,Input } from "@mantine/core";
 
-export function AddHeadline ({form,addHeadline}) {
+export function AddHeadline ({form,addHeadline}:any) {
   return (
     <div>
          <div

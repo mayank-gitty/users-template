@@ -9,8 +9,10 @@ import { useSearchParams } from "next/navigation";
 import useThemeContext from "@/context/context";
 import { VIEW_MASTER, VIEW_USER } from "@/util/queries";
 import { toast } from "react-toastify";
-
 import { Dropzone } from "@mantine/dropzone";
+
+import { AddResume } from "@/components/modals/AddResume";
+import { AddPhotograph } from "@/components/modals/AddPhotograph";
 
 import {
   Button,
@@ -70,6 +72,7 @@ import ExperienceDetails from "@/components/experience/page";
 import { transcode } from "buffer";
 
 import { useSession } from "next-auth/react";
+import { AddHeadline } from "@/components/modals/AddHeadline";
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -114,6 +117,197 @@ const USERS = gql`
   }
 `;
 
+
+
+  
+const useStyles = createStyles(() => ({
+  inner: {
+    width: "90%",
+    margin: "auto",
+  },
+  ml: {
+    marginRight: "0.3em",
+  },
+  bar: {
+    background: "#FCA312",
+    width: "438px",
+    height: "201px",
+  },
+  barRoot: {
+    // background:"yellow",
+    width: "100%",
+  },
+  dropZoneRoot: {
+    marginTop: "20px",
+    width: "100%",
+    height: "201px",
+    border: "none",
+
+    outlineWidth: "2px",
+
+    outlineStyle: "dashed !important",
+    outlineColor: "#C6C6C6 !important",
+    background: "#FFF !important",
+
+    // background:"red",
+
+    // content:`"File Uploaded successfully"`,
+
+    cursor: "pointer",
+    "&:hover": {
+      // background: "red",
+      // display:"none"
+    },
+
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  step1: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  step1Content: {
+    color: "rgba(0, 0, 0, 0.45)",
+    textAlign: "center",
+    // fontFamily: Inter;
+    fontSize: "11px",
+    fontWeight: 400,
+    lineHeight: "16px",
+    width: "70%",
+    margin: "auto",
+    marginBottom: "1rem",
+  },
+  progress: {},
+  para: {
+    /* H5/regular */
+    marginTop: "0rem !important",
+    fontFamily: "Roboto",
+    fontSize: "16px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "24px",
+  },
+  marginTop: {
+    marginTop: "1rem",
+  },
+  spaceBetween: {
+    width: "20rem",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  image: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    // width:"80%"
+  },
+  dragBar: {
+    display: "flex",
+    flexDirection: "column",
+    transform: "translateX(-40px)",
+    //  justifyContent:"start"
+  },
+  flex: {
+    display: "flex",
+    width: "8rem",
+    // background:"red",
+    justifyContent: "space-between",
+  },
+  imgUpload: {
+    display: "flex",
+    alignItems: "center",
+    height: "2rem",
+  },
+  upload: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    width: "96%",
+    height: "80%",
+    margin: "auto",
+  },
+  wrapper: {
+    width: "161.934px",
+    height: "43.816px",
+    display: "flex",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    zIndex: 4,
+    ".mantine-Input-icon": {
+      marginLeft: "1rem",
+    },
+  },
+  dragOverPara: {
+    transform: "translateY(-38px)",
+  },
+  paraUpload: {
+    color: "#000000",
+    fontSize: "20px",
+    fontStyle: "normal",
+    fontWeight: 600,
+  },
+  icon: {
+    padding: "0 1rem",
+    img: {
+      width: "200px",
+      height: "200px",
+    },
+  },
+  paraDrag: {
+    color: "rgba(0, 0, 0, 0.85)",
+    textAlign: "center",
+    fontSize: "14px",
+    fontWeight: 600,
+    lineHeight: "24px",
+  },
+  message: {
+    color: "#000",
+    fontSize: "20px",
+    fontStyle: "normal",
+    fontWeight: 500,
+    lineHeight: "24px",
+  },
+  input: {
+    // background: "orange",
+    ".mantine-Text-root": {
+      paddingLeft: "1rem",
+    },
+    span: {
+      paddingLeft: "1rem",
+    },
+  },
+  rightSection: {},
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  camera: {
+    width: "200px",
+    height: "200px",
+  },
+  label: {},
+  error: {},
+  description: {},
+  required: {},
+  placeholder: {
+    color: "#4D47C3 !important",
+    textAlign: "center",
+    // font-family: Inter;
+    fontSize: "10px",
+
+    fontWeight: 400,
+    lineHeight: "10px",
+  },
+}));
+
+
 export interface IAppProps {}
 
 export default function View(props: IAppProps) {
@@ -121,25 +315,26 @@ export default function View(props: IAppProps) {
 
   const session = useSession()
 
+  const { classes } = useStyles();
+
   const { image, setImage }: any = useThemeContext();
 
   const [inEditPhoto, setinEditPhoto] = useState(false);
 
   const [inEditResume, setinEditResume] = useState(false);
 
+
   const handleFileUploadResume = async (e) => {
-    const file = e;
 
-    // console.log("filiiiiiiiiiiiiiiiii", file.type);
+    const file = e  || form.getInputProps('resume')?.value;
 
-    // Allowing file type
     var allowedTypes = [
       "application/pdf",
       "application/msword",
       "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     ];
 
-    if (!allowedTypes.includes(file.type)) {
+    if (!allowedTypes.includes(file?.type)) {
       setFormData((prevData: any) => ({
         ...prevData,
         ["resume"]: ``,
@@ -257,194 +452,7 @@ export default function View(props: IAppProps) {
     }
   };
 
-  const useStyles = createStyles((theme, props: any) => ({
-    inner: {
-      width: "90%",
-      margin: "auto",
-    },
-    ml: {
-      marginRight: "0.3em",
-    },
-    bar: {
-      background: "#FCA312",
-      width: "438px",
-      height: "201px",
-    },
-    barRoot: {
-      // background:"yellow",
-      width: "100%",
-    },
-    dropZoneRoot: {
-      marginTop: "20px",
-      width: "100%",
-      height: "201px",
-      border: "none",
 
-      outlineWidth: "2px",
-
-      outlineStyle: "dashed !important",
-      outlineColor: "#C6C6C6 !important",
-      background: "#FFF !important",
-
-      // background:"red",
-
-      // content:`"File Uploaded successfully"`,
-
-      cursor: "pointer",
-      "&:hover": {
-        // background: "red",
-        // display:"none"
-      },
-
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    step1: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    step1Content: {
-      color: "rgba(0, 0, 0, 0.45)",
-      textAlign: "center",
-      // fontFamily: Inter;
-      fontSize: "11px",
-      fontWeight: 400,
-      lineHeight: "16px",
-      width: "70%",
-      margin: "auto",
-      marginBottom: "1rem",
-    },
-    progress: {},
-    para: {
-      /* H5/regular */
-      marginTop: "0rem !important",
-      fontFamily: "Roboto",
-      fontSize: "16px",
-      fontStyle: "normal",
-      fontWeight: 400,
-      lineHeight: "24px",
-    },
-    marginTop: {
-      marginTop: "1rem",
-    },
-    spaceBetween: {
-      width: "20rem",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-    },
-    image: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      // width:"80%"
-    },
-    dragBar: {
-      display: "flex",
-      flexDirection: "column",
-      transform: "translateX(-40px)",
-      //  justifyContent:"start"
-    },
-    flex: {
-      display: "flex",
-      width: "8rem",
-      // background:"red",
-      justifyContent: "space-between",
-    },
-    imgUpload: {
-      display: "flex",
-      alignItems: "center",
-      height: "2rem",
-    },
-    upload: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "column",
-      width: "96%",
-      height: "80%",
-      margin: "auto",
-    },
-    wrapper: {
-      width: "161.934px",
-      height: "43.816px",
-      display: "flex",
-      justifyContent: "space-evenly",
-      alignItems: "center",
-      zIndex: 4,
-      ".mantine-Input-icon": {
-        marginLeft: "1rem",
-      },
-    },
-    dragOverPara: {
-      transform: "translateY(-38px)",
-    },
-    paraUpload: {
-      color: "#000000",
-      fontSize: "20px",
-      fontStyle: "normal",
-      fontWeight: 600,
-    },
-    icon: {
-      padding: "0 1rem",
-      img: {
-        width: "200px",
-        height: "200px",
-      },
-    },
-    paraDrag: {
-      color: "rgba(0, 0, 0, 0.85)",
-      textAlign: "center",
-      fontSize: "14px",
-      fontWeight: 600,
-      lineHeight: "24px",
-    },
-    message: {
-      color: "#000",
-      fontSize: "20px",
-      fontStyle: "normal",
-      fontWeight: 500,
-      lineHeight: "24px",
-    },
-    input: {
-      // background: "orange",
-      ".mantine-Text-root": {
-        paddingLeft: "1rem",
-      },
-      span: {
-        paddingLeft: "1rem",
-      },
-    },
-    rightSection: {},
-    root: {
-      display: "flex",
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-    },
-    camera: {
-      width: "200px",
-      height: "200px",
-    },
-    label: {},
-    error: {},
-    description: {},
-    required: {},
-    placeholder: {
-      color: "#4D47C3 !important",
-      textAlign: "center",
-      // font-family: Inter;
-      fontSize: "10px",
-
-      fontWeight: 400,
-      lineHeight: "10px",
-    },
-  }));
-
-  const { classes } = useStyles(props);
 
   // const [true, settrue] = useState(true);
 
@@ -470,7 +478,7 @@ export default function View(props: IAppProps) {
   
   const [DefaultItSkills, setDefaultItSkills] = useState([]);
 
-  //   const { data: session }: any = useSession();
+
 
   const checkExistingUser = async (email) => {
     console.log("checking email", email);
@@ -864,12 +872,12 @@ export default function View(props: IAppProps) {
     // alert('refresh')
     getData(search);
 
-    // console.log("kas", form.getInputProps("education"));
+
   }, [search, flag]);
 
   
 
-  console.log('checking',form)
+  // console.log('checking',form)
 
 
   const  getKeySkills = async () => {
@@ -892,7 +900,7 @@ export default function View(props: IAppProps) {
   const getItSkills = async () => {
     const users: any = await client.request(IT_SKILLS);
 
-    console.log("usersaa", users);
+    // console.log("usersaa", users);
 
     const DefaultSkills = users?.itSkills?.map((item: any) => {
       return {
@@ -930,7 +938,7 @@ export default function View(props: IAppProps) {
   };
 
   const deleteSpecificProject = async () => {
-    console.log("delete specific project", project);
+    // console.log("delete specific project", project);
 
     const user: any = await client.request(deleteProject, {
       where: {
@@ -950,7 +958,7 @@ export default function View(props: IAppProps) {
   };
 
   const deleteSpecificExperience = async () => {
-    console.log("delete hitting", experience);
+    // console.log("delete hitting", experience);
 
     const user: any = await client.request(deleteExperience, {
       where: {
@@ -970,7 +978,7 @@ export default function View(props: IAppProps) {
   };
 
   const deleteSpecificEducation = async () => {
-    console.log("delete education hitting", education);
+    // console.log("delete education hitting", education);
 
     const user: any = await client.request(deleteEducation, {
       where: {
@@ -992,7 +1000,7 @@ export default function View(props: IAppProps) {
   };
 
   const updateExperience = async () => {
-    console.log("update hitting", experience);
+    // console.log("update hitting", experience);
 
     const user: any = await client.request(updateUserExperience, {
       data: {
@@ -1057,7 +1065,7 @@ export default function View(props: IAppProps) {
   };
 
   const updateExperienceEducation = async () => {
-    console.log("educationss", education);
+    // console.log("educationss", education);
 
     if (education.school === "other") {
       education.school = schoolOther;
@@ -1140,34 +1148,6 @@ export default function View(props: IAppProps) {
       return alert("please enter userAddress");
     }
 
-    // const users: any = await client.request(USERS);
-
-    // console.log("users", users);
-
-    // const check = await checkExistingUser(email);
-
-    // console.log("email", check);
-
-    // if (check) {
-    //   return toast(`${check} already registered`, {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-
-    // const flag = users.users.filter((phone) => phone.phone === mobileNumber);
-
-    // if (flag.length > 0) {
-    //   console.log("flag", flag);
-
-    //   return toast(` ${flag[0]?.phone} phone already registered`, {
-    //     className: "black-background",
-    //     bodyClassName: "grow-font-size",
-    //     progressClassName: "fancy-progress-bar",
-    //   });
-    // }
-
     const user: any = await client.request(updateUser, {
       where: {
         id: search,
@@ -1187,7 +1167,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    console.log("details updated", user);
+    // console.log("details updated", user);
 
     if (user.updateUser) {
       const button = document.getElementById("closeAddBasic");
@@ -1201,13 +1181,8 @@ export default function View(props: IAppProps) {
   };
 
 
-
-  console.log('fffffff',form)
-
-
   const updateKeySkills = async () => {
-    console.log("update skills hitting", search,form);
-
+    // console.log("update skills hitting", search,form);
 
     const user: any = await client.request(updateUser, {
       where: {
@@ -1234,7 +1209,7 @@ export default function View(props: IAppProps) {
 
     });
 
-    console.log("skils updated", user);
+    // console.log("skils updated", user);
 
     if (user.updateUser) {
       const button = document.getElementById("closeAddSkills");
@@ -1247,7 +1222,6 @@ export default function View(props: IAppProps) {
     }
   };
 
-  console.log("valuessss", form.getInputProps(`userCompany`)?.value);
 
   console.log(
     "statusForMutation",
@@ -1575,7 +1549,7 @@ export default function View(props: IAppProps) {
       experience.end_year_month = experience.start_year_month;
     }
 
-    console.log("experience", search);
+    // console.log("experience", search);
 
     delete experience?.id;
 
@@ -1796,7 +1770,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    console.log("skils updated", user);
+    // console.log("skils updated", user);
 
     if (user.updateUser) {
       const button = document.getElementById("closeAddResume");
@@ -1824,7 +1798,7 @@ export default function View(props: IAppProps) {
     if (user.updateUser) {
       const button = document.getElementById("closeAddPhotograph");
 
-      console.log("bu", button);
+      // console.log("bu", button);
 
       setTimeout(() => {
         button?.click();
@@ -1835,7 +1809,7 @@ export default function View(props: IAppProps) {
   };
 
   const addHeadline = async () => {
-    // console.log("update skills hitting", search);
+
 
     const user: any = await client.request(updateUser, {
       where: {
@@ -1860,457 +1834,20 @@ export default function View(props: IAppProps) {
     }
   };
 
-
-console.log('mmmmmmmmmmmmmmmm',form.values)
-
+// console.log('mmmmmmmmmmmmmmmm',form.values)
 
   return (
     <Box
       mx="auto"
       className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]"
     >
-      <div
-        class="modal fade"
-        id="addResume"
-        tabindex="-1"
-        aria-labelledby="addResume"
-        aria-hidden="true"
-      >
-        <form>
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <div className="custom-align">
-                  <img className="experience-icon" src="images/education.svg" />
 
-                  <h6> {inEditResume ? "" : "Add"} Resume </h6>
-                </div>
+<AddResume  form={form} inEditResume={inEditResume} addResume={addResume} handleFileUploadResume={handleFileUploadResume}  />
 
-                <div>
-                  <img
-                    id="closeAddResume"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                    className="modal-close-icon"
-                    src={"images/Close.svg"}
-                  />
-                </div>
-              </div>
-              <div class="modal-body">
-                <Paper p="md">
-                  <form>
-                    <Group
-                      position="center"
-                      mt="xl"
-                      style={{
-                        position: "relative",
-                      }}
-                    >
-                      {/* <div className="profile-upload">
-            {formData.photograph && <img src={formData.photograph} />}
-            {formData.photogarph}
-          </div> */}
+<AddPhotograph  form={form} inEditPhoto={inEditPhoto} addPhotoGraph={addPhotoGraph}  handleFileUpload={handleFileUpload} image={image}  />
 
-                      <Container px="xs" className="">
-                        {/* <div className="profile-upload">
-                      {formData.photograph && <img src={formData.photograph} />}
-                      {formData.photogarph}
-                    </div> */}
-
-                        <div className="">
-                          <Paper
-                            // shadow="xl"
-                            // p="md"
-                            style={{
-                              width: "100%",
-
-                              // padding:"16px"
-                            }}
-                          >
-                            <h6 className="box-heading text-left">
-                              {" "}
-                              Upload resume{" "}
-                            </h6>
-                            <p className="box-sub-heading">
-                              Insert a high-quality, professional headshot
-                            </p>
-
-                            <Dropzone
-                              multiple
-                              activateOnClick={false}
-                              styles={{ inner: { pointerEvents: "all" } }}
-                              onDragEnter={() => {
-                                props.setonFileInputHover(true);
-                                // console.log('kk')
-                              }}
-                              onDragLeave={() => {
-                                props.setonFileInputHover(false);
-                              }}
-                              // onDrop={(files: any) => customDrop(files)}
-                              // onReject={(files: any) => console.log("rejected files", files)}
-                              maxSize={3 * 1024 ** 2}
-                              classNames={{
-                                inner: classes.inner,
-                                root: classes.dropZoneRoot,
-                              }}
-                              accept={[
-                                "image/png",
-                                "image/jpeg",
-                                "image/sgv+xml",
-                                "image/gif",
-                              ]}
-                            >
-                              <div>
-                                <div>
-                                  <div className={classes.step1}>
-                                    <p className={classes.paraDrag}>
-                                      {" "}
-                                      Click or drag file to this area to upload{" "}
-                                    </p>
-                                    <p className={classes.step1Content}>
-                                      {" "}
-                                      Support for a single or bulk upload.
-                                      Strictly prohibit from uploading company
-                                      data or other band files{" "}
-                                    </p>
-                                  </div>
-
-                                  <FileInput
-                                    name="myImage"
-                                    icon={
-                                      // <img
-                                      //   className={classes.camera}
-                                      //   alt="camera"
-                                      //   src={"/assets/camera.svg"}
-                                      // />
-                                      <Image
-                                        alt=""
-                                        src="assets/document.svg"
-                                        width={20}
-                                        height={20}
-                                      />
-                                    }
-                                    onChange={(files) => {
-                                      // customDrop(files);
-                                      handleFileUploadResume(files);
-                                    }}
-                                    classNames={{
-                                      wrapper: classes.wrapper,
-                                      // icon: classes.icon,
-                                      input: classes.input,
-                                      rightSection: classes.rightSection,
-                                      root: classes.root,
-                                      // label: classes.label,
-                                      error: classes.error,
-                                      description: classes.description,
-                                      required: classes.required,
-                                      placeholder: classes.placeholder,
-                                    }}
-                                    placeholder={
-                                      formData.resume ||
-                                      form.getInputProps("resume")?.value
-                                        ? inEditResume
-                                          ? form
-                                              .getInputProps("resume")
-                                              ?.value?.slice(6, 28)
-                                          : formData.resume.slice(6, 28)
-                                        : "Upload file"
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </Dropzone>
-                          </Paper>
-                        </div>
-                      </Container>
-                    </Group>
-                  </form>
-                </Paper>
-              </div>
-
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="save-btn-modal-footer"
-                  style={{
-                    width: "100%",
-                  }}
-                  onClick={() => addResume()}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <div
-        class="modal fade"
-        id="addPhotograph"
-        tabindex="-1"
-        aria-labelledby="closeAddPhotograph"
-        aria-hidden="true"
-      >
-        <form>
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <div className="custom-align">
-                  <img className="experience-icon" src="images/education.svg" />
-
-                  <h6> {inEditPhoto ? "" : "Add"} Photograph </h6>
-                </div>
-
-                <div>
-                  <img
-                    id="closeAddPhotograph"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                    className="modal-close-icon"
-                    src={"images/Close.svg"}
-                  />
-                </div>
-              </div>
-              <div class="modal-body">
-                <Paper p="md">
-                  <form>
-                    <Group
-                      position="center"
-                      mt="xl"
-                      style={{
-                        position: "relative",
-                      }}
-                    >
-                      {/* <div className="profile-upload">
-            {formData.photograph && <img src={formData.photograph} />}
-            {formData.photogarph}
-          </div> */}
-
-                      <Container px="xs" className="">
-                        {/* <div className="profile-upload">
-                      {formData.photograph && <img src={formData.photograph} />}
-                      {formData.photogarph}
-                    </div> */}
-
-                        <div className="">
-                          <Paper
-                            // shadow="xl"
-                            // p="md"
-                            style={{
-                              width: "100%",
-
-                              // padding:"16px"
-                            }}
-                          >
-                            <h6 className="box-heading text-left">
-                              {" "}
-                              Upload profile photo{" "}
-                            </h6>
-                            <p className="box-sub-heading">
-                              Insert a high-quality, professional headshot
-                            </p>
-
-                            <Dropzone
-                              activateOnClick={false}
-                              styles={{ inner: { pointerEvents: "all" } }}
-                              onDragEnter={() => {
-                                // setonFileInputHover(true);
-                                console.log("kk");
-                              }}
-                              onDragLeave={() => {
-                                // setonFileInputHover(false);
-                                console.log("ma");
-                              }}
-                              onDrop={(files: any) =>
-                                handleFileUpload(files[0])
-                              }
-                              // onReject={(files: any) => console.log("rejected files", files)}
-                              maxSize={3 * 1024 ** 2}
-                              classNames={{
-                                inner: classes.inner,
-                                root: classes.dropZoneRoot,
-                              }}
-                            >
-                              <div>
-                                <div>
-                                  <div className={classes.step1}>
-                                    <p className={classes.paraDrag}>
-                                      {" "}
-                                      Click or drag file to this area to upload{" "}
-                                    </p>
-                                    <p className={classes.step1Content}>
-                                      {" "}
-                                      Support for a single upload. Strictly
-                                      prohibit from uploading company data or
-                                      other band files{" "}
-                                    </p>
-                                  </div>
-
-                                  <FileInput
-                                    name="myImage"
-                                    icon={
-                                      <Image
-                                        alt=""
-                                        src="assets/camera.svg"
-                                        width={20}
-                                        height={20}
-                                      />
-                                    }
-                                    onChange={(files) => {
-                                      // customDrop(files);
-                                      handleFileUpload(files);
-                                    }}
-                                    classNames={{
-                                      wrapper: classes.wrapper,
-                                      // icon: classes.icon,
-                                      input: classes.input,
-                                      rightSection: classes.rightSection,
-                                      root: classes.root,
-                                      // label: classes.label,
-                                      error: classes.error,
-                                      description: classes.description,
-                                      required: classes.required,
-                                      placeholder: classes.placeholder,
-                                    }}
-                                    placeholder={
-                                      image ||
-                                      form
-                                        .getInputProps("photograph")
-                                        ?.value.slice(0, 17)
-                                        ? (
-                                            image?.slice(0, 17) ||
-                                            form.getInputProps("photograph")
-                                              ?.value
-                                          ).slice(0, 17)
-                                        : "Upload Photo"
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </Dropzone>
-                          </Paper>
-                        </div>
-                      </Container>
-                    </Group>
-                  </form>
-                </Paper>
-              </div>
-
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="save-btn-modal-footer"
-                  style={{
-                    width: "100%",
-                  }}
-                  onClick={() => addPhotoGraph()}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-
-      <div
-        class="modal fade"
-        id="addHeadline"
-        tabindex="-1"
-        aria-labelledby="addProject"
-        aria-hidden="true"
-      >
-        <form>
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <div className="custom-align">
-                  <img className="experience-icon" src="images/education.svg" />
-
-                  <h6> Add Headline </h6>
-                </div>
-
-                <div>
-                  <img
-                    id="closeAddHeadline"
-                    class="btn btn-secondary"
-                    data-bs-dismiss="modal"
-                    className="modal-close-icon"
-                    src={"images/Close.svg"}
-                  />
-                </div>
-              </div>
-              <div
-                class="modal-body headline"
-                style={{
-                  height: "auto !important",
-                }}
-              >
-                <Paper p="md">
-                  <form>
-                    <Grid>
-                      {/* <h6 className="box-heading">Add Project</h6> */}
-                      <Grid.Col span={12}>
-                        <Input
-                          placeholder="Headline"
-                          required
-                          value={
-                            form.getInputProps("resume_headlineForMutation")
-                              .value
-                          }
-                          styles={(theme) => ({
-                            input: {
-                              height: "100%",
-                              "::placeholder": {
-                                color: "#9D9D9D",
-                                fontSize: "16px",
-                                fontStyle: "normal",
-                                fontWeight: 500,
-                                lineHeight: "normal",
-                              },
-                            },
-                            values: {
-                              height: "100%",
-                            },
-                            wrapper: {
-                              height: "50px",
-                            },
-
-                            leftIcon: {
-                              marginRight: theme.spacing.md,
-                            },
-                          })}
-                          onChange={(e) =>
-                            form.setFieldValue(
-                              "resume_headlineForMutation",
-                              e.target.value
-                            )
-                          }
-                        />
-                      </Grid.Col>
-                    </Grid>
-                  </form>
-                </Paper>
-              </div>
-
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="save-btn-modal-footer"
-                  style={{
-                    width: "100%",
-                  }}
-                  onClick={() => addHeadline()}
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-
+<AddHeadline  form={form}  addHeadline={addHeadline} />
+   
       <div
         class="modal fade"
         id="addProject"
