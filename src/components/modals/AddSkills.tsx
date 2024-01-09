@@ -1,8 +1,12 @@
 import * as React from "react";
 
+
+
 export interface IAppProps {}
 
-export function AddSkills(props: IAppProps) {
+import { Container, FileInput, Image,Paper,Group ,TextInput , Select , Grid, Textarea, MultiSelect ,Input } from "@mantine/core";
+
+export function AddSkills({form, updateKeySkills , DefaultItSkills  ,DefaultKeySkills }) {
   return (
     <div>
       <div

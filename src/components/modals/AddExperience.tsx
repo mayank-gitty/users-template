@@ -3,11 +3,11 @@ import * as React from 'react';
 export interface IAppProps {
 }
 
-import { Container, FileInput, Image,Paper,Group ,TextInput , Select , Grid } from "@mantine/core";
+import { Container, FileInput, Image,Paper,Group ,TextInput , Select , Grid , Checkbox  } from "@mantine/core";
 
-import { yearsData , allDegreesArray ,  indianEducationArray ,fields , type } from '@/util/formDefault.Data';
+import { yearsData , allDegreesArray ,  indianEducationArray ,fields , type ,releventMonths  , locationType } from '@/util/formDefault.Data'
 
-export function AddExperience ({  }) {
+export function AddExperience ({ experience , handleChange , addExperience }) {
   return (
     <div>
        <div

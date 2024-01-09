@@ -3,7 +3,7 @@ import * as React from 'react';
 export interface IAppProps {
 }
 
-export function EditProject (props: IAppProps) {
+export function EditProject ({ project, updateThisProject, deleteSpecificProjec, handleChangeProject}) {
   return (
     <div>
             <div

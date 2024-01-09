@@ -5,9 +5,9 @@ export interface IAppProps {
 import { Container, FileInput, Image,Paper,Group,Grid,Input ,Select} from "@mantine/core";
 import { Autocomplete } from '@mantine/core';
 
-import { yearsData , allDegreesArray ,  indianEducationArray ,fields , type } from '@/util/formDefault.Data';
+import { yearsData , allDegreesArray ,  indianEducationArray ,fields , type ,releventMonths } from '@/util/formDefault.Data';
 
-export function AddEducation ({education,addEducation, handleChangeEducation}) {
+export function AddEducation ( {education,addEducation, setEducation ,  handleChangeEducation  }) {
 
   return (
     <div>

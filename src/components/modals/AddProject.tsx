@@ -3,7 +3,7 @@ import * as React from 'react';
 export interface IAppProps {
 }
 
-import { Container, FileInput, Image,Paper,Group ,Textarea,Input } from "@mantine/core";
+import { Container, FileInput, Image,Paper,Group ,Textarea,Input ,Grid ,Radio ,Select } from "@mantine/core";
 
 import useThemeContext from '@/context/context';
 
@@ -169,7 +169,7 @@ const {formData} :any  = useThemeContext()
                       <div style={{ flex: 1, marginRight: "10px" }}>
                         <Input.Wrapper
                           label="Work from year"
-                          error={formErrors.workFromYear}
+                          // error={formErrors.workFromYear}
                           styles={() => ({
                             input: {
                               "::placeholder": {
@@ -225,7 +225,7 @@ const {formData} :any  = useThemeContext()
                       <div style={{ flex: 1 }}>
                         <Input.Wrapper
                           label="Work from month"
-                          error={formErrors.workFromMonth}
+                          // error={formErrors.workFromMonth}
                           styles={() => ({
                             label: {
                               color: "#000",
@@ -369,7 +369,7 @@ const {formData} :any  = useThemeContext()
                   <Grid.Col span={12}>
                     <Input.Wrapper
                       label="Project site"
-                      error={formErrors.projectSite}
+                      // error={formErrors.projectSite}
                       styles={() => ({
                         input: {
                           "::placeholder": {
@@ -424,7 +424,7 @@ const {formData} :any  = useThemeContext()
                   <Grid.Col span={12}>
                     <Input.Wrapper
                       label="Nature of employment"
-                      error={formErrors.natureOfEmployment}
+                      // error={formErrors.natureOfEmployment}
                       styles={() => ({
                         label: {
                           color: "#000",

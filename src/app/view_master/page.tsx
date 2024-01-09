@@ -13,6 +13,8 @@ import { Dropzone } from "@mantine/dropzone";
 import { AddResume } from "@/components/modals/AddResume";
 import { AddPhotograph } from "@/components/modals/AddPhotograph";
 
+import { BasicProfile } from "@/components/sections/BasicProfile";
+
 import { AddProject } from "@/components/modals/AddProject";
 
 import {
@@ -75,6 +77,13 @@ import { transcode } from "buffer";
 import { useSession } from "next-auth/react";
 import { AddHeadline } from "@/components/modals/AddHeadline";
 import { AddEducation } from "@/components/modals/AddEducation";
+import { AddSkills } from "@/components/modals/AddSkills";
+import { AddExperience } from "@/components/modals/AddExperience";
+import { ExperienceSection } from "@/components/sections/ExperienceSection";
+import { EducationSection } from "@/components/sections/EducationSection";
+import { ProjectSection } from "@/components/sections/ProjectSection";
+import { ResumeSection } from "@/components/sections/ResumeSection";
+import { ProfileSection } from "@/components/sections/ProfileSection";
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -119,9 +128,6 @@ const USERS = gql`
   }
 `;
 
-
-
-  
 const useStyles = createStyles(() => ({
   inner: {
     width: "90%",
@@ -309,13 +315,12 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-
 export interface IAppProps {}
 
 export default function View(props: IAppProps) {
   const [createObjectURL, setCreateObjectURL] = useState(null);
 
-  const session = useSession()
+  const session = useSession();
 
   const { classes } = useStyles();
 
@@ -326,8 +331,7 @@ export default function View(props: IAppProps) {
   const [inEditResume, setinEditResume] = useState(false);
 
   const handleFileUploadResume = async (e) => {
-
-    const file = e  || form.getInputProps('resume')?.value;
+    const file = e || form.getInputProps("resume")?.value;
 
     var allowedTypes = [
       "application/pdf",
@@ -348,7 +352,7 @@ export default function View(props: IAppProps) {
       });
     }
 
-    console.log("below");
+    // console.log("below");
 
     const resumeData = new FormData();
     resumeData.append("file", file);
@@ -359,10 +363,10 @@ export default function View(props: IAppProps) {
         body: resumeData,
       });
 
-      console.log("res", response);
+      // console.log("res", response);
 
       if (response.ok) {
-        console.log("File uploaded successfully.");
+ 
 
         setFormData((prevData) => ({
           ...prevData,
@@ -392,7 +396,7 @@ export default function View(props: IAppProps) {
 
     const i = e?.name;
 
-    console.log("e", e);
+    // console.log("e", e);
 
     var allowedTypes = [
       "image/jpeg",
@@ -425,10 +429,10 @@ export default function View(props: IAppProps) {
         body: resumeData,
       });
 
-      console.log("res", response);
+      // console.log("res", response);
 
       if (response.ok) {
-        console.log("File uploaded successfully.");
+
 
         setFormData((prevData: any) => ({
           ...prevData,
@@ -453,7 +457,6 @@ export default function View(props: IAppProps) {
     }
   };
 
-
   const {
     setActive,
     formData,
@@ -461,8 +464,6 @@ export default function View(props: IAppProps) {
     setexperienceOpen,
     seteditopen,
   }: any = useThemeContext();
-
-
 
   const iconStyle = { width: rem(12), height: rem(12) };
 
@@ -473,13 +474,11 @@ export default function View(props: IAppProps) {
   const [formErrors, setFormErrors] = useState({});
 
   const [DefaultKeySkills, setDefaultKeySkills] = useState([]);
-  
+
   const [DefaultItSkills, setDefaultItSkills] = useState([]);
 
-
-
   const checkExistingUser = async (email) => {
-    console.log("checking email", email);
+    // console.log("checking email", email);
 
     const checking = await client.request(GET_USER, {
       where: {
@@ -491,14 +490,13 @@ export default function View(props: IAppProps) {
     return checking?.user?.email;
   };
 
-
   const form: any = useForm({
     initialValues: {
       profileUserId: "",
       allItskills: [],
       allKeyskills: [],
       itskills: [],
-      itskillsForMutation:[],
+      itskillsForMutation: [],
       education: null,
       keyskills: [],
       userkeyskills: [],
@@ -514,7 +512,7 @@ export default function View(props: IAppProps) {
       work: "",
       statusForMutation: null,
       workForMutation: null,
-   
+
       email: "",
       userEmail: "",
       userEmailForMutation: "",
@@ -531,11 +529,6 @@ export default function View(props: IAppProps) {
     },
   });
 
-
-  // console.log('=======O', form.getInputProps('statusForMutation')?.value)
-
-  // console.log("formssssssssssssssssss", form);
-
   const COMPANIES = gql`
     query Query {
       companies {
@@ -545,11 +538,10 @@ export default function View(props: IAppProps) {
     }
   `;
 
-
   const getComapanies = async () => {
     const users: any = await client.request(COMPANIES);
 
-    console.log("usersaa", users);
+    // console.log("usersaa", users);
 
     const DefaultSkills = users?.companies?.map((item: any) => {
       return {
@@ -557,8 +549,6 @@ export default function View(props: IAppProps) {
         value: item.id,
       };
     });
-
-    // setDefaultSkills(DefaultSkills);
 
     form.setFieldValue("companies", DefaultSkills);
   };
@@ -615,7 +605,6 @@ export default function View(props: IAppProps) {
     skillUsed: "",
   });
 
-
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];
@@ -629,7 +618,7 @@ export default function View(props: IAppProps) {
 
   const uploadToServer = async (event) => {
     const body = new FormData();
-    console.log("image-file111111", event.name);
+    // console.log("image-file111111", event.name);
     body.append("image-file1", event);
     const response = await fetch("/api/upload", {
       method: "POST",
@@ -639,7 +628,7 @@ export default function View(props: IAppProps) {
     // console.log('mk',response)
 
     if (response.ok) {
-      alert("uploaded succesfully");
+      // alert("uploaded succesfully");
 
       form.setFieldValue("photograph", `uploads/${event?.name}`);
     }
@@ -649,7 +638,7 @@ export default function View(props: IAppProps) {
 
   const search = searchParams.get("id");
 
-  console.log("skils", form.getInputProps("itskills").value);
+  // console.log("skils", form.getInputProps("itskills").value);
 
   const getData = async (search: any) => {
     // console.log("id", search);
@@ -659,7 +648,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    console.log("user profile gotttttttttttttttttttttttttttttttttt", user);
+
 
     if (user?.user) {
       // alert('insi')
@@ -677,13 +666,13 @@ export default function View(props: IAppProps) {
       resume_headline: user?.user?.resume_headline,
       resume_headlineForMutation: user?.user?.resume_headline,
       profile_summary: user?.user?.profile_summary,
-      profile_summaryForMutation:user?.user?.profile_summary,
+      profile_summaryForMutation: user?.user?.profile_summary,
       photograph: user?.user?.photograph,
       name: user?.user?.name,
       work: user?.user?.open_to_work,
       status: user?.user?.active,
-      workForMutation:user?.user?.open_to_work.toString(),
-      statusForMutation:   user?.user?.active.toString(),
+      workForMutation: user?.user?.open_to_work.toString(),
+      statusForMutation: user?.user?.active.toString(),
       resume: user?.user?.resume,
       email: user?.user?.email,
       userEmail: user?.user?.email,
@@ -699,7 +688,7 @@ export default function View(props: IAppProps) {
     });
   };
 
-  // console.log('fv',form.getInputProps('keyskills')?.value)
+
 
   const getDatas = async () => {
     const itskills: any = await client.request(IT_SKILLS);
@@ -727,25 +716,17 @@ export default function View(props: IAppProps) {
     );
   };
 
-
-
-
   useEffect(() => {
     // alert('refresh')
     getData(search);
-
-
   }, [search, flag]);
 
-  
-
-  // console.log('checking',form)
 
 
-  const  getKeySkills = async () => {
+  const getKeySkills = async () => {
     const users: any = await client.request(KEY_SKILLS);
 
-    console.log("usersaa", users);
+    // console.log("usersaa", users);
 
     const DefaultSkills = users?.keySkills?.map((item: any) => {
       return {
@@ -755,9 +736,7 @@ export default function View(props: IAppProps) {
     });
 
     setDefaultKeySkills(DefaultSkills);
-
   };
-
 
   const getItSkills = async () => {
     const users: any = await client.request(IT_SKILLS);
@@ -772,17 +751,15 @@ export default function View(props: IAppProps) {
     });
 
     setDefaultItSkills(DefaultSkills);
-
   };
 
-  
   useEffect(() => {
     getKeySkills();
     getItSkills();
   }, []);
 
   const handleChangeProject = (field: any, e: any) => {
-    console.log("hitting", field, e);
+    // console.log("hitting", field, e);
 
     setProject((prev) => ({
       ...prev,
@@ -904,7 +881,7 @@ export default function View(props: IAppProps) {
         projectLocation: project.projectLocation,
         projectSite: project.projectSite,
         natureOfEmployment: project.natureOfEmployment,
-        detailsOfProject:project.detailsOfProject,
+        detailsOfProject: project.detailsOfProject,
         teamSize: project.teamSize,
         role: project.role,
         roleDescription: project.roleDescription,
@@ -929,17 +906,6 @@ export default function View(props: IAppProps) {
   const updateExperienceEducation = async () => {
     // console.log("educationss", education);
 
-    if (education.school === "other") {
-      education.school = schoolOther;
-    }
-
-    if (education.degree === "other") {
-      education.school = degreeOther;
-    }
-
-    if (education.field_of_study === "other") {
-      education.school = fieldOther;
-    }
 
     const user: any = await client.request(updateUserEducation, {
       where: {
@@ -977,7 +943,7 @@ export default function View(props: IAppProps) {
   };
 
   const handleChange = (field: any, e: any) => {
-    console.log("hitting", e);
+    // console.log("hitting", e);
     setExperience((prev) => ({
       ...prev,
       [field]: e,
@@ -994,7 +960,7 @@ export default function View(props: IAppProps) {
     const email = form.getInputProps("userEmail").value;
 
     if (!/^[0-9]{10}$/.test(mobileNumber)) {
-      console.log("inside", mobileNumber);
+      // console.log("inside", mobileNumber);
       return alert('"The mobile number is not valid.";');
     }
 
@@ -1023,9 +989,14 @@ export default function View(props: IAppProps) {
             id: form.getInputProps("userCompany")?.value,
           },
         },
-        open_to_work:form.getInputProps("workForMutation")?.value === 'true' ? true : false,
-        active:form.getInputProps("statusForMutation")?.value === 'true'  ? true : false
-
+        open_to_work:
+          form.getInputProps("workForMutation")?.value === "true"
+            ? true
+            : false,
+        active:
+          form.getInputProps("statusForMutation")?.value === "true"
+            ? true
+            : false,
       },
     });
 
@@ -1041,7 +1012,6 @@ export default function View(props: IAppProps) {
       }, 1000);
     }
   };
-
 
   const updateKeySkills = async () => {
     // console.log("update skills hitting", search,form);
@@ -1059,16 +1029,17 @@ export default function View(props: IAppProps) {
           }),
         },
         itskills: {
-          set: form.getInputProps("itskillsForMutation")?.value?.map((item: any) => {
-            return {
-              id: item,
-            };
-          }),
+          set: form
+            .getInputProps("itskillsForMutation")
+            ?.value?.map((item: any) => {
+              return {
+                id: item,
+              };
+            }),
         },
-        profile_summary:form.getInputProps("profile_summaryForMutation")?.value
+        profile_summary: form.getInputProps("profile_summaryForMutation")
+          ?.value,
       },
-      
-
     });
 
     // console.log("skils updated", user);
@@ -1084,11 +1055,10 @@ export default function View(props: IAppProps) {
     }
   };
 
-
-  console.log(
-    "statusForMutation",
-    form.getInputProps(`statusForMutaion`)?.value
-  );
+  // console.log(
+  //   "statusForMutation",
+  //   form.getInputProps(`statusForMutaion`)?.value
+  // );
 
   const addEducation = async () => {
     if (!education.school) {
@@ -1181,7 +1151,7 @@ export default function View(props: IAppProps) {
           (item) => item.label === education.end_year_month
         )[0].value;
 
-        console.log("190", startMonthNumber, endMonthNumber);
+        // console.log("190", startMonthNumber, endMonthNumber);
 
         if (education.start_year_month === education.end_year_month) {
           return toast(
@@ -1252,7 +1222,7 @@ export default function View(props: IAppProps) {
 
       const button = document.getElementById("closeAddEducation");
 
-      console.log("check", button);
+      // console.log("check", button);
 
       setTimeout(() => {
         button?.click();
@@ -1381,7 +1351,7 @@ export default function View(props: IAppProps) {
           (item) => item.label === experience.end_year_month
         )[0]?.value;
 
-        console.log("190", startMonthNumber, endMonthNumber);
+        // console.log("190", startMonthNumber, endMonthNumber);
 
         if (experience.start_year_month === experience.end_year_month) {
           return toast(
@@ -1426,7 +1396,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    console.log("user", user);
+    // console.log("user", user);
 
     if (user.updateUser) {
       // alert('inside')
@@ -1439,7 +1409,7 @@ export default function View(props: IAppProps) {
 
       const button = document.getElementById("closeAddExperience");
 
-      console.log("check", button);
+      // console.log("check", button);
 
       setTimeout(() => {
         button?.click();
@@ -1567,9 +1537,8 @@ export default function View(props: IAppProps) {
       });
     }
 
-    console.log("g", project);
 
-    console.log("experience", search);
+    // console.log("experience", search);
 
     delete project?.id;
 
@@ -1595,7 +1564,7 @@ export default function View(props: IAppProps) {
 
       const button = document.getElementById("closeAddProject");
 
-      console.log("check", button);
+
 
       setTimeout(() => {
         button?.click();
@@ -1604,22 +1573,6 @@ export default function View(props: IAppProps) {
       }, 1000);
     }
 
-    // setProject({
-    //   id: "id" + new Date().getTime(),
-    //   projectTitle: "",
-    //   client: "",
-    //   projectStatus: "inprogress",
-    //   workFromYear: "",
-    //   workFromMonth: "",
-    //   // detailsOfProject: "",
-    //   projectLocation: "",
-    //   projectSite: "Offsite",
-    //   natureOfEmployment: "fulltime",
-    //   teamSize: "",
-    //   role: "",
-    //   roleDescription: "",
-    //   skillUsed: "",
-    // });
   };
 
   const addResume = async () => {
@@ -1632,7 +1585,6 @@ export default function View(props: IAppProps) {
       },
     });
 
-    // console.log("skils updated", user);
 
     if (user.updateUser) {
       const button = document.getElementById("closeAddResume");
@@ -1655,7 +1607,6 @@ export default function View(props: IAppProps) {
       },
     });
 
-    console.log("skils updated", user);
 
     if (user.updateUser) {
       const button = document.getElementById("closeAddPhotograph");
@@ -1671,8 +1622,6 @@ export default function View(props: IAppProps) {
   };
 
   const addHeadline = async () => {
-
-
     const user: any = await client.request(updateUser, {
       where: {
         id: search,
@@ -1683,7 +1632,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    console.log("skils updated", user);
+    // console.log("skils updated", user);
 
     if (user.updateUser) {
       const button = document.getElementById("closeAddHeadline");
@@ -1696,1384 +1645,54 @@ export default function View(props: IAppProps) {
     }
   };
 
-
   return (
     <Box
       mx="auto"
       className="view-profile-page bg-[#F3F7FB] h-screen px-[2%] pr-[60px]"
     >
-
-<AddResume  form={form} inEditResume={inEditResume} addResume={addResume} handleFileUploadResume={handleFileUploadResume}  />
-
-<AddPhotograph  form={form} inEditPhoto={inEditPhoto} addPhotoGraph={addPhotoGraph}  handleFileUpload={handleFileUpload} image={image}  />
-
-<AddHeadline  form={form}  addHeadline={addHeadline} />
-   
-<AddProject  form={form}  project={project} handleChangeProject={handleChangeProject} addProject={addProject}  />
-
-<AddEducation  education={education}  addEducation={addEducation}   handleChangeEducation={ handleChangeEducation}   />
-
-
-
-
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header ">
-              <div className="custom-align">
-                <div className="">
-                  <img
-                    className="experience-icon"
-                    src="images/experience.svg"
-                  />
-                </div>
-
-                <h6> Experience </h6>
-              </div>
-
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-
-              <div>
-                <img
-                  id="modal-close-btn-edit-experience"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  className="modal-close-icon"
-                  src={"images/Close.svg"}
-                />
-              </div>
-
-              {/* <button
-                type="button"
-                id="modal-close-btn-experience"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button> */}
-            </div>
-
-            <div class="modal-body">
-              <Grid>
-                <Grid.Col span={12}>
-                  <label htmlFor=" "> Title </label>
-                  <TextInput
-                    placeholder="enter here"
-                    size="md"
-                    value={experience.title}
-                    onChange={(e) => handleChange("title", e.target.value)}
-                  />
-                </Grid.Col>
-
-                <Grid.Col span={12}>
-                  <label htmlFor=" "> Employment type </label>
-
-                  <Select
-                    value={experience.employment_type}
-                    onChange={(value) => handleChange("employment_type", value)}
-                    data={type}
-                    placeholder="Select type"
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                  />
-                </Grid.Col>
-
-                <Grid.Col span={12}>
-                  <label htmlFor=" "> Company </label>
-                  <TextInput
-                    placeholder="enter here"
-                    size="md"
-                    value={experience.company}
-                    onChange={(e) => handleChange("company", e.target.value)}
-                  />
-                </Grid.Col>
-
-                <Grid.Col span={12}>
-                  <label htmlFor=" "> Location </label>
-                  <TextInput
-                    placeholder="enter here"
-                    size="md"
-                    value={experience.location}
-                    onChange={(e) => handleChange("location", e.target.value)}
-                  />
-                </Grid.Col>
-
-                <Grid.Col span={12}>
-                  <label htmlFor=" "> Location type </label>
-                  <Select
-                    value={experience.location_type}
-                    onChange={(value) => handleChange("location_type", value)}
-                    data={locationType}
-                    placeholder="Select type"
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                  />
-                </Grid.Col>
-
-                <Grid.Col span={12}>
-                  <Checkbox
-                    className="center-align"
-                    checked={experience.currently_working ? true : false}
-                    label="currently working here"
-                    onChange={(e: any) =>
-                      handleChange("currently_working", e.target.checked)
-                    }
-                  />
-                </Grid.Col>
-
-                <Grid.Col span={12}>
-                  <h6 className="experience-label">Start date</h6>
-                </Grid.Col>
-
-                <Grid.Col span={6}>
-                  <Select
-                    placeholder="Month"
-                    nothingFound="No options"
-                    maxDropdownHeight={280}
-                    onChange={(e) => handleChange("start_year_month", e)}
-                    data={releventMonths}
-                    value={experience.start_year_month}
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                  />
-                </Grid.Col>
-
-                <Grid.Col span={6}>
-                  <Select
-                    placeholder="Year"
-                    nothingFound="No options"
-                    maxDropdownHeight={280}
-                    onChange={(e) => handleChange("start_year", e)}
-                    data={yearsData}
-                    value={experience.start_year}
-                    styles={(theme) => ({
-                      input: {
-                        height: "100%",
-                      },
-                      values: {
-                        height: "100%",
-                      },
-                      wrapper: {
-                        height: "50px",
-                      },
-
-                      leftIcon: {
-                        marginRight: theme.spacing.md,
-                      },
-                    })}
-                  />
-                </Grid.Col>
-
-                {!experience.currently_working && (
-                  <Grid.Col span={12}>
-                    <h6 className="experience-label">End date</h6>
-                  </Grid.Col>
-                )}
-
-                {!experience.currently_working && (
-                  <>
-                    <Grid.Col span={6}>
-                      <Select
-                        placeholder="Month"
-                        nothingFound="No options"
-                        maxDropdownHeight={280}
-                        onChange={(e) => handleChange("end_year_month", e)}
-                        data={releventMonths}
-                        value={experience.end_year_month}
-                        styles={(theme) => ({
-                          input: {
-                            height: "100%",
-                          },
-                          values: {
-                            height: "100%",
-                          },
-                          wrapper: {
-                            height: "50px",
-                          },
-
-                          leftIcon: {
-                            marginRight: theme.spacing.md,
-                          },
-                        })}
-                      />
-                    </Grid.Col>
-
-                    <Grid.Col span={6}>
-                      <Select
-                        placeholder="Year"
-                        nothingFound="No options"
-                        maxDropdownHeight={280}
-                        onChange={(e) => handleChange("end_year", e)}
-                        data={yearsData}
-                        value={experience.end_year}
-                        styles={(theme) => ({
-                          input: {
-                            height: "100%",
-                          },
-                          values: {
-                            height: "100%",
-                          },
-                          wrapper: {
-                            height: "50px",
-                          },
-
-                          leftIcon: {
-                            marginRight: theme.spacing.md,
-                          },
-                        })}
-                      />
-                    </Grid.Col>
-                  </>
-                )}
-              </Grid>
-            </div>
-
-            <div class="modal-footer">
-              <button
-                className="close-btn-modal-footer"
-                onClick={() => deleteSpecificExperience()}
-              >
-                {" "}
-                delete{" "}
-              </button>
-              {/* <button
-                type="button"
-                id="modal-close-btn-experience"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button> */}
-              <button
-                type="button"
-                class="save-btn-modal-footer"
-                onClick={() => updateExperience()}
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="modal fade"
-        id="exampleModalEducation"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header ">
-              <div className="custom-align">
-                <div className="">
-                  <img className="experience-icon" src="images/education.svg" />
-                </div>
-
-                <h6> Education </h6>
-              </div>
-
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-
-              <div>
-                <img
-                  id="modal-close-btn-education"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  className="modal-close-icon"
-                  src={"images/Close.svg"}
-                />
-              </div>
-
-              {/* <button
-                type="button"
-                id="modal-close-btn-experience"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button> */}
-            </div>
-
-            <div class="modal-body">
-              <Grid>
-                <Grid.Col span={12}>
-                  <Container size="xs" px="xs">
-                    {/* <p className="box-sub-heading">Select your highest education</p> */}
-
-                    <form>
-                      <Grid>
-                        <Grid.Col span={12}>
-                          <Input.Wrapper
-                            styles={() => ({
-                              label: {
-                                color: "#01041b",
-                                fontSize: "1.2em",
-                                fontWeight: 500,
-                                lineHeight: 1.2,
-                                marginBottom: 10,
-                              },
-                            })}
-                          ></Input.Wrapper>
-                        </Grid.Col>
-
-                        <Grid.Col span={12}>
-                          <Input.Wrapper
-                            label="school,University,Institute"
-                            styles={() => ({
-                              label: {
-                                color: "#01041b",
-                                fontSize: "1.2em",
-                                fontWeight: 500,
-                                lineHeight: 1.2,
-                                marginBottom: 10,
-                              },
-                            })}
-                          >
-                            <Autocomplete
-                              styles={(theme) => ({
-                                input: {
-                                  height: "100%",
-                                },
-                                values: {
-                                  height: "100%",
-                                },
-                                wrapper: {
-                                  height: "50px",
-                                },
-
-                                leftIcon: {
-                                  marginRight: theme.spacing.md,
-                                },
-                              })}
-                              value={education.school}
-                              onChange={(value) =>
-                                handleChangeEducation("school", value)
-                              }
-                              data={indianEducationArray}
-                              placeholder="University Institute"
-                            />
-
-                            {/* {errors.university && (
-                    <p style={{ color: "red", fontSize: "0.8em" }}>
-                      {errors.university}
-                    </p>
-                  )} */}
-                          </Input.Wrapper>
-                        </Grid.Col>
-
-                        <Grid.Col span={12}>
-                          <Input.Wrapper
-                            label="Course"
-                            styles={() => ({
-                              label: {
-                                color: "#01041b",
-                                fontSize: "1.2em",
-                                fontWeight: 500,
-                                lineHeight: 1.2,
-                                marginBottom: 10,
-                              },
-                            })}
-                          >
-                            <Autocomplete
-                              styles={(theme) => ({
-                                input: {
-                                  height: "100%",
-                                },
-                                values: {
-                                  height: "100%",
-                                },
-                                wrapper: {
-                                  height: "50px",
-                                },
-
-                                leftIcon: {
-                                  marginRight: theme.spacing.md,
-                                },
-                              })}
-                              value={education.degree}
-                              onChange={(value) =>
-                                handleChangeEducation("degree", value)
-                              }
-                              data={allDegreesArray}
-                              placeholder="Course"
-                            />
-
-                            {/* {errors.course && (
-                    <p style={{ color: "red", fontSize: "0.8em" }}>
-                      {errors.course}
-                    </p>
-                  )} */}
-                          </Input.Wrapper>
-                        </Grid.Col>
-
-                        <Grid.Col span={12}>
-                          <Input.Wrapper
-                            label="field of study"
-                            styles={() => ({
-                              label: {
-                                color: "#01041b",
-                                fontSize: "1.2em",
-                                fontWeight: 500,
-                                lineHeight: 1.2,
-                                marginBottom: 10,
-                              },
-                            })}
-                          >
-                            <Autocomplete
-                              value={education.field_of_study}
-                              onChange={(value: any) =>
-                                handleChangeEducation("field_of_study", value)
-                              }
-                              data={fields}
-                              placeholder="Field of study"
-                              styles={(theme) => ({
-                                input: {
-                                  height: "100%",
-                                },
-                                values: {
-                                  height: "100%",
-                                },
-                                wrapper: {
-                                  height: "50px",
-                                },
-
-                                leftIcon: {
-                                  marginRight: theme.spacing.md,
-                                },
-                              })}
-                            />
-                          </Input.Wrapper>
-                        </Grid.Col>
-
-                        <Grid.Col span={12}>
-                          <h6 className="experience-label">Start Date</h6>
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                          <Select
-                            placeholder="Month"
-                            nothingFound="No options"
-                            maxDropdownHeight={280}
-                            onChange={(e) =>
-                              handleChangeEducation("start_year_month", e)
-                            }
-                            data={releventMonths}
-                            value={education.start_year_month}
-                            styles={(theme) => ({
-                              input: {
-                                height: "100%",
-                              },
-                              values: {
-                                height: "100%",
-                              },
-                              wrapper: {
-                                height: "50px",
-                              },
-
-                              leftIcon: {
-                                marginRight: theme.spacing.md,
-                              },
-                            })}
-                          />
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                          <Select
-                            placeholder="Year"
-                            nothingFound="No options"
-                            maxDropdownHeight={280}
-                            onChange={(e) =>
-                              handleChangeEducation("start_year", e)
-                            }
-                            data={yearsData}
-                            value={education.start_year}
-                            styles={(theme) => ({
-                              input: {
-                                height: "100%",
-                              },
-                              values: {
-                                height: "100%",
-                              },
-                              wrapper: {
-                                height: "50px",
-                              },
-
-                              leftIcon: {
-                                marginRight: theme.spacing.md,
-                              },
-                            })}
-                          />
-                        </Grid.Col>
-
-                        <Grid.Col span={12}>
-                          <h6 className="experience-label">End Date</h6>
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                          <Select
-                            placeholder="Month"
-                            nothingFound="No options"
-                            maxDropdownHeight={280}
-                            onChange={(e) => handleChange("end_year_month", e)}
-                            data={releventMonths}
-                            value={education.end_year_month}
-                            styles={(theme) => ({
-                              input: {
-                                height: "100%",
-                              },
-                              values: {
-                                height: "100%",
-                              },
-                              wrapper: {
-                                height: "50px",
-                              },
-
-                              leftIcon: {
-                                marginRight: theme.spacing.md,
-                              },
-                            })}
-                          />
-                        </Grid.Col>
-
-                        <Grid.Col span={6}>
-                          <Select
-                            placeholder="Year"
-                            nothingFound="No options"
-                            maxDropdownHeight={280}
-                            onChange={(e) =>
-                              handleChangeEducation("end_year", e)
-                            }
-                            data={yearsData}
-                            value={education.end_year}
-                            styles={(theme) => ({
-                              input: {
-                                height: "100%",
-                              },
-                              values: {
-                                height: "100%",
-                              },
-                              wrapper: {
-                                height: "50px",
-                              },
-
-                              leftIcon: {
-                                marginRight: theme.spacing.md,
-                              },
-                            })}
-                          />
-                        </Grid.Col>
-
-                        <Grid.Col span={12}>
-                          <Input.Wrapper
-                            label="Grade"
-                            styles={() => ({
-                              label: {
-                                color: "#01041b",
-                                fontSize: "1.2em",
-                                fontWeight: 500,
-                                lineHeight: 1.2,
-                                marginBottom: 10,
-                              },
-                            })}
-                          >
-                            <Input
-                              placeholder="grade"
-                              required
-                              onChange={(e) =>
-                                handleChangeEducation("grade", e.target.value)
-                              }
-                              value={education.grade}
-                              styles={(theme) => ({
-                                input: {
-                                  height: 50,
-                                  width: "100%",
-                                  fontSize: 16,
-                                  lineHeight: 50,
-                                  borderRadius: 8,
-                                  border: "2px solid #ccc",
-                                },
-                              })}
-                            />
-                          </Input.Wrapper>
-                        </Grid.Col>
-
-                        <Grid.Col span={12}>
-                          <Input.Wrapper
-                            label="Activities"
-                            styles={() => ({
-                              label: {
-                                color: "#01041b",
-                                fontSize: "1.2em",
-                                fontWeight: 500,
-                                lineHeight: 1.2,
-                                marginBottom: 10,
-                              },
-                            })}
-                          >
-                            <Input
-                              placeholder="activities"
-                              required
-                              value={education.activities}
-                              onChange={(e) =>
-                                handleChangeEducation(
-                                  "activities",
-                                  e.target.value
-                                )
-                              }
-                              styles={(theme) => ({
-                                input: {
-                                  height: 50,
-                                  width: "100%",
-                                  fontSize: 16,
-                                  lineHeight: 50,
-                                  borderRadius: 8,
-                                  border: "2px solid #ccc",
-                                },
-                              })}
-                            />
-
-                            {/* {errors.gradingsystem && (
-                    <p style={{ color: "red", fontSize: "0.8em" }}>
-                      {errors.gradingsystem}
-                    </p>
-                  )} */}
-                          </Input.Wrapper>
-                        </Grid.Col>
-
-                        <Grid.Col span={12}>
-                          <Input.Wrapper
-                            label="Description"
-                            styles={() => ({
-                              label: {
-                                color: "#01041b",
-
-                                fontSize: "1.2em",
-                                fontWeight: 500,
-                                lineHeight: 1.2,
-                                marginBottom: 10,
-                              },
-                            })}
-                          >
-                            <Input
-                              placeholder="description"
-                              required
-                              value={education.description}
-                              onChange={(e) =>
-                                handleChangeEducation(
-                                  "description",
-                                  e.target.value
-                                )
-                              }
-                              styles={(theme) => ({
-                                input: {
-                                  height: 50,
-                                  width: "100%",
-                                  fontSize: 16,
-                                  lineHeight: 50,
-                                  borderRadius: 8,
-                                  border: "2px solid #ccc",
-                                },
-                              })}
-                            />
-                          </Input.Wrapper>
-                        </Grid.Col>
-
-                        {/* Submit button */}
-                      </Grid>
-                    </form>
-                  </Container>
-                </Grid.Col>
-              </Grid>
-            </div>
-
-            <div class="modal-footer">
-              <button
-                className="close-btn-modal-footer"
-                onClick={() => deleteSpecificEducation()}
-              >
-                {" "}
-                delete{" "}
-              </button>
-
-              <button
-                type="button"
-                class="save-btn-modal-footer"
-                onClick={() => updateExperienceEducation()}
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="modal fade"
-        id="exampleModalProject"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header ">
-              <div className="custom-align">
-                <div className="">
-                  <img className="experience-icon" src="images/education.svg" />
-                </div>
-
-                <h6> Project </h6>
-              </div>
-
-              <button
-                type="button"
-                class="modal-close-btn-project"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-
-              <div>
-                <img
-                  id="modal-close-btn-project"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                  className="modal-close-icon"
-                  src={"images/Close.svg"}
-                />
-              </div>
-            </div>
-
-            <div class="modal-body">
-              <Container size="xs" px="xs">
-                <Paper
-                // shadow="xl"
-                // p="md"
-                // style={{ maxHeight: "80vh", overflowY: "auto" }}
-                >
-                  <form>
-                    <Grid>
-                      <Grid.Col span={12}>
-                        <Input.Wrapper
-                          label="Project title"
-                          error={formErrors?.projectTitle}
-                        >
-                          <Input
-                            placeholder="Project Title"
-                            required
-                            value={project.projectTitle}
-                            styles={{
-                              input: {
-                                width: "100%", // Adjust the width as needed
-                                padding: "10px", // Add padding for a consistent look
-                                borderRadius: "4px", // Add rounded corners
-                                border: "1px solid #ccc", // Add a border
-                                height: "50px",
-                                "::placeholder": {
-                                  color: "#CACACA",
-                                  // font-family: Inter;
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                },
-                              },
-                            }}
-                            onChange={(e) =>
-                              handleChangeProject(
-                                "projectTitle",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </Input.Wrapper>
-                      </Grid.Col>
-                      <Grid.Col span={12}>
-                        <Input.Wrapper
-                          label="Client"
-                          error={formErrors?.client}
-                        >
-                          <Input
-                            placeholder="Client"
-                            required
-                            value={project.client}
-                            styles={() => ({
-                              input: {
-                                width: "100%", // Adjust the width as needed
-                                padding: "10px", // Add padding for a consistent look
-                                borderRadius: "4px", // Add rounded corners
-                                border: "1px solid #ccc", // Add a border
-                                height: "50px",
-                                "::placeholder": {
-                                  color: "#CACACA",
-                                  // font-family: Inter;
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                },
-                              },
-                            })}
-                            onChange={(e) =>
-                              handleChangeProject("client", e.target.value)
-                            }
-                          />
-                        </Input.Wrapper>
-                      </Grid.Col>
-                      <Grid.Col span={12}>
-                        <Input.Wrapper
-                          label="Project status"
-                          error={formErrors?.projectStatus}
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
-                        >
-                          <div>
-                            <label style={{ marginRight: "10px" }}>
-                              <Radio
-                                type="radio"
-                                name="projectStatus"
-                                value="inprogress"
-                                label="In Progress"
-                                required
-                                checked={project.projectStatus === "inprogress"}
-                                onChange={() =>
-                                  handleChangeProject(
-                                    "projectStatus",
-                                    "inprogress"
-                                  )
-                                }
-                              />
-                            </label>
-                            <label style={{ marginRight: "10px" }}>
-                              <Radio
-                                type="radio"
-                                name="projectStatus"
-                                value="finished"
-                                label="Finished"
-                                required
-                                checked={project.projectStatus === "finished"}
-                                onChange={() =>
-                                  handleChangeProject(
-                                    "projectStatus",
-                                    "finished"
-                                  )
-                                }
-                              />
-                            </label>
-                          </div>
-                        </Input.Wrapper>
-                      </Grid.Col>
-                      <Grid.Col span={12}>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <div style={{ flex: 1, marginRight: "10px" }}>
-                            <Input.Wrapper
-                              label="Work from year"
-                              error={formErrors?.workFromYear}
-                            >
-                              <Select
-                                placeholder="Year"
-                                data={["2022", "2023", "2024"]} // Your list of years
-                                value={project.workFromYear}
-                                styles={() => ({
-                                  input: {
-                                    width: "100%", // Adjust the width as needed
-                                    padding: "10px", // Add padding for a consistent look
-                                    borderRadius: "4px", // Add rounded corners
-                                    border: "1px solid #ccc", // Add a border
-                                    height: "50px",
-                                    "::placeholder": {
-                                      color: "#CACACA",
-                                      // font-family: Inter;
-                                      fontSize: "16px",
-                                      fontWeight: 500,
-                                    },
-                                  },
-                                })}
-                                onChange={(value) =>
-                                  handleChangeProject("workFromYear", value)
-                                }
-                              />
-                            </Input.Wrapper>
-                          </div>
-                          <div style={{ flex: 1 }}>
-                            <Input.Wrapper
-                              label="Work from month"
-                              error={formErrors?.workFromMonth}
-                            >
-                              <Select
-                                placeholder="Month"
-                                data={[
-                                  "January",
-                                  "February",
-                                  "March",
-                                  "April",
-                                  "May",
-                                  "June",
-                                  "July",
-                                  "August",
-                                  "September",
-                                  "October",
-                                  "November",
-                                  "December",
-                                ]} // Your list of months
-                                value={project.workFromMonth}
-                                onChange={(value) =>
-                                  handleChangeProject("workFromMonth", value)
-                                }
-                                styles={() => ({
-                                  input: {
-                                    width: "100%", // Adjust the width as needed
-                                    padding: "10px", // Add padding for a consistent look
-                                    borderRadius: "4px", // Add rounded corners
-                                    border: "1px solid #ccc", // Add a border
-                                    height: "50px",
-                                    "::placeholder": {
-                                      color: "#CACACA",
-                                      // font-family: Inter;
-                                      fontSize: "16px",
-                                      fontWeight: 500,
-                                    },
-                                  },
-                                })}
-                              />
-                            </Input.Wrapper>
-                          </div>
-                        </div>
-                      </Grid.Col>
-                      <Grid.Col span={12}>
-                        <Input.Wrapper
-                          label="Details of project"
-                          error={formErrors?.detailsOfProject}
-                          // styles={() => ({
-                          //   label: {
-                          //     color: "#01041b",
-                          //     fontSize: "1.2em",
-                          //     fontWeight: 500,
-                          //     lineHeight: 1.2,
-                          //     marginBottom: 10,
-                          //   },
-                          // })}
-                        >
-                          <Textarea
-                            placeholder="Type here..."
-                            required
-                            style={{
-                              width: "100%", // Adjust the width as needed
-                              // padding: "10px", // Add padding for a consistent look
-                              borderRadius: "4px", // Add rounded corners
-                              // border: "1px solid #ccc", // Add a border
-                            }}
-                            value={project.detailsOfProject}
-                            onChange={(e) =>
-                              handleChangeProject(
-                                "detailsOfProject",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </Input.Wrapper>
-                      </Grid.Col>
-                      <Grid.Col span={12}>
-                        <Input.Wrapper
-                          label="Project location"
-                          error={formErrors?.projectLocation}
-                        >
-                          <Input
-                            placeholder="Type here.."
-                            required
-                            styles={() => ({
-                              input: {
-                                width: "100%", // Adjust the width as needed
-                                padding: "10px", // Add padding for a consistent look
-                                borderRadius: "4px", // Add rounded corners
-                                border: "1px solid #ccc", // Add a border
-                                height: "50px",
-                                "::placeholder": {
-                                  color: "#CACACA",
-                                  // font-family: Inter;
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                },
-                              },
-                            })}
-                            value={project.projectLocation}
-                            onChange={(e) =>
-                              handleChangeProject(
-                                "projectLocation",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </Input.Wrapper>
-                      </Grid.Col>
-
-                      <Grid.Col span={12}>
-                        <Input.Wrapper
-                          label="Project site"
-                          error={formErrors?.projectSite}
-                          styles={() => ({
-                            input: {
-                              width: "100%", // Adjust the width as needed
-                              padding: "10px", // Add padding for a consistent look
-                              borderRadius: "4px", // Add rounded corners
-                              border: "1px solid #ccc", // Add a border
-                              height: "50px",
-                              "::placeholder": {
-                                color: "#CACACA",
-                                // font-family: Inter;
-                                fontSize: "16px",
-                                fontWeight: 500,
-                              },
-                            },
-                          })}
-                        >
-                          <div>
-                            <label style={{ marginRight: "10px" }}>
-                              <Radio
-                                type="radio"
-                                name="projectSite"
-                                value="Offsite"
-                                label="Offsite"
-                                required
-                                checked={project.projectSite === "offsite"}
-                                onChange={() =>
-                                  handleChangeProject("projectSite", "offsite")
-                                }
-                              />
-                            </label>
-                            <label style={{ marginRight: "10px" }}>
-                              <Radio
-                                type="radio"
-                                name="projectSite"
-                                value="finished"
-                                label="Offsite"
-                                required
-                                checked={project.projectStatus === "onsite"}
-                                onChange={() =>
-                                  handleChangeProject("projectSite", "onsite")
-                                }
-                              />
-                            </label>
-                          </div>
-                        </Input.Wrapper>
-                      </Grid.Col>
-
-                      <Grid.Col span={12}>
-                        <Input.Wrapper
-                          label="Nature of employment"
-                          error={formErrors?.natureOfEmployment}
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
-                        >
-                          <div>
-                            <label style={{ marginRight: "10px" }}>
-                              <Radio
-                                type="radio"
-                                name="natureOfEmployment"
-                                value="fulltime"
-                                label="Full Time"
-                                required
-                                checked={
-                                  project.natureOfEmployment === "fulltime"
-                                }
-                                onChange={() =>
-                                  handleChangeProject(
-                                    "natureOfEmployment",
-                                    "fulltime"
-                                  )
-                                }
-                              />
-                            </label>
-                            <label style={{ marginRight: "10px" }}>
-                              <Radio
-                                type="radio"
-                                name="natureOfEmployment"
-                                value="parttime"
-                                label="Part Time"
-                                required
-                                checked={
-                                  project.natureOfEmployment === "parttime"
-                                }
-                                onChange={() =>
-                                  handleChangeProject(
-                                    "natureOfEmployment",
-                                    "parttime"
-                                  )
-                                }
-                              />
-                            </label>
-                            <label>
-                              <Radio
-                                type="radio"
-                                name="natureOfEmployment"
-                                value="contractual"
-                                label="Contractual"
-                                required
-                                checked={
-                                  project.natureOfEmployment === "contractual"
-                                }
-                                onChange={() =>
-                                  handleChangeProject(
-                                    "natureOfEmployment",
-                                    "contractual"
-                                  )
-                                }
-                              />
-                            </label>
-                          </div>
-                        </Input.Wrapper>
-                      </Grid.Col>
-
-                      <Grid.Col span={12}>
-                        <Input.Wrapper
-                          label="Team size"
-                          error={formErrors?.teamSize}
-                        >
-                          <Select
-                            styles={() => ({
-                              input: {
-                                width: "100%", // Adjust the width as needed
-                                padding: "10px", // Add padding for a consistent look
-                                borderRadius: "4px", // Add rounded corners
-                                border: "1px solid #ccc", // Add a border
-                                height: "50px",
-                                "::placeholder": {
-                                  color: "#CACACA",
-                                  // font-family: Inter;
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                },
-                              },
-                            })}
-                            placeholder="Select team size"
-                            data={[
-                              "1",
-                              "2",
-                              "3",
-                              "4",
-                              "5",
-                              "6",
-                              "7",
-                              "8",
-                              "9",
-                              "10",
-                              "11",
-                              "12",
-                            ]} // Your list of size
-                            value={project.teamSize}
-                            onChange={(value) =>
-                              handleChangeProject("teamSize", value)
-                            }
-                          />
-                        </Input.Wrapper>
-                      </Grid.Col>
-                      <Grid.Col span={12}>
-                        <Input.Wrapper label="Role" error={formErrors?.role}>
-                          <Select
-                            styles={() => ({
-                              input: {
-                                width: "100%", // Adjust the width as needed
-                                padding: "10px", // Add padding for a consistent look
-                                borderRadius: "4px", // Add rounded corners
-                                border: "1px solid #ccc", // Add a border
-                                height: "50px",
-                                "::placeholder": {
-                                  color: "#CACACA",
-                                  // font-family: Inter;
-                                  fontSize: "16px",
-                                  fontWeight: 500,
-                                },
-                              },
-                            })}
-                            placeholder="Role"
-                            data={[
-                              "java dev",
-                              "reactJs dev",
-                              "python dev",
-                              "javascript dev",
-                              "nextJs dev",
-                            ]} // Your list of size
-                            value={project.role}
-                            onChange={(value) =>
-                              handleChangeProject("role", value)
-                            }
-                          />
-                        </Input.Wrapper>
-                      </Grid.Col>
-
-                      <Grid.Col span={12}>
-                        <Input.Wrapper
-                          label="Role description"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
-                        >
-                          <Textarea
-                            placeholder="Role description"
-                            required
-                            styles={{
-                              width: "100%", // Adjust the width as needed
-                              padding: "10px", // Add padding for a consistent look
-                              borderRadius: "4px", // Add rounded corners
-                              border: "1px solid #ccc", // Add a border
-                              height: "125.324px",
-                              "::placeholder": {
-                                color: "#CACACA",
-                                // font-family: Inter;
-                                fontSize: "16px",
-                                fontWeight: 500,
-                              },
-                            }}
-                            value={project.roleDescription}
-                            onChange={(e) =>
-                              handleChangeProject(
-                                "roleDescription",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </Input.Wrapper>
-                      </Grid.Col>
-
-                      <Grid.Col span={12}>
-                        <Input.Wrapper label="Skills">
-                          <Textarea
-                            placeholder="Skills"
-                            required
-                            styles={() => ({
-                              label: {
-                                color: "#01041b",
-                                fontSize: "1.2em",
-                                fontWeight: 500,
-                                lineHeight: 1.2,
-                                marginBottom: 10,
-                              },
-                              "::placeholder": {
-                                color: "#CACACA",
-                                // font-family: Inter;
-                                fontSize: "16px",
-                                fontWeight: 500,
-                              },
-                            })}
-                            value={project.skillUsed}
-                            onChange={(e) =>
-                              handleChangeProject("skillUsed", e.target.value)
-                            }
-                          />
-                        </Input.Wrapper>
-                      </Grid.Col>
-
-                      <Grid.Col
-                        span={12}
-                        style={{
-                          display: "flex",
-                          justifyContent: "flex-end",
-                          paddingTop: "10px",
-                        }}
-                      ></Grid.Col>
-                    </Grid>
-                  </form>
-                </Paper>
-              </Container>
-            </div>
-
-            <div class="modal-footer">
-              <button
-                className="close-btn-modal-footer"
-                onClick={() => deleteSpecificProject()}
-              >
-                {" "}
-                delete{" "}
-              </button>
-
-              <button
-                type="button"
-                class="save-btn-modal-footer"
-                onClick={() => updateThisProject()}
-              >
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AddResume
+        form={form}
+        inEditResume={inEditResume}
+        addResume={addResume}
+        handleFileUploadResume={handleFileUploadResume}
+      />
+
+      <AddPhotograph
+        form={form}
+        inEditPhoto={inEditPhoto}
+        addPhotoGraph={addPhotoGraph}
+        handleFileUpload={handleFileUpload}
+        image={image}
+      />
+
+      <AddHeadline form={form} addHeadline={addHeadline} />
+
+      <AddProject
+        form={form}
+        project={project}
+        handleChangeProject={handleChangeProject}
+        addProject={addProject}
+      />
+
+      <AddEducation
+        education={education}
+        addEducation={addEducation}
+        setEducation={setEducation}
+        handleChangeEducation={handleChangeEducation}
+      />
+
+      <AddSkills
+        form={form}
+        updateKeySkills={updateKeySkills}
+        DefaultItSkills={DefaultItSkills}
+        DefaultKeySkills={DefaultKeySkills}
+      />
+
+      <AddExperience
+        experience={experience}
+        handleChange={handleChange}
+        addExperience={addExperience}
+      />
 
       <div
         className=""
@@ -3084,932 +1703,21 @@ export default function View(props: IAppProps) {
         <div className="text-black text-2xl py-3  font-semibold">Profile</div>
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
           <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
-            <div className="flex items-center justify-center flex-col bg-white">
-              <div
-                style={{
-                  width: "242.215px",
-                  height: "138.913px",
-                  borderRadius: "7px",
-                }}
-              >
-                {form.getInputProps("photograph")?.value ? (
-                  <div
-                    style={{
-                      position: "relative",
-                    }}
-                  >
-                    <Image
-                      width={24}
-                      className="custom-align-image"
-                      data-bs-toggle="modal"
-                      data-bs-target="#addPhotograph"
-                      alt="Google"
-                      style={{
-                        width: "24px",
-                        height: "24px",
-                        // marginLeft: "10rem",
-                      }}
-                      src="/images/Edit.svg"
-                      alt="Google"
-                      style={{
-                        width: "24px",
-                        height: "32px",
-                        cursor: "pointer",
-                        position: "absolute",
-                        right: 0,
-                      }}
-                      onClick={() => {
-                        setinEditPhoto(true);
-                      }}
-                    />
-
-                    <img
-                      src={form.getInputProps("photograph").value}
-                      alt="User Photograph"
-                      style={{
-                        width: "100%",
-                        height: "144.913px",
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div
-                    className="empty-state-content d-flex align-items-center justify-content-center"
-                    style={{
-                      height: "100%",
-                      // background:"red"
-                    }}
-                  >
-                    <div className="">
-                      {/* <span  className="user-no-information-text" >  No Information here   </span> */}
-
-                      <div className="d-flex align-items-center">
-                        <Image
-                          width={24}
-                          className="custom-align-image"
-                          data-bs-toggle="modal"
-                          data-bs-target="#addPhotograph"
-                          alt="Google"
-                          style={{
-                            width: "24px",
-                            height: "24px",
-                            // marginLeft: "10rem",
-                          }}
-                          src="./assets/addIcon.svg"
-                          alt="Google"
-                          style={{
-                            width: "24px",
-                            height: "32px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {}}
-                        />
-
-                        <span className="user-add-education-text">
-                          {" "}
-                          Add Photo{" "}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div
-                style={{
-                  width: "100%",
-                  position: "relative",
-                }}
-              >
-                <div className="text-black text-[28px] font-semibold pt-3 flex items-center justify-center">
-                  {form.getInputProps("name")?.value}
-                </div>
-                <div
-                  className="text-[#ABABAB] text-base font-medium flex items-center justify-center"
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  {form.getInputProps("resume_headline").value ? (
-                    <>
-                      {form.getInputProps("resume_headline").value}
-
-                      <Image
-                        width={24}
-                        className="custom-align-image headline-edit-icon"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addHeadline"
-                        alt="Google"
-                        src="/images/Edit.svg"
-                        alt="Google"
-                        style={{
-                          width: "24px",
-                          height: "32px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          // setExperience({
-                          //   id: "",
-                          //   title: "",
-                          //   employment_type: "",
-                          //   company: "",
-                          //   location: "",
-                          //   location_type: "",
-                          //   start_year: "",
-                          //   start_year_month: "",
-                          //   end_year: "",
-                          //   currently_working: false,
-                          //   end_year_month: "",
-                          // });
-                        }}
-                      />
-                    </>
-                  ) : (
-                    <div
-                      className="empty-state-content d-flex align-items-center justify-content-center"
-                      style={{
-                        height: "100%",
-                        // background:"red"
-                      }}
-                    >
-                      <div className="">
-                        <div className="d-flex align-items-center">
-                          <Image
-                            width={24}
-                            className="custom-align-image"
-                            data-bs-toggle="modal"
-                            data-bs-target="#addHeadline"
-                            alt="Google"
-                            style={{
-                              width: "24px",
-                              height: "24px",
-                              // marginLeft: "10rem",
-                            }}
-                            src="./assets/addIcon.svg"
-                            alt="Google"
-                            style={{
-                              width: "24px",
-                              height: "32px",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => {
-                              // setExperience({
-                              //   id: "",
-                              //   title: "",
-                              //   employment_type: "",
-                              //   company: "",
-                              //   location: "",
-                              //   location_type: "",
-                              //   start_year: "",
-                              //   start_year_month: "",
-                              //   end_year: "",
-                              //   currently_working: false,
-                              //   end_year_month: "",
-                              // });
-                            }}
-                          />
-
-                          <span className="user-add-education-text">
-                            {" "}
-                            Add headline{" "}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="text-[#797878] text-xs font-medium flex items-center justify-center profile-summary-box">
-                  {form.getInputProps("profile_summary").value}
-                </div>
-              </div>
-
-              <Group
-                spacing={8}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: "1em",
-                  marginTop: "1em",
-
-                  // background:"red",
-                  width: "100%",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    // background:"blue",
-                    // width:"100%"
-                  }}
-                >
-                  <div className="d-flex">
-                    <Image
-                      src="./images/Icon-Skill.svg"
-                      alt="Google"
-                      style={{ width: "28px", height: "28px" }}
-                    />
-                    <div className="text-black text-base font-semibold ml-1">
-                      Skills
-                    </div>
-                  </div>
-
-                  {form.getInputProps("userkeyskills")?.value.length !== 0 && (
-                    <div className="">
-                      <Image
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModalSkills"
-                        src="./images/Edit.svg"
-                        alt="Google"
-                        style={{ width: "24px", height: "24px" }}
-                      />
-                    </div>
-                  )}
-                </div>
-
-                <Group></Group>
-              </Group>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  height: "8rem",
-                  // background:"yellow"
-                }}
-              >
-                {form.getInputProps("userkeyskills")?.value.length !== 0 ? (
-                  form
-                    .getInputProps("userkeyskills")
-                    ?.value?.map((item: any) => {
-                      return (
-                        <div className="w-28 flex border m-1 skill-chip">
-                          <div className="bg-[#5847C3] w-3 flex items-start justify-start"></div>
-                          <div className="px-2  text-black text-base font-semibold chip-inside">
-                            {item}
-                          </div>
-                        </div>
-                      );
-                    })
-                ) : (
-                  <div
-                    className="empty-state-content d-flex align-items-center justify-content-center"
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                    }}
-                  >
-                    <div className="">
-                      <span className="user-no-information-text">
-                        {" "}
-                        No Information here{" "}
-                      </span>
-
-                      <div className="d-flex align-items-center">
-                        <Image
-                          className="custom-align-image"
-                          data-bs-toggle="modal"
-                          data-bs-target="#exampleModalSkills"
-                          src="./assets/addIcon.svg"
-                          alt="Google"
-                          style={{ width: "24px", height: "24px" }}
-                        />
-
-                        <span className="user-add-education-text">
-                          {" "}
-                          Add Information{" "}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+            <ProfileSection form={form} setinEditPhoto={setinEditPhoto} />
           </div>
 
           <div className="w-full lg:w-3/4 px-3 h-full rounded ">
             <Stack>
-              <div className="p-4 h-full rounded bg-white">
-                <Group position="apart" className="border-b pb-[10px]">
-                  <Group position="left">
-                    <Image
-                      src="./images/profile.svg"
-                      alt="Google"
-                      style={{ width: "32px", height: "32px" }}
-                    />
-                    <div className="text-black text-base font-semibold">
-                      Basic Information
-                    </div>
-                  </Group>
-                  <Image
-                    onClick={() => {
-                      // setExperience({
-                      //   title: item.title,
-                      //   employment_type: item.employment_type,
-                      //   company: item.company,
-                      //   location: item.location,
-                      //   location_type: item.location_type,
-                      //   start_year: item.start_year,
-                      //   start_year_month: item.start_year_month,
-                      //   end_year: item.end_year,
-                      //   end_year_month: item.end_year_month,
-                      //   currently_working: item.currently_working,
-                      //   id: item.id,
-                      // });
-                    }}
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModalBasic"
-                    // data-toggle="modal"
-                    // data-target="#exampleModalLong"
-                    src="./images/Edit.svg"
-                    alt="Google"
-                    style={{
-                      width: "24px",
-                      height: "32px",
-                      // marginLeft: "10rem",
-                    }}
-                  />
-                </Group>
-                <Group position="apart" py={12}>
-                  <div>
-                    <Stack>
-                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                        Phone:
-                      </div>
-                    </Stack>
-                    <Stack>
-                      <div className="text-black text-base font-semibold">
-                        {form.getInputProps("phone").value}
-                      </div>
-                    </Stack>
-                  </div>
-                  <div>
-                    <Stack>
-                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                        Email:
-                      </div>
-                    </Stack>
-                    <Stack>
-                      <div className="text-black text-base font-semibold">
-                        {form.getInputProps("email").value}
-                      </div>
-                    </Stack>
-                  </div>
-
-                  <div>
-                    <Stack>
-                      <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                        Address:
-                      </div>
-                    </Stack>
-                    <Stack>
-                      <div className="text-black text-base font-semibold">
-
-                      <Text w={200} truncate="end">
-                      {form.getInputProps("address").value}
-                                              </Text>
-
-  
-
-                      </div>
-                    </Stack>
-                  </div>
-                  {
-                    <div>
-                      <Stack>
-                        <div className="text-blue-950 text-opacity-50 text-xs font-medium">
-                          company
-                        </div>
-                      </Stack>
-                      <Stack>
-                        <div className="text-black text-base font-semibold">
-                          {form.getInputProps("company")?.value}
-                        </div>
-                      </Stack>
-                    </div>
-                  }
-                </Group>
-                <Group position="left" mt={"3%"}>
-                  <p style={{ alignItems: "center", justifyContent: "center" }}>
-                    {form.getInputProps("status").value ? (
-                      <span className="px-4 py-2 bg-emerald-100 rounded-sm text-green-600 text-xs font-medium">
-                        Active
-                      </span>
-                    ) : (
-                      <span className="px-4 py-2 bg-rose-100 rounded-sm text-red-600 text-xs font-medium">
-                        Inactive
-                      </span>
-                    )}
-                  </p>
-                  <p className="work">
-                    {form.getInputProps("work").value ? (
-                      <span className="px-4 py-2 bg-violet-100 rounded-sm text-indigo-500 text-xs font-medium">
-                        Open to Work
-                      </span>
-                    ) : (
-                      <span className="px-4 py-2 bg-rose-100 rounded-sm text-red-700 text-xs font-medium">
-                        Engaged
-                      </span>
-                    )}
-                  </p>
-                </Group>
-              </div>
+              <BasicProfile form={form} />
             </Stack>
 
             <div className="flex flex-col lg:flex-row mt-3  justify-center  gap-5 xl:12 ">
               <div className="lg:w-1/2">
-                <Stack>
-                  <div
-                    className="p-4 h-full rounded bg-white"
-                    style={{
-                      height: "350.897px",
-                      // background: "red",
-                    }}
-                  >
-                    <Group position="apart" className="border-b pb-[10px]">
-                      <Group position="left">
-                        <Image
-                          src="./images/experience.svg"
-                          alt="Google"
-                          style={{ width: "24px", height: "24px" }}
-                        />
-                        <div className="text-black text-base font-semibold">
-                          Experience
-                        </div>
-                      </Group>
-
-                      {form.getInputProps("experience")?.value?.length > 0 && (
-                        <Image
-                          width={24}
-                          className="custom-align-image"
-                          data-bs-toggle="modal"
-                          data-bs-target="#addExperience"
-                          alt="Google"
-                          style={{
-                            width: "24px",
-                            height: "24px",
-                            // marginLeft: "10rem",
-                          }}
-                          src="./assets/addIcon.svg"
-                          alt="Google"
-                          style={{
-                            width: "24px",
-                            height: "32px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            setExperience({
-                              id: "",
-                              title: "",
-                              employment_type: "",
-                              company: "",
-                              location: "",
-                              location_type: "",
-                              start_year: "",
-                              start_year_month: "",
-                              end_year: "",
-                              currently_working: false,
-                              end_year_month: "",
-                            });
-                          }}
-                        />
-                      )}
-                    </Group>
-                    <Group
-                      position="apart"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        // background:"red"
-                      }}
-                      py={12}
-                    >
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          // background:"red"
-                        }}
-                      >
-                        <Stack
-                          spacing={8}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            // background:"red"
-                          }}
-                        >
-                          {form.getInputProps("experience")?.value?.length >
-                          0 ? (
-                            form
-                              .getInputProps("experience")
-                              ?.value.slice(0, 3)
-                              .map((item: any) => {
-                                return (
-                                  <div
-                                    className="d-flex justify-content-between"
-                                    style={{
-                                      // background:"yellow",
-                                      width: "100%",
-                                    }}
-                                  >
-                                    <div className="text-custom-light">
-                                      <h6 className="title"> {item.title} </h6>
-                                      <h6
-                                        style={{
-                                          fontWeight: "400",
-                                        }}
-                                      >
-                                        {" "}
-                                        {item.company} ,{" "}
-                                        <span> {item.employment_type} </span>{" "}
-                                      </h6>
-
-                                      <p
-                                        style={{
-                                          marginBottom: "0rem",
-                                        }}
-                                      >
-                                        {item.currently_working ? (
-                                          "currently working"
-                                        ) : (
-                                          <>
-                                            <span> {item.start_year} - </span>{" "}
-                                            <span> {item.end_year} </span> ,
-                                            {item.end_year -
-                                              item.start_year +
-                                              "yrs"}{" "}
-                                          </>
-                                        )}
-                                      </p>
-
-                                      <p
-                                        style={{
-                                          marginBottom: "0.2rem",
-                                        }}
-                                      >
-                                        {" "}
-                                        {item.location}{" "}
-                                      </p>
-                                    </div>
-
-                                    <Image
-                                      onClick={() => {
-                                        setExperience({
-                                          title: item.title,
-                                          employment_type: item.employment_type,
-                                          company: item.company,
-                                          location: item.location,
-                                          location_type: item.location_type,
-                                          start_year: item.start_year,
-                                          start_year_month:
-                                            item.start_year_month,
-                                          end_year: item.end_year,
-                                          end_year_month: item.end_year_month,
-                                          currently_working:
-                                            item.currently_working,
-                                          id: item.id,
-                                        });
-                                      }}
-                                      data-bs-toggle="modal"
-                                      data-bs-target="#exampleModal"
-                                      // data-toggle="modal"
-                                      // data-target="#exampleModalLong"
-                                      src="./images/Edit.svg"
-                                      alt="Google"
-                                      style={{
-                                        width: "24px",
-                                        height: "32px",
-                                        // marginLeft: "10rem",
-                                      }}
-                                    />
-                                  </div>
-                                );
-                              })
-                          ) : (
-                            <div
-                              className="empty-state-content d-flex align-items-center justify-content-center"
-                              style={{
-                                height: "100%",
-                                // background:"red"
-                              }}
-                            >
-                              <div className="">
-                                <span className="user-no-information-text">
-                                  {" "}
-                                  No Information here{" "}
-                                </span>
-
-                                <div className="d-flex align-items-center">
-                                  <Image
-                                    width={24}
-                                    className="custom-align-image"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#addExperience"
-                                    alt="Google"
-                                    style={{
-                                      width: "24px",
-                                      height: "24px",
-                                      // marginLeft: "10rem",
-                                    }}
-                                    src="./assets/addIcon.svg"
-                                    alt="Google"
-                                    style={{
-                                      width: "24px",
-                                      height: "32px",
-                                      cursor: "pointer",
-                                    }}
-                                    onClick={() => {
-                                      setExperience({
-                                        id: "",
-                                        title: "",
-                                        employment_type: "",
-                                        company: "",
-                                        location: "",
-                                        location_type: "",
-                                        start_year: "",
-                                        start_year_month: "",
-                                        end_year: "",
-                                        currently_working: false,
-                                        end_year_month: "",
-                                      });
-                                    }}
-                                  />
-
-                                  <span className="user-add-education-text">
-                                    {" "}
-                                    Add Experience{" "}
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </Stack>
-                      </div>
-                    </Group>
-                  </div>
-                </Stack>
+                <ExperienceSection form={form} setExperience={setExperience} />
               </div>
 
               <div className="lg:w-1/2">
-                <Stack>
-                  <div
-                    className="p-4 h-full rounded bg-white"
-                    style={{
-                      height: "350.897px",
-                      // background: "red",
-
-                      // background: "red",
-                    }}
-                  >
-                    <Group position="apart" className="border-b pb-[10px]">
-                      <Group position="left">
-                  
-                        <Image
-                          src="./images/educationIcon.svg"
-                          alt="Google"
-                          style={{ width: "24px", height: "24px" }}
-                        />
-                        <div className="text-black text-base font-semibold">
-                          Education
-                        </div>
-                      </Group>
-
-                      {form.getInputProps("education")?.value?.length > 0 && (
-                        <Image
-                          src="/assets/addIcon.svg"
-                          alt="Google"
-                          style={{
-                            width: "24px",
-                            height: "32px",
-                            cursor: "pointer",
-                          }}
-                          data-bs-toggle="modal"
-                          data-bs-target="#addEducation"
-                          onClick={() => {
-                            setEducation({
-                              id: "",
-                              school: "",
-                              // schoolOther: "",
-                              degree: "",
-                              // degreeOther: "",
-                              field_of_study: "",
-                              // field_of_studyOther: "",
-                              grade: "",
-                              activities: "",
-                              description: "",
-                              start_year: "",
-                              start_year_month: "",
-                              end_year: "",
-                              end_year_month: "",
-                            });
-                          }}
-                        />
-                      )}
-                    </Group>
-
-                    <Group
-                      position="apart"
-                      py={12}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        // background:"red"
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          // background:"red"
-                        }}
-                      >
-                        <Stack
-                          spacing={8}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            // background:"red"
-                          }}
-                        >
-                          <div className="text-indigo-950 text-sm font-bold">
-                            {/* Highest Education */}
-                            {/* {form.getInputProps("education")?.value?.length} */}
-                          </div>
-
-                          <div
-                            className="text-custom-light"
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              // background:"red"
-                            }}
-                          >
-                            <div
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                // background:"red"
-                              }}
-                            >
-                              <Stack
-                                spacing={8}
-                                style={{
-                                  width: "100%",
-                                  height: "100%",
-                                  // background:"red"
-                                }}
-                              >
-                                {form.getInputProps("education")?.value
-                                  ?.length > 0 ? (
-                                  form
-                                    .getInputProps("education")
-                                    ?.value.slice(0, 3)
-                                    .map((item: any) => {
-                                      return (
-                                        <div
-                                          className="d-flex justify-content-between"
-                                          style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            // background:"red"
-                                          }}
-                                        >
-                                          <div className="text-custom">
-                                            <h6 className="title">
-                                              {" "}
-                                              <Text w={200} truncate="end">
-                                                {item.school}{" "}
-                                              </Text>
-                                            </h6>
-                                            <h6
-                                              style={{
-                                                fontWeight: "400",
-                                              }}
-                                            >
-                                              {" "}
-                                              {item.degree} ,{" "}
-                                              {/* <span> {item.employment_type} </span>{" "} */}
-                                            </h6>
-
-                                            <p
-                                              style={{
-                                                marginBottom: "0.5rem",
-                                              }}
-                                            >
-                                              {" "}
-                                              <span>
-                                                {" "}
-                                                {item.start_year} -{" "}
-                                              </span>{" "}
-                                              <span> {item.end_year} </span> ,
-                                              {item.end_year -
-                                                item.start_year +
-                                                "yrs"}{" "}
-                                            </p>
-                                          </div>
-
-                                          <Image
-                                            onClick={() => {
-                                              setEducation({
-                                                id: item.id,
-                                                school: item.school,
-                                                // schoolOther: "",
-                                                degree: item.degree,
-                                                // degreeOther: "",
-                                                field_of_study:
-                                                  item.field_of_study,
-                                                // field_of_studyOther: "",
-                                                grade: item.grade,
-                                                activities: item.activities,
-                                                description: item.description,
-                                                start_year: item.start_year,
-                                                start_year_month:
-                                                  item.start_year_month,
-                                                end_year: item.end_year,
-                                                end_year_month:
-                                                  item.end_year_month,
-                                              });
-                                            }}
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModalEducation"
-                                            // data-toggle="modal"
-                                            // data-target="#exampleModalLong"
-                                            src="./images/Edit.svg"
-                                            alt="Google"
-                                            style={{
-                                              width: "24px",
-                                              height: "24px",
-                                              // marginLeft: "10rem",
-                                            }}
-                                            width={54}
-                                          />
-                                        </div>
-                                      );
-                                    })
-                                ) : (
-                                  <div
-                                    className="empty-state-content d-flex align-items-center justify-content-center"
-                                    style={{
-                                      height: "100%",
-                                      // background:"red"
-                                    }}
-                                  >
-                                    <div className="">
-                                      <span className="user-no-information-text">
-                                        {" "}
-                                        No Information here{" "}
-                                      </span>
-
-                                      <div className="d-flex align-items-center">
-                                        <Image
-                                          width={24}
-                                          className="custom-align-image"
-                                          src="./assets/addIcon.svg"
-                                          alt="Google"
-                                          data-bs-toggle="modal"
-                                          data-bs-target="#addEducation"
-                                          onClick={() => {
-                                            setEducation({
-                                              id: "",
-                                              school: "",
-                                              // schoolOther: "",
-                                              degree: "",
-                                              // degreeOther: "",
-                                              field_of_study: "",
-                                              // field_of_studyOther: "",
-                                              grade: "",
-                                              activities: "",
-                                              description: "",
-                                              start_year: "",
-                                              start_year_month: "",
-                                              end_year: "",
-                                              end_year_month: "",
-                                            });
-                                          }}
-                                        />
-
-                                        <span className="user-add-education-text">
-                                          {" "}
-                                          Add Education{" "}
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-                              </Stack>
-                            </div>
-                          </div>
-                        </Stack>
-                      </div>
-                    </Group>
-                  </div>
-                </Stack>
+                <EducationSection form ={form} setExperience ={setExperience} setEducation = {setEducation} />
               </div>
             </div>
 
@@ -4019,481 +1727,11 @@ export default function View(props: IAppProps) {
                 marginTop: "1rem",
               }}
             >
-              <Stack>
-                {/* <div className="p-4 h-full xl:w-[420px] rounded "></div> */}
-                <div className="p-4 h-full rounded bg-white">
-                  <Group position="apart" className="border-b pb-[10px]">
-                    <Group position="left">
-                      <Image
-                        src="./images/educationIcon.svg"
-                        alt="Google"
-                        style={{ width: "24px", height: "24px" }}
-                      />
-                      <div className="text-black text-base font-semibold">
-                        Projects
-                      </div>
-                    </Group>
-
-                    {form.getInputProps("project")?.value?.length > 0 && (
-                      <Image
-                        width={24}
-                        className="custom-align-image"
-                        data-bs-toggle="modal"
-                        data-bs-target="#addProject"
-                        src="./assets/addIcon.svg"
-                        alt="Google"
-                        style={{
-                          width: "24px",
-                          height: "32px",
-                          cursor: "pointer",
-                        }}
-                        onClick={() => {
-                          setProject({
-                            id: "",
-                            projectTitle: "",
-                            client: "",
-                            projectStatus: "inProgress",
-                            workFromYear: "",
-                            workFromMonth: "",
-                            detailsOfProject: "",
-                            projectLocation: "",
-                            projectSite: "Offsite",
-                            natureOfEmployment: "Full Time",
-                            teamSize: "",
-                            role: "",
-                            roleDescription: "",
-                          });
-                        }}
-                      />
-                    )}
-                  </Group>
-                  <Group
-                    position="apart"
-                    py={12}
-                    style={{
-                      width: "100%",
-                      // background:"red"
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "100%",
-                        // background:"pink"
-                      }}
-                    >
-                      <Stack spacing={8}>
-                        <div className="text-indigo-950 text-sm font-bold">
-                          {/*                             
-                            {form.getInputProps("project")?.value?.length} */}
-                        </div>
-
-                        <div className="text-gray-600 text-xs font-normal">
-                          <div
-                            style={{
-                              width: "100%",
-                              // background:"yellow"
-                            }}
-                          >
-                            <Stack spacing={8}>
-                              {form.getInputProps("project")?.value?.length >
-                              0 ? (
-                                form
-                                  .getInputProps("project")
-                                  ?.value.slice(0, 3)
-                                  .map((item: any) => {
-                                    return (
-                                      <div
-                                        className="d-flex justify-content-between"
-                                        style={{
-                                          // background:"yellow",
-                                          width: "100%",
-                                        }}
-                                      >
-                                        <div className="text-custom-light">
-                                          <h6 className="title">
-                                            {" "}
-                                            project: {item.projectTitle}{" "}
-                                          </h6>
-                                          <h6> role: {item.role} </h6>
-                                          <h6
-                                            style={{
-                                              fontWeight: "400",
-                                            }}
-                                          >
-                                            {" "}
-                                            client: {item.client} ,{" "}
-                                            {/* <span> {item.employment_type} </span>{" "} */}
-                                          </h6>
-
-                                          <h6
-                                            style={{
-                                              marginBottom: "0.5rem",
-                                            }}
-                                          >
-                                            {" "}
-                                            <span>
-                                              {" "}
-                                              {item.workFromMonth} -{" "}
-                                            </span>{" "}
-                                            <span> {item.workFromYear} </span> ,
-                                          </h6>
-
-                                          <h6>
-                                            {" "}
-                                            <span>
-                                              {" "}
-                                              status: {item.projectStatus}{" "}
-                                            </span>{" "}
-                                          </h6>
-                                          <h6>
-                                            {" "}
-                                            <span>
-                                              {" "}
-                                              location: {
-                                                item.projectLocation
-                                              }{" "}
-                                            </span>{" "}
-                                          </h6>
-                                          <h6>
-                                            {" "}
-                                            <span>
-                                              {" "}
-                                              projectSite: {
-                                                item.projectSite
-                                              }{" "}
-                                            </span>{" "}
-                                          </h6>
-                                          <h6>
-                                            {" "}
-                                            <span>
-                                              {" "}
-                                              natureOfEmployment:{" "}
-                                              {item.natureOfEmployment}{" "}
-                                            </span>{" "}
-                                          </h6>
-
-                                          <h6>
-                                            {" "}
-                                            <span>
-                                              {" "}
-                                              teamSize: {item.teamSize}{" "}
-                                            </span>{" "}
-                                          </h6>
-                                          <h6>
-                                            {" "}
-                                            <span>
-                                              {" "}
-                                              skillUsed: {item.skillUsed}{" "}
-                                            </span>{" "}
-                                          </h6>
-
-                                          {/* <h6>  activity: {item.activities} </h6> */}
-                                          <h6>
-                                            {" "}
-                                            role description:{" "}
-                                            {item.roleDescription}{" "}
-                                          </h6>
-                                        </div>
-
-                                        <div className="">
-                                          <Image
-                                            onClick={() => {
-                                              setProject({
-                                                id: item.id,
-                                                projectTitle: item.projectTitle,
-                                                client: item.client,
-                                                projectStatus:
-                                                  item.projectStatus,
-                                                workFromYear: item.workFromYear,
-                                                workFromMonth:
-                                                  item.workFromMonth,
-                                                detailsOfProject: item.detailsOfProject,
-                                                projectLocation:
-                                                  item.projectLocation,
-                                                projectSite: item.projectSite,
-                                                natureOfEmployment:
-                                                  item.natureOfEmployment,
-                                                teamSize: item.teamSize,
-                                                role: item.role,
-                                                roleDescription:
-                                                  item.roleDescription,
-                                                skillUsed: item.skillUsed,
-                                              });
-                                            }}
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#exampleModalProject"
-                                            src="./images/Edit.svg"
-                                            alt="Google"
-                                            style={{
-                                              width: "24px",
-                                              height: "24px",
-                                              // marginLeft: "10rem",
-                                            }}
-                                          />
-                                        </div>
-                                      </div>
-                                    );
-                                  })
-                              ) : (
-                                <div
-                                  className="empty-state-content d-flex align-items-center justify-content-center"
-                                  style={{
-                                    height: "100%",
-                                    // background:"red"
-                                  }}
-                                >
-                                  <div className="">
-                                    <span className="user-no-information-text">
-                                      {" "}
-                                      No Information here{" "}
-                                    </span>
-
-                                    <div className="d-flex align-items-center">
-                                      <Image
-                                        width={24}
-                                        className="custom-align-image"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#addProject"
-                                        src="./assets/addIcon.svg"
-                                        alt="Google"
-                                        style={{
-                                          width: "24px",
-                                          height: "32px",
-                                          cursor: "pointer",
-                                        }}
-                                        onClick={() => {
-                                          setProject({
-                                            id: "",
-                                            projectTitle: "",
-                                            client: "",
-                                            projectStatus: "inProgress",
-                                            workFromYear: "",
-                                            workFromMonth: "",
-                                            detailsOfProject: "",
-                                            projectLocation: "",
-                                            projectSite: "Offsite",
-                                            natureOfEmployment: "Full Time",
-                                            teamSize: "",
-                                            role: "",
-                                            roleDescription: "",
-                                          });
-                                        }}
-                                      />
-
-                                      <span className="user-add-education-text">
-                                        {" "}
-                                        Add Project{" "}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            </Stack>
-                          </div>
-                        </div>
-                      </Stack>
-                    </div>
-                  </Group>
-                </div>
-              </Stack>
+              <ProjectSection form={form} setProject={setProject} />
             </div>
             <div className=" flex flex-col lg:flex-row justify-center  gap-5 xl:12 mt-3">
               <div className="lg:w-full">
-                <Stack
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  {/* <div className="p-4 h-full xl:w-[420px] rounded "></div> */}
-                  <div className="p-4 h-full rounded bg-white ">
-                    <Group position="apart" className="border-b pb-[10px]">
-                      <Group
-                        position="left"
-                        style={{
-                          width: "100%",
-                        }}
-                      >
-                        <div
-                          className="d-flex justify-content-between"
-                          style={{
-                            width: "100%",
-                          }}
-                        >
-                          <div className="d-flex">
-                            <Image
-                              src="./images/resume.svg"
-                              alt="Google"
-                              style={{ width: "24px", height: "24px" }}
-                              onClick={() =>
-                                router.push(
-                                  `/edit_user?id=${session?.user?.user.id}`
-                                )
-                              }
-                            />
-                            <div className="text-black text-base font-semibold" style={{
-                              marginLeft:"1rem"
-                            }} >
-                              Resume
-                            </div>
-                          </div>
-
-                          {form.getInputProps("resume")?.value && (
-                            <div className="">
-                              <Image
-                                onClick={() => {
-                                  setinEditResume(true);
-                                  // setExperience({
-                                  //   title: item.title,
-                                  //   employment_type: item.employment_type,
-                                  //   company: item.company,
-                                  //   location: item.location,
-                                  //   location_type: item.location_type,
-                                  //   start_year: item.start_year,
-                                  //   start_year_month: item.start_year_month,
-                                  //   end_year: item.end_year,
-                                  //   end_year_month: item.end_year_month,
-                                  //   currently_working: item.currently_working,
-                                  //   id: item.id,
-                                  // });
-                                }}
-                                data-bs-toggle="modal"
-                                data-bs-target="#addResume"
-                                // data-toggle="modal"
-                                // data-target="#exampleModalLong"
-                                src="./images/Edit.svg"
-                                alt="Google"
-                                style={{
-                                  width: "24px",
-                                  height: "32px",
-                                  // marginLeft: "10rem",
-                                }}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </Group>
-                    </Group>
-
-                    <Group
-                      position="apart"
-                      py={12}
-                      style={{
-                        width: "100%",
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: "100%",
-                        }}
-                      >
-                        <Stack
-                          spacing={8}
-                          style={{
-                            width: "100%",
-                          }}
-                        >
-                          <div className="text-indigo-950 text-sm font-bold d-flex align-items-center">
-                            {form.getInputProps("resume")?.value ? (
-                              <>
-                                <Image
-                                  src="./images/resumeIcon.svg"
-                                  className="resume-icon"
-                                  alt="Google"
-                                  style={{
-                                    width: "32px",
-                                    height: "44px",
-                                    marginRight: "1em",
-                                    borderRadius: "100% !important",
-                                  }}
-                                  onClick={() =>
-                                    router.push(
-                                      `/edit_user?id=${session?.user.user.id
-                                      }`
-                                    )
-                                  }
-                                />
-
-                                <a
-                                  download={
-                                    form
-                                      .getInputProps("resume")
-                                      ?.value?.includes("docx") ||
-                                    form
-                                      .getInputProps("resume")
-                                      ?.value?.includes("doc")
-                                      ? true
-                                      : false
-                                  }
-                                  target="_blank"
-                                  className="resume-link"
-                                  href={form.getInputProps("resume")?.value}
-                                >
-                                  {" "}
-                                  {form
-                                    .getInputProps("resume")
-                                    ?.value?.substr(
-                                      6,
-                                      form.getInputProps("resume")?.value.length
-                                    )}{" "}
-                                </a>
-                              </>
-                            ) : (
-                              <div
-                                className="empty-state-content d-flex align-items-center justify-content-center"
-                                style={{
-                                  height: "100%",
-                                  width: "100%",
-                                }}
-                              >
-                                <div className="">
-                                  <span className="user-no-information-text">
-                                    {" "}
-                                    No Information here{" "}
-                                  </span>
-
-                                  <div className="d-flex align-items-center">
-                                    <Image
-                                      width={24}
-                                      className="custom-align-image"
-                                      data-bs-toggle="modal"
-                                      data-bs-target="#addResume"
-                                      alt="Google"
-                                      style={{
-                                        width: "24px",
-                                        height: "24px",
-                                        // marginLeft: "10rem",
-                                      }}
-                                      src="./assets/addIcon.svg"
-                                      alt="Google"
-                                      style={{
-                                        width: "24px",
-                                        height: "32px",
-                                        cursor: "pointer",
-                                      }}
-                                      onClick={() => {}}
-                                    />
-
-                                    <span className="user-add-education-text">
-                                      {" "}
-                                      Add Resume{" "}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="text-gray-600 text-xs font-normal"></div>
-                        </Stack>
-                      </div>
-                      {/* <Image
-                        src="./images/Edit.svg" 
-                        alt="Google"
-                        style={{ width: "24px", height: "24px" }}
-                      /> */}
-                    </Group>
-                  </div>
-                </Stack>
+                <ResumeSection form={form} setinEditResume={setinEditResume} />
               </div>
             </div>
           </div>

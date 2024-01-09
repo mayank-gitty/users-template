@@ -128,4 +128,4 @@ function generateArrayOfYears() {
   ];
 
 
-  export {indianEducationArray,allDegreesArray,fields, yearsData ,releventMonths,type }
+  export {indianEducationArray,allDegreesArray,fields, yearsData ,releventMonths,type , locationType  }
