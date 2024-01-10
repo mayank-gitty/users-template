@@ -135,6 +135,8 @@ export default function HomeProfile(props: IAppProps) {
 
   const logOut = async () => {
 
+            
+    localStorage.removeItem('role')
 
     const data = await signOut({ redirect: false, callbackUrl: "/login" });
 

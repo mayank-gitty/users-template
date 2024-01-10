@@ -187,7 +187,8 @@ export function ExperienceSection ({form,setExperience}) {
                                         });
                                       }}
                                       data-bs-toggle="modal"
-                                      data-bs-target="#exampleModal"
+                                 
+                                       data-bs-target="#exampleModal"
                                       // data-toggle="modal"
                                       // data-target="#exampleModalLong"
                                       src="./images/Edit.svg"

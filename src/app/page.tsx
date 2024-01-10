@@ -19,6 +19,8 @@ import { randomId } from "@mantine/hooks";
 import HomeProfile from "@/components/homeProfile/page";
 import { useSession } from "next-auth/react";
 
+
+
 import {
   FiChevronDown,
   FiChevronRight,
@@ -1153,7 +1155,7 @@ export default function Home() {
   };
 
 
-  console.log('seeing photographhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',form.getInputProps('photograph')?.value)
+  console.log('seeing photographhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',form.getInputProps("role")?.value,session)
 
   return (
     <>
@@ -1161,7 +1163,7 @@ export default function Home() {
       <MantineProvider>
         <div className="">
           <div className="dashboard">
-            {role !== "employee" && (
+            {form.getInputProps("role")?.value !== "employee" && (
               <div
                 className=""
                 style={{
@@ -1708,17 +1710,18 @@ export default function Home() {
                 </div>
               </div>
             )}
+
           </div>
         </div>
 
-        {role === "employee" &&
+        {form.getInputProps("role")?.value === "employee" &&
         form.getInputProps("stepperFilled")?.value === false ? (
           <Master />
         ) : (
           ""
         )}
 
-        {role === "employee" &&
+        {form.getInputProps("role")?.value === "employee" &&
           form.getInputProps("stepperFilled")?.value === true && (
             <HomeProfile />
           )}

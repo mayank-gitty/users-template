@@ -1,5 +1,6 @@
-import * as React from "react";
+"use client"
 
+import * as React from "react";
 export interface IAppProps {}
 
 import {
@@ -15,7 +16,12 @@ import {
   Select,
 } from "@mantine/core";
 
+import { useSession } from "next-auth/react";
+import { session } from "../../../auth";
+
 export function EditBasicInformation({ form, updateBasicDetails }) {
+  const { session: data } = useSession();
+
   return (
     <div>
       <div
@@ -192,48 +198,56 @@ export function EditBasicInformation({ form, updateBasicDetails }) {
                         </Input.Wrapper>
                       </Grid.Col>
 
-                      <Grid.Col span={6}>
-                        <Radio.Group
-                          name="favoriteFramework1"
-                          label="Status"
-                          value={form.getInputProps("statusForMutation")?.value}
-                          onChange={(e: any) => {
-                            form.setFieldValue(`statusForMutation`, e);
+                      {session?.user?.user.role !== "manager" && (
+                        <>  
+                          <Grid.Col span={6}>
+                            <Radio.Group
+                              name="favoriteFramework1"
+                              label="Status"
+                              value={
+                                form.getInputProps("statusForMutation")?.value
+                              }
+                              onChange={(e: any) => {
+                                form.setFieldValue(`statusForMutation`, e);
 
-                            console.log("mmmm", e);
-                          }}
-                          // description="This is anonymous"
+                                console.log("mmmm", e);
+                              }}
+                              // description="This is anonymous"
 
-                          withAsterisk
-                        >
-                          <Group mt="xs">
-                            <Radio value={"true"} label="Active" />
-                            <Radio value={"false"} label="Not Active" />
-                          </Group>
-                        </Radio.Group>
-                      </Grid.Col>
+                              withAsterisk
+                            >
+                              <Group mt="xs">
+                                <Radio value={"true"} label="Active" />
+                                <Radio value={"false"} label="Not Active" />
+                              </Group>
+                            </Radio.Group>
+                          </Grid.Col>
 
-                      <Grid.Col span={6}>
-                        <Radio.Group
-                          name="favoriteFramework2"
-                          label="Work Status"
-                          value={form.getInputProps("workForMutation")?.value}
-                          onChange={(e: any) => {
-                            console.log("e", e);
+                          <Grid.Col span={6}>
+                            <Radio.Group
+                              name="favoriteFramework2"
+                              label="Work Status"
+                              value={
+                                form.getInputProps("workForMutation")?.value
+                              }
+                              onChange={(e: any) => {
+                                console.log("e", e);
 
-                            form.setFieldValue(`workForMutation`, e);
+                                form.setFieldValue(`workForMutation`, e);
 
-                            console.log("mmmm", e);
-                          }}
-                          // description="This is anonymous"
-                          withAsterisk
-                        >
-                          <Group mt="xs">
-                            <Radio value={"true"} label="Open to work" />
-                            <Radio value={"false"} label="Engaged" />
-                          </Group>
-                        </Radio.Group>
-                      </Grid.Col>
+                                console.log("mmmm", e);
+                              }}
+                              // description="This is anonymous"
+                              withAsterisk
+                            >
+                              <Group mt="xs">
+                                <Radio value={"true"} label="Open to work" />
+                                <Radio value={"false"} label="Engaged" />
+                              </Group>
+                            </Radio.Group>
+                          </Grid.Col>
+                        </>
+                      )}
                     </Grid>
 
                     <button

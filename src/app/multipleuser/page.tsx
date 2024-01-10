@@ -189,7 +189,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
     console.log("dssssssssssssssssssssssssssssssssssssssss" , session);
 
     const managerCompany = DefaultSkills?.filter(
-      (item) => item.label === session.user.user.company_name
+      (item) => item.label === session?.user?.user?.company_name
     );
 
     console.log("mc", managerCompany);

@@ -243,15 +243,11 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
     "Create an ad",
   ];
 
-
-
-
-
   const getData = async ()=>{
 
     const user: any = await client.request(VIEW_USER, {
       where: {
-        id: session.user.user.id,
+        id: session?.user?.user?.id,
       },
     });
 

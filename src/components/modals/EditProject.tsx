@@ -3,7 +3,10 @@ import * as React from 'react';
 export interface IAppProps {
 }
 
-export function EditProject ({ project, updateThisProject, deleteSpecificProjec, handleChangeProject}) {
+
+import { Container, FileInput, Image,Paper,Group ,TextInput , Select , Grid , Checkbox ,Input , Autocomplete , Radio , Textarea  } from "@mantine/core";
+
+export function EditProject ({  project , updateThisProject  , deleteSpecificProject , handleChangeProject }  ) {
   return (
     <div>
             <div
@@ -54,7 +57,7 @@ export function EditProject ({ project, updateThisProject, deleteSpecificProjec,
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Project title"
-                          error={formErrors?.projectTitle}
+                          // error={formErrors?.projectTitle}
                         >
                           <Input
                             placeholder="Project Title"
@@ -87,7 +90,7 @@ export function EditProject ({ project, updateThisProject, deleteSpecificProjec,
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Client"
-                          error={formErrors?.client}
+                          // error={formErrors?.client}
                         >
                           <Input
                             placeholder="Client"
@@ -117,7 +120,7 @@ export function EditProject ({ project, updateThisProject, deleteSpecificProjec,
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Project status"
-                          error={formErrors?.projectStatus}
+                          // error={formErrors?.projectStatus}
                           styles={() => ({
                             label: {
                               color: "#01041b",
@@ -174,7 +177,7 @@ export function EditProject ({ project, updateThisProject, deleteSpecificProjec,
                           <div style={{ flex: 1, marginRight: "10px" }}>
                             <Input.Wrapper
                               label="Work from year"
-                              error={formErrors?.workFromYear}
+                              // error={formErrors?.workFromYear}
                             >
                               <Select
                                 placeholder="Year"
@@ -204,7 +207,7 @@ export function EditProject ({ project, updateThisProject, deleteSpecificProjec,
                           <div style={{ flex: 1 }}>
                             <Input.Wrapper
                               label="Work from month"
-                              error={formErrors?.workFromMonth}
+                              // error={formErrors?.workFromMonth}
                             >
                               <Select
                                 placeholder="Month"
@@ -249,7 +252,7 @@ export function EditProject ({ project, updateThisProject, deleteSpecificProjec,
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Details of project"
-                          error={formErrors?.detailsOfProject}
+                          // error={formErrors?.detailsOfProject}
                           // styles={() => ({
                           //   label: {
                           //     color: "#01041b",
@@ -282,7 +285,7 @@ export function EditProject ({ project, updateThisProject, deleteSpecificProjec,
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Project location"
-                          error={formErrors?.projectLocation}
+                          // error={formErrors?.projectLocation}
                         >
                           <Input
                             placeholder="Type here.."
@@ -316,7 +319,7 @@ export function EditProject ({ project, updateThisProject, deleteSpecificProjec,
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Project site"
-                          error={formErrors?.projectSite}
+                          // error={formErrors?.projectSite}
                           styles={() => ({
                             input: {
                               width: "100%", // Adjust the width as needed
@@ -367,7 +370,7 @@ export function EditProject ({ project, updateThisProject, deleteSpecificProjec,
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Nature of employment"
-                          error={formErrors?.natureOfEmployment}
+                          // error={formErrors?.natureOfEmployment}
                           styles={() => ({
                             label: {
                               color: "#01041b",
@@ -440,7 +443,7 @@ export function EditProject ({ project, updateThisProject, deleteSpecificProjec,
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Team size"
-                          error={formErrors?.teamSize}
+                          // error={formErrors?.teamSize}
                         >
                           <Select
                             styles={() => ({
@@ -481,7 +484,7 @@ export function EditProject ({ project, updateThisProject, deleteSpecificProjec,
                         </Input.Wrapper>
                       </Grid.Col>
                       <Grid.Col span={12}>
-                        <Input.Wrapper label="Role" error={formErrors?.role}>
+                        <Input.Wrapper label="Role">
                           <Select
                             styles={() => ({
                               input: {

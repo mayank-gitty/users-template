@@ -128,6 +128,8 @@ const Login = () => {
 
       console.log('inside',user?.authenticateUserWithPassword?.item)
 
+
+
       let response = await signIn("credentials", {
         redirect: false,
         id: user?.authenticateUserWithPassword.item.id,
@@ -148,6 +150,10 @@ const Login = () => {
       
       if (!response?.error) {
         console.log(response.error);
+
+        
+        localStorage.setItem('role',user?.authenticateUserWithPassword.item.role)
+
         return router.push("/");
       }
       

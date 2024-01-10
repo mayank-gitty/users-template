@@ -84,6 +84,10 @@ import { EducationSection } from "@/components/sections/EducationSection";
 import { ProjectSection } from "@/components/sections/ProjectSection";
 import { ResumeSection } from "@/components/sections/ResumeSection";
 import { ProfileSection } from "@/components/sections/ProfileSection";
+import { EditExperience } from "@/components/modals/EditExperience";
+import { EditEducation } from "@/components/modals/EditEducation";
+import { EditProject } from "@/components/modals/EditProject";
+import { EditBasicInformation } from "@/components/modals/EditBasicInformation";
 
 const options = [
   { value: "doctorate/phd", label: "Doctorate/Phd" },
@@ -1693,6 +1697,16 @@ export default function View(props: IAppProps) {
         handleChange={handleChange}
         addExperience={addExperience}
       />
+
+
+      <EditExperience   experience  = {experience}  deleteSpecificExperience ={deleteSpecificExperience}  updateExperience = {updateExperience}  handleChange = {handleChange}  />
+
+      <EditEducation  education = {education} handleChangeEducation = {handleChangeEducation}   updateExperienceEducation = {updateExperienceEducation} deleteSpecificEducation = {deleteSpecificEducation}   />
+
+      <EditProject project = {project} updateThisProject = {updateThisProject} deleteSpecificProject = {deleteSpecificProject} handleChangeProject = {handleChangeProject} />
+
+      <EditBasicInformation form = {form} updateBasicDetails = {updateBasicDetails} />
+
 
       <div
         className=""

@@ -91,8 +91,8 @@ function Sidebar() {
 
   const logOut = async () => {
     // console.log("logout");
-
-
+                
+    localStorage.removeItem('role')
 
     const data = await signOut({ redirect: false, callbackUrl: "/login" });
 

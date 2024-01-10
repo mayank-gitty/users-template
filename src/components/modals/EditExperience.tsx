@@ -3,12 +3,13 @@ import * as React from 'react';
 export interface IAppProps {
 }
 
-import { yearsData , allDegreesArray ,  indianEducationArray ,fields , type } from '@/util/formDefault.Data';
+import { Container, FileInput, Image,Paper,Group ,TextInput , Select , Grid , Checkbox  } from "@mantine/core";
+
+import { yearsData , allDegreesArray ,  indianEducationArray ,fields , type , locationType , releventMonths } from '@/util/formDefault.Data';
 
 export function EditExperience ({ experience, deleteSpecificExperience ,updateExperience ,handleChange }) {
   return (
     <div>
-      
       <div
         class="modal fade"
         id="exampleModal"

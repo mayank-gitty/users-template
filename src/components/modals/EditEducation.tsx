@@ -3,9 +3,13 @@ import * as React from 'react';
 export interface IAppProps {
 }
 
-import { yearsData , allDegreesArray ,  indianEducationArray ,fields , type } from '@/util/formDefault.Data';
 
-export function EditEducation (props: IAppProps) {
+import { Container, FileInput, Image,Paper,Group ,TextInput , Select , Grid , Checkbox ,Input , Autocomplete  } from "@mantine/core";
+
+import { yearsData , allDegreesArray ,  indianEducationArray ,fields , type , locationType , releventMonths } from '@/util/formDefault.Data';
+
+
+export function EditEducation ({education ,handleChangeEducation , updateExperienceEducation , deleteSpecificEducation }) {
   return (
     <div>
       

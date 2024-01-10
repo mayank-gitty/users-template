@@ -7,7 +7,7 @@ import { Autocomplete } from '@mantine/core';
 
 import { yearsData , allDegreesArray ,  indianEducationArray ,fields , type ,releventMonths } from '@/util/formDefault.Data';
 
-export function AddEducation ( {education,addEducation, setEducation ,  handleChangeEducation  }) {
+export function AddEducation ( { education,addEducation, setEducation ,  handleChangeEducation  }) {
 
   return (
     <div>
