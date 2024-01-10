@@ -371,8 +371,6 @@ export default function View(props: IAppProps) {
       // console.log("res", response);
 
       if (response.ok) {
- 
-
         setFormData((prevData) => ({
           ...prevData,
           ["resume"]: `files/${file.name}`,
@@ -437,8 +435,6 @@ export default function View(props: IAppProps) {
       // console.log("res", response);
 
       if (response.ok) {
-
-
         setFormData((prevData: any) => ({
           ...prevData,
           ["photograph"]: `images/${file.name}`,
@@ -653,8 +649,6 @@ export default function View(props: IAppProps) {
       },
     });
 
-
-
     if (user?.user) {
       // alert('insi')
       // settrue(false);
@@ -693,8 +687,6 @@ export default function View(props: IAppProps) {
     });
   };
 
-
-
   const getDatas = async () => {
     const itskills: any = await client.request(IT_SKILLS);
 
@@ -725,8 +717,6 @@ export default function View(props: IAppProps) {
     // alert('refresh')
     getData(search);
   }, [search, flag]);
-
-
 
   const getKeySkills = async () => {
     const users: any = await client.request(KEY_SKILLS);
@@ -910,7 +900,6 @@ export default function View(props: IAppProps) {
 
   const updateExperienceEducation = async () => {
     // console.log("educationss", education);
-
 
     const user: any = await client.request(updateUserEducation, {
       where: {
@@ -1542,7 +1531,6 @@ export default function View(props: IAppProps) {
       });
     }
 
-
     // console.log("experience", search);
 
     delete project?.id;
@@ -1569,15 +1557,12 @@ export default function View(props: IAppProps) {
 
       const button = document.getElementById("closeAddProject");
 
-
-
       setTimeout(() => {
         button?.click();
         setFlag(!flag);
         router.refresh();
       }, 1000);
     }
-
   };
 
   const addResume = async () => {
@@ -1589,7 +1574,6 @@ export default function View(props: IAppProps) {
         resume: formData.resume,
       },
     });
-
 
     if (user.updateUser) {
       const button = document.getElementById("closeAddResume");
@@ -1611,7 +1595,6 @@ export default function View(props: IAppProps) {
         photograph: formData.photograph,
       },
     });
-
 
     if (user.updateUser) {
       const button = document.getElementById("closeAddPhotograph");
@@ -1699,14 +1682,31 @@ export default function View(props: IAppProps) {
         addExperience={addExperience}
       />
 
+      <EditExperience
+        experience={experience}
+        deleteSpecificExperience={deleteSpecificExperience}
+        updateExperience={updateExperience}
+        handleChange={handleChange}
+      />
 
-      <EditExperience   experience  = {experience}  deleteSpecificExperience ={deleteSpecificExperience}  updateExperience = {updateExperience}  handleChange = {handleChange}  />
+      <EditEducation
+        education={education}
+        handleChangeEducation={handleChangeEducation}
+        updateExperienceEducation={updateExperienceEducation}
+        deleteSpecificEducation={deleteSpecificEducation}
+      />
 
-      <EditEducation  education = {education} handleChangeEducation = {handleChangeEducation}   updateExperienceEducation = {updateExperienceEducation} deleteSpecificEducation = {deleteSpecificEducation}   />
+      <EditProject
+        project={project}
+        updateThisProject={updateThisProject}
+        deleteSpecificProject={deleteSpecificProject}
+        handleChangeProject={handleChangeProject}
+      />
 
-      <EditProject project = {project} updateThisProject = {updateThisProject} deleteSpecificProject = {deleteSpecificProject} handleChangeProject = {handleChangeProject} />
-
-      <EditBasicInformation  form = {form} updateBasicDetails = {updateBasicDetails} />
+      <EditBasicInformation
+        form={form}
+        updateBasicDetails={updateBasicDetails}
+      />
 
       <div
         className=""
@@ -1731,7 +1731,11 @@ export default function View(props: IAppProps) {
               </div>
 
               <div className="lg:w-1/2">
-                <EducationSection form ={form} setExperience ={setExperience} setEducation = {setEducation} />
+                <EducationSection
+                  form={form}
+                  setExperience={setExperience}
+                  setEducation={setEducation}
+                />
               </div>
             </div>
 

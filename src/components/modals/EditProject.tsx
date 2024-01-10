@@ -341,7 +341,7 @@ export function EditProject ({  project , updateThisProject  , deleteSpecificPro
                               <Radio
                                 type="radio"
                                 name="projectSite"
-                                value="Offsite"
+                                value="offsite"
                                 label="Offsite"
                                 required
                                 checked={project.projectSite === "offsite"}
@@ -354,10 +354,10 @@ export function EditProject ({  project , updateThisProject  , deleteSpecificPro
                               <Radio
                                 type="radio"
                                 name="projectSite"
-                                value="finished"
-                                label="Offsite"
+                                value="Onsite"
+                                label="Onsite"
                                 required
-                                checked={project.projectStatus === "onsite"}
+                                checked={project.projectSite  === "onsite"}
                                 onChange={() =>
                                   handleChangeProject("projectSite", "onsite")
                                 }

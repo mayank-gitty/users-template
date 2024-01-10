@@ -11,8 +11,6 @@ import { USERS } from "../../util/queries";
 
 import { useSession } from "next-auth/react";
 
-
-
 // Define mutation
 
 const DatatablePage = () => {
@@ -50,7 +48,7 @@ const DatatablePage = () => {
     const users = user?.users?.map((item: any) => {  
       return {
         user: item?.name,
-        company: item?.name,
+        company: item?.company?.name,
         phone: item?.phone,
         address: item?.address,
         // photograph: <img src={item?.photograph} />,

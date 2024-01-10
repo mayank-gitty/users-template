@@ -133,6 +133,7 @@ export function ExperienceSection ({form,setExperience}) {
                                       <h6
                                         style={{
                                           fontWeight: "400",
+                                            marginBottom: "0.1rem",
                                         }}
                                       >
                                         {" "}

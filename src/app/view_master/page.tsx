@@ -993,6 +993,7 @@ export default function View(props: IAppProps) {
             id: form.getInputProps("userCompany")?.value,
           },
         },
+        
         open_to_work:
           form.getInputProps("workForMutation")?.value === "true"
             ? true
@@ -1001,6 +1002,7 @@ export default function View(props: IAppProps) {
           form.getInputProps("statusForMutation")?.value === "true"
             ? true
             : false,
+
       },
     });
 

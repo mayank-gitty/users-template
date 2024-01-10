@@ -1134,7 +1134,7 @@ export default function Home() {
         if (check) {
           toast("employees credentials sent", {
             className: "green-background",
-            bodyClassName: "grow-font-size",
+            bodyClassName: "grow-font-size",  
             progressClassName: "fancy-progress-bar",
           });
 

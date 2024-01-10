@@ -17,10 +17,10 @@ import {
 } from "@mantine/core";
 
 import { useSession } from "next-auth/react";
-import { session } from "../../../auth";
 
 export function EditBasicInformation({ form, updateBasicDetails }) {
-  const { session: data } = useSession();
+
+  const { data :session} = useSession();
 
   return (
     <div>
