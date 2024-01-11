@@ -19,8 +19,7 @@ import { AUTH_MUTATION, createCode, updateUser } from "@/util/mutationQueries";
 import { GET_USER } from "@/util/queries";
 import { useSession } from "next-auth/react";
 
-
-import { GET_CODE ,  UPDATE_CODE  } from "@/util/queries";
+import { GET_CODE, UPDATE_CODE } from "@/util/queries";
 
 import { signIn, signOut } from "next-auth/react";
 
@@ -46,6 +45,7 @@ const Login = () => {
       enablePassword: false,
       email: "",
       code: "",
+      codeId: "",
       password: "",
       forgotEmail: "",
       forgotPassword: "",
@@ -121,8 +121,8 @@ const Login = () => {
 
     const verifyCode = await client.request(GET_CODE, {
       where: {
-        value: {
-          equals: form.getInputProps("code")?.value,
+        id: {
+          equals: form.getInputProps("codeId")?.value,
         },
       },
     });
@@ -130,6 +130,14 @@ const Login = () => {
     // console.log("verifyCode", verifyCode);
 
     if (verifyCode.codes.length > 0) {
+      if (verifyCode.codes[0]?.value !== form.getInputProps("code")?.value) {
+        return toast("invalid code", {
+          className: "black-background",
+          bodyClassName: "grow-font-size",
+          progressClassName: "fancy-progress-bar",
+        });
+      }
+
       if (verifyCode?.codes[0].expire) {
         return toast("code expired restart process", {
           className: "black-background",
@@ -220,8 +228,6 @@ const Login = () => {
     e.preventDefault();
 
     console.log(form.getInputProps("email").value);
-
-
   };
 
   function generateOTP() {
@@ -306,7 +312,7 @@ const Login = () => {
   };
 
   const forgotPassword = async () => {
-    console.log("forgot-password-hitting");
+    // console.log("forgot-password-hitting");
 
     if (!/^\S+@\S+$/.test(form.getInputProps("forgotEmail")?.value)) {
       return toast("email is not valid", {
@@ -322,7 +328,7 @@ const Login = () => {
       },
     });
 
-    console.log("userCredentails", user);
+    // console.log("userCredentails", user);
 
     if (!user.user) {
       return toast("email is not valid", {
@@ -340,14 +346,14 @@ const Login = () => {
         },
       });
 
-      console.log("code created", user);
+      // console.log("code created", user);
 
       if (user?.createCode) {
-        form.setFieldValue("codeId", user?.createCode.value);
+        form.setFieldValue("codeId", user?.createCode.id);
 
         const check = await sendEmails(user.createCode.value);
 
-        console.log("check1111", check);
+        // console.log("check1111", check);
 
         if (check) {
           form.setFieldValue("enablePassword", true);

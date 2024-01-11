@@ -27,6 +27,8 @@ function Sidebar() {
 
   const { data: session } = useSession();
 
+  // console.log(session)
+
   if (session === null) {
     router.push("/login");
   }
@@ -45,13 +47,15 @@ function Sidebar() {
       },
     });
 
-    // console.log("seeing user in sidebar", user);
+    console.log("seeing user in sidebar", user);
     setRole(user?.user?.role);
 
     setFormData((prevData: any) => ({
       ...prevData,
       ["stepperFilled"]: user?.user?.stepperFilled,
     }));
+
+    // formData.setFieldValue('stepperFilled',user?.user?.stepperFilled)
   };
 
   const {
@@ -72,6 +76,7 @@ function Sidebar() {
   }: any = useThemeContext();
 
   useEffect(() => {
+    // alert("in sidebar");
 
     const id = session?.user?.user?.id;
 
@@ -80,9 +85,10 @@ function Sidebar() {
     }
   }, [session]);
 
+  console.log("role", role);
+
   const logOut = async () => {
     // console.log("logout");
-
     localStorage.removeItem("role");
 
     const data = await signOut({ redirect: false, callbackUrl: "/login" });
@@ -118,10 +124,8 @@ function Sidebar() {
     return "h-screen-fit";
   };
 
-  // console.log("pathname", pathname);
-
   return (
-    <div className={`sidebar  ${getHeight()}`} style={sidebarStyles}>
+    <div className={`sidebar   ${getHeight()}`} style={sidebarStyles}>
       <div className="main-icon">
         <div className="">
           <img className="" src="/assets/company-logo.svg" />
@@ -210,7 +214,7 @@ function Sidebar() {
         )}
 
         <div className="">
-          {role === "manager" && (s
+          {role === "manager" && (
             <div className="">
               <li
                 onClick={() => {
@@ -218,7 +222,9 @@ function Sidebar() {
                   router.push("/manager_employees");
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/manager_employees" ? "custom-border-bottom" : ""
+                  pathname === "/manager_employees"
+                    ? "custom-border-bottom"
+                    : ""
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 {pathname === "/manager_employees" ? (
@@ -253,7 +259,9 @@ function Sidebar() {
                   // alert('mayank')
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/create_manager_employees" ? "custom-border-bottom" : ""
+                  pathname === "/create_manager_employees"
+                    ? "custom-border-bottom"
+                    : ""
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
@@ -328,9 +336,7 @@ function Sidebar() {
                   // alert('mayank')
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/create_employees"
-                    ? "custom-border-bottom"
-                    : ""
+                  pathname === "/create_employees" ? "custom-border-bottom" : ""
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
@@ -366,9 +372,7 @@ function Sidebar() {
                   // alert('mayank')
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/create_managers"
-                    ? "custom-border-bottom"
-                    : ""
+                  pathname === "/create_managers" ? "custom-border-bottom" : ""
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
@@ -435,7 +439,12 @@ function SideBar() {
     setProfileId,
   }: any = useThemeContext();
 
-  return <div className="sidebar-wrapper">{<Sidebar />}</div>;
+  return (
+    <div className="sidebar-wrapper">
+      {" "}
+      <Sidebar />{" "}
+    </div>
+  );
 }
 
 export default SideBar;
