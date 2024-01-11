@@ -33,11 +33,14 @@ export function ExperienceSection({ form, setExperience }) {
         <div
           className="p-4 h-full rounded bg-white"
           style={{
-            height: "350.897px",
+            height: "310.897px",
+            display:"flex",
+            flexDirection:"column",
+            justifyContent:"space-between"
             // background: "red",
           }}
         >
-          <Group position="apart" className="border-b pb-[10px]">
+          <Group position="apart" className="border-b pb-[10px]"  >
             <Group position="left">
               <Image
                 src="./images/experience.svg"
@@ -49,7 +52,7 @@ export function ExperienceSection({ form, setExperience }) {
               </div>
             </Group>
 
-            {form.getInputProps("experience")?.value?.length > 0 && (
+             {  form.getInputProps("experience")?.value?.length > 0  &&   form.getInputProps("experience")?.value?.length < 2   && (
               <Image
                 width={24}
                 className="custom-align-image"
@@ -99,7 +102,7 @@ export function ExperienceSection({ form, setExperience }) {
               style={{
                 width: "100%",
                 height: "100%",
-                // background:"red"
+                transform:'translateY(6px)'
               }}
             >
               <Stack
@@ -107,7 +110,7 @@ export function ExperienceSection({ form, setExperience }) {
                 style={{
                   width: "100%",
                   height: "100%",
-                  // background:"red"
+                  justifyContent:"space-between",
                 }}
               >
                 {form.getInputProps("experience")?.value?.length > 0 ? (
@@ -120,6 +123,7 @@ export function ExperienceSection({ form, setExperience }) {
                           className="d-flex justify-content-between"
                           style={{
                             // background:"yellow",
+                            marginBottom:"0.7em",
                             width: "100%",
                           }}
                         >
@@ -152,14 +156,14 @@ export function ExperienceSection({ form, setExperience }) {
                               )}
                             </p>
 
-                            <p
+                            {/* <p
                               style={{
                                 marginBottom: "0.2rem",
                               }}
                             >
                               {" "}
                               {item.location}{" "}
-                            </p>
+                            </p> */}
                           </div>
 
                           <Image

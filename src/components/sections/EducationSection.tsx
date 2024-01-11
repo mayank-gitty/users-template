@@ -33,13 +33,16 @@ export function EducationSection({ form, setExperience, setEducation }) {
         <div
           className="p-4 h-full rounded bg-white"
           style={{
-            height: "350.897px",
-            // background: "red",
+            height: "310.897px",
+            background: "pink",
 
             // background: "red",
           }}
         >
-          <Group position="apart" className="border-b pb-[10px]">
+          <Group position="apart" className="border-b pb-[10px]"       style={{
+            // background: "pink",
+            // background: "red",
+          }} >
             <Group position="left">
               <Image
                 src="./images/educationIcon.svg"
@@ -51,7 +54,7 @@ export function EducationSection({ form, setExperience, setEducation }) {
               </div>
             </Group>
 
-            {form.getInputProps("education")?.value?.length > 0 && (
+            { form.getInputProps("education")?.value?.length > 0  &&   form.getInputProps("education")?.value?.length < 2 && (
               <Image
                 src="/assets/addIcon.svg"
                 alt="Google"
@@ -105,7 +108,8 @@ export function EducationSection({ form, setExperience, setEducation }) {
                 style={{
                   width: "100%",
                   height: "100%",
-                  // background:"red"
+                  // background:"red",
+                  transform:'translateY(-8px)'
                 }}
               >
                 <div className="text-indigo-950 text-sm font-bold">
@@ -160,7 +164,7 @@ export function EducationSection({ form, setExperience, setEducation }) {
                                   <h6
                                     style={{
                                       fontWeight: "400",
-                                      marginBottom: "0.1rem",
+                                      marginBottom: "0.1rem", 
                                     }}
                                   >
                                     {" "}

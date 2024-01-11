@@ -1379,6 +1379,8 @@ export default function View(props: IAppProps) {
       });
     }
 
+
+
     if (!project.workFromYear) {
       return toast("please add work from year ", {
         className: "black-background",

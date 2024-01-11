@@ -193,7 +193,7 @@ const {formData} :any  = useThemeContext()
                           <Select
                             placeholder="Year"
                             data={["2022", "2023", "2024"]} // Your list of years
-                            value={formData.workFromYear}
+                            // value={formData.workFromYear}
                             onChange={(value) =>
                               handleChangeProject("workFromYear", value)
                             }
@@ -253,7 +253,7 @@ const {formData} :any  = useThemeContext()
                               "November",
                               "December",
                             ]} // Your list of months
-                            value={formData.workFromMonth}
+                            // value={formData.workFromMonth}
                             onChange={(value) =>
                               handleChangeProject("workFromMonth", value)
                             }

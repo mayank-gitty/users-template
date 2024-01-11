@@ -1,7 +1,6 @@
 import * as React from "react";
 
 export interface IAppProps {}
-
 import {
   Button,
   Group,
@@ -26,6 +25,8 @@ import {
   FileInput,
 } from "@mantine/core";
 
+import { IconEyeCheck, IconTable } from "@tabler/icons-react";
+
 export function ProjectSection({ form, setProject }) {
   return (
     <div>
@@ -34,15 +35,17 @@ export function ProjectSection({ form, setProject }) {
         <div className="p-4 h-full rounded bg-white">
           <Group position="apart" className="border-b pb-[10px]">
             <Group position="left">
-              <Image
+              <IconTable  color={'#4D47C3'}        style={{ width: "24px", height: "24px" }}  />
+
+              {/* <Image
                 src="./images/educationIcon.svg"
                 alt="Google"
-                style={{ width: "24px", height: "24px" }}
-              />
+        
+              /> */}
               <div className="text-black text-base font-semibold">Projects</div>
             </Group>
 
-            {form.getInputProps("project")?.value?.length > 0 && (
+            { form.getInputProps("project")?.value?.length > 0  &&   form.getInputProps("project")?.value?.length < 2  && (
               <Image
                 width={24}
                 className="custom-align-image"
