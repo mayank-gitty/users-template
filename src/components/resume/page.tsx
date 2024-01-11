@@ -224,8 +224,6 @@ const Resume = (props) => {
   const handleFileUpload = async (e) => {
     const file = e;
 
-    // console.log("filiiiiiiiiiiiiiiiii", file.type);
-
     // Allowing file type
     var allowedTypes = [
       "application/pdf",
@@ -247,7 +245,7 @@ const Resume = (props) => {
 
     }
 
-    console.log("below");
+    // console.log("below");
 
     const resumeData = new FormData();
     resumeData.append("file", file);
@@ -258,7 +256,7 @@ const Resume = (props) => {
         body: resumeData,
       });
 
-      console.log("res", response);
+      // console.log("res", response);
 
       if (response.ok) {
         console.log("File uploaded successfully.");
@@ -275,7 +273,7 @@ const Resume = (props) => {
         });
 
       } else {
-        console.error("File upload failed.");
+        // console.error("File upload failed.");
       }
     } catch (error) {
       console.error("An error occurred while uploading the file:", error);

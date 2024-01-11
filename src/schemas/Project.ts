@@ -33,7 +33,7 @@ export default list({
       options: [
         { label: 'FullTime', value: 'fulltime' },
         { label: 'PartTime', value: 'parttime' },
-        // Add more options as needed
+
       ],
     }),
 

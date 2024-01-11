@@ -137,55 +137,55 @@ export default function CustomizedSteppers() {
     setActive((current: any) => (current > 0 ? current - 1 : current));
 
   return (
-    <Stack sx={{ width: "100%" ,      }}    spacing={4}>
-      <div className=""  style={{
-            width: "100%",
-            height:" 159.27px",
-            display:"flex",
-            alignItems:"center",
-            background: "#FFF",
-            boxShadow: "0px 4px 10px 0px rgba(0, 0, 0, 0.08)",
-      }} >
-
-      <Stepper
-        alternativeLabel
-        activeStep={active}
-        connector={<ColorlibConnector />}
-        sx={{
-          width: "84%",
-          margin:"auto",
-          color: "success.main",
-          ".MuiStepper-horizontal" : {
-               marginBottom:"7rem",
-               width:"yellow"
-          },
-          "& .MuiStepLabel-label.MuiStepLabel-alternativeLabel": {
-            color: "#000",
-            // font-family: Inter;
-            fontSize: "12px",
-
-            fontWeight: 600,
-          },
-          "& .MuiStepLabel-label.Mui-completed ": {
-            color: "#34A853",
-          },
-          "& .MuiStepLabel-label.Mui-active": {
-            color: "#4D47C3",
-          },
+    <Stack sx={{ width: "100%" }} spacing={4}>
+      <div
+        className=""
+        style={{
+          width: "100%",
+          height: " 159.27px",
+          display: "flex",
+          alignItems: "center",
+          background: "#FFF",
+          boxShadow: "0px 4px 10px 0px rgba(0, 0, 0, 0.08)",
         }}
       >
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcon}>
-              {" "}
-              {label}{" "}
-            </StepLabel>
-          </Step>
-        ))}
-      </Stepper>
+        <Stepper
+          alternativeLabel
+          activeStep={active}
+          connector={<ColorlibConnector />}
+          sx={{
+            width: "84%",
+            margin: "auto",
+            color: "success.main",
+            ".MuiStepper-horizontal": {
+              marginBottom: "7rem",
+              width: "yellow",
+            },
+            "& .MuiStepLabel-label.MuiStepLabel-alternativeLabel": {
+              color: "#000",
+              // font-family: Inter;
+              fontSize: "12px",
 
+              fontWeight: 600,
+            },
+            "& .MuiStepLabel-label.Mui-completed ": {
+              color: "#34A853",
+            },
+            "& .MuiStepLabel-label.Mui-active": {
+              color: "#4D47C3",
+            },
+          }}
+        >
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel StepIconComponent={ColorlibStepIcon}>
+                {" "}
+                {label}{" "}
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
       </div>
-
 
       {active === 0 && <PhotoUpload />}
       {active === 1 && (
@@ -195,16 +195,17 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem", marginBottom:"2rem",
+              width: "30rem",
+              marginBottom: "2rem",
 
               margin: "auto",
-              background:"red"
+              background: "red",
             }}
           >
             {active !== 9 && active !== 0 && active !== 8 && (
               <Button
                 style={{
-                display:"none"
+                  display: "none",
                 }}
                 variant="default"
                 onClick={prevStep}
@@ -225,7 +226,8 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem", marginBottom:"2rem",
+              width: "30rem",
+              marginBottom: "2rem",
 
               margin: "auto",
             }}
@@ -233,7 +235,7 @@ export default function CustomizedSteppers() {
             {active !== 9 && active !== 0 && active !== 8 && (
               <Button
                 style={{
-                display:"none"
+                  display: "none",
                 }}
                 variant="default"
                 onClick={prevStep}
@@ -254,7 +256,8 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem", marginBottom:"2rem",
+              width: "30rem",
+              marginBottom: "2rem",
 
               margin: "auto",
             }}
@@ -262,7 +265,7 @@ export default function CustomizedSteppers() {
             {active !== 9 && active !== 0 && active !== 8 && (
               <Button
                 style={{
-                display:"none"
+                  display: "none",
                 }}
                 variant="default"
                 onClick={prevStep}
@@ -283,7 +286,8 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem", marginBottom:"2rem",
+              width: "30rem",
+              marginBottom: "2rem",
 
               margin: "auto",
             }}
@@ -291,7 +295,7 @@ export default function CustomizedSteppers() {
             {active !== 9 && active !== 0 && active !== 8 && (
               <Button
                 style={{
-                display:"none"
+                  display: "none",
                 }}
                 variant="default"
                 onClick={prevStep}
@@ -312,7 +316,8 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem", marginBottom:"2rem",
+              width: "30rem",
+              marginBottom: "2rem",
 
               margin: "auto",
             }}
@@ -320,7 +325,7 @@ export default function CustomizedSteppers() {
             {active !== 9 && active !== 0 && active !== 8 && (
               <Button
                 style={{
-                display:"none"
+                  display: "none",
                 }}
                 variant="default"
                 onClick={prevStep}
@@ -341,7 +346,8 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem", marginBottom:"2rem",
+              width: "30rem",
+              marginBottom: "2rem",
 
               margin: "auto",
             }}
@@ -349,7 +355,7 @@ export default function CustomizedSteppers() {
             {active !== 9 && active !== 0 && active !== 8 && (
               <Button
                 style={{
-                display:"none"
+                  display: "none",
                 }}
                 variant="default"
                 onClick={prevStep}
@@ -371,14 +377,15 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem", marginBottom:"2rem",
+              width: "30rem",
+              marginBottom: "2rem",
               margin: "auto",
             }}
           >
             {active !== 10 && active !== 0 && active !== 9 && (
               <Button
                 style={{
-                display:"none"
+                  display: "none",
                 }}
                 variant="default"
                 onClick={prevStep}
@@ -399,7 +406,8 @@ export default function CustomizedSteppers() {
             mx="auto"
             mt="xl"
             style={{
-              width: "30rem", marginBottom:"2rem",
+              width: "30rem",
+              marginBottom: "2rem",
 
               margin: "auto",
             }}
@@ -407,7 +415,7 @@ export default function CustomizedSteppers() {
             {active !== 10 && active !== 0 && active !== 9 && (
               <Button
                 style={{
-                display:"none"
+                  display: "none",
                 }}
                 variant="default"
                 onClick={prevStep}

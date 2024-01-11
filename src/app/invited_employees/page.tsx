@@ -123,7 +123,6 @@ const DatatablePage = () => {
       },
     });
 
-    // console.log("mm", user);
 
     const users = user?.users.map((item: any) => {
       return {
@@ -131,12 +130,6 @@ const DatatablePage = () => {
         email: item.email,
         address: item?.address,
         phone: item?.phone,
-        // photograph: <img src={item?.photograph?.url} />,
-        // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
-        // keyskills: item.keyskills.map((u: any) => u.name).join(", "),
-        // itskills: item.itskills.map((u: any) => u.name).join(", "),
-        // education: item.education.course,
-        // user: item?.user?.name,
         company: item?.company?.name,
         action: checkExistingProfile(item.id, item),
       };;

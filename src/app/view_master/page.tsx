@@ -12,10 +12,9 @@ import { toast } from "react-toastify";
 import { Dropzone } from "@mantine/dropzone";
 import { AddResume } from "@/components/modals/AddResume";
 import { AddPhotograph } from "@/components/modals/AddPhotograph";
-
 import { BasicProfile } from "@/components/sections/BasicProfile";
-
 import { AddProject } from "@/components/modals/AddProject";
+import { COMPANIES } from "@/util/queries";
 
 import {
   Button,
@@ -88,49 +87,8 @@ import { EditExperience } from "@/components/modals/EditExperience";
 import { EditEducation } from "@/components/modals/EditEducation";
 import { EditProject } from "@/components/modals/EditProject";
 import { EditBasicInformation } from "@/components/modals/EditBasicInformation";
+import { IT_SKILLS,KEY_SKILLS } from "@/util/queries";
 
-const options = [
-  { value: "doctorate/phd", label: "Doctorate/Phd" },
-  { value: "masters/post-graduation", label: "Masters/Post-Graduation" },
-  { value: "graduation/diploma", label: "Graduation/Diploma" },
-  { value: "12th", label: "12th" },
-  { value: "10th", label: "10th" },
-  { value: "below10th", label: "Below 10th" },
-];
-
-const IT_SKILLS = gql`
-  query ItSkills {
-    itSkills {
-      name
-      id
-    }
-  }
-`;
-
-// Define mutation
-const KEY_SKILLS = gql`
-  query KeySkills {
-    keySkills {
-      name
-      id
-    }
-  }
-`;
-
-const USERS = gql`
-  query Users {
-    users {
-      name
-      company {
-        name
-      }
-      role
-      email
-      phone
-      address
-    }
-  }
-`;
 
 const useStyles = createStyles(() => ({
   inner: {
@@ -160,10 +118,6 @@ const useStyles = createStyles(() => ({
     outlineStyle: "dashed !important",
     outlineColor: "#C6C6C6 !important",
     background: "#FFF !important",
-
-    // background:"red",
-
-    // content:`"File Uploaded successfully"`,
 
     cursor: "pointer",
     "&:hover": {
@@ -370,8 +324,6 @@ export default function View(props: IAppProps) {
       // console.log("res", response);
 
       if (response.ok) {
- 
-
         setFormData((prevData) => ({
           ...prevData,
           ["resume"]: `files/${file.name}`,
@@ -436,8 +388,6 @@ export default function View(props: IAppProps) {
       // console.log("res", response);
 
       if (response.ok) {
-
-
         setFormData((prevData: any) => ({
           ...prevData,
           ["photograph"]: `images/${file.name}`,
@@ -451,7 +401,7 @@ export default function View(props: IAppProps) {
         // console.error("File upload failed.");
       }
     } catch (error) {
-      console.error("An error occurred while uploading the file:", error);
+      // console.error("An error occurred while uploading the file:", error);
 
       toast("An error occurred while uploading the file:", {
         className: "black-background",
@@ -516,7 +466,6 @@ export default function View(props: IAppProps) {
       work: "",
       statusForMutation: null,
       workForMutation: null,
-
       email: "",
       userEmail: "",
       userEmailForMutation: "",
@@ -532,15 +481,6 @@ export default function View(props: IAppProps) {
       userAddress: "",
     },
   });
-
-  const COMPANIES = gql`
-    query Query {
-      companies {
-        name
-        id
-      }
-    }
-  `;
 
   const getComapanies = async () => {
     const users: any = await client.request(COMPANIES);
@@ -642,8 +582,6 @@ export default function View(props: IAppProps) {
 
   const search = searchParams.get("id");
 
-  // console.log("skils", form.getInputProps("itskills").value);
-
   const getData = async (search: any) => {
     // console.log("id", search);
     const user: any = await client.request(VIEW_USER, {
@@ -652,11 +590,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-
-
     if (user?.user) {
-      // alert('insi')
-      // settrue(false);
     }
 
     form.setValues({
@@ -692,8 +626,6 @@ export default function View(props: IAppProps) {
     });
   };
 
-
-
   const getDatas = async () => {
     const itskills: any = await client.request(IT_SKILLS);
 
@@ -725,12 +657,9 @@ export default function View(props: IAppProps) {
     getData(search);
   }, [search, flag]);
 
-
-
   const getKeySkills = async () => {
     const users: any = await client.request(KEY_SKILLS);
 
-    // console.log("usersaa", users);
 
     const DefaultSkills = users?.keySkills?.map((item: any) => {
       return {
@@ -745,7 +674,6 @@ export default function View(props: IAppProps) {
   const getItSkills = async () => {
     const users: any = await client.request(IT_SKILLS);
 
-    // console.log("usersaa", users);
 
     const DefaultSkills = users?.itSkills?.map((item: any) => {
       return {
@@ -910,7 +838,6 @@ export default function View(props: IAppProps) {
   const updateExperienceEducation = async () => {
     // console.log("educationss", education);
 
-
     const user: any = await client.request(updateUserEducation, {
       where: {
         id: education.id,
@@ -933,7 +860,7 @@ export default function View(props: IAppProps) {
       },
     });
 
-    // console.log("updated", user);
+  
 
     if (user?.updateAddEducation) {
       const button = document.getElementById("modal-close-btn-education");
@@ -993,7 +920,7 @@ export default function View(props: IAppProps) {
             id: form.getInputProps("userCompany")?.value,
           },
         },
-        
+
         open_to_work:
           form.getInputProps("workForMutation")?.value === "true"
             ? true
@@ -1002,7 +929,6 @@ export default function View(props: IAppProps) {
           form.getInputProps("statusForMutation")?.value === "true"
             ? true
             : false,
-
       },
     });
 
@@ -1061,10 +987,6 @@ export default function View(props: IAppProps) {
     }
   };
 
-  // console.log(
-  //   "statusForMutation",
-  //   form.getInputProps(`statusForMutaion`)?.value
-  // );
 
   const addEducation = async () => {
     if (!education.school) {
@@ -1228,7 +1150,6 @@ export default function View(props: IAppProps) {
 
       const button = document.getElementById("closeAddEducation");
 
-      // console.log("check", button);
 
       setTimeout(() => {
         button?.click();
@@ -1543,7 +1464,6 @@ export default function View(props: IAppProps) {
       });
     }
 
-
     // console.log("experience", search);
 
     delete project?.id;
@@ -1570,15 +1490,12 @@ export default function View(props: IAppProps) {
 
       const button = document.getElementById("closeAddProject");
 
-
-
       setTimeout(() => {
         button?.click();
         setFlag(!flag);
         router.refresh();
       }, 1000);
     }
-
   };
 
   const addResume = async () => {
@@ -1590,7 +1507,6 @@ export default function View(props: IAppProps) {
         resume: formData.resume,
       },
     });
-
 
     if (user.updateUser) {
       const button = document.getElementById("closeAddResume");
@@ -1612,7 +1528,6 @@ export default function View(props: IAppProps) {
         photograph: formData.photograph,
       },
     });
-
 
     if (user.updateUser) {
       const button = document.getElementById("closeAddPhotograph");
@@ -1700,15 +1615,31 @@ export default function View(props: IAppProps) {
         addExperience={addExperience}
       />
 
+      <EditExperience
+        experience={experience}
+        deleteSpecificExperience={deleteSpecificExperience}
+        updateExperience={updateExperience}
+        handleChange={handleChange}
+      />
 
-      <EditExperience   experience  = {experience}  deleteSpecificExperience ={deleteSpecificExperience}  updateExperience = {updateExperience}  handleChange = {handleChange}  />
+      <EditEducation
+        education={education}
+        handleChangeEducation={handleChangeEducation}
+        updateExperienceEducation={updateExperienceEducation}
+        deleteSpecificEducation={deleteSpecificEducation}
+      />
 
-      <EditEducation  education = {education} handleChangeEducation = {handleChangeEducation}   updateExperienceEducation = {updateExperienceEducation} deleteSpecificEducation = {deleteSpecificEducation}   />
+      <EditProject
+        project={project}
+        updateThisProject={updateThisProject}
+        deleteSpecificProject={deleteSpecificProject}
+        handleChangeProject={handleChangeProject}
+      />
 
-      <EditProject project = {project} updateThisProject = {updateThisProject} deleteSpecificProject = {deleteSpecificProject} handleChangeProject = {handleChangeProject} />
-
-      <EditBasicInformation form = {form} updateBasicDetails = {updateBasicDetails} />
-
+      <EditBasicInformation
+        form={form}
+        updateBasicDetails={updateBasicDetails}
+      />
 
       <div
         className=""
@@ -1733,7 +1664,11 @@ export default function View(props: IAppProps) {
               </div>
 
               <div className="lg:w-1/2">
-                <EducationSection form ={form} setExperience ={setExperience} setEducation = {setEducation} />
+                <EducationSection
+                  form={form}
+                  setExperience={setExperience}
+                  setEducation={setEducation}
+                />
               </div>
             </div>
 

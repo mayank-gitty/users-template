@@ -368,70 +368,14 @@ const Education1: React.FC = () => {
     // setFormData({ ...formData, [field]: value });
   };
 
-  // function SelectItem({ name , label, ...others }) {
-  //   console.log("i", name);
-
-  //   return (
-  //     <div {...others}>
-  //       <Group style={{ cursor: "pointer" }}>
-  //         {/* <Avatar src={image} radius="xl" /> */}
-
-  //         <div>
-  //           <Text> {name} </Text>
-  //           <Text size="xs" color="blue">
-  //             {label}
-  //           </Text>
-  //         </div>
-  //       </Group>
-  //     </div>
-  //   );
-  // }
-
   const validateForm = () => {
-    // const newErrors = { ...initialErrors };
-    // if (!formData.education) {
-    //   newErrors.education = "Education is required";
-    // }
-    // if (!formData.university.trim()) {
-    //   newErrors.university = "University is required";
-    // }
-    // if (!formData.course) {
-    //   newErrors.course = "Course is required";
-    // }
-    // if (!formData.specialization) {
-    //   newErrors.specialization = "Specialization is required";
-    // }
-    // if (!formData.coursetype) {
-    //   newErrors.coursetype = "Course Type is required";
-    // }
-    // if (!formData.startingYear || !formData.endingYear) {
-    //   newErrors.startingYear = "Course Duration is required";
-    //   newErrors.endingYear = "Course Duration is required";
-    // }
-    // if (!formData.gradingsystem) {
-    //   newErrors.gradingsystem = "Grading System is required";
-    // }
-    // if (!formData.marks) {
-    //   newErrors.marks = "marks are required";
-    // }
-    // setErrors(newErrors);
-    // return newErrors;
+
   };
 
   console.log("f", formData.educations);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // const newErrors = validateForm();
-
-    // if (Object.values(newErrors).every((error) => !error)) {
-    //   console.log("Form data submitted:", formData);
-    //   setSubmissionSuccess(true);
-    // } else {
-    //   console.log("Form contains errors:", newErrors);
-    //   setSubmissionSuccess(false);
-    // }
   };
 
   const saveEntry = () => {
@@ -653,12 +597,7 @@ const Education1: React.FC = () => {
               width: "30rem",
             }}
           >
-            {/* <p className="box-sub-heading "> Add education </p>{" "}
-              <p className="box-sub-heading "> Add education </p>{" "}
-              <p className="box-sub-heading "> Add education </p>{" "}
-              <p className="box-sub-heading "> Add education </p>{" "} 
-              */}
-
+       
             <div
               className=" mt-4"
               style={{
@@ -831,34 +770,10 @@ const Education1: React.FC = () => {
               <form onSubmit={handleSubmit}>
                 <Grid>
                   <>
-                    {/* <Grid.Col span={12}>
-                        <Input.Wrapper
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              // marginBottom: 10,
-                            },
-                          })}
-                        ></Input.Wrapper>
-                      </Grid.Col> */}
+           
 
                     <Grid.Col span={12}>
-                      {/*                         
-                        <Input.Wrapper
-                          label="School,University,Institute"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              // marginBottom: 10,
-                            },
-                          })}
-                        > */}
+            
                       <Autocomplete
                         styles={(theme) => ({
                           input: {
@@ -887,18 +802,7 @@ const Education1: React.FC = () => {
                     </Grid.Col>
 
                     <Grid.Col span={12}>
-                      {/* <Input.Wrapper
-                          label="Course"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              // marginBottom: 10,
-                            },
-                          })}
-                        > */}
+              
                       <Autocomplete
                         styles={(theme) => ({
                           input: {
@@ -924,18 +828,7 @@ const Education1: React.FC = () => {
                     </Grid.Col>
 
                     <Grid.Col span={12}>
-                      {/* <Input.Wrapper
-                          label="field of study"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
-                        > */}
+             
                       <Autocomplete
                         value={education.field_of_study}
                         onChange={(value: any) =>
@@ -1080,18 +973,7 @@ const Education1: React.FC = () => {
                     </Grid.Col>
 
                     <Grid.Col span={12}>
-                      {/* <Input.Wrapper
-                          label="Grade"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
-                        > */}
+            
                       <Input
                         placeholder="Grade"
                         required
@@ -1111,18 +993,7 @@ const Education1: React.FC = () => {
                       {/* </Input.Wrapper> */}
                     </Grid.Col>
                     <Grid.Col span={12}>
-                      {/* <Input.Wrapper
-                          label="Activities"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
-                        > */}
+              
                       <Input
                         placeholder="Activities"
                         required
@@ -1145,18 +1016,7 @@ const Education1: React.FC = () => {
                     </Grid.Col>
 
                     <Grid.Col span={12}>
-                      {/* <Input.Wrapper
-                          label="Description"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
-                        > */}
+     }
                       <Input
                         placeholder="Description"
                         required

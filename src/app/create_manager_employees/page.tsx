@@ -25,6 +25,7 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 
+// import LayoutNav from "../../components/LayoutNav";s
 import { useRouter } from "next/navigation";
 import { gql, useQuery, useMutation } from "@apollo/client";
 const manrope = Manrope({ subsets: ["latin"] });
@@ -37,54 +38,29 @@ import {
   getReportingManagerId,
 } from "../../utils/serverQueries";
 
-
-import { GET_USER    } from "@/util/queries";
-
-import { ADD_MULTIPLE_USER } from "@/util/mutationQueries";
-import { createMultipleUsers, } from "../../utils/serverMutations";
+import { GET_USER } from "@/util/queries";
+import { createMultipleUsers } from "../../utils/serverMutations";
 import { useTransition } from "react";
 import client from "../../../helpers/request";
-import { Console } from "console";
+
+import { ALL_USERS , COMPANIES  } from "@/util/queries";
+
+import { ADD_MULTIPLE_USER } from "@/util/mutationQueries";
+
+
+import { useSession } from "next-auth/react";
 
 
 
-const COMPANIES = gql`
-  query Query {
-    companies {
-      name
-      id
-    }
-  }
-`;
-
-const USERS = gql`
-  query Users {
-    users {
-      name
-      company {
-        name
-      }
-      role
-      email
-      phone
-      address
-    }
-  }
-`;
-
-
-
-const AddTimeLine = ({ AllProjects }: any) => {
+const createManagerEmployees = ({ AllProjects }: any) => {
   const router = useRouter();
 
   let [isPending, startTransition] = useTransition();
 
-  //   const [company, setCompnay] = useState("");
-
-  //   const { data: session }: any = useSession();
+    const { data: session }: any = useSession();
 
   const checkExistingUser = async (email) => {
-    console.log("checking email", email);
+
 
     const checking = await client.request(GET_USER, {
       where: {
@@ -92,7 +68,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
       },
     });
 
-    console.log("response", checking?.user?.email);
+
 
     return checking?.user?.email;
   };
@@ -100,7 +76,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
   const form = useForm({
     initialValues: {
       userId: "",
-      company: "",
       companies: [],
       entries: [
         {
@@ -108,7 +83,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
           mobileNumber: "",
           email: "",
           address: "",
-          //   company: "",
+          company: "",
           key: 0,
         },
       ],
@@ -116,7 +91,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
     },
 
     validate: {
-      company: (value) => (value ? null : "please select company"),
       entries: {
         userName: (value) => (value ? null : "select userName"),
         mobileNumber: (value) => {
@@ -135,10 +109,10 @@ const AddTimeLine = ({ AllProjects }: any) => {
           }
 
           if (/^[0-9]{10}$/.test(mobileNumber)) {
-            console.log("inside", mobileNumber);
+            // console.log("inside", mobileNumber);
             return null;
           } else {
-            console.log("outside", mobileNumber);
+            // console.log("outside", mobileNumber);
             return "The mobile number is not valid.";
           }
         },
@@ -173,7 +147,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
   const getComapanies = async () => {
     const users: any = await client.request(COMPANIES);
 
-    console.log("usersaa", users);
+
 
     const DefaultSkills = users?.companies?.map((item: any) => {
       return {
@@ -182,20 +156,19 @@ const AddTimeLine = ({ AllProjects }: any) => {
       };
     });
 
-    // setDefaultSkills(DefaultSkills);
 
-    form.setFieldValue("companies", DefaultSkills);
+
+    const managerCompany = DefaultSkills?.filter(
+      (item) => item.label === session?.user?.user?.company_name
+    );
+
+
+    form.setFieldValue("companies", managerCompany);
   };
 
   const addEntry = () => {
-    // console.log('form',form.values)
 
 
-    if (!form.getInputProps("company")?.value) {
-      return form.setFieldError("company", "select company");
-    }
-
-    console.log("form", form.values);
     form.insertListItem("entries", {
       userName: "",
       mobileNumber: "",
@@ -206,15 +179,15 @@ const AddTimeLine = ({ AllProjects }: any) => {
   };
 
   useEffect(() => {
+    
     getComapanies();
-  }, []);
+  }, [session]);
 
   function generateSecurePassword5(inputString, length, company) {
     const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const numberChars = "0123456789";
 
-    // Create a random portion with uppercase, numbers, and special characters
     let randomPart = "";
     for (let i = 0; i < 5; i++) {
       const charSet = i % 3;
@@ -232,10 +205,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
       }
     }
 
-    console.log("c", randomPart);
 
-    // Create the final password by combining the input string, underscores, and the random portion
-    // const underscores = "_".repeat(remainingLength - randomPart.length);
     const password = inputString + randomPart + "@" + "cloud";
 
     return password;
@@ -280,34 +250,10 @@ const AddTimeLine = ({ AllProjects }: any) => {
     return password;
   }
 
-  const username = "exampleUser"; // Replace with your username
-  const password = generatePasswordFromUsername(username);
-  console.log(password);
 
-  // const seedString = "YourSeedString"; // Replace with your own seed string
-  // const password = generateSecurePassword(seedString, 12); // Change the number to set the desired password length
-  // console.log(password);
-
-  function findDuplicateObjects(array, property) {
-    console.log(array, property);
-    const seen = {};
-    const duplicates = [];
-
-    array.forEach((item) => {
-      const value = item[property];
-
-      if (seen[value]) {
-        duplicates.push(item);
-      } else {
-        seen[value] = true;
-      }
-    });
-
-    return duplicates;
-  }
 
   const sendEmails = async (users) => {
-    console.log("rec", users);
+
 
     const recipients = users.map((item) => {
       return {
@@ -317,7 +263,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
       };
     });
 
-    console.log("rec", recipients);
+    // console.log("rec", recipients);
 
     try {
       const response = await fetch("/api/send-email", {
@@ -331,31 +277,29 @@ const AddTimeLine = ({ AllProjects }: any) => {
       });
 
       if (response.ok) {
-        console.log("Emails sent successfully");
+        // console.log("Emails sent successfully");
         return true;
       } else {
-        console.error("Failed to send emails");
+        // console.error("Failed to send emails");
         return false;
       }
     } catch (error) {
-      console.error("Error sending emails:", error.message);
+      // console.error("Error sending emails:", error.message);
     }
   };
 
-  // Trigger the email sending
 
   const saveAll = async () => {
-    console.log("form enteries", form.values.entries);
+
 
     if (form.validate().hasErrors) {
-      console.log("yes", form.errors);
+
       return;
     } else {
-      console.log("form valuess ", form.values);
 
-      const users: any = await client.request(USERS);
 
-      console.log("users", users);
+      const users: any = await client.request(ALL_USERS);
+
 
       const checkDuplicatePhone = form.values.entries.map((item) => {
         const flag = users.users.filter(
@@ -371,22 +315,19 @@ const AddTimeLine = ({ AllProjects }: any) => {
         (item) => item !== undefined
       );
 
-      console.log("duplicatePhone", checkDuplicatePhone);
-
       const Mutatedata = form.values.entries.map(async (item) => {
         return checkExistingUser(item.email);
       });
 
       const values = await Promise.all(Mutatedata);
 
-      console.log("valuessssssssssss0", values);
+
 
       const checkDuplicatesMail = values.filter((item) => item !== undefined);
 
-      console.log("valuessssssssssssinngg", checkDuplicatesMail);
+
 
       if (checkDuplicatesMail.length > 0) {
-
         return toast(`${checkDuplicatesMail[0]} already registered`, {
           className: "black-background",
           bodyClassName: "grow-font-size",
@@ -415,7 +356,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
           // address: item.address,
           company: {
             connect: {
-              id: form.getInputProps("company")?.value,
+              id: form.getInputProps("companies")?.value[0].value,
             },
           },
           password: generateSecurePassword5(item.userName, 12, item.company),
@@ -424,91 +365,88 @@ const AddTimeLine = ({ AllProjects }: any) => {
         };
       });
 
-      console.log("generate", MutatedataForSending);
 
-      const user = await client.request( ADD_MULTIPLE_USER, {
+      const user = await client.request(ADD_MULTIPLE_USER, {
         data: MutatedataForSending,
       });
 
       if (user.createUsers) {
-        toast("employees invited", {
+        toast("employees invited", {  
           className: "green-background",
           bodyClassName: "grow-font-size",
+
           progressClassName: "fancy-progress-bar",
         });
-
-        form.setFieldValue("entries", [
-          {
-            userName: "",
-            mobileNumber: "",
-            email: "",
-            address: "",
-            //   company: "",
-            key: 0,
-          },
-
-        ]);
-
-        form.setFieldValue("company", "");
-
+        
         const check = await sendEmails(MutatedataForSending);
 
-           console.log('checking',check)
-
         if (check) {
+
           toast("employees credentials sent", {
             className: "green-background",
             bodyClassName: "grow-font-size",
             progressClassName: "fancy-progress-bar",
           });
-
-
-
-
-          // Redirect or perform other actions
-          setTimeout(() => {
-            router.push("/profileEmployees");
-          }, 2000);
         }
+
+
+        form.setFieldValue("entries", [
+          {
+            userName: "",
+
+            mobileNumber: "",
+            email: "",
+            address: "",
+            //   company: "",
+            key: 0,
+          }
+
+
+        ]);
+
+        form.setFieldValue("company", "");
+        // Redirect or perform other actions
+        setTimeout(() => {
+          router.push("/profileUsers");
+        }, 2000);
+
       } else {
-        // console.log("error",);
-        // setFormErrors(validationErrors);
       }
     }
   };
 
+  const clickS = "bg-secondary text-white";
+  const notClickS = "bg-gray-100 text-black";
+
   return (
     <>
+      {/*     
+    <ToastContainer/> */}
       <form onSubmit={form.onSubmit((values) => {})}>
         <div className="px-5 py-6 ">
-          <div className="page-heading  pt-2 pb-2">
-            <h2 className="page-main-heading"> Create  employees </h2>
+          <div className="page-heading text-custom-left  pt-2 pb-2">
+            <h2 className="page-main-heading"> Create multiple employees </h2>
           </div>
         </div>
 
         <div className="px-5 py-6 ">
-          <div className="p-5 bg-white custom-rounded custom-box-shadow">
+          <div className="p-5 bg-white  custom-rounded custom-box-shadow">
             <div className="">
-              <div className="d-flex justify-content-between">
-                <Select
-                  // label="Please select company"
-                  placeholder="Please select company"
-                  {...form.getInputProps(`company`)}
-                  data={form.getInputProps("companies").value}
-                />
-
+              <div className="d-flex justify-content-end">
                 <button
+                  // variant="filled"
+                  // color="green"
                   onClick={() => saveAll()}
-                  // type="button"
+                  type="button"
                   style={{
                     fontSize: "11px",
                     fontWeight: 600,
                     border: "0.0625rem solid transparent",
                     background: "#40c057",
                     color: "#fff",
-                    height: "32px", 
-                    padding: "0 10px",
-                    borderRadius: "4.243px",
+                    height:"32px",
+                    padding:"0 10px",
+                    borderRadius:"4.243px"
                   }}
                 >
                   {" "}
@@ -518,6 +456,27 @@ const AddTimeLine = ({ AllProjects }: any) => {
             </div>
 
             <div className="mb-4">
+              {/* <div className="flex mx-5 my-4">
+                <DateInput
+                  {...form.getInputProps("date")}
+                  styles={(theme) => ({
+                    input: {
+                      padding: "20px !important",
+                      borderRadius: "12px !important",
+                      width: "270px",
+                    },
+                  })}
+                  placeholder="Date input"
+                  label={
+                    <div className="flex">
+                      {" "}
+                      <FiCalendar className="text-2xl" />{" "}
+                      <h4 className="mx-2"> select date </h4>
+                    </div>
+                  }
+                />
+              </div> */}
+
               <div className="relative overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead className="table-column-links">
@@ -535,15 +494,62 @@ const AddTimeLine = ({ AllProjects }: any) => {
                         Address
                       </th>
                       {/* <th scope="col" className="px-6 py-3">
-                    Company
-                  </th> */}
+                        Company
+                      </th> */}
                     </tr>
                   </thead>
                   <tbody>
-              
+                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 h-auto">
+                      <th
+                        scope="row"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        <TextInput
+                          className=" h-10 w-48 p-2"
+                          placeholder="Name"
+                          {...form.getInputProps(`entries.${0}.userName`)}
+                        />
+                      </th>
+                      <td className="px-6 py-4">
+                        <TextInput
+                          //   label="Name"
+                          //   description="Input description"
+                          className=" h-10 w-48 p-2"
+                          placeholder="Mobile Number"
+                          {...form.getInputProps(`entries.${0}.mobileNumber`)}
+                        />
+                      </td>
+                      <td className="px-6 py-4">
+                        <TextInput
+                          //   label="Name"
+                          //   description="Input description"
+                          className=" h-10 w-48 p-2"
+                          placeholder="Email"
+                          {...form.getInputProps(`entries.${0}.email`)}
+                        />
+                      </td>
+                      <td className="px-6 py-4">
+                        <TextInput
+                          //   label="Name"
+                          //   description="Input description"
+                          className=" h-10 w-48 p-2"
+                          placeholder="Address"
+                          {...form.getInputProps(`entries.${0}.address`)}
+                        />
+                      </td>
+                      {/* <td>
+                        <Select
+                          {...form.getInputProps(`entries.${0}.company`)}
+                          placeholder="Please Select Company"
+                          data={form.getInputProps("companies").value}
+                        />
+                      </td> */}
+                    </tr>
 
-                    {form.values.entries.length > 0 &&
+                    {form.values.entries.length > 1 &&
                       form.values.entries.map((item: any, index) => {
+                        if (item.key === 0) {
+                        } else {
                           return (
                             <tr
                               key={item.key}
@@ -556,15 +562,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                 <TextInput
                                   //   label="Name"
                                   //   description="Input description"
-                                  disabled={
-                                     
-                                  form.getInputProps(
-                                      "company"
-                                    )?.value
-                                      ? false
-                                      :  true
-
-                                  }
                                   className=" h-10 w-48 p-2"
                                   placeholder="Name"
                                   {...form.getInputProps(
@@ -576,15 +573,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                 <TextInput
                                   //   label="Name"
                                   //   description="Input description"
-                                  disabled={
-                                     
-                                    form.getInputProps(
-                                        "company"
-                                      )?.value
-                                        ? false
-                                        :  true
-  
-                                    }
                                   className=" h-10 w-48 p-2"
                                   placeholder="Mobile Number"
                                   {...form.getInputProps(
@@ -596,16 +584,8 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                 <TextInput
                                   //   label="Name"
                                   //   description="Input description"
-                                  disabled={
-                                     
-                                    form.getInputProps(
-                                        "company"
-                                      )?.value
-                                        ? false
-                                        :  true
-  
-                                    }
-                                  className="h-10 w-48 p-2"
+
+                                  className=" h-10 w-48 p-2"
                                   placeholder="Email"
                                   {...form.getInputProps(
                                     `entries.${index}.email`
@@ -616,15 +596,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                 <TextInput
                                   //   label="Name"
                                   //   description="Input description"
-                                  disabled={
-                                     
-                                    form.getInputProps(
-                                        "company"
-                                      )?.value
-                                        ? false
-                                        :  true
-  
-                                    }
                                   className=" h-10 w-48 p-2"
                                   placeholder="Address"
                                   {...form.getInputProps(
@@ -632,10 +603,10 @@ const AddTimeLine = ({ AllProjects }: any) => {
                                   )}
                                 />
                               </td>
-
+                      
                               <td>
                                 <button
-                                  className={` px-3 py-2 rounded-lg capitalize ml-6 `}
+                                  className={`px-3 py-2  ml-6`}
                                   onClick={(e) =>
                                     form.removeListItem("entries", index)
                                   }
@@ -645,7 +616,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                               </td>
                             </tr>
                           );
-                    
+                        }
                       })}
                   </tbody>
                 </table>
@@ -654,7 +625,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
                   <button
                     className={`px-3 py-2 mt-4 new-entry-btn`}
                     onClick={() => addEntry()}
-                    type="button" 
+                    type="button"
                   >
                     + Add new entry
                   </button>
@@ -668,4 +639,4 @@ const AddTimeLine = ({ AllProjects }: any) => {
   );
 };
 
-export default AddTimeLine;
+export default createManagerEmployees;

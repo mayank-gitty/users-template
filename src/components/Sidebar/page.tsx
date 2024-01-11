@@ -27,8 +27,6 @@ function Sidebar() {
 
   const { data: session } = useSession();
 
-  // console.log(session)
-
   if (session === null) {
     router.push("/login");
   }
@@ -47,15 +45,13 @@ function Sidebar() {
       },
     });
 
-    console.log("seeing user in sidebar", user);
+    // console.log("seeing user in sidebar", user);
     setRole(user?.user?.role);
 
     setFormData((prevData: any) => ({
       ...prevData,
       ["stepperFilled"]: user?.user?.stepperFilled,
     }));
-
-    // formData.setFieldValue('stepperFilled',user?.user?.stepperFilled)
   };
 
   const {
@@ -76,9 +72,6 @@ function Sidebar() {
   }: any = useThemeContext();
 
   useEffect(() => {
-    // alert("in sidebar");
-
-    console.log("in sidebar useeffect", session?.user?.user?.id);
 
     const id = session?.user?.user?.id;
 
@@ -87,19 +80,14 @@ function Sidebar() {
     }
   }, [session]);
 
-  console.log("role", role);
-
   const logOut = async () => {
     // console.log("logout");
-                
-    localStorage.removeItem('role')
+
+    localStorage.removeItem("role");
 
     const data = await signOut({ redirect: false, callbackUrl: "/login" });
 
-    console.log("data", data);
-
     router.push(data.url);
-
 
     setLoggedIn(false);
     setFormData({
@@ -127,17 +115,10 @@ function Sidebar() {
   };
 
   const getHeight = () => {
-    // alert('g')
-    // console.log("ac", active);
-
-    // if (pathname === "/profile") {
-    //   return "h-screen";
-    // }
-
     return "h-screen-fit";
   };
 
-  console.log("pathname", pathname);
+  // console.log("pathname", pathname);
 
   return (
     <div className={`sidebar  ${getHeight()}`} style={sidebarStyles}>
@@ -229,18 +210,18 @@ function Sidebar() {
         )}
 
         <div className="">
-          {role === "manager" && (
+          {role === "manager" && (s
             <div className="">
               <li
                 onClick={() => {
                   // alert('m')
-                  router.push("/profileUsers");
+                  router.push("/manager_employees");
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/profileUsers" ? "custom-border-bottom" : ""
+                  pathname === "/manager_employees" ? "custom-border-bottom" : ""
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
-                {pathname === "/profileUsers" ? (
+                {pathname === "/manager_employees" ? (
                   <IconUsers
                     style={{ width: rem(30), height: rem(30) }}
                     stroke={2}
@@ -256,7 +237,7 @@ function Sidebar() {
 
                 <a
                   className={`nav-link  ${
-                    pathname === "/profileUsers" ? "active" : ""
+                    pathname === "/manager_employees" ? "active" : ""
                   } `}
                   aria-current="page"
                   href="#"
@@ -268,15 +249,15 @@ function Sidebar() {
 
               <li
                 onClick={() => {
-                  router.push("/multipleuser");
+                  router.push("/create_manager_employees");
                   // alert('mayank')
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/multipleuser" ? "custom-border-bottom" : ""
+                  pathname === "/create_manager_employees" ? "custom-border-bottom" : ""
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
-                  {pathname === "/multipleuser" ? (
+                  {pathname === "/create_manager_employees" ? (
                     <IconCirclePlus
                       style={{ width: rem(30), height: rem(30) }}
                       stroke={2}
@@ -292,7 +273,7 @@ function Sidebar() {
                 </div>
                 <a
                   className={`nav-link  ${
-                    pathname === "/multipleuser" ? "active" : ""
+                    pathname === "/create_manager_employees" ? "active" : ""
                   } `}
                   aria-current="page"
                   href=""
@@ -301,44 +282,6 @@ function Sidebar() {
                   Create Employees{" "}
                 </a>
               </li>
-
-              {/* <li
-                onClick={() => {
-                  router.push("/multi_users_table");
-                  // alert('mayank')
-                }}
-                className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/multi_users_table"
-                    ? "custom-border-bottom"
-                    : ""
-                }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
-              >
-                <div className="icon">
-                  {pathname === "/multi_users_table" ? (
-                    <IconUsers
-                      style={{ width: rem(30), height: rem(30) }}
-                      stroke={2}
-                      color="#4D47C3"
-                    />
-                  ) : (
-                    <IconUsers
-                      style={{ width: rem(30), height: rem(30) }}
-                      stroke={2}
-                      color="#000000"
-                    />
-                  )}
-                </div>
-                <a
-                  className={`nav-link  ${
-                    pathname === "/multi_users_table" ? "active" : ""
-                  } `}
-                  aria-current="page"
-                  href=""
-                >
-                  {" "}
-                 Employees Profiles {" "}
-                </a>
-              </li> */}
             </div>
           )}
 
@@ -346,15 +289,15 @@ function Sidebar() {
             <>
               <li
                 onClick={() => {
-                  router.push("/profileEmployees");
+                  router.push("/employees");
                   // alert('mayank')
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/profileEmployees" ? "custom-border-bottom" : ""
+                  pathname === "/employees" ? "custom-border-bottom" : ""
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
-                  {pathname === "/profileEmployees" ? (
+                  {pathname === "/employees" ? (
                     <IconUsers
                       style={{ width: rem(30), height: rem(30) }}
                       stroke={2}
@@ -370,7 +313,7 @@ function Sidebar() {
                 </div>
                 <a
                   className={`nav-link  ${
-                    pathname === "/profileEmployees" ? "active" : ""
+                    pathname === "/employees" ? "active" : ""
                   } `}
                   aria-current="page"
                   href=""
@@ -381,17 +324,17 @@ function Sidebar() {
               </li>
               <li
                 onClick={() => {
-                  router.push("/multiple_employees");
+                  router.push("/create_employees");
                   // alert('mayank')
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/multiple_employees"
+                  pathname === "/create_employees"
                     ? "custom-border-bottom"
                     : ""
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
-                  {pathname === "/multiple_employees" ? (
+                  {pathname === "/create_employees" ? (
                     <IconCirclePlus
                       style={{ width: rem(30), height: rem(30) }}
                       stroke={2}
@@ -407,7 +350,7 @@ function Sidebar() {
                 </div>
                 <a
                   className={`nav-link  ${
-                    pathname === "/multiple_employees" ? "active" : ""
+                    pathname === "/create_employees" ? "active" : ""
                   } `}
                   aria-current="page"
                   href=""
@@ -419,17 +362,17 @@ function Sidebar() {
 
               <li
                 onClick={() => {
-                  router.push("/multiple_managers");
+                  router.push("/create_managers");
                   // alert('mayank')
                 }}
                 className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/multiple_managers"
+                  pathname === "/create_managers"
                     ? "custom-border-bottom"
                     : ""
                 }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
-                  {pathname === "/multiple_managers" ? (
+                  {pathname === "/create_managers" ? (
                     <IconCirclePlus
                       style={{ width: rem(30), height: rem(30) }}
                       stroke={2}
@@ -445,7 +388,7 @@ function Sidebar() {
                 </div>
                 <a
                   className={`nav-link  ${
-                    pathname === "/multiple_managers" ? "active" : ""
+                    pathname === "/create_managers" ? "active" : ""
                   } `}
                   aria-current="page"
                   href=""

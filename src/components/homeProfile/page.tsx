@@ -182,9 +182,6 @@ export default function HomeProfile(props: IAppProps) {
   const handleFileUploadResume = async (e) => {
     const file = e;
 
-    // console.log("filiiiiiiiiiiiiiiiii", file.type);
-
-    // Allowing file type
     var allowedTypes = [
       "application/pdf",
       "application/msword",
@@ -204,7 +201,7 @@ export default function HomeProfile(props: IAppProps) {
       });
     }
 
-    console.log("below");
+    // console.log("below");
 
     const resumeData = new FormData();
     resumeData.append("file", file);
@@ -215,7 +212,7 @@ export default function HomeProfile(props: IAppProps) {
         body: resumeData,
       });
 
-      console.log("res", response);
+      // console.log("res", response);
 
       if (response.ok) {
         console.log("File uploaded successfully.");
@@ -281,7 +278,7 @@ export default function HomeProfile(props: IAppProps) {
         body: resumeData,
       });
 
-      console.log("res", response);
+      // console.log("res", response);
 
       if (response.ok) {
         console.log("File uploaded successfully.");
@@ -339,7 +336,6 @@ export default function HomeProfile(props: IAppProps) {
       background: "#FFF !important",
 
       // background:"red",
-
       // content:`"File Uploaded successfully"`,
 
       cursor: "pointer",
@@ -5883,19 +5879,7 @@ export default function HomeProfile(props: IAppProps) {
                   </Group>
                   <Image
                     onClick={() => {
-                      // setExperience({
-                      //   title: item.title,
-                      //   employment_type: item.employment_type,
-                      //   company: item.company,
-                      //   location: item.location,
-                      //   location_type: item.location_type,
-                      //   start_year: item.start_year,
-                      //   start_year_month: item.start_year_month,
-                      //   end_year: item.end_year,
-                      //   end_year_month: item.end_year_month,
-                      //   currently_working: item.currently_working,
-                      //   id: item.id,
-                      // });
+        
                     }}
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModalBasic"

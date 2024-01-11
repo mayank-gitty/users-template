@@ -17,32 +17,14 @@ import useThemeContext from "@/context/context";
 import { IconEyeCheck, IconEyeOff } from "@tabler/icons-react";
 import { AUTH_MUTATION, createCode, updateUser } from "@/util/mutationQueries";
 import { GET_USER } from "@/util/queries";
-
 import { useSession } from "next-auth/react";
+
+
+import { GET_CODE ,  UPDATE_CODE  } from "@/util/queries";
 
 import { signIn, signOut } from "next-auth/react";
 
 import { toast } from "react-toastify";
-
-const updateCode = gql`
-  mutation Mutation($where: CodeWhereUniqueInput!, $data: CodeUpdateInput!) {
-    updateCode(where: $where, data: $data) {
-      id
-      expire
-      value
-    }
-  }
-`;
-
-const GET_CODE = gql`
-  query Codes($where: CodeWhereInput!) {
-    codes(where: $where) {
-      value
-      id
-      expire
-    }
-  }
-`;
 
 const Login = () => {
   const { loggedIn, setLoggedIn }: any = useThemeContext();
@@ -50,11 +32,7 @@ const Login = () => {
   const router = useRouter();
 
   const showPassword = () => {
-    // console.log("hitting");
-
     var x: any = document.getElementById("myInput");
-
-    // console.log("xxxxxx", x);
 
     if (x.type === "password") {
       x.type = "text";
@@ -85,95 +63,53 @@ const Login = () => {
     },
   });
 
-  const getLoginManager = async () => {
-    console.log(form.getInputProps("password").value);
-
-    const user: any = await client.request(AUTH_MUTATION, {
-      email: form.getInputProps("managerEmail").value,
-      password: form.getInputProps("managerPassword").value,
-    });
-
-    // console.log("password", user);
-
-    if (user?.authenticateUserWithPassword?.message) {
-      return alert("invalid credentials");
-    } else {
-      console.log("dd", user?.authenticateUserWithPassword?.item);
-
-      if (user?.authenticateUserWithPassword?.item?.role === "employee") {
-        return alert("please login as user");
-      }
-
-      setLoggedIn(true);
-      setTimeout(() => {
-        router.push("/");
-      }, 1000);
-
-
-    }
-  };
-
   const getLogin = async () => {
-
-    console.log(form.getInputProps("password").value);
+    // console.log(form.getInputProps("password").value);
 
     const user: any = await client.request(AUTH_MUTATION, {
       email: form.getInputProps("email").value,
       password: form.getInputProps("password").value,
     });
 
-
     if (user?.authenticateUserWithPassword.item) {
-
-
-      console.log('inside',user?.authenticateUserWithPassword?.item)
-
-
+      // console.log("inside", user?.authenticateUserWithPassword?.item);
 
       let response = await signIn("credentials", {
         redirect: false,
         id: user?.authenticateUserWithPassword.item.id,
         name: user?.authenticateUserWithPassword.item.name,
-        email:user?.authenticateUserWithPassword.item.email,
-        role:user?.authenticateUserWithPassword.item.role,
-        company_id:user?.authenticateUserWithPassword.item?.company?.id,
-        company_name:user?.authenticateUserWithPassword.item?.company?.name
-      
-      
+        email: user?.authenticateUserWithPassword.item.email,
+        role: user?.authenticateUserWithPassword.item.role,
+        company_id: user?.authenticateUserWithPassword.item?.company?.id,
+        company_name: user?.authenticateUserWithPassword.item?.company?.name,
       });
 
-      console.log("ssss", response?.error);
+      // console.log("ssss", response?.error);
 
-      if (response?.error) { 
+      if (response?.error) {
         return alert("invalid credentials");
       }
-      
-      if (!response?.error) {
-        console.log(response.error);
 
-        
-        localStorage.setItem('role',user?.authenticateUserWithPassword.item.role)
+      if (!response?.error) {
+        // console.log(response.error);
+
+        localStorage.setItem(
+          "role",
+          user?.authenticateUserWithPassword.item.role
+        );
 
         return router.push("/");
       }
-      
     }
-
 
     if (user?.authenticateUserWithPassword?.message) {
       return alert("invalid credentials");
     } else {
-
-
-      
-
-
-   
     }
   };
 
   const savePassword = async () => {
-    console.log("sp");
+    // console.log("sp");
 
     if (form.getInputProps("forgotPassword").value.length < 8) {
       return toast("password should have atleast 8 characters", {
@@ -191,7 +127,7 @@ const Login = () => {
       },
     });
 
-    console.log("verifyCode", verifyCode);
+    // console.log("verifyCode", verifyCode);
 
     if (verifyCode.codes.length > 0) {
       if (verifyCode?.codes[0].expire) {
@@ -202,7 +138,7 @@ const Login = () => {
         });
       }
 
-      const code: any = await client.request(updateCode, {
+      const code: any = await client.request(UPDATE_CODE, {
         where: {
           id: verifyCode?.codes[0].id,
         },
@@ -211,7 +147,7 @@ const Login = () => {
         },
       });
 
-      console.log("code expired", code);
+      // console.log("code expired", code);
 
       const user: any = await client.request(updateUser, {
         where: {
@@ -255,8 +191,6 @@ const Login = () => {
             progressClassName: "fancy-progress-bar",
           });
         }, 1000);
-
-        
       }
     } else {
       return toast("invalid code", {
@@ -270,21 +204,16 @@ const Login = () => {
   };
 
   const signInProceed = (e) => {
-    
     e.preventDefault();
 
-    if(form.validate().hasErrors) {
-
-      console.log('inside',form.validate())
-      return
-
+    if (form.validate().hasErrors) {
+      // console.log("inside", form.validate());
+      return;
     }
 
-    console.log(form.getInputProps("email").value);
+    // console.log(form.getInputProps("email").value);
 
     getLogin();
-
-
   };
 
   const signInManager = (e) => {
@@ -292,7 +221,7 @@ const Login = () => {
 
     console.log(form.getInputProps("email").value);
 
-    getLoginManager();
+
   };
 
   function generateOTP() {
@@ -306,13 +235,10 @@ const Login = () => {
     return OTP;
   }
 
-  console.log("OTP of 4 digits: ");
-  console.log(generateOTP());
-
   useEffect(() => {}, []);
 
   const sendEmails = async (code) => {
-    console.log("rec", code);
+    // console.log("rec", code);
 
     const recipients = {
       to: form.getInputProps("forgotEmail")?.value,
@@ -320,7 +246,7 @@ const Login = () => {
       text: `your code for password change ${code} `,
     };
 
-    console.log("rec", recipients);
+    // console.log("rec", recipients);
 
     try {
       const response = await fetch("/api/send-email", {
@@ -334,19 +260,19 @@ const Login = () => {
       });
 
       if (response.ok) {
-        console.log("Emails sent successfully");
+        // console.log("Emails sent successfully");
         return true;
       } else {
-        console.error("Failed to send emails");
+        // console.error("Failed to send emails");
         return false;
       }
     } catch (error) {
-      console.error("Error sending emails:", error.message);
+      // console.error("Error sending emails:", error.message);
     }
   };
 
   const sendPassword = async (code) => {
-    console.log("codeing", code);
+    // console.log("codeing", code);
 
     const recipients = {
       to: form.getInputProps("forgotEmail")?.value,
@@ -354,7 +280,7 @@ const Login = () => {
       text: `your new password is ${code} `,
     };
 
-    console.log("rec", recipients);
+    // console.log("rec", recipients);
 
     try {
       const response = await fetch("/api/send-email", {
@@ -368,14 +294,14 @@ const Login = () => {
       });
 
       if (response.ok) {
-        console.log("Emails sent successfully");
+        // console.log("Emails sent successfully");
         return true;
       } else {
-        console.error("Failed to send emails");
+        // console.error("Failed to send emails");
         return false;
       }
     } catch (error) {
-      console.error("Error sending emails:", error.message);
+      // console.error("Error sending emails:", error.message);
     }
   };
 
@@ -612,10 +538,6 @@ const Login = () => {
                   </form>
                 </Paper>
               </div>
-              {/* 
-          <div class="modal-footer">
-         
-          </div> */}
             </div>
           </div>
         </form>

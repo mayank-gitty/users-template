@@ -30,10 +30,10 @@ export default list({
       resolvedData,
       context,
     }) => {
-      console.log(item, operation);
+      // console.log(item, operation);
 
       if (operation === "create" || operation === "update") {
-        console.log("item ope", item, operation);
+        // console.log("item ope", item, operation);
 
         if (item.master) {
           const user = await context.db.ItSkill.createOne({
@@ -46,39 +46,17 @@ export default list({
             },
             // query: '',
           });
-
-          console.log("--user--", user);
         } else {
           const user1: any = await context.db.ItSkill.findMany({
             where: { masterId: { equals: item.id } },
           });
 
-          console.log("==========", user1);
-
           if (user1.length > 0) {
             const user = await context.db.ItSkill.deleteOne({
               where: { id: user1[0].id },
             });
-
-            console.log("deleted", user);
           }
-
-          // console.log('deleted',user)
         }
-
-        // const user = await context.db.ProfileUser.findMany({
-        //   where: {},
-        // });
-
-        // const flag = user?.filter(
-        //   (item) => item.userId === resolvedData?.user?.connect?.id
-        // );
-
-        // console.log("flag", flag);
-        // if (flag.length !== 0) {
-        //   // We call addValidationError to indicate an invalid value.
-        //   addValidationError("this profile is already completed");
-        // }
       }
     },
   },

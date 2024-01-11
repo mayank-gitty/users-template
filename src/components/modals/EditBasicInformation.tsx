@@ -188,7 +188,7 @@ export function EditBasicInformation({ form, updateBasicDetails }) {
                               },
                             })}
                             onChange={(e) => {
-                              console.log("", e);
+                              // console.log("", e);
                               form.setFieldValue("userCompany", e);
                             }}
                             placeholder="Please select company"
@@ -210,7 +210,7 @@ export function EditBasicInformation({ form, updateBasicDetails }) {
                               onChange={(e: any) => {
                                 form.setFieldValue(`statusForMutation`, e);
 
-                                console.log("mmmm", e);
+                                // console.log("mmmm", e);
                               }}
                               // description="This is anonymous"
 
@@ -231,11 +231,10 @@ export function EditBasicInformation({ form, updateBasicDetails }) {
                                 form.getInputProps("workForMutation")?.value
                               }
                               onChange={(e: any) => {
-                                console.log("e", e);
+                                // console.log("e", e);
 
                                 form.setFieldValue(`workForMutation`, e);
 
-                                console.log("mmmm", e);
                               }}
                               // description="This is anonymous"
                               withAsterisk

@@ -13,9 +13,7 @@ import {
 import Navbar from "../../components/Navbar";
 import { randomId } from "@mantine/hooks";
 import { Manrope } from "next/font/google";
-
 import { toast, ToastContainer } from "react-toastify";
-
 import { dropDown, projectsData } from "../../utils/data";
 // import { useSession } from "next-auth/react";
 import {
@@ -41,52 +39,15 @@ import { GET_USER } from "@/util/queries";
 import { createMultipleUsers } from "../../utils/serverMutations";
 import { useTransition } from "react";
 import client from "../../../helpers/request";
-import { Console } from "console";
+import { ALL_USERS , COMPANIES  } from "@/util/queries";
+import { ADD_MULTIPLE_USER } from "@/util/mutationQueries";
 
-const COMPANIES = gql`
-  query Query {
-    companies {
-      name
-      id
-    }
-  }
-`;
-
-const USERS = gql`
-  query Users {
-    users {
-      name
-      company {
-        name
-      }
-      role
-      email
-      phone
-      address
-    }
-  }
-`;
-
-const ADD_MULTIPLE_USER = gql`
-  mutation Mutation($data: [UserCreateInput!]!) {
-    createUsers(data: $data) {
-      role
-      password {
-        isSet
-      }
-    }
-  }
-`;
-
-const AddTimeLine = ({ AllProjects }: any) => {
+const ADD_MANAGERS = ({ AllProjects }: any) => {
   const router = useRouter();
 
   let [isPending, startTransition] = useTransition();
 
-  //   const { data: session }: any = useSession();
-
   const checkExistingUser = async (email) => {
-    console.log("checking email", email);
 
     const checking = await client.request(GET_USER, {
       where: {
@@ -94,7 +55,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
       },
     });
 
-    console.log("response", checking?.user?.email);
 
     return checking?.user?.email;
   };
@@ -137,10 +97,10 @@ const AddTimeLine = ({ AllProjects }: any) => {
           }
 
           if (/^[0-9]{10}$/.test(mobileNumber)) {
-            console.log("inside", mobileNumber);
+            // console.log("inside", mobileNumber);
             return null;
           } else {
-            console.log("outside", mobileNumber);
+            // console.log("outside", mobileNumber);
             return "The mobile number is not valid.";
           }
         },
@@ -175,7 +135,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
   const getComapanies = async () => {
     const users: any = await client.request(COMPANIES);
 
-    console.log("usersaa", users);
+    // console.log("usersaa", users);
 
     const DefaultSkills = users?.companies?.map((item: any) => {
       return {
@@ -190,7 +150,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
   };
 
   const addEntry = () => {
-    
     if (!form.getInputProps("company")?.value) {
       return form.setFieldError("company", "select company");
     }
@@ -205,10 +164,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
   };
 
   useEffect(() => {
-    
     getComapanies();
-
-
   }, []);
 
   function generateSecurePassword5(inputString, length, company) {
@@ -234,82 +190,14 @@ const AddTimeLine = ({ AllProjects }: any) => {
       }
     }
 
-    console.log("c", randomPart);
-
-    // Create the final password by combining the input string, underscores, and the random portion
     // const underscores = "_".repeat(remainingLength - randomPart.length);
     const password = inputString + randomPart + "@" + "cloud";
 
     return password;
   }
 
-  function generatePasswordFromUsername(username) {
-    // Function to shuffle an array randomly
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
-
-    // Convert the username into a password
-    let password = username;
-
-    // Add a random number
-    password += Math.floor(Math.random() * 10);
-
-    // Add a random uppercase letter
-    password += String.fromCharCode(65 + Math.floor(Math.random() * 26));
-
-    // Add a random lowercase letter
-    password += String.fromCharCode(97 + Math.floor(Math.random() * 26));
-
-    // Define a set of special characters
-    const specialChars = "!@#$%^&*()_-+=<>?";
-
-    // Add a random special character
-    password += specialChars[Math.floor(Math.random() * specialChars.length)];
-
-    // Convert the password string into an array for shuffling
-    const passwordArray = password.split("");
-
-    // Shuffle the characters randomly
-    shuffleArray(passwordArray);
-
-    // Convert the shuffled array back to a string
-    password = passwordArray.join("");
-
-    return password;
-  }
-
-  const username = "exampleUser"; // Replace with your username
-  const password = generatePasswordFromUsername(username);
-  console.log(password);
-
-  // const seedString = "YourSeedString"; // Replace with your own seed string
-  // const password = generateSecurePassword(seedString, 12); // Change the number to set the desired password length
-  // console.log(password);
-
-  function findDuplicateObjects(array, property) {
-    console.log(array, property);
-    const seen = {};
-    const duplicates = [];
-
-    array.forEach((item) => {
-      const value = item[property];
-
-      if (seen[value]) {
-        duplicates.push(item);
-      } else {
-        seen[value] = true;
-      }
-    });
-
-    return duplicates;
-  }
-
   const sendEmails = async (users) => {
-    console.log("rec", users);
+    // console.log("rec", users);
 
     const recipients = users.map((item) => {
       return {
@@ -319,7 +207,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
       };
     });
 
-    console.log("rec", recipients);
+    // console.log("rec", recipients);
 
     try {
       const response = await fetch("/api/send-email", {
@@ -333,31 +221,28 @@ const AddTimeLine = ({ AllProjects }: any) => {
       });
 
       if (response.ok) {
-        console.log("Emails sent successfully");
+        // console.log("Emails sent successfully");
         return true;
       } else {
-        console.error("Failed to send emails");
+        // console.error("Failed to send emails");
         return false;
       }
     } catch (error) {
-      console.error("Error sending emails:", error.message);
+      // console.error("Error sending emails:", error.message);
     }
   };
 
   // Trigger the email sending
 
   const saveAll = async () => {
-    console.log("form enteries", form.values.entries);
+    // console.log("form enteries", form.values.entries);
 
     if (form.validate().hasErrors) {
-      console.log("yes", form.errors);
+      // console.log("yes", form.errors);
       return;
     } else {
-      console.log("form valuess ", form.values);
-
-      const users: any = await client.request(USERS);
-
-      console.log("users", users);
+      // console.log("form valuess ", form.values);
+      const users: any = await client.request(ALL_USERS);
 
       const checkDuplicatePhone = form.values.entries.map((item) => {
         const flag = users.users.filter(
@@ -373,7 +258,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
         (item) => item !== undefined
       );
 
-      console.log("duplicatePhone", checkDuplicatePhone);
+      // console.log("duplicatePhone", checkDuplicatePhone);
 
       const Mutatedata = form.values.entries.map(async (item) => {
         return checkExistingUser(item.email);
@@ -381,11 +266,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
 
       const values = await Promise.all(Mutatedata);
 
-      console.log("valuessssssssssss0", values);
-
       const checkDuplicatesMail = values.filter((item) => item !== undefined);
-
-      console.log("valuessssssssssssinngg", checkDuplicatesMail);
 
       if (checkDuplicatesMail.length > 0) {
         return toast(`${checkDuplicatesMail[0]} already registered`, {
@@ -425,7 +306,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
         };
       });
 
-      console.log("generate", MutatedataForSending);
+      // console.log("generate", MutatedataForSending);
 
       const user = await client.request(ADD_MULTIPLE_USER, {
         data: MutatedataForSending,
@@ -440,7 +321,6 @@ const AddTimeLine = ({ AllProjects }: any) => {
           //   company: "",
           key: 0,
         },
-
       ]);
 
       form.setFieldValue("company", "");
@@ -467,7 +347,7 @@ const AddTimeLine = ({ AllProjects }: any) => {
         }, 1000);
       } else {
         // console.log("error",);
-        // setFormErrors(validationErrors);
+
       }
     }
   };
@@ -539,115 +419,94 @@ const AddTimeLine = ({ AllProjects }: any) => {
                       </tr>
                     </thead>
                     <tbody>
-               
-
                       {form.values.entries.length > 0 &&
                         form.values.entries.map((item: any, index) => {
-                        
-                            return (
-                              <tr
-                                key={item.key}
-                                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                          return (
+                            <tr
+                              key={item.key}
+                              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                            >
+                              <th
+                                scope="row"
+                                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                               >
-                                <th
-                                  scope="row"
-                                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                <TextInput
+                                  disabled={
+                                    form.getInputProps("company")?.value
+                                      ? false
+                                      : true
+                                  }
+                                  className=" h-10 w-48 p-2"
+                                  placeholder="Name"
+                                  {...form.getInputProps(
+                                    `entries.${index}.userName`
+                                  )}
+                                />
+                              </th>
+                              <td className="px-6 py-4">
+                                <TextInput
+                                  //   label="Name"
+                                  //   description="Input description"
+
+                                  disabled={
+                                    form.getInputProps("company")?.value
+                                      ? false
+                                      : true
+                                  }
+                                  className=" h-10 w-48 p-2"
+                                  placeholder="Mobile Number"
+                                  {...form.getInputProps(
+                                    `entries.${index}.mobileNumber`
+                                  )}
+                                />
+                              </td>
+                              <td className="px-6 py-4">
+                                <TextInput
+                                  //   label="Name"
+                                  //   description="Input description"
+
+                                  disabled={
+                                    form.getInputProps("company")?.value
+                                      ? false
+                                      : true
+                                  }
+                                  className=" h-10 w-48 p-2"
+                                  placeholder="Email"
+                                  {...form.getInputProps(
+                                    `entries.${index}.email`
+                                  )}
+                                />
+                              </td>
+                              <td className="px-6 py-4">
+                                <TextInput
+                                  //   label="Name"
+                                  //   description="Input description"
+
+                                  disabled={
+                                    form.getInputProps("company")?.value
+                                      ? false
+                                      : true
+                                  }
+                                  className=" h-10 w-48 p-2"
+                                  placeholder="Address"
+                                  {...form.getInputProps(
+                                    `entries.${index}.address`
+                                  )}
+                                />
+                              </td>
+
+                              <td>
+                                <button
+                                  className={` px-3 py-2 rounded-lg capitalize ml-6 `}
+                                  onClick={(e) =>
+                                    form.removeListItem("entries", index)
+                                  }
                                 >
-                                  <TextInput
-                                    disabled={
-                                     
-                                      form.getInputProps(
-                                          "company"
-                                        )?.value
-                                          ? false
-                                          :  true
-    
-                                      }
-                                    className=" h-10 w-48 p-2"
-                                    placeholder="Name"
-                                    {...form.getInputProps(
-                                      `entries.${index}.userName`
-                                    )}
-                                  />
-                                </th>
-                                <td className="px-6 py-4">
-                                  <TextInput
-                                    //   label="Name"
-                                    //   description="Input description"
-
-                                    disabled={
-                                     
-                                      form.getInputProps(
-                                          "company"
-                                        )?.value
-                                          ? false
-                                          :  true
-    
-                                      }
-                                    className=" h-10 w-48 p-2"
-                                    placeholder="Mobile Number"
-                                    {...form.getInputProps(
-                                      `entries.${index}.mobileNumber`
-                                    )}
-                                  />
-                                </td>
-                                <td className="px-6 py-4">
-                                  <TextInput
-                                    //   label="Name"
-                                    //   description="Input description"
-
-                                    disabled={
-                                     
-                                      form.getInputProps(
-                                          "company"
-                                        )?.value
-                                          ? false
-                                          :  true
-    
-                                      }
-                                    className=" h-10 w-48 p-2"
-                                    placeholder="Email"
-                                    {...form.getInputProps(
-                                      `entries.${index}.email`
-                                    )}
-                                  />
-                                </td>
-                                <td className="px-6 py-4">
-                                  <TextInput
-                                    //   label="Name"
-                                    //   description="Input description"
-
-
-                                    disabled={
-                                     
-                                      form.getInputProps(
-                                          "company"
-                                        )?.value
-                                          ? false
-                                          :  true
-    
-                                      }
-                                    className=" h-10 w-48 p-2"
-                                    placeholder="Address"
-                                    {...form.getInputProps(
-                                      `entries.${index}.address`
-                                    )}
-                                  />
-                                </td>
-
-                                <td>
-                                  <button
-                                    className={` px-3 py-2 rounded-lg capitalize ml-6 `}
-                                    onClick={(e) =>
-                                      form.removeListItem("entries", index)
-                                    }
-                                  >
-                                    <FiTrash />
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          
+                                  <FiTrash />
+                                </button>
+                              </td>
+                            </tr>
+                          );
                         })}
                     </tbody>
                   </table>
@@ -673,4 +532,4 @@ const AddTimeLine = ({ AllProjects }: any) => {
   );
 };
 
-export default AddTimeLine;
+export default ADD_MANAGERS;

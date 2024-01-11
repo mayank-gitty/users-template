@@ -1,17 +1,36 @@
-import * as React from 'react';
-export interface IAppProps {
-}
+import * as React from "react";
+export interface IAppProps {}
 
-import { Container, FileInput, Image,Paper,Group,Grid,Input ,Select} from "@mantine/core";
-import { Autocomplete } from '@mantine/core';
+import {
+  Container,
+  FileInput,
+  Image,
+  Paper,
+  Group,
+  Grid,
+  Input,
+  Select,
+} from "@mantine/core";
+import { Autocomplete } from "@mantine/core";
 
-import { yearsData , allDegreesArray ,  indianEducationArray ,fields , type ,releventMonths } from '@/util/formDefault.Data';
+import {
+  yearsData,
+  allDegreesArray,
+  indianEducationArray,
+  fields,
+  type,
+  releventMonths,
+} from "@/util/formDefault.Data";
 
-export function AddEducation ( { education,addEducation, setEducation ,  handleChangeEducation  }) {
-
+export function AddEducation({
+  education,
+  addEducation,
+  setEducation,
+  handleChangeEducation,
+}) {
   return (
     <div>
-        <div
+      <div
         class="modal fade"
         id="addEducation"
         tabindex="-1"
@@ -43,34 +62,7 @@ export function AddEducation ( { education,addEducation, setEducation ,  handleC
                   <form>
                     <Grid>
                       <>
-                        {/* <Grid.Col span={12}>
-                        <Input.Wrapper
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              // marginBottom: 10,
-                            },
-                          })}
-                        ></Input.Wrapper>
-                      </Grid.Col> */}
-
                         <Grid.Col span={12}>
-                          {/*                         
-                        <Input.Wrapper
-                          label="School,University,Institute"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              // marginBottom: 10,
-                            },
-                          })}
-                        > */}
                           <Autocomplete
                             styles={(theme) => ({
                               input: {
@@ -101,18 +93,6 @@ export function AddEducation ( { education,addEducation, setEducation ,  handleC
                         </Grid.Col>
 
                         <Grid.Col span={12}>
-                          {/* <Input.Wrapper
-                          label="Course"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              // marginBottom: 10,
-                            },
-                          })}
-                        > */}
                           <Autocomplete
                             styles={(theme) => ({
                               input: {
@@ -140,18 +120,6 @@ export function AddEducation ( { education,addEducation, setEducation ,  handleC
                         </Grid.Col>
 
                         <Grid.Col span={12}>
-                          {/* <Input.Wrapper
-                          label="field of study"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
-                        > */}
                           <Autocomplete
                             value={education.field_of_study}
                             onChange={(value: any) =>
@@ -300,18 +268,6 @@ export function AddEducation ( { education,addEducation, setEducation ,  handleC
                         </Grid.Col>
 
                         <Grid.Col span={12}>
-                          {/* <Input.Wrapper
-                          label="Grade"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
-                        > */}
                           <Input
                             placeholder="Grade"
                             required
@@ -333,18 +289,6 @@ export function AddEducation ( { education,addEducation, setEducation ,  handleC
                           {/* </Input.Wrapper> */}
                         </Grid.Col>
                         <Grid.Col span={12}>
-                          {/* <Input.Wrapper
-                          label="Activities"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
-                        > */}
                           <Input
                             placeholder="Activities"
                             required
@@ -370,18 +314,6 @@ export function AddEducation ( { education,addEducation, setEducation ,  handleC
                         </Grid.Col>
 
                         <Grid.Col span={12}>
-                          {/* <Input.Wrapper
-                          label="Description"
-                          styles={() => ({
-                            label: {
-                              color: "#01041b",
-                              fontSize: "1.2em",
-                              fontWeight: 500,
-                              lineHeight: 1.2,
-                              marginBottom: 10,
-                            },
-                          })}
-                        > */}
                           <Input
                             placeholder="Description"
                             required

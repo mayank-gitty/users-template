@@ -218,24 +218,6 @@ const Profile = () => {
                 </small> */}
               </Grid.Col>
 
-              {/* <Grid.Col
-                span={12}
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  paddingTop: "10px",
-                }}
-              >
-                <div className="">
-                  <Group position="right" mt="md">
-             
-
-                    <></>
-                  </Group>
-                </div>
-              </Grid.Col> */}
-
-
             </Grid>
           </form>
         </Paper>

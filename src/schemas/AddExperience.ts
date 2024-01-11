@@ -9,19 +9,16 @@ import {
 import { allowAll } from "@keystone-6/core/access";
 import { calendarDay } from "@keystone-6/core/fields";
 
-
 function generateArrayOfYears() {
-    var max = new Date().getFullYear();
-    var min = max - 30;
-    var years = [];
+  var max = new Date().getFullYear();
+  var min = max - 30;
+  var years = [];
 
-    for (var i = max; i >= min; i--) {
-      years.push(i.toString());
-    }
-    return years;
+  for (var i = max; i >= min; i--) {
+    years.push(i.toString());
   }
-
-
+  return years;
+}
 
 const yearsData = generateArrayOfYears();
 
@@ -39,7 +36,6 @@ const releventMonths = [
   "November",
   "December",
 ];
-
 
 export default list({
   access: allowAll,
@@ -62,23 +58,23 @@ export default list({
       options: [
         { label: "remote", value: "remote" },
         { label: "office", value: "office" },
-        // Add more roles as needed 
+        // Add more roles as needed
       ],
     }),
     currently_working: checkbox({
-        defaultValue: false,
-      }),
-     start_year : select({
-        options: yearsData
-      }),
-     start_year_month : select({
-        options: releventMonths
-      }),
-     end_year : select({
-        options:yearsData
-      }),
-     end_year_month : select({
-        options: releventMonths
-      })
+      defaultValue: false,
+    }),
+    start_year: select({
+      options: yearsData,
+    }),
+    start_year_month: select({
+      options: releventMonths,
+    }),
+    end_year: select({
+      options: yearsData,
+    }),
+    end_year_month: select({
+      options: releventMonths,
+    }),
   },
 });

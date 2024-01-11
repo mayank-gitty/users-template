@@ -48,14 +48,7 @@ export function EditEducation ({education ,handleChangeEducation , updateExperie
                 />
               </div>
 
-              {/* <button
-                type="button"
-                id="modal-close-btn-experience"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button> */}
+
             </div>
 
             <div class="modal-body">
@@ -117,11 +110,7 @@ export function EditEducation ({education ,handleChangeEducation , updateExperie
                               placeholder="University Institute"
                             />
 
-                            {/* {errors.university && (
-                    <p style={{ color: "red", fontSize: "0.8em" }}>
-                      {errors.university}
-                    </p>
-                  )} */}
+              
                           </Input.Wrapper>
                         </Grid.Col>
 
@@ -396,11 +385,6 @@ export function EditEducation ({education ,handleChangeEducation , updateExperie
                               })}
                             />
 
-                            {/* {errors.gradingsystem && (
-                    <p style={{ color: "red", fontSize: "0.8em" }}>
-                      {errors.gradingsystem}
-                    </p>
-                  )} */}
                           </Input.Wrapper>
                         </Grid.Col>
 

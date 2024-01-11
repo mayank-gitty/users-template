@@ -31,8 +31,6 @@ const releventMonths = [
   "December",
 ];
 
-
-
 const indianEducationArray = [
   // Schools
   "Delhi Public School (DPS)",
@@ -60,8 +58,6 @@ const indianEducationArray = [
   "Indian Institutes of Management (IIMs)",
   // Add more common universities as needed
 ];
-
-
 
 const allDegreesArray = [
   "Bachelor of Arts (BA)",
@@ -93,7 +89,6 @@ const allDegreesArray = [
   // Add more Master's degrees as needed
 ];
 
-
 const fields = [
   "Computer Science",
   "Electrical Engineering",
@@ -122,16 +117,15 @@ const fields = [
   // Add more common fields of study as needed
 ];
 
-
 export default list({
   access: allowAll,
   fields: {
     school: text(),
     degree: text(),
     field_of_study: text(),
-    grade:text(),
-    activities:text(),
-    description:text(),
+    grade: text(),
+    activities: text(),
+    description: text(),
     start_year: select({
       options: yearsData,
     }),

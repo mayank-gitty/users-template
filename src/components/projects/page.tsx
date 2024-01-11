@@ -9,7 +9,7 @@ import {
   Paper,
   Select,
   Textarea,
-  Radio
+  Radio,
 } from "@mantine/core";
 
 import { toast } from "react-toastify";
@@ -285,44 +285,7 @@ const ProjectForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const errors = {};
-    // if (!formData.projectTitle) {
-    //   errors.projectTitle = "Project Title is required";
-    // }
-    // if (!formData.client) {
-    //   errors.client = "Client is required";
-    // }
-    // if (!formData.workFromYear) {
-    //   errors.workFromYear = "Year is required";
-    // }
-    // if (!formData.workFromMonth) {
-    //   errors.workFromMonth = "Month is required";
 
-    // }
-    // if (!formData.detailsOfProject) {
-    //   errors.detailsOfProject = "Detail is required";
-    // }
-    // if (!formData.projectLocation) {
-    //   errors.projectLocation = "Project LOcation is required";
-    // }
-    // if (!formData.teamSize) {
-    //   errors.teamSize = "Team Size is required";
-    // }
-    // if (!formData.role) {
-    //   errors.role = "Role is required";
-    // }
-    // if (!formData.roleDescription) {
-    //   errors.roleDescription = "Role Description is required";
-    // }
-    // if (!formData.skillUsed) {
-    //   errors.skillUsed = "Role Description is required";
-    // }
-    // if (Object.keys(errors).length === 0) {
-    //   // Handle successful submission here (e.g., API request)
-    //   setFormSubmitted(true);
-    // } else {
-    //   setFormErrors(errors);
-    // }
   };
 
   return (
@@ -512,13 +475,13 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
-                        "::placeholder":{
+                        "::placeholder": {
                           color: "#9D9D9D",
                           fontSize: "16px",
                           fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal"
-                        }
+                          lineHeight: "normal",
+                        },
                       },
                       values: {
                         height: "100%",
@@ -544,13 +507,13 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
-                        "::placeholder":{
+                        "::placeholder": {
                           color: "#9D9D9D",
                           fontSize: "16px",
                           fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal"
-                        }
+                          lineHeight: "normal",
+                        },
                       },
                       values: {
                         height: "100%",
@@ -577,7 +540,7 @@ const ProjectForm = () => {
                         fontSize: "16px",
                         fontStyle: "normal",
                         fontWeight: 600,
-                        lineHeight: "normal"
+                        lineHeight: "normal",
                       },
                     })}
                   >
@@ -594,7 +557,6 @@ const ProjectForm = () => {
                             handleChange("projectStatus", "inprogress")
                           }
                         />
-                   
                       </label>
                       <label style={{ marginRight: "10px" }}>
                         <Radio
@@ -608,7 +570,6 @@ const ProjectForm = () => {
                             handleChange("projectStatus", "finished")
                           }
                         />
-            
                       </label>
                     </div>
                   </Input.Wrapper>
@@ -622,14 +583,14 @@ const ProjectForm = () => {
                         label="Work from year"
                         error={formErrors.workFromYear}
                         styles={() => ({
-                          input:{
-                            "::placeholder":{
+                          input: {
+                            "::placeholder": {
                               color: "#9D9D9D",
                               fontSize: "16px",
                               fontStyle: "normal",
                               fontWeight: 500,
-                              lineHeight: "normal"
-                            }
+                              lineHeight: "normal",
+                            },
                           },
                           label: {
                             color: "#000",
@@ -637,10 +598,9 @@ const ProjectForm = () => {
                             fontSize: "16px",
                             fontStyle: "normal",
                             fontWeight: 600,
-                            lineHeight: "normal"
+                            lineHeight: "normal",
                           },
                         })}
-
                       >
                         <Select
                           placeholder="Year"
@@ -652,13 +612,13 @@ const ProjectForm = () => {
                           styles={(theme) => ({
                             input: {
                               height: "100%",
-                              "::placeholder":{
+                              "::placeholder": {
                                 color: "#9D9D9D",
                                 fontSize: "16px",
                                 fontStyle: "normal",
                                 fontWeight: 500,
-                                lineHeight: "normal"
-                              }
+                                lineHeight: "normal",
+                              },
                             },
                             values: {
                               height: "100%",
@@ -685,7 +645,7 @@ const ProjectForm = () => {
                             fontSize: "16px",
                             fontStyle: "normal",
                             fontWeight: 600,
-                            lineHeight: "normal"
+                            lineHeight: "normal",
                           },
                         })}
                       >
@@ -712,13 +672,13 @@ const ProjectForm = () => {
                           styles={(theme) => ({
                             input: {
                               height: "100%",
-                              "::placeholder":{
+                              "::placeholder": {
                                 color: "#9D9D9D",
                                 fontSize: "16px",
                                 fontStyle: "normal",
                                 fontWeight: 500,
-                                lineHeight: "normal"
-                              }
+                                lineHeight: "normal",
+                              },
                             },
                             values: {
                               height: "100%",
@@ -737,44 +697,25 @@ const ProjectForm = () => {
                   </div>
                 </Grid.Col>
                 <Grid.Col span={12}>
-                  {/* <Input.Wrapper
-                    label="Details of project"
-                    error={formErrors.detailsOfProject}
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
-                      },
-                    })}
-                  > */}
+            
                   <Textarea
                     placeholder="Details of project"
                     required
                     styles={(theme) => ({
-
-
-                      input:{
-
+                      input: {
                         width: "100%", // Adjust the width as needed
                         padding: "10px", // Add padding for a consistent look
                         borderRadius: "4px", // Add rounded corners
                         border: "1px solid #ccc", // Add a border
-                        "::placeholder":{
+                        "::placeholder": {
                           color: "#9D9D9D",
                           fontSize: "16px",
                           fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal"
-                        }
-                        
+                          lineHeight: "normal",
+                        },
                       },
-               
-
                     })}
-
                     value={project.detailsOfProject}
                     onChange={(e) =>
                       handleChange("detailsOfProject", e.target.value)
@@ -790,15 +731,15 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
-                        "::placeholder":{
+                        "::placeholder": {
                           color: "#9D9D9D",
                           fontSize: "16px",
                           fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal"
-                        }
+                          lineHeight: "normal",
+                        },
                       },
-                      
+
                       values: {
                         height: "100%",
                       },
@@ -822,14 +763,14 @@ const ProjectForm = () => {
                     label="Project site"
                     error={formErrors.projectSite}
                     styles={() => ({
-                      input:{
-                        "::placeholder":{
+                      input: {
+                        "::placeholder": {
                           color: "#9D9D9D",
                           fontSize: "16px",
                           fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal"
-                        }
+                          lineHeight: "normal",
+                        },
                       },
                       label: {
                         color: "#000",
@@ -837,7 +778,7 @@ const ProjectForm = () => {
                         fontSize: "16px",
                         fontStyle: "normal",
                         fontWeight: 600,
-                        lineHeight: "normal"
+                        lineHeight: "normal",
                       },
                     })}
                   >
@@ -854,7 +795,6 @@ const ProjectForm = () => {
                             handleChange("projectSite", "offsite")
                           }
                         />
-              
                       </label>
                       <label style={{ marginRight: "10px" }}>
                         <Radio
@@ -866,7 +806,6 @@ const ProjectForm = () => {
                           checked={project.projectSite === "onsite"}
                           onChange={() => handleChange("projectSite", "onsite")}
                         />
-      
                       </label>
                     </div>
                   </Input.Wrapper>
@@ -883,13 +822,11 @@ const ProjectForm = () => {
                         fontSize: "16px",
                         fontStyle: "normal",
                         fontWeight: 600,
-                        lineHeight: "normal"
+                        lineHeight: "normal",
                       },
                     })}
                   >
                     <div>
-
-
                       <label style={{ marginRight: "10px" }}>
                         <Radio
                           type="radio"
@@ -902,7 +839,6 @@ const ProjectForm = () => {
                             handleChange("natureOfEmployment", "fulltime")
                           }
                         />
-             
                       </label>
 
                       <label style={{ marginRight: "10px" }}>
@@ -917,9 +853,7 @@ const ProjectForm = () => {
                             handleChange("natureOfEmployment", "parttime")
                           }
                         />
-            
                       </label>
-
 
                       <label>
                         <Radio
@@ -933,7 +867,6 @@ const ProjectForm = () => {
                             handleChange("natureOfEmployment", "contractual")
                           }
                         />
-          
                       </label>
                     </div>
                   </Input.Wrapper>
@@ -961,13 +894,13 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
-                        "::placeholder":{
+                        "::placeholder": {
                           color: "#9D9D9D",
                           fontSize: "16px",
                           fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal"
-                        }
+                          lineHeight: "normal",
+                        },
                       },
                       values: {
                         height: "100%",
@@ -994,21 +927,18 @@ const ProjectForm = () => {
                       "python dev",
                       "javascript dev",
                       "next dev",
-                    
-                 
-                 
                     ]} // Your list of size
                     value={project.role}
                     styles={(theme) => ({
                       input: {
                         height: "100%",
-                        "::placeholder":{
+                        "::placeholder": {
                           color: "#9D9D9D",
                           fontSize: "16px",
                           fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal"
-                        }
+                          lineHeight: "normal",
+                        },
                       },
                       values: {
                         height: "100%",
@@ -1027,31 +957,18 @@ const ProjectForm = () => {
                 </Grid.Col>
 
                 <Grid.Col span={12}>
-                  {/* <Input.Wrapper
-                    label="Role description"
-                    error={formErrors.roleDescription}
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
-                      },
-                    })}
-                  > */}
                   <Textarea
                     placeholder="Role description"
                     required
                     styles={() => ({
-                      input:{
-                        "::placeholder":{
+                      input: {
+                        "::placeholder": {
                           color: "#9D9D9D",
                           fontSize: "16px",
                           fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal"
-                        }
+                          lineHeight: "normal",
+                        },
                       },
                       label: {
                         color: "#000",
@@ -1059,7 +976,7 @@ const ProjectForm = () => {
                         fontSize: "16px",
                         fontStyle: "normal",
                         fontWeight: 600,
-                        lineHeight: "normal"
+                        lineHeight: "normal",
                       },
                     })}
                     value={project.roleDescription}
@@ -1071,31 +988,18 @@ const ProjectForm = () => {
                 </Grid.Col>
 
                 <Grid.Col span={12}>
-                  {/* <Input.Wrapper
-                    label="Skills used"
-                    error={formErrors.roleDescription}
-                    styles={() => ({
-                      label: {
-                        color: "#01041b",
-                        fontSize: "1.2em",
-                        fontWeight: 500,
-                        lineHeight: 1.2,
-                        marginBottom: 10,
-                      },
-                    })} 
-                  > */}
                   <Textarea
                     placeholder="Skills used"
                     required
                     styles={() => ({
-                      input:{
-                        "::placeholder":{
+                      input: {
+                        "::placeholder": {
                           color: "#9D9D9D",
                           fontSize: "16px",
                           fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal"
-                        }
+                          lineHeight: "normal",
+                        },
                       },
                       label: {
                         color: "#000",
@@ -1103,7 +1007,7 @@ const ProjectForm = () => {
                         fontSize: "16px",
                         fontStyle: "normal",
                         fontWeight: 600,
-                        lineHeight: "normal"
+                        lineHeight: "normal",
                       },
                     })}
                     value={project.skillUsed}
@@ -1114,11 +1018,13 @@ const ProjectForm = () => {
 
                 <Grid.Col
                   span={12}
-                  style={{
-                    // display: "flex",
-                    // justifyContent: "flex-end",
-                    // paddingTop: "10px",
-                  }}
+                  style={
+                    {
+                      // display: "flex",
+                      // justifyContent: "flex-end",
+                      // paddingTop: "10px",
+                    }
+                  }
                 >
                   <Group position="right" mt="md">
                     <Button
@@ -1126,8 +1032,8 @@ const ProjectForm = () => {
                       type="button"
                       className="btn-info"
                       style={{
-                        height:"50px",  
-                        width:"100%"
+                        height: "50px",
+                        width: "100%",
                       }}
                     >
                       Save

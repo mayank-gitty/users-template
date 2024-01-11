@@ -285,19 +285,7 @@ const {formData} :any  = useThemeContext()
                     </div>
                   </Grid.Col>
                   <Grid.Col span={12}>
-                    {/* <Input.Wrapper
-                label="Details of project"
-                error={formErrors.detailsOfProject}
-                styles={() => ({
-                  label: {
-                    color: "#01041b",
-                    fontSize: "1.2em",
-                    fontWeight: 500,
-                    lineHeight: 1.2,
-                    marginBottom: 10,
-                  },
-                })}
-              > */}
+         
                     <Textarea
                       placeholder="Details of project"
                       required
@@ -586,19 +574,7 @@ const {formData} :any  = useThemeContext()
                   </Grid.Col>
 
                   <Grid.Col span={12}>
-                    {/* <Input.Wrapper
-                label="Role description"
-                error={formErrors.roleDescription}
-                styles={() => ({
-                  label: {
-                    color: "#01041b",
-                    fontSize: "1.2em",
-                    fontWeight: 500,
-                    lineHeight: 1.2,
-                    marginBottom: 10,
-                  },
-                })}
-              > */}
+               
                     <Textarea
                       placeholder="Role description"
                       required
@@ -633,19 +609,7 @@ const {formData} :any  = useThemeContext()
                   </Grid.Col>
 
                   <Grid.Col span={12}>
-                    {/* <Input.Wrapper
-                label="Skills used"
-                error={formErrors.roleDescription}
-                styles={() => ({
-                  label: {
-                    color: "#01041b",
-                    fontSize: "1.2em",
-                    fontWeight: 500,
-                    lineHeight: 1.2,
-                    marginBottom: 10,
-                  },
-                })} 
-              > */}
+         
                     <Textarea
                       placeholder="Skills used"
                       required

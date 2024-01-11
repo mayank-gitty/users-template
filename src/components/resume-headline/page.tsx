@@ -13,11 +13,6 @@ import {
 import useThemeContext from "@/context/context";
 
 const ResumeHeadline = () => {
-  // const [formData, setFormData] = useState({
-
-  //   resumeHeadline: "",
-
-  // });
 
   const [formSubmitted, setFormSubmitted] = useState(false);
   const { setFormData, formData }: any = useThemeContext();

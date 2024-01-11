@@ -13,29 +13,28 @@ generator client {
 }
 
 model User {
-  id                    String          @id @default(cuid())
-  name                  String          @default("")
-  email                 String          @unique @default("")
-  password              String
-  company               Company?        @relation("User_company", fields: [companyId], references: [id])
-  companyId             String?         @map("company")
-  createdAt             DateTime?       @default(now())
-  address               String          @default("")
-  phone                 String          @default("")
-  role                  String?
-  photograph            String          @default("")
-  resume                String          @default("")
-  resume_headline       String          @default("")
-  itskills              ItSkill[]       @relation("User_itskills")
-  education             AddEducation[]  @relation("User_education")
-  project               Project[]       @relation("User_project")
-  active                Boolean         @default(true)
-  open_to_work          Boolean         @default(true)
-  keyskills             KeySkill[]      @relation("User_keyskills")
-  experience            AddExperience[] @relation("User_experience")
-  stepperFilled         Boolean         @default(false)
-  profile_summary       String          @default("")
-  from_ProfileUser_user ProfileUser[]   @relation("ProfileUser_user")
+  id              String          @id @default(cuid())
+  name            String          @default("")
+  email           String          @unique @default("")
+  password        String
+  company         Company?        @relation("User_company", fields: [companyId], references: [id])
+  companyId       String?         @map("company")
+  createdAt       DateTime?       @default(now())
+  address         String          @default("")
+  phone           String          @default("")
+  role            String?
+  photograph      String          @default("")
+  resume          String          @default("")
+  resume_headline String          @default("")
+  itskills        ItSkill[]       @relation("User_itskills")
+  education       AddEducation[]  @relation("User_education")
+  project         Project[]       @relation("User_project")
+  active          Boolean         @default(true)
+  open_to_work    Boolean         @default(true)
+  keyskills       KeySkill[]      @relation("User_keyskills")
+  experience      AddExperience[] @relation("User_experience")
+  stepperFilled   Boolean         @default(false)
+  profile_summary String          @default("")
 
   @@index([companyId])
 }
@@ -46,82 +45,42 @@ model Code {
   value  String  @default("")
 }
 
-model ProfileUser {
-  id              String          @id @default(cuid())
-  user            User?           @relation("ProfileUser_user", fields: [userId], references: [id])
-  userId          String?         @map("user")
-  photograph      String          @default("")
-  resume          String          @default("")
-  resume_headline String          @default("")
-  itskills        ItSkill[]       @relation("ProfileUser_itskills")
-  education       AddEducation[]  @relation("ProfileUser_education")
-  project         Project[]       @relation("ProfileUser_project")
-  active          Boolean         @default(true)
-  open_to_work    Boolean         @default(true)
-  keyskills       KeySkill[]      @relation("ProfileUser_keyskills")
-  experience      AddExperience[] @relation("ProfileUser_experience")
-  profile_summary String          @default("")
-  createdAt       DateTime?       @default(now())
-
-  @@index([userId])
-}
-
-model Education {
-  id                          String         @id @default(cuid())
-  education                   AddEducation[] @relation("Education_education")
-  university                  String         @default("")
-  course                      String         @default("")
-  specialization              String         @default("")
-  courseDuration              String         @default("")
-  gradingSystem               String         @default("")
-  marks                       String         @default("")
-  add_doctorate_phd           String         @default("")
-  add_masters_post_gradiation String         @default("")
-  add_graduation_diploma      String         @default("")
-  add_class_X11               String         @default("")
-  add_class_X                 String         @default("")
-  add_below_10th              String         @default("")
-}
-
 model ItSkill {
-  id                        String        @id @default(cuid())
-  name                      String        @default("")
-  masterId                  String        @default("")
-  version                   String        @default("")
-  lastUsed                  String        @default("")
-  experience                String        @default("")
-  from_User_itskills        User[]        @relation("User_itskills")
-  from_ProfileUser_itskills ProfileUser[] @relation("ProfileUser_itskills")
+  id                 String @id @default(cuid())
+  name               String @default("")
+  masterId           String @default("")
+  version            String @default("")
+  lastUsed           String @default("")
+  experience         String @default("")
+  from_User_itskills User[] @relation("User_itskills")
 }
 
 model KeySkill {
-  id                         String        @id @default(cuid())
-  name                       String        @default("")
-  version                    String        @default("")
-  lastUsed                   String        @default("")
-  master                     Boolean       @default(false)
-  experience                 String        @default("")
-  from_User_keyskills        User[]        @relation("User_keyskills")
-  from_ProfileUser_keyskills ProfileUser[] @relation("ProfileUser_keyskills")
+  id                  String  @id @default(cuid())
+  name                String  @default("")
+  version             String  @default("")
+  lastUsed            String  @default("")
+  master              Boolean @default(false)
+  experience          String  @default("")
+  from_User_keyskills User[]  @relation("User_keyskills")
 }
 
 model Project {
-  id                       String        @id @default(cuid())
-  projectTitle             String        @default("")
-  client                   String        @default("")
-  workFromYear             String        @default("")
-  workFromMonth            String        @default("")
-  projectStatus            String?
-  detailsOfProject         String        @default("")
-  projectSite              String?
-  projectLocation          String        @default("")
-  natureOfEmployment       String?
-  teamSize                 String        @default("")
-  role                     String        @default("")
-  roleDescription          String        @default("")
-  skillUsed                String        @default("")
-  from_User_project        User[]        @relation("User_project")
-  from_ProfileUser_project ProfileUser[] @relation("ProfileUser_project")
+  id                 String  @id @default(cuid())
+  projectTitle       String  @default("")
+  client             String  @default("")
+  workFromYear       String  @default("")
+  workFromMonth      String  @default("")
+  projectStatus      String?
+  detailsOfProject   String  @default("")
+  projectSite        String?
+  projectLocation    String  @default("")
+  natureOfEmployment String?
+  teamSize           String  @default("")
+  role               String  @default("")
+  roleDescription    String  @default("")
+  skillUsed          String  @default("")
+  from_User_project  User[]  @relation("User_project")
 }
 
 model Company {
@@ -131,34 +90,31 @@ model Company {
 }
 
 model AddEducation {
-  id                         String        @id @default(cuid())
-  school                     String        @default("")
-  degree                     String        @default("")
-  field_of_study             String        @default("")
-  grade                      String        @default("")
-  activities                 String        @default("")
-  description                String        @default("")
-  start_year                 String?
-  start_year_month           String?
-  end_year                   String?
-  end_year_month             String?
-  from_User_education        User[]        @relation("User_education")
-  from_ProfileUser_education ProfileUser[] @relation("ProfileUser_education")
-  from_Education_education   Education[]   @relation("Education_education")
+  id                  String  @id @default(cuid())
+  school              String  @default("")
+  degree              String  @default("")
+  field_of_study      String  @default("")
+  grade               String  @default("")
+  activities          String  @default("")
+  description         String  @default("")
+  start_year          String?
+  start_year_month    String?
+  end_year            String?
+  end_year_month      String?
+  from_User_education User[]  @relation("User_education")
 }
 
 model AddExperience {
-  id                          String        @id @default(cuid())
-  title                       String        @default("")
-  employment_type             String?
-  company                     String        @default("")
-  location                    String        @default("")
-  location_type               String?
-  currently_working           Boolean       @default(false)
-  start_year                  String?
-  start_year_month            String?
-  end_year                    String?
-  end_year_month              String?
-  from_User_experience        User[]        @relation("User_experience")
-  from_ProfileUser_experience ProfileUser[] @relation("ProfileUser_experience")
+  id                   String  @id @default(cuid())
+  title                String  @default("")
+  employment_type      String?
+  company              String  @default("")
+  location             String  @default("")
+  location_type        String?
+  currently_working    Boolean @default(false)
+  start_year           String?
+  start_year_month     String?
+  end_year             String?
+  end_year_month       String?
+  from_User_experience User[]  @relation("User_experience")
 }

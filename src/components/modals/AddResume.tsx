@@ -39,9 +39,6 @@ const useStyles = createStyles(() => ({
       outlineColor: "#C6C6C6 !important",
       background: "#FFF !important",
 
-      // background:"red",
-
-      // content:`"File Uploaded successfully"`,
 
       cursor: "pointer",
       "&:hover": {
@@ -265,15 +262,7 @@ export function AddResume({ inEditResume, addResume, handleFileUploadResume,form
                               multiple
                               activateOnClick={false}
                               styles={{ inner: { pointerEvents: "all" } }}
-                              //   onDragEnter={() => {
-                              //     props.setonFileInputHover(true);
-                              //     // console.log('kk')
-                              //   }}
-                              //   onDragLeave={() => {
-                              //     props.setonFileInputHover(false);
-                              //   }}
-                              //   onDrop={(files: any) => customDrop(files)}
-                              //   onReject={(files: any) => console.log("rejected files", files)}
+    
                               maxSize={3 * 1024 ** 2}
                               classNames={{
                                 inner: classes.inner,
@@ -304,11 +293,7 @@ export function AddResume({ inEditResume, addResume, handleFileUploadResume,form
                                   <FileInput
                                     name="myImage"
                                     icon={
-                                      // <img
-                                      //   className={classes.camera}
-                                      //   alt="camera"
-                                      //   src={"/assets/camera.svg"}
-                                      // />
+                        
                                       <Image
                                         alt=""
                                         src="assets/document.svg"

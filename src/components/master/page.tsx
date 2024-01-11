@@ -40,7 +40,6 @@ import { VIEW_USER } from "@/util/queries";
 
 import { useSession } from "next-auth/react";
 
-
 export default function Master() {
   const {
     setFormData,
@@ -60,22 +59,20 @@ export default function Master() {
     profileId,
   }: any = useThemeContext();
 
-
   const router = useRouter();
 
-
-  const  { data: session  } :any = useSession()
+  const { data: session }: any = useSession();
 
   // Define mutation
-const PROFILE_USER = gql`
-mutation CreateProfileUser($data: ProfileUserCreateInput!) {
-  createProfileUser(data: $data) {
-    experience {
-      title
+  const PROFILE_USER = gql`
+    mutation CreateProfileUser($data: ProfileUserCreateInput!) {
+      createProfileUser(data: $data) {
+        experience {
+          title
+        }
+      }
     }
-  }
-}
-`;
+  `;
 
   const save = async () => {
     // console.log(formData, formData);
@@ -107,8 +104,7 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
       };
     });
 
-    console.log("fm", formData.projects) 
-  
+    console.log("fm", formData.projects);
 
     for (var i = 0, len = formData.experiences.length; i < len; i++) {
       delete formData.experiences[i].id;
@@ -122,12 +118,6 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
       delete formData.projects[i].id;
     }
 
-
-
-
-
-
-
     const user = await client.request(updateUser, {
       where: {
         id: session.user.user.id,
@@ -138,14 +128,14 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
         },
         itskills: {
           connect: itskills,
-        },  
- 
+        },
+
         photograph: formData.photograph,
         education: {
           create: formData.educations,
         },
         resume_headline: formData.resume_headline,
-        experience: { 
+        experience: {
           create: formData.experiences,
         },
         project: {
@@ -153,12 +143,11 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
         },
         profile_summary: formData.profile_summary,
         resume: formData.resume,
-        stepperFilled:true
+        stepperFilled: true,
       },
     });
 
-
-    console.log('user',user)
+    console.log("user", user);
 
     setActive(8);
     setTimeout(() => {
@@ -243,25 +232,22 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
     "Create an ad",
   ];
 
-  const getData = async ()=>{
-
+  const getData = async () => {
     const user: any = await client.request(VIEW_USER, {
       where: {
         id: session?.user?.user?.id,
       },
     });
 
-    console.log("user profile gotttttttttttttttttttttttttttttttttt", user);
+    // console.log("user profile gotttttttttttttttttttttttttttttttttt", user);
 
     if (user?.user) {
-      // alert('insi')
-      // settrue(false);
-    }
 
+    }
 
     setFormData((prevData: any) => ({
       ...prevData,
-    
+
       itskills: user?.user?.itskills?.map((item: any) => item.name),
       educations: user?.user?.education,
       projects: user?.user?.project,
@@ -272,41 +258,19 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
       profile_summary: user?.user?.profile_summary,
       photograph: user?.user?.photograph,
 
-
-   
       resume: user?.user?.resume,
-
-
-
- 
 
       experiences: user?.user?.experience,
     }));
+  };
 
-
-  }
-
-
-  useEffect(()=>{
-
-
-    getData()
-
-
-
-
-  },[session])
+  useEffect(() => {
+    getData();
+  }, [session]);
 
   return (
-    <div className="employee-details" >
-      {/* <div className="text-left mb-10" style={{
-        marginLeft:"2rem"
-      }} >
-        <h4> Fill up {profileName} Details </h4>
-      </div> */}
-
+    <div className="employee-details">
       <div className="mb-2">
-
         <CustomizedSteppers />
       </div>
 
@@ -378,7 +342,7 @@ mutation CreateProfileUser($data: ProfileUserCreateInput!) {
                   className="next-button"
                   type="button"
                   style={{
-                      width:"48%"  
+                    width: "48%",
                   }}
                   onClick={() => save()}
                 >

@@ -6,7 +6,6 @@ import { MDBDataTable } from "mdbreact";
 import { useEffect, useState } from "react";
 
 import { Group, Image, MantineProvider } from "@mantine/core";
-
 import useThemeContext from "@/context/context";
 import { GET_USER, VIEW_USER } from "@/util/queries";
 import { gql } from "graphql-request";
@@ -18,7 +17,7 @@ import { ADD_MULTIPLE_USER } from "@/util/mutationQueries";
 import { randomId } from "@mantine/hooks";
 import HomeProfile from "@/components/homeProfile/page";
 import { useSession } from "next-auth/react";
-
+import { ALL_USERS , USERS ,COMPANIES } from "@/util/queries";
 
 
 import {
@@ -28,14 +27,6 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 
-const COMPANIES = gql`
-  query Query {
-    companies {
-      name
-      id
-    }
-  }
-`;
 
 export default function Home() {
   const [main, setMain] = useState();
@@ -45,7 +36,6 @@ export default function Home() {
   const router = useRouter();
 
   const sendEmails = async (users) => {
-    console.log("rec", users);
 
     const recipients = users.map((item) => {
       return {
@@ -55,7 +45,6 @@ export default function Home() {
       };
     });
 
-    console.log("rec", recipients);
 
     try {
       const response = await fetch("/api/send-email", {
@@ -69,10 +58,10 @@ export default function Home() {
       });
 
       if (response.ok) {
-        console.log("Emails sent successfully");
+        // console.log("Emails sent successfully");
         return true;
       } else {
-        console.error("Failed to send emails");
+        // console.error("Failed to send emails");
         return false;
       }
     } catch (error) {
@@ -103,10 +92,9 @@ export default function Home() {
       }
     }
 
-    console.log("c", randomPart);
+    // console.log("c", randomPart);
 
-    // Create the final password by combining the input string, underscores, and the random portion
-    // const underscores = "_".repeat(remainingLength - randomPart.length);
+
     const password = inputString + randomPart + "@" + "cloud";
 
     return password;
@@ -164,10 +152,10 @@ export default function Home() {
           }
 
           if (/^[0-9]{10}$/.test(mobileNumber)) {
-            console.log("inside", mobileNumber);
+            // console.log("inside", mobileNumber);
             return null;
           } else {
-            console.log("outside", mobileNumber);
+            // console.log("outside", mobileNumber);
             return "The mobile number is not valid.";
           }
         },
@@ -233,10 +221,10 @@ export default function Home() {
           }
 
           if (/^[0-9]{10}$/.test(mobileNumber)) {
-            console.log("inside", mobileNumber);
+            // console.log("inside", mobileNumber);
             return null;
           } else {
-            console.log("outside", mobileNumber);
+            // console.log("outside", mobileNumber);
             return "The mobile number is not valid.";
           }
         },
@@ -269,7 +257,7 @@ export default function Home() {
   });
 
   const getUser = async () => {
-    console.log("dddddddMMMMMMM", session);
+
 
     const user: any = await client.request(VIEW_USER, {
       where: {
@@ -277,31 +265,15 @@ export default function Home() {
       },
     });
 
-    console.log("user profile gotttttttttttttttttttttttttttttttttt", user);
-
-    if (user?.user) {
-      console.log("mmmm");
-      // alert('insi')
-      // settrue(false);
-    }
 
     if (session?.user.user.role === "manager") {
       // alert("here");
-
-      // console.log(  'sss',localStorage.getItem('company') )
-
       formEmployees.setValues({
         company: session?.user?.user?.company_name,
       });
     }
 
     form.setValues({
-      // profileUserId: user?.user?.id,
-      // itskills: user?.user?.itskills?.map((item: any) => item.name),
-      // education: user?.user?.education,
-      // project: user?.user?.project,
-      // keyskills: user?.user?.keyskills?.map((item: any) => item.id),
-      // userkeyskills: user?.user?.keyskills?.map((item: any) => item.name),
       resume_headline: user?.user?.resume_headline,
       profile_summary: user?.user?.profile_summary,
       photograph: user?.user?.photograph,
@@ -311,82 +283,9 @@ export default function Home() {
       role: user?.user?.role,
       company: user?.user?.company?.name,
       stepperFilled: user?.user?.stepperFilled,
-      // workForMutation: user?.user?.open_to_work,
-      // statusForMutation: user?.user?.active,
-      // resume: user?.user?.resume,
-      // email: user?.user?.email,
-      // userEmail: user?.user?.email,
-      // userEmailForMutation: user?.user?.email,
-      // role: user?.user?.role,
-      // company: user?.user?.company?.name,
-      // userCompany: user?.user?.company?.id,
-      // phone: user?.user?.phone,
-      // userPhone: user?.user?.phone,
-      // address: user?.user?.address,
-      // userAddress: user?.user?.address,
-      // experience: user?.user?.experience,
     });
   };
 
-  const GET_ALL_USERS = gql`
-    query Users {
-      users {
-        name
-        company {
-          name
-        }
-        role
-        email
-        phone
-        address
-      }
-    }
-  `;
-
-  const USERS = gql`
-    query Users($where: UserWhereInput!) {
-      users(where: $where) {
-        name
-        id
-        photograph
-        resume
-        resume_headline
-        itskills {
-          id
-          name
-        }
-        itskillsCount
-        education {
-          id
-        }
-        educationCount
-        project {
-          id
-        }
-        projectCount
-        active
-        open_to_work
-        keyskills {
-          id
-          name
-        }
-        keyskillsCount
-        experience {
-          id
-        }
-        experienceCount
-        profile_summary
-        createdAt
-        company {
-          name
-        }
-        role
-        email
-        phone
-        address
-      }
-    }
-  `;
 
   const getData = async () => {
     console.log("getData", getData);
@@ -906,7 +805,7 @@ export default function Home() {
     } else {
       console.log("formManagers valuess ", formManagers.values);
 
-      const users: any = await client.request(GET_ALL_USERS);
+      const users: any = await client.request(ALL_USERS);
 
       console.log("users", users);
 
@@ -1018,24 +917,23 @@ export default function Home() {
         }, 1000);
       } else {
         // console.log("error",);
-        // setFormErrors(validationErrors);
       }
     }
   };
 
   const saveAllEmployees = async () => {
-    console.log("formManagers enteries", form.entries);
+    // console.log("formManagers enteries", form.entries);
 
     if (formEmployees.validate().hasErrors) {
-      console.log("yes", formEmployees.errors);
+      // console.log("yes", formEmployees.errors);
 
       return;
     } else {
-      console.log("formEmployees valuess ", formEmployees.values);
+      // console.log("formEmployees valuess ", formEmployees.values);
 
-      const users: any = await client.request(GET_ALL_USERS);
+      const users: any = await client.request(ALL_USERS);
 
-      console.log("users", users);
+      // console.log("users", users);
 
       const checkDuplicatePhone = formEmployees.values.entries.map((item) => {
         const flag = users.users.filter(
@@ -1051,7 +949,6 @@ export default function Home() {
         (item) => item !== undefined
       );
 
-      console.log("duplicatePhone", checkDuplicatePhone);
 
       const Mutatedata = formEmployees.values.entries.map(async (item) => {
         return checkExistingUser(item.email);
@@ -1059,11 +956,9 @@ export default function Home() {
 
       const values = await Promise.all(Mutatedata);
 
-      console.log("valuessssssssssss0", values);
-
       const checkDuplicatesMail = values.filter((item) => item !== undefined);
 
-      console.log("valuessssssssssssinngg", checkDuplicatesMail);
+      // console.log("valuessssssssssssinngg", checkDuplicatesMail);
 
       if (checkDuplicatesMail.length > 0) {
         return toast(`${checkDuplicatesMail[0]} already registered`, {
@@ -1088,7 +983,6 @@ export default function Home() {
         return {
           name: item.userName,
           // role:['Admin'],
-          // mobilenumber: item.mobileNumber,
           role: "employee",
           email: item.email,
           // address: item.address,
@@ -1103,7 +997,7 @@ export default function Home() {
         };
       });
 
-      console.log("generate", MutatedataForSending);
+      // console.log("generate", MutatedataForSending);
 
       const user = await client.request(ADD_MULTIPLE_USER, {
         data: MutatedataForSending,
@@ -1144,22 +1038,13 @@ export default function Home() {
           }, 1000);
         }
       } else {
-        // console.log("error",);
         // setFormErrors(validationErrors);
       }
     }
   };
 
-  const renderMaster = () => {
-    console.log("home");
-  };
-
-
-  console.log('seeing photographhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',form.getInputProps("role")?.value,session)
-
   return (
     <>
-      {/* <ToastContainer /> */}
       <MantineProvider>
         <div className="">
           <div className="dashboard">
@@ -1687,7 +1572,7 @@ export default function Home() {
                             <div className="">
                               <button className="view-all-employees-btn"  onClick={()=>{
 
-                               router.push(`${role === 'manager' ? 'profileUsers' : 'profileEmployees' }`)
+                               router.push(`${role === 'manager' ? 'manager_employees' : 'employees' }`)
 
                               }} >
                                 View all

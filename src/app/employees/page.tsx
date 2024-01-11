@@ -10,18 +10,8 @@ import { PROFILE_USERS } from "@/util/queries";
 import { USERS } from "../../util/queries";
 import { Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
-
 import { useSession } from "next-auth/react";
-
-
-const COMPANIES = gql`
-  query Query {
-    companies {
-      name
-      id
-    }
-  }
-`;
+import { COMPANIES } from "@/util/queries";
 
 // Define mutation
 
@@ -29,7 +19,7 @@ const DatatablePage = () => {
   const [main, setMain] = useState();
   const [alldata, setAllData] = useState([]);
 
-  const session = useSession()
+  const session = useSession();
 
   const form = useForm({
     initialValues: {
@@ -47,23 +37,17 @@ const DatatablePage = () => {
         },
       ],
       date: new Date(),
-    }})
+    },
+  });
 
   const router = useRouter();
 
-
-  
   const getData = async () => {
-
-
-
     const user: any = await client.request(USERS, {
       where: {
-
-          role: {
-            equals: "employee",
-          },
-      
+        role: {
+          equals: "employee",
+        },
       },
       orderBy: [
         {
@@ -72,7 +56,7 @@ const DatatablePage = () => {
       ],
     });
 
-    console.log("userInsssss", user);
+    // console.log("userInsssss", user);
 
     const users = user.users.map((item: any) => {
       return {
@@ -84,27 +68,14 @@ const DatatablePage = () => {
         // // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
         itskills: item.itskills.map((u: any) => u.name).join(", "),
-        // action: (
-        //   <button
-        //     className="table-button"
-        //     onClick={() => router.push(`/edit_master?id=${item.id}`)}
-        //   >
-        //     {" "}
-        //     edit{" "}
-        //   </button>
-        // ),
         action: (
-
-
           <button
             className="table-button"
             onClick={() => router.push(`/view_master?id=${item.id}`)}
           >
             {" "}
-            edit  {" "}
+            edit{" "}
           </button>
-
-
         ),
         resume: item.resume ? (
           <a
@@ -128,24 +99,7 @@ const DatatablePage = () => {
 
     const test: any = {
       columns: [
-        // {
-        //   label: "Name",
-        //   field: "user",
-        //   sort: "asc",
-        //   width: 150,
-        // },
-        // {
-        //   label: "resume_headline",
-        //   field: "resume_headline",
-        //   sort: "asc",
-        //   width: 150,
-        // },
-        // {
-        //   label: "Photograph",
-        //   field: "photograph",
-        //   sort: "asc",
-        //   width: 270,
-        // },
+
         {
           label: "Name",
           field: "user",
@@ -164,40 +118,20 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 200,
         },
-
-
-        // {
-        //   label: "Photograph",
-        //   field: "photograph",
-        //   sort: "disabled",
-        //   width: 200,
-        // },
         {
           label: "Company",
           field: "company",
           sort: "disabled",
           width: 200,
         },
-        // {
-        //   label: "Resume Headline",
-        //   field: "resume_headline",
-        //   sort: "disabled",
-        //   width: 200,
-        // },
+
         {
           label: "Key skills",
           field: "keyskills",
           sort: "disabled",
           width: 100,
         },
-        // {
-        //   label: "Education",
-        //   field: "education",
-
-        //   sort: "asc",
-
-        //   width: 150,
-        // },
+    
         {
           label: "It Skills",
           field: "itskills",
@@ -205,24 +139,7 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 100,
         },
-        // {
-        //   label: "Total Experience",
-        //   field: "total_experience",
-        //   sort: "disabled",
-        //   width: 100,
-        // },
-        // {
-        //   label: "Relevant Experience",
-        //   field: "relevant_experience",
-        //   sort: "disabled",
-        //   width: 100,
-        // },
-        // {
-        //   label: "Profile Summary",
-        //   field: "profile_summary",
-        //   sort: "disabled",
-        //   width: 100,
-        // },
+    
         {
           label: "Resume",
           field: "resume",
@@ -235,21 +152,17 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 100,
         },
-
       ],
       rows: users,
     };
 
     setMain(test);
-
-
-
   };
 
   useEffect(() => {
     var element: any = document.getElementsByClassName("table-bordered");
 
-    console.log(element);
+    // console.log(element);
 
     if (element) {
       // console.log("ll", element);
@@ -258,14 +171,13 @@ const DatatablePage = () => {
 
     getData();
 
-    getComapanies()
+    getComapanies();
   }, []);
-
 
   const getComapanies = async () => {
     const users: any = await client.request(COMPANIES);
 
-    console.log("usersaa", users);
+    // console.log("usersaa", users);
 
     const DefaultSkills = users?.companies?.map((item: any) => {
       return {
@@ -277,21 +189,17 @@ const DatatablePage = () => {
     form.setFieldValue("companies", DefaultSkills);
   };
 
-
-
-  const filterResults= async (e:any)=>{
-
+  const filterResults = async (e: any) => {
     const user: any = await client.request(USERS, {
       where: {
-
-          role: {
-            equals: "employee",
+        role: {
+          equals: "employee",
+        },
+        company: {
+          id: {
+            equals: e,
           },
-            company: {
-              id: {
-                equals: e
-              }
-            }
+        },
       },
       orderBy: [
         {
@@ -300,10 +208,6 @@ const DatatablePage = () => {
       ],
     });
 
-    console.log("userInsssss", user);
-
-
-    console.log('e',e,alldata)
 
     const users = user.users.map((item: any) => {
       return {
@@ -312,30 +216,17 @@ const DatatablePage = () => {
         phone: item?.phone,
         address: item?.address,
         // photograph: <img src={item?.photograph} />,
-        // // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
         keyskills: item.keyskills.map((u: any) => u.name).join(", "),
         itskills: item.itskills.map((u: any) => u.name).join(", "),
-        // action: (
-        //   <button
-        //     className="table-button"
-        //     onClick={() => router.push(`/edit_master?id=${item.id}`)}
-        //   >
-        //     {" "}
-        //     edit{" "}
-        //   </button>
-        // ),
+
         action: (
-
-
           <button
             className="table-button"
             onClick={() => router.push(`/view_master?id=${item.id}`)}
           >
             {" "}
-            edit  {" "}
+            edit{" "}
           </button>
-
-
         ),
         resume: item.resume ? (
           <a
@@ -357,28 +248,8 @@ const DatatablePage = () => {
       };
     });
 
-
-    
     const test: any = {
       columns: [
-        // {
-        //   label: "Name",
-        //   field: "user",
-        //   sort: "asc",
-        //   width: 150,
-        // },
-        // {
-        //   label: "resume_headline",
-        //   field: "resume_headline",
-        //   sort: "asc",
-        //   width: 150,
-        // },
-        // {
-        //   label: "Photograph",
-        //   field: "photograph",
-        //   sort: "asc",
-        //   width: 270,
-        // },
         {
           label: "Name",
           field: "user",
@@ -398,39 +269,20 @@ const DatatablePage = () => {
           width: 200,
         },
 
-
-        // {
-        //   label: "Photograph",
-        //   field: "photograph",
-        //   sort: "disabled",
-        //   width: 200,
-        // },
         {
           label: "Company",
           field: "company",
           sort: "disabled",
           width: 200,
         },
-        // {
-        //   label: "Resume Headline",
-        //   field: "resume_headline",
-        //   sort: "disabled",
-        //   width: 200,
-        // },
+        ,
         {
           label: "Key skills",
           field: "keyskills",
           sort: "disabled",
           width: 100,
         },
-        // {
-        //   label: "Education",
-        //   field: "education",
 
-        //   sort: "asc",
-
-        //   width: 150,
-        // },
         {
           label: "It Skills",
           field: "itskills",
@@ -438,24 +290,7 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 100,
         },
-        // {
-        //   label: "Total Experience",
-        //   field: "total_experience",
-        //   sort: "disabled",
-        //   width: 100,
-        // },
-        // {
-        //   label: "Relevant Experience",
-        //   field: "relevant_experience",
-        //   sort: "disabled",
-        //   width: 100,
-        // },
-        // {
-        //   label: "Profile Summary",
-        //   field: "profile_summary",
-        //   sort: "disabled",
-        //   width: 100,
-        // },
+
         {
           label: "Resume",
           field: "resume",
@@ -468,56 +303,45 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 100,
         },
-
       ],
       rows: users,
     };
 
-
-
-    
     setMain(test);
-
-  }
+  };
 
   return (
     <div className="table-wrapper ">
       <div className="page-heading   pt-2 pb-2  twenty-percent">
-        <h2
-          className="page-main-heading mt-2 px-4"
-        >
+        <h2 className="page-main-heading mt-2 px-4">
           {" "}
           Employees profile{" "}
-
           <Select
-          
-          styles={(theme) => ({
-            input: {
-              height: "100%",
-            },
-            values: {
-              height: "100%",
-            },
-            root: {
-              // height: "50px",
-              margin:"10px 0",
-              width:"14rem",
-              marginBottom:"1rem"
-            },
+            styles={(theme) => ({
+              input: {
+                height: "100%",
+              },
+              values: {
+                height: "100%",
+              },
+              root: {
+                // height: "50px",
+                margin: "10px 0",
+                width: "14rem",
+                marginBottom: "1rem",
+              },
 
-            leftIcon: {
-              marginRight: theme.spacing.md,
-            },
-          })}
-                  // label="Please select company"
-                  placeholder="Please select company"
-                  // {...form.getInputProps(`company`)}
+              leftIcon: {
+                marginRight: theme.spacing.md,
+              },
+            })}
+            // label="Please select company"
+            placeholder="Please select company"
+            // {...form.getInputProps(`company`)}
 
-    
-                  data={form.getInputProps("companies").value}
-
-                  onChange={(e)=>filterResults(e)}
-                />
+            data={form.getInputProps("companies").value}
+            onChange={(e) => filterResults(e)}
+          />
         </h2>
       </div>
       <div className="profile-table mt-3">

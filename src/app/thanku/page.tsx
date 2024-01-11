@@ -20,7 +20,7 @@ import {
 } from "@tabler/icons-react";
 
 const Thanku = () => {
-  const { loggedIn, setLoggedIn,  role ,profileUserId }: any = useThemeContext();
+  const { loggedIn, setLoggedIn, role, profileUserId }: any = useThemeContext();
 
   const router = useRouter();
 
@@ -45,14 +45,9 @@ const Thanku = () => {
       password: form.getInputProps("password").value,
     });
 
-    console.log("password", user);
-
     if (user?.authenticateUserWithPassword?.message) {
       return alert("invalid credentials");
     } else {
-  
- 
-
       setLoggedIn(true);
       setTimeout(() => {
         router.push("/");
@@ -62,15 +57,11 @@ const Thanku = () => {
 
   const signIn = (e) => {
     e.preventDefault();
-
-    console.log(form.getInputProps("email").value);
-
     getLogin();
   };
 
   useEffect(() => {
-    // Code that runs on the client side
-    // You can use form here
+
   }, []); // Empty dependency array ensures this runs only on client side
 
   return (
@@ -84,25 +75,13 @@ const Thanku = () => {
             <Image alt="" src="assets/register.svg" width={275} height={261} />
           </div>
 
-          {/* <div  className="items-center justify-center flex text-white font-extrabold ">
-            <IconCircleCheckFilled size={90} className="items-center justify-center flex text-white font-extrabold"/>
-            </div>
-          <h2 className="text-white mb-4 text-[34px] items-center justify-center flex font-semibold mt-3">
-            Your Details submitted successfully!
-          </h2>
-          <p className="text-white mb-8 flex items-center justify-center">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          </p>
-   */}
-
           <div className="d-flex justify-content-center flex-column align-items-center mt-4">
-
-
             <h6 className="thank-you"> Thank You ! </h6>
 
-            <h4 className="thank-you-message">  { 'Registration Successfull'    }   </h4>
-
-            
+            <h4 className="thank-you-message">
+              {" "}
+              {"Registration Successfull"}{" "}
+            </h4>
           </div>
 
           <div className="flex space-x-4 mt-4">
@@ -118,21 +97,19 @@ const Thanku = () => {
               </button>
             </div> */}
 
-            { (
-                <div className="w-1/2 mx-auto">
-                  <button
-                    type="button"
-                    className="text-gray-800 bg-gray-200 d-flex items-center justify-content-center px-4 py-2 w-full font-semibold rounded-[8px] text-sm hover:bg-violet-100"
-                    onClick={() => {
-                      router.push(`/`);
-                    }}
-                  >
-                    View profile
-                  </button>
-                </div>
-              )
-              
-              }
+            {
+              <div className="w-1/2 mx-auto">
+                <button
+                  type="button"
+                  className="text-gray-800 bg-gray-200 d-flex items-center justify-content-center px-4 py-2 w-full font-semibold rounded-[8px] text-sm hover:bg-violet-100"
+                  onClick={() => {
+                    router.push(`/`);
+                  }}
+                >
+                  View profile
+                </button>
+              </div>
+            }
           </div>
         </div>
       </div>

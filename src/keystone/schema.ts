@@ -5,8 +5,6 @@ import { document } from '@keystone-6/fields-document'; // Import the document f
 import type { Lists } from '.keystone/types';
 import User from '../schemas/User';
 
-import ProfileUser from '../schemas/ProfileUser';
-import Education from '../schemas/Education';
 import ItSkill from '../schemas/ItSkill';
 import Project from '../schemas/Project';
 import AddEducation from '../schemas/AddEducation';
@@ -18,8 +16,6 @@ import Code from "../schemas/Code"
 export const lists= {
    User,
    Code,
-   ProfileUser,
-   Education,
    ItSkill,
    KeySkill,
    Project,

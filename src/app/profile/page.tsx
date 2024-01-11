@@ -43,6 +43,8 @@ import {
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faVideo } from "@fortawesome/free-solid-svg-icons";
+import { IT_SKILLS  , KEY_SKILLS } from "@/util/queries";
+
 import {
   updateUserExperience,
   updateUserEducation,
@@ -99,39 +101,6 @@ const options = [
   { value: "below10th", label: "Below 10th" },
 ];
 
-const IT_SKILLS = gql`
-  query ItSkills {
-    itSkills {
-      name
-      id
-    }
-  }
-`;
-
-// Define mutation
-const KEY_SKILLS = gql`
-  query KeySkills {
-    keySkills {
-      name
-      id
-    }
-  }
-`;
-
-const USERS = gql`
-  query Users {
-    users {
-      name
-      company {
-        name
-      }
-      role
-      email
-      phone
-      address
-    }
-  }
-`;
 
 const useStyles = createStyles(() => ({
   inner: {
@@ -162,15 +131,7 @@ const useStyles = createStyles(() => ({
     outlineColor: "#C6C6C6 !important",
     background: "#FFF !important",
 
-    // background:"red",
-
-    // content:`"File Uploaded successfully"`,
-
     cursor: "pointer",
-    "&:hover": {
-      // background: "red",
-      // display:"none"
-    },
 
     display: "flex",
     justifyContent: "center",
@@ -687,32 +648,6 @@ export default function View(props: IAppProps) {
     });
   };
 
-  const getDatas = async () => {
-    const itskills: any = await client.request(IT_SKILLS);
-
-    const keyskills: any = await client.request(KEY_SKILLS);
-
-    form.setFieldValue(
-      "allItskills",
-      itskills?.itSkills?.map((item: any) => {
-        return {
-          value: item.id,
-          label: item.name,
-        };
-      })
-    );
-
-    form.setFieldValue(
-      "allKeyskills",
-      keyskills?.keySkills?.map((item: any) => {
-        return {
-          value: item.id,
-          label: item.name,
-        };
-      })
-    );
-  };
-
   useEffect(() => {
     // alert('refresh')
     getData(search);
@@ -720,8 +655,6 @@ export default function View(props: IAppProps) {
 
   const getKeySkills = async () => {
     const users: any = await client.request(KEY_SKILLS);
-
-    // console.log("usersaa", users);
 
     const DefaultSkills = users?.keySkills?.map((item: any) => {
       return {
@@ -923,7 +856,6 @@ export default function View(props: IAppProps) {
       },
     });
 
-    // console.log("updated", user);
 
     if (user?.updateAddEducation) {
       const button = document.getElementById("modal-close-btn-education");
@@ -994,7 +926,6 @@ export default function View(props: IAppProps) {
       },
     });
 
-    // console.log("details updated", user);
 
     if (user.updateUser) {
       const button = document.getElementById("closeAddBasic");
@@ -1049,10 +980,6 @@ export default function View(props: IAppProps) {
     }
   };
 
-  // console.log(
-  //   "statusForMutation",
-  //   form.getInputProps(`statusForMutaion`)?.value
-  // );
 
   const addEducation = async () => {
     if (!education.school) {
@@ -1402,8 +1329,6 @@ export default function View(props: IAppProps) {
       });
 
       const button = document.getElementById("closeAddExperience");
-
-      // console.log("check", button);
 
       setTimeout(() => {
         button?.click();

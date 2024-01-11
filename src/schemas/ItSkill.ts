@@ -1,6 +1,6 @@
-import { list } from '@keystone-6/core';
-import { text, password, select, file } from '@keystone-6/core/fields';
-import { allowAll } from '@keystone-6/core/access';
+import { list } from "@keystone-6/core";
+import { text, password, select, file } from "@keystone-6/core/fields";
+import { allowAll } from "@keystone-6/core/access";
 
 export default list({
   access: allowAll,
@@ -10,9 +10,9 @@ export default list({
     masterId: text(),
     version: text(),
     lastUsed: text(),
-   experience: text(),
+    experience: text(),
   },
   ui: {
-    searchFields: ['name','experience'],
-  } 
+    searchFields: ["name", "experience"],
+  },
 });

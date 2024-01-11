@@ -211,10 +211,6 @@ const useStyles = createStyles((theme, props: any) => ({
 }));
 
 export default function PhotoUpload(props) {
-
-
-
-  
   const [createObjectURL, setCreateObjectURL] = useState(null);
 
   // const [onFileInputHover,setonFileInputHover]  = useState(false)
@@ -309,11 +305,7 @@ export default function PhotoUpload(props) {
           </div>
 
           <Container px="xs" className="">
-            
-            {/* <div className="profile-upload">
-                      {formData.photograph && <img src={formData.photograph} />}
-                      {formData.photogarph}
-                    </div> */}
+    
 
             <div className="">
               <Paper
@@ -321,7 +313,7 @@ export default function PhotoUpload(props) {
                 p="md"
                 style={{
                   width: "100%",
-                  padding:"16px"
+                  padding: "16px",
                 }}
               >
                 <h6 className="box-heading text-left">

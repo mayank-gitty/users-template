@@ -71,7 +71,6 @@ const filterPosts = async ({
   }
 };
 
-
 export default list({
   access: {
     operation: {
@@ -130,7 +129,6 @@ export default list({
     createdAt: timestamp({
       defaultValue: { kind: "now" },
     }),
-
   },
   hooks: {
     validateInput: async ({ resolvedData, addValidationError, context }) => {},

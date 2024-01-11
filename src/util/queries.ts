@@ -1,6 +1,30 @@
 import { gql } from "graphql-request";
 
 //getProfileUser
+
+
+const UPDATE_CODE = gql`
+  mutation Mutation($where: CodeWhereUniqueInput!, $data: CodeUpdateInput!) {
+    updateCode(where: $where, data: $data) {
+      id
+      expire
+      value
+    }
+  }
+`;
+
+
+
+const GET_CODE = gql`
+  query Codes($where: CodeWhereInput!) {
+    codes(where: $where) {
+      value
+      id
+      expire
+    }
+  }
+`;
+
 const HAS_MASTER = gql`
   query ProfileUsers($where: ProfileUserWhereInput!) {
     profileUsers(where: $where) {
@@ -522,8 +546,35 @@ query Users($where: UserWhereInput!) {
 }
 `;
 
+
+const COMPANIES = gql`
+  query Query {
+    companies {
+      name
+      id
+    }
+  }
+`;
+
+const  ALL_USERS = gql`
+  query Users {
+    users {
+      name
+      company {
+        name
+      }
+      role
+      email
+      phone
+      address
+    }
+  }
+`;
+
 export {
   HAS_MASTER,
+  UPDATE_CODE,
+  GET_CODE,
   PROFILE_USER,
   IT_SKILLS,
   KEY_SKILLS,
@@ -532,5 +583,7 @@ export {
   PROFILE_USERS,
   GET_USER,
   VIEW_USER,
-  USERS
+  USERS,
+  ALL_USERS,
+  COMPANIES
 };

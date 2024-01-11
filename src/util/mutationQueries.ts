@@ -1,5 +1,17 @@
 import { gql } from "graphql-request";
 
+
+const ADD_MULTIPLE_USER = gql`
+  mutation Mutation($data: [UserCreateInput!]!) {
+    createUsers(data: $data) {
+      role
+      password {
+        isSet
+      }
+    }
+  }
+`;
+
 const updateUser = gql`
 mutation Mutation($where: UserWhereUniqueInput!, $data: UserUpdateInput!) {
   updateUser(where: $where, data: $data) {
@@ -167,16 +179,6 @@ const updateUserEducation = gql`
   }
 `;
 
-const ADD_MULTIPLE_USER = gql`
-  mutation Mutation($data: [UserCreateInput!]!) {
-    createUsers(data: $data) {
-      role
-      password {
-        isSet
-      }
-    }
-  }
-`;
 
 export {
   updateUser,

@@ -286,30 +286,7 @@ export function AddSkills({form, updateKeySkills , DefaultItSkills  ,DefaultKeyS
             </div>
 
             <div class="modal-footer">
-              {/* <button
-                type="button"
-                id="modal-close-btn"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-
-              <button
-                type="button"
-                id="modal-close-btn-experience"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                onClick={() => updateKeySkills()}
-              >
-                Save 
-              </button> */}
+     
             </div>
           </div>
         </div>

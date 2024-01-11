@@ -252,16 +252,7 @@ export function EditProject ({  project , updateThisProject  , deleteSpecificPro
                       <Grid.Col span={12}>
                         <Input.Wrapper
                           label="Details of project"
-                          // error={formErrors?.detailsOfProject}
-                          // styles={() => ({
-                          //   label: {
-                          //     color: "#01041b",
-                          //     fontSize: "1.2em",
-                          //     fontWeight: 500,
-                          //     lineHeight: 1.2,
-                          //     marginBottom: 10,
-                          //   },
-                          // })}
+       
                         >
                           <Textarea
                             placeholder="Type here..."
