@@ -26,7 +26,7 @@ export const ThemeContextProvider = ({ children }) => {
 
   const [formData, setFormData] = useState(initialFormData);
 
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(7);
   
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -40,11 +40,11 @@ export const ThemeContextProvider = ({ children }) => {
 
   const [profileId, setProfileId] = useState("");
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
-  const [experienceOpen, setexperienceOpen] = useState(false);
+  const [experienceOpen, setexperienceOpen] = useState(true);
 
-  const [projectopen, setprojectOpen] = useState(false);
+  const [projectopen, setprojectOpen] = useState(true);
 
   return (
     <ThemeContext.Provider

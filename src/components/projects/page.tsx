@@ -475,13 +475,16 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
-                        "::placeholder": {
-                          color: "#9D9D9D",
+                        borderRadius: "4px",
+                        border: "1px solid #DCDCDC",
+                        "::placeholder":{
+                 
+  
                           fontSize: "16px",
-                          fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal",
-                        },
+                          color:"#CACACA"
+             
+                        }
                       },
                       values: {
                         height: "100%",
@@ -507,12 +510,15 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
-                        "::placeholder": {
-                          color: "#9D9D9D",
+                        borderRadius: "4px",
+                        border: "1px solid #DCDCDC",
+                        "::placeholder":{
+                 
+  
                           fontSize: "16px",
-                          fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal",
+                          color:"#CACACA"
+             
                         },
                       },
                       values: {
@@ -612,13 +618,14 @@ const ProjectForm = () => {
                           styles={(theme) => ({
                             input: {
                               height: "100%",
-                              "::placeholder": {
-                                color: "#9D9D9D",
+                              borderRadius: "4px",
+                              border: "1px solid #DCDCDC",
+                              "::placeholder":{
                                 fontSize: "16px",
-                                fontStyle: "normal",
                                 fontWeight: 500,
-                                lineHeight: "normal",
-                              },
+                                color:"#CACACA"
+                   
+                              }
                             },
                             values: {
                               height: "100%",
@@ -672,13 +679,16 @@ const ProjectForm = () => {
                           styles={(theme) => ({
                             input: {
                               height: "100%",
-                              "::placeholder": {
-                                color: "#9D9D9D",
+                              borderRadius: "4px",
+                              border: "1px solid #DCDCDC",
+                              "::placeholder":{
+                       
+        
                                 fontSize: "16px",
-                                fontStyle: "normal",
                                 fontWeight: 500,
-                                lineHeight: "normal",
-                              },
+                                color:"#CACACA"
+                   
+                              }
                             },
                             values: {
                               height: "100%",
@@ -705,15 +715,14 @@ const ProjectForm = () => {
                       input: {
                         width: "100%", // Adjust the width as needed
                         padding: "10px", // Add padding for a consistent look
-                        borderRadius: "4px", // Add rounded corners
-                        border: "1px solid #ccc", // Add a border
-                        "::placeholder": {
-                          color: "#9D9D9D",
+                        borderRadius: "4px",
+                        border: "1px solid #DCDCDC",
+                        "::placeholder":{
                           fontSize: "16px",
-                          fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal",
-                        },
+                          color:"#CACACA"
+             
+                        }
                       },
                     })}
                     value={project.detailsOfProject}
@@ -731,13 +740,14 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
-                        "::placeholder": {
-                          color: "#9D9D9D",
+                        borderRadius: "4px",
+                        border: "1px solid #DCDCDC",
+                        "::placeholder":{
                           fontSize: "16px",
-                          fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal",
-                        },
+                          color:"#CACACA"
+             
+                        }
                       },
 
                       values: {
@@ -894,13 +904,14 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
-                        "::placeholder": {
-                          color: "#9D9D9D",
+                        borderRadius: "4px",
+                        border: "1px solid #DCDCDC",
+                        "::placeholder":{
                           fontSize: "16px",
-                          fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal",
-                        },
+                          color:"#CACACA"
+             
+                        }
                       },
                       values: {
                         height: "100%",
@@ -932,13 +943,14 @@ const ProjectForm = () => {
                     styles={(theme) => ({
                       input: {
                         height: "100%",
-                        "::placeholder": {
-                          color: "#9D9D9D",
+                        borderRadius: "4px",
+                        border: "1px solid #DCDCDC",
+                        "::placeholder":{
                           fontSize: "16px",
-                          fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal",
-                        },
+                          color:"#CACACA"
+             
+                        }
                       },
                       values: {
                         height: "100%",
@@ -962,12 +974,13 @@ const ProjectForm = () => {
                     required
                     styles={() => ({
                       input: {
-                        "::placeholder": {
-                          color: "#9D9D9D",
+                        borderRadius: "4px",
+                        border: "1px solid #DCDCDC",
+                        "::placeholder":{
                           fontSize: "16px",
-                          fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal",
+                          color:"#CACACA"
+             
                         },
                       },
                       label: {
@@ -993,13 +1006,13 @@ const ProjectForm = () => {
                     required
                     styles={() => ({
                       input: {
-                        "::placeholder": {
-                          color: "#9D9D9D",
+                        borderRadius: "4px",
+                        border: "1px solid #DCDCDC",
+                        "::placeholder":{
                           fontSize: "16px",
-                          fontStyle: "normal",
                           fontWeight: 500,
-                          lineHeight: "normal",
-                        },
+                          color:"#CACACA"
+                        }
                       },
                       label: {
                         color: "#000",
@@ -1030,7 +1043,7 @@ const ProjectForm = () => {
                     <Button
                       onClick={() => saveEntry()}
                       type="button"
-                      className="btn-info"
+                      className="save-btn-stepper"
                       style={{
                         height: "50px",
                         width: "100%",

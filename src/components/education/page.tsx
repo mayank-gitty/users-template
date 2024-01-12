@@ -141,7 +141,7 @@ const customStyles = {
   control: (provided) => ({
     ...provided,
     height: "55px",
-    borderRadius: "8px",
+    borderRadius: "4px",
     border: "2px solid #ccc",
     boxShadow: "none",
   }),
@@ -315,10 +315,6 @@ const Education1: React.FC = () => {
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [isFormCancelled, setIsFormCancelled] = useState(false);
 
-  const [schoolOther, setSchoolOther] = useState("");
-  const [degreeOther, setDegreeOther] = useState("");
-  const [fieldOther, setFieldOther] = useState("");
-
   const [flag, setFlag] = useState(false);
 
   const deleteExperience = (id: any) => {
@@ -368,9 +364,7 @@ const Education1: React.FC = () => {
     // setFormData({ ...formData, [field]: value });
   };
 
-  const validateForm = () => {
-
-  };
+  const validateForm = () => {};
 
   console.log("f", formData.educations);
 
@@ -510,7 +504,6 @@ const Education1: React.FC = () => {
     }
 
     if (!education.description) {
-      
       return toast("please add  description", {
         className: "black-background",
         bodyClassName: "grow-font-size",
@@ -597,7 +590,6 @@ const Education1: React.FC = () => {
               width: "30rem",
             }}
           >
-       
             <div
               className=" mt-4"
               style={{
@@ -698,7 +690,6 @@ const Education1: React.FC = () => {
                           setFlag(true);
                           setOpen(false);
                           seteditopen("");
-
                           setEducation({
                             id: "id" + new Date().getTime(),
                             school: "",
@@ -735,11 +726,8 @@ const Education1: React.FC = () => {
                           setEducation({
                             id: "id" + new Date().getTime(),
                             school: "",
-                            // schoolOther: "",
                             degree: "",
-                            // degreeOther: "",
                             field_of_study: "",
-                            // field_of_studyOther: "",
                             grade: "",
                             activities: "",
                             description: "",
@@ -750,7 +738,7 @@ const Education1: React.FC = () => {
                           });
                           setEducation1(true);
                           setEducation2(false);
-                          setOpen(true);
+
                           seteditopen("");
                         }}
                         className="cursor"
@@ -770,14 +758,21 @@ const Education1: React.FC = () => {
               <form onSubmit={handleSubmit}>
                 <Grid>
                   <>
-           
-
                     <Grid.Col span={12}>
-            
                       <Autocomplete
                         styles={(theme) => ({
                           input: {
                             height: "100%",
+                            borderRadius: "4px",
+                            border: "1px solid #DCDCDC",
+                            "::placeholder":{
+                     
+      
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              color:"#CACACA"
+                 
+                            }
                           },
                           values: {
                             height: "100%",
@@ -802,11 +797,20 @@ const Education1: React.FC = () => {
                     </Grid.Col>
 
                     <Grid.Col span={12}>
-              
                       <Autocomplete
                         styles={(theme) => ({
                           input: {
                             height: "100%",
+                            borderRadius: "4px",
+                            border: "1px solid #DCDCDC",
+                            "::placeholder":{
+                     
+      
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              color:"#CACACA"
+                 
+                            }
                           },
                           values: {
                             height: "100%",
@@ -828,7 +832,6 @@ const Education1: React.FC = () => {
                     </Grid.Col>
 
                     <Grid.Col span={12}>
-             
                       <Autocomplete
                         value={education.field_of_study}
                         onChange={(value: any) =>
@@ -839,6 +842,16 @@ const Education1: React.FC = () => {
                         styles={(theme) => ({
                           input: {
                             height: "100%",
+                            borderRadius: "4px",
+                            border: "1px solid #DCDCDC",
+                            "::placeholder":{
+                     
+      
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              color:"#CACACA"
+                 
+                            }
                           },
                           values: {
                             height: "100%",
@@ -877,6 +890,16 @@ const Education1: React.FC = () => {
                         styles={(theme) => ({
                           input: {
                             height: "100%",
+                            borderRadius: "4px",
+                            border: "1px solid #DCDCDC",
+                            "::placeholder":{
+                     
+      
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              color:"#CACACA"
+                 
+                            }
                           },
                           values: {
                             height: "100%",
@@ -902,6 +925,16 @@ const Education1: React.FC = () => {
                         styles={(theme) => ({
                           input: {
                             height: "100%",
+                            borderRadius: "4px",
+                            border: "1px solid #DCDCDC",
+                            "::placeholder":{
+                     
+      
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              color:"#CACACA"
+                 
+                            }
                           },
                           values: {
                             height: "100%",
@@ -931,6 +964,16 @@ const Education1: React.FC = () => {
                         styles={(theme) => ({
                           input: {
                             height: "100%",
+                            borderRadius: "4px",
+                            border: "1px solid #DCDCDC",
+                            "::placeholder":{
+                     
+      
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              color:"#CACACA"
+                 
+                            }
                           },
                           values: {
                             height: "100%",
@@ -957,6 +1000,16 @@ const Education1: React.FC = () => {
                         styles={(theme) => ({
                           input: {
                             height: "100%",
+                            borderRadius: "4px",
+                            border: "1px solid #DCDCDC",
+                            "::placeholder":{
+                     
+      
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              color:"#CACACA"
+                 
+                            }
                           },
                           values: {
                             height: "100%",
@@ -973,7 +1026,6 @@ const Education1: React.FC = () => {
                     </Grid.Col>
 
                     <Grid.Col span={12}>
-            
                       <Input
                         placeholder="Grade"
                         required
@@ -985,15 +1037,22 @@ const Education1: React.FC = () => {
                             width: "100%",
                             fontSize: 16,
                             lineHeight: 50,
-                            borderRadius: 8,
-                            border: "2px solid #ccc",
+                            borderRadius: "4px",
+                            border: "1px solid #DCDCDC",
+                            "::placeholder":{
+                     
+      
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              color:"#CACACA"
+                 
+                            }
                           },
                         })}
                       />
                       {/* </Input.Wrapper> */}
                     </Grid.Col>
                     <Grid.Col span={12}>
-              
                       <Input
                         placeholder="Activities"
                         required
@@ -1007,8 +1066,16 @@ const Education1: React.FC = () => {
                             width: "100%",
                             fontSize: 16,
                             lineHeight: 50,
-                            borderRadius: 8,
-                            border: "2px solid #ccc",
+                            borderRadius: "4px",
+                            border: "1px solid #DCDCDC",
+                            "::placeholder":{
+                     
+      
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              color:"#CACACA"
+                 
+                            }
                           },
                         })}
                       />
@@ -1016,7 +1083,6 @@ const Education1: React.FC = () => {
                     </Grid.Col>
 
                     <Grid.Col span={12}>
-     }
                       <Input
                         placeholder="Description"
                         required
@@ -1030,8 +1096,13 @@ const Education1: React.FC = () => {
                             width: "100%",
                             fontSize: 16,
                             lineHeight: 50,
-                            borderRadius: 8,
-                            border: "2px solid #ccc",
+                            borderRadius: "4px",
+                            border: "1px solid #DCDCDC",
+                            "::placeholder": {
+                              fontSize: "16px",
+                              fontWeight: 500,
+                              color: "#CACACA",
+                            },
                           },
                         })}
                       />
@@ -1048,20 +1119,14 @@ const Education1: React.FC = () => {
                   }}
                 >
                   <Button
-                    className="btn-info"
-                    style={{
-                      paddingRight: "14px",
-                      height: "50px",
-                      width: "100%",
-                      // margin:"0 !important"
-                    }}
+                    className="save-btn-stepper"
                     onClick={() => {
                       // setEducation3(true)
                       saveEntry();
                     }}
                   >
                     {" "}
-                    save{" "}
+                    Save{" "}
                   </Button>
                 </div>
               </form>

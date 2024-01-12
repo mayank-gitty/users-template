@@ -626,14 +626,16 @@ const Login = () => {
                 />
               </div>
 
-              <p
-                className="cursor"
-                data-bs-toggle="modal"
-                data-bs-target="#forgotPassword"
-              >
-                {" "}
-                Forgot password{" "}
-              </p>
+              <div className="d-flex justify-content-end">
+                <p
+                  className="cursor"
+                  data-bs-toggle="modal"
+                  data-bs-target="#forgotPassword"
+                >
+                  {" "}
+                  Forgot password{" "}
+                </p>
+              </div>
 
               <Group position="left" mt="md">
                 <button

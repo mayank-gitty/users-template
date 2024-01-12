@@ -120,22 +120,25 @@ export function ProjectSection({ form, setProject }) {
                                 }}
                               >
                                 <div className="text-custom-light">
-                                  <h6 className="title">
+
+                                  <h6 className="">
                                     {" "}
-                                    project: {item.projectTitle}{" "}
+                                   <span className="project-key" >  project:   </span>    {item.projectTitle}{" "}
                                   </h6>
-                                  <h6> role: {item.role} </h6>
+
+                                  <h6>   <span className="project-key" >  role:  </span>   {item.role} </h6>
+
                                   <h6
                                     style={{
                                       fontWeight: "400",
                                     }}
                                   >
                                     {" "}
-                                    client: {item.client} ,{" "}
+                                   <span  className="project-key" >   client:  </span>    {item.client} ,{" "}
                                     {/* <span> {item.employment_type} </span>{" "} */}
                                   </h6>
 
-                                  <h6
+                                  {/* <h6
                                     style={{
                                       marginBottom: "0.5rem",
                                     }}
@@ -173,27 +176,27 @@ export function ProjectSection({ form, setProject }) {
                                       natureOfEmployment:{" "}
                                       {item.natureOfEmployment}{" "}
                                     </span>{" "}
-                                  </h6>
+                                  </h6> */}
 
                                   <h6>
                                     {" "}
                                     <span>
                                       {" "}
-                                      teamSize: {item.teamSize}{" "}
+                                     <span  className="project-key" >   teamSize :  </span>   {item.teamSize}{" "}
                                     </span>{" "}
                                   </h6>
                                   <h6>
                                     {" "}
                                     <span>
-                                      {" "}
-                                      skillUsed: {item.skillUsed}{" "}
+                                      {" "} 
+                                      <span  className="project-key" >   skillUsed :    </span>    {item.skillUsed}{" "}
                                     </span>{" "}
                                   </h6>
 
                                   {/* <h6>  activity: {item.activities} </h6> */}
                                   <h6>
                                     {" "}
-                                    role description: {
+                                   <span     className="project-key">  role description:   </span>  {
                                       item.roleDescription
                                     }{" "}
                                   </h6>

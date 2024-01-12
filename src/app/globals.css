@@ -89,40 +89,22 @@ tbody tr td {
   font-size: 12.3px;
 }
 
-/* 
-button:focus 
-
-{
-    border: transparent !important;
-    border: none !important;
-    outline: none !important;
- }
-
-
-button
-{
-    border: transparent !important;
-    border: none !important;
- }
- */
-
-
-
+button:focus {
+  outline: none !important;
+}
 
 .modal-open .modal {
-
-/* display: flex !important; 
+  /* display: flex !important; 
 align-items: center !important;
 justify-content: center; */
 }
-.modal-content.login  {
+.modal-content.login {
   width: 500px;
 }
 
 .modal-content.login .modal-body {
   height: auto !important;
 }
-
 
 .title {
   color: #150b3d;
@@ -347,11 +329,8 @@ div.dataTables_wrapper div.dataTables_info {
   /* background: #fff; */
 }
 
-
 .profile-table.no-lift {
-
   transform: translateY(0px);
-
 }
 
 .modal-close-icon {
@@ -421,6 +400,11 @@ div.dataTables_wrapper div.dataTables_info {
   line-height: normal;
   padding-bottom: 16px !important;
   /* padding-top: 80px; */
+}
+
+.project-key {
+  color: #150b3d !important;
+  font-weight: 700;
 }
 
 .home-page.profile-table [data-test="table"] {
@@ -526,13 +510,10 @@ div.dataTables_wrapper div.dataTables_paginate {
   background: #fff;
 }
 
-
-
-table.table-sm th, table.table-sm td  {
-
+table.table-sm th,
+table.table-sm td {
   padding-top: 0.25rem !important;
   padding-bottom: 0.25rem !important;
-
 }
 
 [data-test="table"] td {
@@ -631,6 +612,14 @@ table.table-sm th, table.table-sm td  {
 .profile-upload img {
   width: 100%;
   height: 100%;
+}
+
+
+.save-btn-stepper {
+  height: 50px;
+  width: 100%;
+  border-radius: 7.288px;
+  background: #4D47C3;
 }
 
 .resume-link {
@@ -901,26 +890,20 @@ table.table-sm th, table.table-sm td  {
   background: #3d39d8;
 }
 
-
 .table thead th {
-
   padding-top: 0.2rem !important;
   padding-bottom: 0.2rem !important;
-
 }
 
-div.dataTables_wrapper div.dataTables_info, div.dataTables_wrapper div.dataTables_paginate {
-
+div.dataTables_wrapper div.dataTables_info,
+div.dataTables_wrapper div.dataTables_paginate {
   padding-top: 0.3rem;
-
 }
 
-div.dataTables_wrapper div.dataTables_paginate ul.pagination  {
-
-padding-top: 0.4rem !important;
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+  padding-top: 0.4rem !important;
   padding-bottom: 0rem;
   margin-bottom: 0rem;
-
 }
 
 [data-test="page-item"] {

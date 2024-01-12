@@ -571,6 +571,14 @@ const ExperienceDetails = () => {
                       styles={(theme) => ({
                         input: {
                           height: "100%",
+                          borderRadius: "4px",
+                          border: "1px solid #DCDCDC",
+                          "::placeholder":{
+                            fontSize: "16px",
+                            fontWeight: 500,
+                            color:"#CACACA"
+               
+                          }
                         },
                         values: {
                           height: "100%",
@@ -596,10 +604,20 @@ const ExperienceDetails = () => {
                         handleChange("employment_type", value)
                       }
                       data={type}
-                      placeholder="Employment Type"
+                      placeholder="Employment type"
                       styles={(theme) => ({
                         input: {
                           height: "100%",
+                          borderRadius: "4px",
+                          border: "1px solid #DCDCDC",
+                          "::placeholder":{
+                   
+    
+                            fontSize: "16px",
+                            fontWeight: 500,
+                            color:"#CACACA"
+               
+                          }
                         },
                         values: {
                           height: "100%",
@@ -618,7 +636,7 @@ const ExperienceDetails = () => {
                   <Grid.Col span={12}>
                     {/* <label htmlFor=" "> Company name </label> */}
                     <TextInput
-                      placeholder="Company Name"
+                      placeholder="Company name"
                       size="md"
                       minLength={5}
                       maxLength={30}
@@ -627,6 +645,16 @@ const ExperienceDetails = () => {
                       styles={(theme) => ({
                         input: {
                           height: "100%",
+                          borderRadius: "4px",
+                          border: "1px solid #DCDCDC",
+                          "::placeholder":{
+                   
+    
+                            fontSize: "16px",
+                            fontWeight: 500,
+                            color:"#CACACA"
+               
+                          }
                         },
                         values: {
                           height: "100%",
@@ -652,6 +680,16 @@ const ExperienceDetails = () => {
                       styles={(theme) => ({
                         input: {
                           height: "100%",
+                          borderRadius: "4px",
+                          border: "1px solid #DCDCDC",
+                          "::placeholder":{
+                   
+    
+                            fontSize: "16px",
+                            fontWeight: 500,
+                            color:"#CACACA"
+               
+                          }
                         },
                         values: {
                           height: "100%",
@@ -673,10 +711,20 @@ const ExperienceDetails = () => {
                       value={experience.location_type}
                       onChange={(value) => handleChange("location_type", value)}
                       data={locationType}
-                      placeholder="Location Type"
+                      placeholder="Location type"
                       styles={(theme) => ({
                         input: {
                           height: "100%",
+                          borderRadius: "4px",
+                          border: "1px solid #DCDCDC",
+                          "::placeholder":{
+                   
+    
+                            fontSize: "16px",
+                            fontWeight: 500,
+                            color:"#CACACA"
+               
+                          }
                         },
                         values: {
                           height: "100%",
@@ -696,6 +744,13 @@ const ExperienceDetails = () => {
                     <Checkbox
                       checked={experience.currently_working ? true : false}
                       label="I am currently working in this role"
+                      styles={(theme) => ({
+                        label: {
+                          color: "#000",
+                          fontSize: "16px",
+                          fontWeight: 500,
+                        },
+                      })}
                       onChange={(e: any) =>
                         handleChange("currently_working", e.target.checked)
                       }
@@ -719,6 +774,16 @@ const ExperienceDetails = () => {
                       styles={(theme) => ({
                         input: {
                           height: "100%",
+                          borderRadius: "4px",
+                          border: "1px solid #DCDCDC",
+                          "::placeholder":{
+                   
+    
+                            fontSize: "16px",
+                            fontWeight: 500,
+                            color:"#CACACA"
+               
+                          }
                         },
                         values: {
                           height: "100%",
@@ -745,6 +810,16 @@ const ExperienceDetails = () => {
                       styles={(theme) => ({
                         input: {
                           height: "100%",
+                          borderRadius: "4px",
+                          border: "1px solid #DCDCDC",
+                          "::placeholder":{
+                   
+    
+                            fontSize: "16px",
+                            fontWeight: 500,
+                            color:"#CACACA"
+               
+                          }
                         },
                         values: {
                           height: "100%",
@@ -779,6 +854,16 @@ const ExperienceDetails = () => {
                           styles={(theme) => ({
                             input: {
                               height: "100%",
+                              borderRadius: "4px",
+                              border: "1px solid #DCDCDC",
+                              "::placeholder":{
+                       
+        
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                color:"#CACACA"
+                   
+                              }
                             },
                             values: {
                               height: "100%",
@@ -805,6 +890,16 @@ const ExperienceDetails = () => {
                           styles={(theme) => ({
                             input: {
                               height: "100%",
+                              borderRadius: "4px",
+                              border: "1px solid #DCDCDC",
+                              "::placeholder":{
+                       
+        
+                                fontSize: "16px",
+                                fontWeight: 500,
+                                color:"#CACACA"
+                   
+                              }
                             },
                             values: {
                               height: "100%",
@@ -826,7 +921,7 @@ const ExperienceDetails = () => {
                 <div className="d-flex justify-content-end">
                   <Button
                     type="button"
-                    className="btn-info mt-4"
+                    className="save-btn-stepper -btn mt-4"
 
                     style={{
                       height:"50px",  
