@@ -5,6 +5,7 @@ import useThemeContext from "@/context/context";
 import { Container, FileInput, Image, Paper, Group } from "@mantine/core";
 
 import { Dropzone } from "@mantine/dropzone";
+import { IconPhoto } from "@tabler/icons-react";
 
 export interface IAppProps {}
 
@@ -220,7 +221,8 @@ export function AddPhotograph({
             <div class="modal-content">
               <div class="modal-header">
                 <div className="custom-align">
-                  <img className="experience-icon" src="images/education.svg" />
+           
+           <IconPhoto/>
 
                   <h6> {inEditPhoto ? "" : "Add"} Photograph </h6>
                 </div>

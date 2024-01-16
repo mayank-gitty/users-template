@@ -27,6 +27,8 @@ export function AddEducation({
   addEducation,
   setEducation,
   handleChangeEducation,
+  editHide,
+  addHide,
 }) {
   return (
     <div>

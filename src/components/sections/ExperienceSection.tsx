@@ -26,7 +26,9 @@ import {
   FileInput,
 } from "@mantine/core";
 
-export function ExperienceSection({ form, setExperience }) {
+export function ExperienceSection({ form, setExperience, addHide, editHide }) {
+
+
   return (
     <div>
       <Stack>
@@ -34,13 +36,13 @@ export function ExperienceSection({ form, setExperience }) {
           className="p-4 h-full rounded bg-white"
           style={{
             height: "310.897px",
-            display:"flex",
-            flexDirection:"column",
-            justifyContent:"space-between"
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
             // background: "red",
           }}
         >
-          <Group position="apart" className="border-b pb-[10px]"  >
+          <Group position="apart" className="border-b pb-[10px]">
             <Group position="left">
               <Image
                 src="./images/experience.svg"
@@ -52,42 +54,46 @@ export function ExperienceSection({ form, setExperience }) {
               </div>
             </Group>
 
-             {  form.getInputProps("experience")?.value?.length > 0  &&   form.getInputProps("experience")?.value?.length < 2   && (
-              <Image
-                width={24}
-                className="custom-align-image"
-                data-bs-toggle="modal"
-                data-bs-target="#addExperience"
-                alt="Google"
-                style={{
-                  width: "24px",
-                  height: "24px",
-                  // marginLeft: "10rem",
-                }}
-                src="./assets/addIcon.svg"
-                alt="Google"
-                style={{
-                  width: "24px",
-                  height: "32px",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  setExperience({
-                    id: "",
-                    title: "",
-                    employment_type: "",
-                    company: "",
-                    location: "",
-                    location_type: "",
-                    start_year: "",
-                    start_year_month: "",
-                    end_year: "",
-                    currently_working: false,
-                    end_year_month: "",
-                  });
-                }}
-              />
-            )}
+            {!addHide &&
+              form.getInputProps("experience")?.value?.length > 0 &&
+              form.getInputProps("experience")?.value?.length < 3 && (
+                <Image
+                  width={24}
+                  className="custom-align-image"
+                  data-bs-toggle="modal"
+                  data-bs-target="#addExperience"
+
+                  alt="Google"
+                  style={{
+                    width: "24px",
+                    height: "24px",
+                    // marginLeft: "10rem",
+                  }}
+                  src="./assets/addIcon.svg"
+                  alt="Google"
+                  style={{
+                    width: "24px",
+                    height: "32px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    
+                    setExperience({
+                      id: "",
+                      title: "",
+                      employment_type: "",
+                      company: "",
+                      location: "",
+                      location_type: "",
+                      start_year: "",
+                      start_year_month: "",
+                      end_year: "",
+                      currently_working: false,
+                      end_year_month: "",
+                    });
+                  }}
+                />
+              )}
           </Group>
           <Group
             position="apart"
@@ -102,7 +108,7 @@ export function ExperienceSection({ form, setExperience }) {
               style={{
                 width: "100%",
                 height: "100%",
-                transform:'translateY(6px)'
+                transform: "translateY(6px)",
               }}
             >
               <Stack
@@ -110,7 +116,7 @@ export function ExperienceSection({ form, setExperience }) {
                 style={{
                   width: "100%",
                   height: "100%",
-                  justifyContent:"space-between",
+                  justifyContent: "space-between",
                 }}
               >
                 {form.getInputProps("experience")?.value?.length > 0 ? (
@@ -123,7 +129,7 @@ export function ExperienceSection({ form, setExperience }) {
                           className="d-flex justify-content-between"
                           style={{
                             // background:"yellow",
-                            marginBottom:"0.7em",
+                            marginBottom: "0.7em",
                             width: "100%",
                           }}
                         >
@@ -166,34 +172,37 @@ export function ExperienceSection({ form, setExperience }) {
                             </p> */}
                           </div>
 
-                          <Image
-                            onClick={() => {
-                              setExperience({
-                                title: item.title,
-                                employment_type: item.employment_type,
-                                company: item.company,
-                                location: item.location,
-                                location_type: item.location_type,
-                                start_year: item.start_year,
-                                start_year_month: item.start_year_month,
-                                end_year: item.end_year,
-                                end_year_month: item.end_year_month,
-                                currently_working: item.currently_working,
-                                id: item.id,
-                              });
-                            }}
-                            data-bs-toggle="modal"
-                            data-bs-target="#exampleModal"
-                            // data-toggle="modal"
-                            // data-target="#exampleModalLong"
-                            src="./images/Edit.svg"
-                            alt="Google"
-                            style={{
-                              width: "24px",
-                              height: "32px",
-                              // marginLeft: "10rem",
-                            }}
-                          />
+                          {!editHide && (
+                            <Image
+                              onClick={() => {
+                                setExperience({
+                                  title: item.title,
+                                  employment_type: item.employment_type,
+                                  company: item.company,
+                                  location: item.location,
+                                  location_type: item.location_type,
+                                  start_year: item.start_year,
+                                  start_year_month: item.start_year_month,
+                                  end_year: item.end_year,
+                                  end_year_month: item.end_year_month,
+                                  currently_working: item.currently_working,
+                                  id: item.id,
+                                });
+                              }}
+                              data-bs-toggle="modal"
+                              data-bs-target="#exampleModal"
+                    
+                              // data-toggle="modal"
+                              // data-target="#exampleModalLong"
+                              src="./images/Edit.svg"
+                              alt="Google"
+                              style={{
+                                width: "24px",
+                                height: "32px",
+                                // marginLeft: "10rem",
+                              }}
+                            />
+                          )}
                         </div>
                       );
                     })
@@ -211,47 +220,49 @@ export function ExperienceSection({ form, setExperience }) {
                         No Information here{" "}
                       </span>
 
-                      <div className="d-flex align-items-center">
-                        <Image
-                          width={24}
-                          className="custom-align-image"
-                          data-bs-toggle="modal"
-                          data-bs-target="#addExperience"
-                          alt="Google"
-                          style={{
-                            width: "24px",
-                            height: "24px",
-                            // marginLeft: "10rem",
-                          }}
-                          src="./assets/addIcon.svg"
-                          alt="Google"
-                          style={{
-                            width: "24px",
-                            height: "32px",
-                            cursor: "pointer",
-                          }}
-                          onClick={() => {
-                            setExperience({
-                              id: "",
-                              title: "",
-                              employment_type: "",
-                              company: "",
-                              location: "",
-                              location_type: "",
-                              start_year: "",
-                              start_year_month: "",
-                              end_year: "",
-                              currently_working: false,
-                              end_year_month: "",
-                            });
-                          }}
-                        />
+                      {!addHide && (
+                        <div className="d-flex align-items-center">
+                          <Image
+                            width={24}
+                            className="custom-align-image"
+                            data-bs-toggle="modal"
+                            data-bs-target="#addExperience"
+                            alt="Google"
+                            style={{
+                              width: "24px",
+                              height: "24px",
+                              // marginLeft: "10rem",
+                            }}
+                            src="./assets/addIcon.svg"
+                            alt="Google"
+                            style={{
+                              width: "24px",
+                              height: "32px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              setExperience({
+                                id: "",
+                                title: "",
+                                employment_type: "",
+                                company: "",
+                                location: "",
+                                location_type: "",
+                                start_year: "",
+                                start_year_month: "",
+                                end_year: "",
+                                currently_working: false,
+                                end_year_month: "",
+                              });
+                            }}
+                          />
 
-                        <span className="user-add-education-text">
-                          {" "}
-                          Add Experience{" "}
-                        </span>
-                      </div>
+                          <span className="user-add-education-text">
+                            {" "}
+                            Add Experience{" "}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

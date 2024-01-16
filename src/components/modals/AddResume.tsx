@@ -3,201 +3,203 @@ import { Dropzone } from "@mantine/dropzone";
 
 import useThemeContext from "@/context/context";
 
-import { Container, FileInput, Image,Paper,Group } from "@mantine/core";
+import { Container, FileInput, Image, Paper, Group } from "@mantine/core";
 
 import { createStyles } from "@mantine/core";
-
 
 export interface IAppProps {}
 
 const useStyles = createStyles(() => ({
-    inner: {
-      width: "90%",
-      margin: "auto",
-    },
-    ml: {
-      marginRight: "0.3em",
-    },
-    bar: {
-      background: "#FCA312",
-      width: "438px",
-      height: "201px",
-    },
-    barRoot: {
-      // background:"yellow",
-      width: "100%",
-    },
-    dropZoneRoot: {
-      marginTop: "20px",
-      width: "100%",
-      height: "201px",
-      border: "none",
+  inner: {
+    width: "90%",
+    margin: "auto",
+  },
+  ml: {
+    marginRight: "0.3em",
+  },
+  bar: {
+    background: "#FCA312",
+    width: "438px",
+    height: "201px",
+  },
+  barRoot: {
+    // background:"yellow",
+    width: "100%",
+  },
+  dropZoneRoot: {
+    marginTop: "20px",
+    width: "100%",
+    height: "201px",
+    border: "none",
 
-      outlineWidth: "2px",
+    outlineWidth: "2px",
 
-      outlineStyle: "dashed !important",
-      outlineColor: "#C6C6C6 !important",
-      background: "#FFF !important",
+    outlineStyle: "dashed !important",
+    outlineColor: "#C6C6C6 !important",
+    background: "#FFF !important",
 
+    cursor: "pointer",
+    "&:hover": {
+      // background: "red",
+      // display:"none"
+    },
 
-      cursor: "pointer",
-      "&:hover": {
-        // background: "red",
-        // display:"none"
-      },
-
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  step1: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  step1Content: {
+    color: "rgba(0, 0, 0, 0.45)",
+    textAlign: "center",
+    // fontFamily: Inter;
+    fontSize: "11px",
+    fontWeight: 400,
+    lineHeight: "16px",
+    width: "70%",
+    margin: "auto",
+    marginBottom: "1rem",
+  },
+  progress: {},
+  para: {
+    /* H5/regular */
+    marginTop: "0rem !important",
+    fontFamily: "Roboto",
+    fontSize: "16px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "24px",
+  },
+  marginTop: {
+    marginTop: "1rem",
+  },
+  spaceBetween: {
+    width: "20rem",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  image: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    // width:"80%"
+  },
+  dragBar: {
+    display: "flex",
+    flexDirection: "column",
+    transform: "translateX(-40px)",
+    //  justifyContent:"start"
+  },
+  flex: {
+    display: "flex",
+    width: "8rem",
+    // background:"red",
+    justifyContent: "space-between",
+  },
+  imgUpload: {
+    display: "flex",
+    alignItems: "center",
+    height: "2rem",
+  },
+  upload: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    width: "96%",
+    height: "80%",
+    margin: "auto",
+  },
+  wrapper: {
+    width: "161.934px",
+    height: "43.816px",
+    display: "flex",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    zIndex: 4,
+    ".mantine-Input-icon": {
+      marginLeft: "1rem",
     },
-    step1: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    step1Content: {
-      color: "rgba(0, 0, 0, 0.45)",
-      textAlign: "center",
-      // fontFamily: Inter;
-      fontSize: "11px",
-      fontWeight: 400,
-      lineHeight: "16px",
-      width: "70%",
-      margin: "auto",
-      marginBottom: "1rem",
-    },
-    progress: {},
-    para: {
-      /* H5/regular */
-      marginTop: "0rem !important",
-      fontFamily: "Roboto",
-      fontSize: "16px",
-      fontStyle: "normal",
-      fontWeight: 400,
-      lineHeight: "24px",
-    },
-    marginTop: {
-      marginTop: "1rem",
-    },
-    spaceBetween: {
-      width: "20rem",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-    },
-    image: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      // width:"80%"
-    },
-    dragBar: {
-      display: "flex",
-      flexDirection: "column",
-      transform: "translateX(-40px)",
-      //  justifyContent:"start"
-    },
-    flex: {
-      display: "flex",
-      width: "8rem",
-      // background:"red",
-      justifyContent: "space-between",
-    },
-    imgUpload: {
-      display: "flex",
-      alignItems: "center",
-      height: "2rem",
-    },
-    upload: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "column",
-      width: "96%",
-      height: "80%",
-      margin: "auto",
-    },
-    wrapper: {
-      width: "161.934px",
-      height: "43.816px",
-      display: "flex",
-      justifyContent: "space-evenly",
-      alignItems: "center",
-      zIndex: 4,
-      ".mantine-Input-icon": {
-        marginLeft: "1rem",
-      },
-    },
-    dragOverPara: {
-      transform: "translateY(-38px)",
-    },
-    paraUpload: {
-      color: "#000000",
-      fontSize: "20px",
-      fontStyle: "normal",
-      fontWeight: 600,
-    },
-    icon: {
-      padding: "0 1rem",
-      img: {
-        width: "200px",
-        height: "200px",
-      },
-    },
-    paraDrag: {
-      color: "rgba(0, 0, 0, 0.85)",
-      textAlign: "center",
-      fontSize: "14px",
-      fontWeight: 600,
-      lineHeight: "24px",
-    },
-    message: {
-      color: "#000",
-      fontSize: "20px",
-      fontStyle: "normal",
-      fontWeight: 500,
-      lineHeight: "24px",
-    },
-    input: {
-      // background: "orange",
-      ".mantine-Text-root": {
-        paddingLeft: "1rem",
-      },
-      span: {
-        paddingLeft: "1rem",
-      },
-    },
-    rightSection: {},
-    root: {
-      display: "flex",
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center",
-    },
-    camera: {
+  },
+  dragOverPara: {
+    transform: "translateY(-38px)",
+  },
+  paraUpload: {
+    color: "#000000",
+    fontSize: "20px",
+    fontStyle: "normal",
+    fontWeight: 600,
+  },
+  icon: {
+    padding: "0 1rem",
+    img: {
       width: "200px",
       height: "200px",
     },
-    label: {},
-    error: {},
-    description: {},
-    required: {},
-    placeholder: {
-      color: "#4D47C3 !important",
-      textAlign: "center",
-      // font-family: Inter;
-      fontSize: "10px",
-
-      fontWeight: 400,
-      lineHeight: "10px",
+  },
+  paraDrag: {
+    color: "rgba(0, 0, 0, 0.85)",
+    textAlign: "center",
+    fontSize: "14px",
+    fontWeight: 600,
+    lineHeight: "24px",
+  },
+  message: {
+    color: "#000",
+    fontSize: "20px",
+    fontStyle: "normal",
+    fontWeight: 500,
+    lineHeight: "24px",
+  },
+  input: {
+    // background: "orange",
+    ".mantine-Text-root": {
+      paddingLeft: "1rem",
     },
-  }));
+    span: {
+      paddingLeft: "1rem",
+    },
+  },
+  rightSection: {},
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  camera: {
+    width: "200px",
+    height: "200px",
+  },
+  label: {},
+  error: {},
+  description: {},
+  required: {},
+  placeholder: {
+    color: "#4D47C3 !important",
+    textAlign: "center",
+    // font-family: Inter;
+    fontSize: "10px",
 
-export function AddResume({ inEditResume, addResume, handleFileUploadResume,form }  ) {
+    fontWeight: 400,
+    lineHeight: "10px",
+  },
+}));
 
+export function AddResume({
+  inEditResume,
+  addResume,
+  handleFileUploadResume,
+  form,
+}) {
   const { formData }: any = useThemeContext();
-  
+
   const { classes } = useStyles();
 
   return (
@@ -214,7 +216,13 @@ export function AddResume({ inEditResume, addResume, handleFileUploadResume,form
             <div class="modal-content">
               <div class="modal-header">
                 <div className="custom-align">
-                  <img className="experience-icon" src="images/education.svg" />
+        
+                <Image
+                    src="./images/resume.svg"
+                    alt="Google"
+                    style={{ width: "24px", height: "24px" }}
+        
+                  />
 
                   <h6> {inEditResume ? "" : "Add"} Resume </h6>
                 </div>
@@ -262,7 +270,6 @@ export function AddResume({ inEditResume, addResume, handleFileUploadResume,form
                               multiple
                               activateOnClick={false}
                               styles={{ inner: { pointerEvents: "all" } }}
-    
                               maxSize={3 * 1024 ** 2}
                               classNames={{
                                 inner: classes.inner,
@@ -293,7 +300,6 @@ export function AddResume({ inEditResume, addResume, handleFileUploadResume,form
                                   <FileInput
                                     name="myImage"
                                     icon={
-                        
                                       <Image
                                         alt=""
                                         src="assets/document.svg"

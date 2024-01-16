@@ -3,6 +3,7 @@ import * as React from 'react';
 export interface IAppProps {
 }
 
+import { IconHeading } from '@tabler/icons-react';
 import { Container, FileInput, Image,Paper,Group,Grid,Input } from "@mantine/core";
 
 export function AddHeadline ({form,addHeadline}:any) {
@@ -14,13 +15,15 @@ export function AddHeadline ({form,addHeadline}:any) {
         tabindex="-1"
         aria-labelledby="addHeadline"
         aria-hidden="true"
+        data-bs-backdrop="static"
       >
         <form>
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <div className="custom-align">
-                  <img className="experience-icon" src="images/education.svg" />
+
+                <IconHeading/>
 
                   <h6> Add Headline </h6>
                 </div>

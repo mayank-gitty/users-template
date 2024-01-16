@@ -1,6 +1,6 @@
 import * as React from "react";
 
-
+import { IconBrandReact } from "@tabler/icons-react";
 
 export interface IAppProps {}
 
@@ -15,12 +15,18 @@ export function AddSkills({form, updateKeySkills , DefaultItSkills  ,DefaultKeyS
         tabindex="-1"
         aria-labelledby="exampleModalSkills"
         aria-hidden="true"
+        data-bs-backdrop="static"
       >
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <div className="custom-align">
-                <img className="experience-icon" src="images/education.svg" />
+   
+              <Image
+                src="./images/Icon-Skill.svg"
+                alt="Google"
+                style={{ width: "28px", height: "28px" }}
+              />
 
                 <h6> Skills </h6>
               </div>

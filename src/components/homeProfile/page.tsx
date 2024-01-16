@@ -5547,7 +5547,7 @@ export default function HomeProfile(props: IAppProps) {
           <div className="text-black text-2xl py-3  font-semibold">Profile</div>
 
           {session?.user.user.role === "employee" && (
-            <button className="btn btn-info mb-2" onClick={() => logOut()}>
+            <button className="logout-btn" onClick={() => logOut()}>
               logout
             </button>
           )}

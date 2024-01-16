@@ -17,8 +17,7 @@ import { ADD_MULTIPLE_USER } from "@/util/mutationQueries";
 import { randomId } from "@mantine/hooks";
 import HomeProfile from "@/components/homeProfile/page";
 import { useSession } from "next-auth/react";
-import { ALL_USERS , USERS ,COMPANIES } from "@/util/queries";
-
+import { ALL_USERS, USERS, COMPANIES } from "@/util/queries";
 
 import {
   FiChevronDown,
@@ -27,6 +26,16 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 
+import {
+  IconUsers,
+  IconCirclePlus,
+  IconUser,
+  IconDashboard,
+  IconLiveView,
+  IconEdit,
+  IconPlus,
+  IconEye,
+} from "@tabler/icons-react";
 
 export default function Home() {
   const [main, setMain] = useState();
@@ -36,7 +45,6 @@ export default function Home() {
   const router = useRouter();
 
   const sendEmails = async (users) => {
-
     const recipients = users.map((item) => {
       return {
         to: item.email,
@@ -44,7 +52,6 @@ export default function Home() {
         text: `welcome ${item?.name} your password is ${item?.password}`,
       };
     });
-
 
     try {
       const response = await fetch("/api/send-email", {
@@ -94,7 +101,6 @@ export default function Home() {
 
     // console.log("c", randomPart);
 
-
     const password = inputString + randomPart + "@" + "cloud";
 
     return password;
@@ -105,7 +111,7 @@ export default function Home() {
       userId: "",
       role: "",
       company: "",
-      photograph:"",
+      photograph: "",
       stepperFilled: false,
       companies: [],
       profile_summary: "",
@@ -257,14 +263,11 @@ export default function Home() {
   });
 
   const getUser = async () => {
-
-
     const user: any = await client.request(VIEW_USER, {
       where: {
         id: session?.user.user.id,
       },
     });
-
 
     if (session?.user.user.role === "manager") {
       // alert("here");
@@ -285,7 +288,6 @@ export default function Home() {
       stepperFilled: user?.user?.stepperFilled,
     });
   };
-
 
   const getData = async () => {
     console.log("getData", getData);
@@ -352,10 +354,6 @@ export default function Home() {
         ),
       };
     });
-
-
-
-
 
     const test: any = {
       columns: [
@@ -949,7 +947,6 @@ export default function Home() {
         (item) => item !== undefined
       );
 
-
       const Mutatedata = formEmployees.values.entries.map(async (item) => {
         return checkExistingUser(item.email);
       });
@@ -1028,7 +1025,7 @@ export default function Home() {
         if (check) {
           toast("employees credentials sent", {
             className: "green-background",
-            bodyClassName: "grow-font-size",  
+            bodyClassName: "grow-font-size",
             progressClassName: "fancy-progress-bar",
           });
 
@@ -1061,531 +1058,219 @@ export default function Home() {
             )}
 
             {form.getInputProps("role")?.value === "manager" && (
-              <div className="profile-block">
-                <div className="px-5">
-                  <div
-                    className="py-4 px-5 custom-rounded-dashboard custom-box-shadow-dashboard"
-                    style={{
-                      // padding:"17px 17px",
-                      marginTop: "1rem",
-                      marginRight: "1rem",
-                    }}
-                  >
-                    <div className="profile-header d-flex justify-content-between mb-4">
-                      <span
-                        className="page-main-heading-dashboard"
-                        style={{
-                          marginLeft: "0px",
-                        }}
-                      >
-                        Profile
-                      </span>
-                      <Image
-                        onClick={()=>router.push(`profile?id=${session.user.user.id}`) }
-                        width={15}
-                        height={15}
-                        src="images/dashboard-profile-edit.svg"
-                      />
-                    </div>
-                    <div className="profile-content d-flex">
-                      <div className="photograph-in-main-page">
-                        <Image
-                          width={184}
-                          height={138}
-                          src={form.getInputProps("photograph")?.value}
-                        />
-                      </div>
+         <div className="px-5  ">
+         <div className="">
+           <div className="">
+             <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center">
+               <div className="home_layer in_manager_dashboard" >
+    
+                 <div className="home_card custom-rounded custom-box-shadow">
+                   <h6 className="text-center mt-4 card-main-heading"> Employees </h6>
 
+                   <div className="home-card-bottom-layer">
+                     <div className="d-flex">
+                       <div className="icon">
+                         <IconEye />
+                       </div>
+
+                       <span
+                         className="card-span-tag"
+                         onClick={() =>
+                           router.push("/view_employees_in_manager")
+                         }
+                       >
+                         {" "}
+                         view employees {" "}
+                       </span>
+                     </div>
+
+                     <div className="d-flex">
+                       <div className="icon">
+                         <IconPlus />
+                       </div>
+
+                       <span
+                         className="card-span-tag"
+                         onClick={() =>
+                           router.push("/add_employees_in_manager")
+                         }
+                       >
+                         {" "}
+                         add employees{" "}
+                       </span>
+                     </div>
+                   </div>
+                 </div>
+
+
+                 <div className="home_card custom-rounded custom-box-shadow mx-4">
+                   <h6 className="text-center mt-4 card-main-heading"> Employees profiles </h6>
+
+                   <div className="home-card-bottom-layer">
+                     <div className="d-flex">
+                       <div className="icon">
+                         <IconEye />
+                       </div>
+
+                       <span
+                         className="card-span-tag"
+                         onClick={() =>
+                           router.push("/view_manager_employees_profiles")
+                         }
+                       >
+                         {" "}
+                         view  profiles{" "}
+                       </span>
+                     </div>
+
+                     <div className="d-flex">
+                       <div className="icon">
+                         <IconPlus />
+                       </div>
+
+                       <span
+                         className="card-span-tag"
+                         onClick={() =>
+                           router.push("/add_manager_employees_profiles")
+                         }
+                       >
+                         {" "}
+                         add  profiles{" "}
+                       </span>
+                     </div>
+                   </div>
+                 </div>
+
+         
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+            )}
+
+            <div className="">
+              {form.getInputProps("role")?.value === "admin" && (
+                <div className="">
+                  <form onSubmit={formManagers.onSubmit((values) => {})}>
+                    <div className="px-5  ">
                       <div className="">
-                        <div className="mx-4">
-                          <div className="text-black text-[28px] font-semibold ">
-                            {form.getInputProps("name")?.value}
-                          </div>
-                          <div className="text-[#ABABAB] text-base font-medium ">
-                            {form.getInputProps("resume_headline").value}
-                          </div>
-                          <div className="text-[#797878] text-xs font-medium profile-summary-box">
-                            {form.getInputProps("profile_summary").value}
-                          </div>
+                        <div className="">
+                          <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center justify-content-between">
+                            <div className="home_layer">
+                              <div className="home_card custom-rounded custom-box-shadow">
+                                <h6 className="text-center mt-4 card-main-heading"> Managers </h6>
 
-                          <Group position="left" mt={"3%"}>
-                            <p
-                              style={{
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}
-                            >
-                              {form.getInputProps("status").value ? (
-                                <span className="px-4 py-2 bg-emerald-100 rounded-sm text-green-600 text-xs font-medium">
-                                  Active
-                                </span>
-                              ) : (
-                                <span className="px-4 py-2 bg-rose-100 rounded-sm text-red-600 text-xs font-medium">
-                                  Inactive
-                                </span>
-                              )}
-                            </p>
-                            <p className="work">
-                              {form.getInputProps("work").value ? (
-                                <span className="px-4 py-2 bg-violet-100 rounded-sm text-indigo-500 text-xs font-medium">
-                                  Open to Work
-                                </span>
-                              ) : (
-                                <span className="px-4 py-2 bg-rose-100 rounded-sm text-red-700 text-xs font-medium">
-                                  Engaged
-                                </span>
-                              )}
-                            </p>
-                          </Group>
-                        </div>
-                      </div>
-                    </div>
-                    .
-                  </div>
-                </div>
-              </div>
-            )}
+                                <div className="home-card-bottom-layer">
+                                  <div className="d-flex">
+                                    <div className="icon">
+                                      <IconEye />
+                                    </div>
 
-            {form.getInputProps("role")?.value === "admin" && (
-              <div className="create-managers-block">
-                <form onSubmit={formManagers.onSubmit((values) => {})}>
-                  <div className="px-5  ">
-                    <div className="custom-rounded-dashboard">
-                      <div className="p-5 ">
-                        <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center justify-content-between">
-                          <div className="d-flex align-items-center">
-                            <img src={"images/dashboardIcon.svg"} />
+                                    <span
+                                      className="card-span-tag"
+                                      onClick={() =>
+                                        router.push("/view_managers")
+                                      }
+                                    >
+                                      {" "}
+                                      view managers{" "}
+                                    </span>
+                                  </div>
 
-                            <h2 className="page-main-heading-dashboard">
-                              {" "}
-                              Create managers{" "}
-                            </h2>
-                          </div>
-                          <div className="d-flex justify-content-between">
-                            <Select
-                              // label="Please select company"
+                                  <div className="d-flex">
+                                    <div className="icon">
+                                      <IconPlus />
+                                    </div>
 
-                              style={{
-                                marginRight: "1.5rem",
-                              }}
-                              placeholder="Please select company"
-                              {...formManagers.getInputProps(`company`)}
-                              data={form.getInputProps("companies").value}
-                            />
-
-                            <button
-                              // onClick={() => saveAll()}
-                              // className={`${"save-all-btn"}`}
-                              style={{
-                                fontSize: "11px",
-                                fontWeight: 600,
-                                border: "0.0625rem solid transparent",
-                                background: "#40c057",
-                                color: "#fff",
-                                height: "32px",
-                                padding: "0 10px",
-                                borderRadius: "4.243px",
-                              }}
-                              onClick={() => saveAllManagers()}
-                              type="button"
-                            >
-                              {" "}
-                              Save managers entries{" "}
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className="mb-4">
-                          <div className="relative overflow-x-auto">
-                            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                              <thead className="table-column-links">
-                                <tr>
-                                  <th scope="col" className="px-6 py-3">
-                                    Name
-                                  </th>
-                                  <th scope="col" className="px-6 py-3">
-                                    Mobile Number
-                                  </th>
-                                  <th scope="col" className="px-6 py-3">
-                                    Email
-                                  </th>
-                                  <th scope="col" className="px-6 py-3">
-                                    Address
-                                  </th>
-                                  {/* <th scope="col" className="px-6 py-3">
-            Company
-          </th> */}
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {formManagers.values?.entries?.length > 0 &&
-                                  formManagers.values?.entries?.map(
-                                    (item: any, index) => {
-                                      return (
-                                        <tr
-                                          key={item.key}
-                                          className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                        >
-                                          <th
-                                            scope="row"
-                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                          >
-                                            <TextInput
-                                              disabled={
-                                                formManagers.getInputProps(
-                                                  "company"
-                                                )?.value
-                                                  ? false
-                                                  : true
-                                              }
-                                              className=" h-10 w-48 p-2"
-                                              placeholder="Name"
-                                              {...formManagers.getInputProps(
-                                                `entries.${index}.userName`
-                                              )}
-                                            />
-                                          </th>
-                                          <td className="px-6 py-4">
-                                            <TextInput
-                                              disabled={
-                                                formManagers.getInputProps(
-                                                  "company"
-                                                )?.value
-                                                  ? false
-                                                  : true
-                                              }
-                                              className=" h-10 w-48 p-2"
-                                              placeholder="Mobile Number"
-                                              {...formManagers.getInputProps(
-                                                `entries.${index}.mobileNumber`
-                                              )}
-                                            />
-                                          </td>
-                                          <td className="px-6 py-4">
-                                            <TextInput
-                                              //   label="Name"
-                                              //   description="Input description"
-                                              disabled={
-                                                formManagers.getInputProps(
-                                                  "company"
-                                                )?.value
-                                                  ? false
-                                                  : true
-                                              }
-                                              className=" h-10 w-48 p-2"
-                                              placeholder="Email"
-                                              {...formManagers.getInputProps(
-                                                `entries.${index}.email`
-                                              )}
-                                            />
-                                          </td>
-                                          <td className="px-6 py-4">
-                                            <TextInput
-                                              disabled={
-                                                formManagers.getInputProps(
-                                                  "company"
-                                                )?.value
-                                                  ? false
-                                                  : true
-                                              }
-                                              className=" h-10 w-48 p-2"
-                                              placeholder="Address"
-                                              {...formManagers.getInputProps(
-                                                `entries.${index}.address`
-                                              )}
-                                            />
-                                          </td>
-
-                                          <td>
-                                            <button
-                                              className={` px-3 py-2 rounded-lg capitalize ml-6 `}
-                                              onClick={(e) =>
-                                                formManagers.removeListItem(
-                                                  "entries",
-                                                  index
-                                                )
-                                              }
-                                            >
-                                              <FiTrash />
-                                            </button>
-                                          </td>
-                                        </tr>
-                                      );
-                                    }
-                                  )}
-                              </tbody>
-                            </table>
-
-                            {
-                              <div className="d-flex justify-content-end">
-                                <button
-                                  className={`px-3 py-2 mt-4 new-entry-btn`}
-                                  onClick={() => addEntryManager()}
-                                  type="button"
-                                >
-                                  + Add new entry
-                                </button>
+                                    <span
+                                      className="card-span-tag"
+                                      onClick={() =>
+                                        router.push("/add_managers")
+                                      }
+                                    >
+                                      {" "}
+                                      add managers{" "}
+                                    </span>
+                                  </div>
+                                </div>
                               </div>
-                            }
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            )}
+                              <div className="home_card custom-rounded custom-box-shadow">
+                                <h6 className="text-center mt-4 card-main-heading"> Employees </h6>
 
-            {(form.getInputProps("role")?.value === "admin" ||
-              form.getInputProps("role")?.value === "manager") && (
-              <div className="create-employee-block mt-16">
-                <form onSubmit={formEmployees.onSubmit((values) => {})}>
-                  <div className="px-5 ">
-                    <div className="py-4 px-5 custom-rounded-dashboard custom-box-shadow-dashboard">
-                      <div className="page-heading  pt-2 pb-2 mb-4 d-flex justify-content-between">
-                        <div className="d-flex align-items-center">
-                          <img src={"images/dashboardIcon.svg"} />
+                                <div className="home-card-bottom-layer">
+                                  <div className="d-flex">
+                                    <div className="icon">
+                                      <IconEye />
+                                    </div>
 
-                          <h2 className="page-main-heading-dashboard">
-                            {" "}
-                            Create employee{" "}
-                          </h2>
-                        </div>
-                        <div className="d-flex justify-content-between">
-                          <div className="d-flex justify-content-between">
-                            {form.getInputProps("role")?.value !==
-                              "manager" && (
-                              <Select
-                                style={{
-                                  marginRight: "1.5rem",
-                                }}
-                                placeholder="Please select company"
-                                {...formEmployees.getInputProps(`company`)}
-                                data={form.getInputProps("companies").value}
-                              />
-                            )}
+                                    <span
+                                      className="card-span-tag"
+                                      onClick={() =>
+                                        router.push("/view_employees")
+                                      }
+                                    >
+                                      {" "}
+                                      view employees {" "}
+                                    </span>
+                                  </div>
 
-                            <button
-                              onClick={() => saveAllEmployees()}
-                              // type="button"
-                              style={{
-                                fontSize: "11px",
-                                fontWeight: 600,
-                                border: "0.0625rem solid transparent",
-                                background: "#40c057",
-                                color: "#fff",
-                                height: "32px",
-                                padding: "0 10px",
-                                borderRadius: "4.243px",
-                              }}
-                            >
-                              {" "}
-                              Save employees entries{" "}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                                  <div className="d-flex">
+                                    <div className="icon">
+                                      <IconPlus />
+                                    </div>
 
-                      <div className="mb-4">
-                        <div className="relative overflow-x-auto">
-                          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead className="table-column-links">
-                              <tr>
-                                <th scope="col" className="px-6 py-3">
-                                  Name
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                  Mobile Number
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                  Email
-                                </th>
-                                <th scope="col" className="px-6 py-3">
-                                  Address
-                                </th>
-                                {/* <th scope="col" className="px-6 py-3">
-      Company
-    </th> */}
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {formEmployees?.values?.entries?.length > 0 &&
-                                formEmployees?.values?.entries?.map(
-                                  (item: any, index) => {
-                                    return (
-                                      <tr
-                                        key={item.key}
-                                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                                      >
-                                        <th
-                                          scope="row"
-                                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                        >
-                                          <TextInput
-                                            //   label="Name"
-                                            //   description="Input description"
+                                    <span
+                                      className="card-span-tag"
+                                      onClick={() =>
+                                        router.push("/add_employees")
+                                      }
+                                    >
+                                      {" "}
+                                      add employees{" "}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="home_card custom-rounded custom-box-shadow">
+                                <h6 className="text-center mt-4 card-main-heading"> Employees profiles </h6>
 
-                                            disabled={
-                                              form.getInputProps("role")
-                                                ?.value === "admin" &&
-                                              formEmployees.getInputProps(
-                                                "company"
-                                              )?.value
-                                                ? false
-                                                : form.getInputProps("role")
-                                                    ?.value === "manager"
-                                                ? false
-                                                : true
-                                            }
-                                            className=" h-10 w-48 p-2"
-                                            placeholder="Name"
-                                            {...formEmployees.getInputProps(
-                                              `entries.${index}.userName`
-                                            )}
-                                          />
-                                        </th>
-                                        <td className="px-6 py-4">
-                                          <TextInput
-                                            //   label="Name"
-                                            //   description="Input description"
-                                            disabled={
-                                              form.getInputProps("role")
-                                                ?.value === "admin" &&
-                                              formEmployees.getInputProps(
-                                                "company"
-                                              )?.value
-                                                ? false
-                                                : form.getInputProps("role")
-                                                    ?.value === "manager"
-                                                ? false
-                                                : true
-                                            }
-                                            className=" h-10 w-48 p-2"
-                                            placeholder="Mobile Number"
-                                            {...formEmployees.getInputProps(
-                                              `entries.${index}.mobileNumber`
-                                            )}
-                                          />
-                                        </td>
-                                        <td className="px-6 py-4">
-                                          <TextInput
-                                            //   label="Name"
-                                            //   description="Input description"
-                                            disabled={
-                                              form.getInputProps("role")
-                                                ?.value === "admin" &&
-                                              formEmployees.getInputProps(
-                                                "company"
-                                              )?.value
-                                                ? false
-                                                : form.getInputProps("role")
-                                                    ?.value === "manager"
-                                                ? false
-                                                : true
-                                            }
-                                            className="h-10 w-48 p-2"
-                                            placeholder="Email"
-                                            {...formEmployees.getInputProps(
-                                              `entries.${index}.email`
-                                            )}
-                                          />
-                                        </td>
-                                        <td className="px-6 py-4">
-                                          <TextInput
-                                            //   label="Name"
-                                            //   description="Input description"
-                                            disabled={
-                                              form.getInputProps("role")
-                                                ?.value === "admin" &&
-                                              formEmployees.getInputProps(
-                                                "company"
-                                              )?.value
-                                                ? false
-                                                : form.getInputProps("role")
-                                                    ?.value === "manager"
-                                                ? false
-                                                : true
-                                            }
-                                            className=" h-10 w-48 p-2"
-                                            placeholder="Address"
-                                            {...formEmployees.getInputProps(
-                                              `entries.${index}.address`
-                                            )}
-                                          />
-                                        </td>
+                                <div className="home-card-bottom-layer">
+                                  <div className="d-flex">
+                                    <div className="icon">
+                                      <IconEye />
+                                    </div>
 
-                                        <td>
-                                          <button
-                                            className={` px-3 py-2 rounded-lg capitalize ml-6 `}
-                                            onClick={(e) =>
-                                              formEmployees.removeListItem(
-                                                "entries",
-                                                index
-                                              )
-                                            }
-                                          >
-                                            <FiTrash />
-                                          </button>
-                                        </td>
-                                      </tr>
-                                    );
-                                  }
-                                )}
-                            </tbody>
-                          </table>
+                                    <span
+                                      className="card-span-tag"
+                                      onClick={() =>
+                                        router.push("/view_employees_profiles")
+                                      }
+                                    >
+                                      {" "}
+                                      view  profiles{" "}
+                                    </span>
+                                  </div>
 
-                          <div className="d-flex justify-content-end">
-                            <button
-                              className={`px-3 py-2 mt-4 new-entry-btn`}
-                              onClick={() => addEntryEmployee()}
-                              type="button"
-                            >
-                              + Add new entry
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            )}
+                                  <div className="d-flex">
+                                    <div className="icon">
+                                      <IconPlus />
+                                    </div>
 
-            {(form.getInputProps("role")?.value === "admin" ||
-              form.getInputProps("role")?.value === "manager") && (
-              <div className="employees-profile-block mt-16">
-                <div className="create-employee-block">
-                  <form onSubmit={form.onSubmit((values) => {})}>
-                    <div className="px-5 ">
-                      <div className="py-4 px-5 custom-rounded-dashboard custom-box-shadow-dashboard">
-                        <div className="page-heading  pt-2 pb-2 mb-4">
-                          <div className="custom-flexbox">
-                            <div className="d-flex align-items-center ">
-                              <img src={"images/dashboardIcon.svg"} />
+                                    <span
+                                      className="card-span-tag"
+                                      onClick={() =>
+                                        router.push("/add_employees_profiles")
+                                      }
+                                    >
+                                      {" "}
+                                      add  profiles{" "}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
 
-                              <h2 className="page-main-heading-dashboard">
-                                {" "}
-                                Employees profile{" "}
-                              </h2>
-                            </div>
-
-                            <div className="">
-                              <button className="view-all-employees-btn"  onClick={()=>{
-
-                               router.push(`${role === 'manager' ? 'manager_employees' : 'employees' }`)
-
-                              }} >
-                                View all
-                              </button>
-                            </div>
-                          </div>
-                          <div className="">
- 
-                            <div
-                              className="home-page profile-table no-lift"
-                              style={{}}
-                            >
-                              <MDBDataTable bordered small data={main} />
+                      
                             </div>
                           </div>
                         </div>
@@ -1593,9 +1278,8 @@ export default function Home() {
                     </div>
                   </form>
                 </div>
-              </div>
-            )}
-
+              )}
+            </div>
           </div>
         </div>
 

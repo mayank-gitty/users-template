@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import * as React from "react";
 export interface IAppProps {}
@@ -19,8 +19,7 @@ import {
 import { useSession } from "next-auth/react";
 
 export function EditBasicInformation({ form, updateBasicDetails }) {
-
-  const { data :session} = useSession();
+  const { data: session } = useSession();
 
   return (
     <div>
@@ -36,7 +35,11 @@ export function EditBasicInformation({ form, updateBasicDetails }) {
             <div class="modal-content">
               <div class="modal-header">
                 <div className="custom-align">
-                  <img className="experience-icon" src="images/education.svg" />
+                  <Image
+                    src="./images/profile.svg"
+                    alt="Google"
+                    style={{ width: "32px", height: "32px" }}
+                  />
 
                   <h6> Basic Information </h6>
                 </div>
@@ -199,7 +202,7 @@ export function EditBasicInformation({ form, updateBasicDetails }) {
                       </Grid.Col>
 
                       {session?.user?.user.role !== "manager" && (
-                        <>  
+                        <>
                           <Grid.Col span={6}>
                             <Radio.Group
                               name="favoriteFramework1"
@@ -234,7 +237,6 @@ export function EditBasicInformation({ form, updateBasicDetails }) {
                                 // console.log("e", e);
 
                                 form.setFieldValue(`workForMutation`, e);
-
                               }}
                               // description="This is anonymous"
                               withAsterisk
@@ -248,19 +250,20 @@ export function EditBasicInformation({ form, updateBasicDetails }) {
                         </>
                       )}
                     </Grid>
-
-                    <button
-                      type="button"
-                      class="save-btn-modal-footer mt-4"
-                      style={{
-                        width: "100%",
-                      }}
-                      onClick={() => updateBasicDetails()}
-                    >
-                      Save
-                    </button>
                   </form>
                 </Paper>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="save-btn-modal-footer "
+                  style={{
+                    width: "100%",
+                  }}
+                  onClick={() => updateBasicDetails()}
+                >
+                  Save
+                </button>
               </div>
             </div>
           </div>

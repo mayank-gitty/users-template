@@ -26,7 +26,7 @@ import {
   FileInput,
 } from "@mantine/core";
 
-export function ProfileSection({ form, setinEditPhoto }) {
+export function ProfileSection({ form, setinEditPhoto, editHide, addHide }) {
   return (
     <div>
       <div className="flex items-center justify-center flex-col bg-white">
@@ -43,30 +43,38 @@ export function ProfileSection({ form, setinEditPhoto }) {
                 position: "relative",
               }}
             >
-              <Image
-                width={24}
-                className="custom-align-image"
-                data-bs-toggle="modal"
-                data-bs-target="#addPhotograph"
-                alt="Google"
-                style={{
-                  width: "24px",
-                  height: "24px",
-                  // marginLeft: "10rem",
-                }}
-                src="/images/Edit.svg"
-                alt="Google"
-                style={{
-                  width: "24px",
-                  height: "32px",
-                  cursor: "pointer",
-                  position: "absolute",
-                  right: 0,
-                }}
-                onClick={() => {
-                  setinEditPhoto(true);
-                }}
-              />
+
+{
+
+
+!editHide &&    <Image
+width={24}
+className="custom-align-image"
+data-bs-toggle="modal"
+data-bs-target="#addPhotograph"
+alt="Google"
+style={{
+  width: "24px",
+  height: "24px",
+  // marginLeft: "10rem",
+}}
+src="/images/Edit.svg"
+alt="Google"
+style={{
+  width: "24px",
+  height: "32px",
+  cursor: "pointer",
+  position: "absolute",
+  right: 0,
+}}
+onClick={() => {
+  setinEditPhoto(true);
+}}
+/>
+
+}
+
+           
 
               <img
                 src={form.getInputProps("photograph").value}
@@ -88,30 +96,32 @@ export function ProfileSection({ form, setinEditPhoto }) {
               <div className="">
                 {/* <span  className="user-no-information-text" >  No Information here   </span> */}
 
-                <div className="d-flex align-items-center">
-                  <Image
-                    width={24}
-                    className="custom-align-image"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addPhotograph"
-                    alt="Google"
-                    style={{
-                      width: "24px",
-                      height: "24px",
-                      // marginLeft: "10rem",
-                    }}
-                    src="./assets/addIcon.svg"
-                    alt="Google"
-                    style={{
-                      width: "24px",
-                      height: "32px",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {}}
-                  />
+                {!addHide && (
+                  <div className="d-flex align-items-center">
+                    <Image
+                      width={24}
+                      className="custom-align-image"
+                      data-bs-toggle="modal"
+                      data-bs-target="#addPhotograph"
+                      alt="Google"
+                      style={{
+                        width: "24px",
+                        height: "24px",
+                        // marginLeft: "10rem",
+                      }}
+                      src="./assets/addIcon.svg"
+                      alt="Google"
+                      style={{
+                        width: "24px",
+                        height: "32px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {}}
+                    />
 
-                  <span className="user-add-education-text"> Add Photo </span>
-                </div>
+                    <span className="user-add-education-text"> Add Photo </span>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -136,35 +146,46 @@ export function ProfileSection({ form, setinEditPhoto }) {
               <>
                 {form.getInputProps("resume_headline").value}
 
-                <Image
-                  width={24}
-                  className="custom-align-image headline-edit-icon"
-                  data-bs-toggle="modal"
-                  data-bs-target="#addHeadline"
-                  alt="Google"
-                  src="/images/Edit.svg"
-                  alt="Google"
-                  style={{
-                    width: "24px",
-                    height: "32px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => {
-                    // setExperience({
-                    //   id: "",
-                    //   title: "",
-                    //   employment_type: "",
-                    //   company: "",
-                    //   location: "",
-                    //   location_type: "",
-                    //   start_year: "",
-                    //   start_year_month: "",
-                    //   end_year: "",
-                    //   currently_working: false,
-                    //   end_year_month: "",
-                    // });
-                  }}
-                />
+
+{
+
+!editHide &&      <Image
+width={24}
+className="custom-align-image headline-edit-icon"
+data-bs-toggle="modal"
+data-bs-target="#addHeadline"
+alt="Google"
+src="/images/Edit.svg"
+alt="Google"
+style={{
+  width: "24px",
+  height: "32px",
+  cursor: "pointer",
+}}
+onClick={() => {
+  // setExperience({
+  //   id: "",
+  //   title: "",
+  //   employment_type: "",
+  //   company: "",
+  //   location: "",
+  //   location_type: "",
+  //   start_year: "",
+  //   start_year_month: "",
+  //   end_year: "",
+  //   currently_working: false,
+  //   end_year_month: "",
+  // });
+}}
+/>
+
+
+
+}
+
+
+            
+
               </>
             ) : (
               <div
@@ -175,47 +196,49 @@ export function ProfileSection({ form, setinEditPhoto }) {
                 }}
               >
                 <div className="">
-                  <div className="d-flex align-items-center">
-                    <Image
-                      width={24}
-                      className="custom-align-image"
-                      data-bs-toggle="modal"
-                      data-bs-target="#addHeadline"
-                      alt="Google"
-                      style={{
-                        width: "24px",
-                        height: "24px",
-                        // marginLeft: "10rem",
-                      }}
-                      src="./assets/addIcon.svg"
-                      alt="Google"
-                      style={{
-                        width: "24px",
-                        height: "32px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => {
-                        // setExperience({
-                        //   id: "",
-                        //   title: "",
-                        //   employment_type: "",
-                        //   company: "",
-                        //   location: "",
-                        //   location_type: "",
-                        //   start_year: "",
-                        //   start_year_month: "",
-                        //   end_year: "",
-                        //   currently_working: false,
-                        //   end_year_month: "",
-                        // });
-                      }}
-                    />
+                  {!addHide && (
+                    <div className="d-flex align-items-center">
+                      <Image
+                        width={24}
+                        className="custom-align-image"
+                        data-bs-toggle="modal"
+                        data-bs-target="#addHeadline"
+                        alt="Google"
+                        style={{
+                          width: "24px",
+                          height: "24px",
+                          // marginLeft: "10rem",
+                        }}
+                        src="./assets/addIcon.svg"
+                        alt="Google"
+                        style={{
+                          width: "24px",
+                          height: "32px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => {
+                          // setExperience({
+                          //   id: "",
+                          //   title: "",
+                          //   employment_type: "",
+                          //   company: "",
+                          //   location: "",
+                          //   location_type: "",
+                          //   start_year: "",
+                          //   start_year_month: "",
+                          //   end_year: "",
+                          //   currently_working: false,
+                          //   end_year_month: "",
+                          // });
+                        }}
+                      />
 
-                    <span className="user-add-education-text">
-                      {" "}
-                      Add headline{" "}
-                    </span>
-                  </div>
+                      <span className="user-add-education-text">
+                        {" "}
+                        Add headline{" "}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -260,15 +283,31 @@ export function ProfileSection({ form, setinEditPhoto }) {
             </div>
 
             {form.getInputProps("userkeyskills")?.value.length !== 0 && (
+
+
+
               <div className="">
-                <Image
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModalSkills"
-                  src="./images/Edit.svg"
-                  alt="Google"
-                  style={{ width: "24px", height: "24px" }}
-                />
+
+{
+
+!editHide &&  
+<Image
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModalSkills"
+  src="./images/Edit.svg"
+  alt="Google"
+  style={{ width: "24px", height: "24px" }}
+/>
+
+}
+
+
+
+
+
               </div>
+
+
             )}
           </div>
 
@@ -310,21 +349,23 @@ export function ProfileSection({ form, setinEditPhoto }) {
                   No Information here{" "}
                 </span>
 
-                <div className="d-flex align-items-center">
-                  <Image
-                    className="custom-align-image"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModalSkills"
-                    src="./assets/addIcon.svg"
-                    alt="Google"
-                    style={{ width: "24px", height: "24px" }}
-                  />
+                {!addHide && (
+                  <div className="d-flex align-items-center">
+                    <Image
+                      className="custom-align-image"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModalSkills"
+                      src="./assets/addIcon.svg"
+                      alt="Google"
+                      style={{ width: "24px", height: "24px" }}
+                    />
 
-                  <span className="user-add-education-text">
-                    {" "}
-                    Add Information{" "}
-                  </span>
-                </div>
+                    <span className="user-add-education-text">
+                      {" "}
+                      Add Information{" "}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           )}

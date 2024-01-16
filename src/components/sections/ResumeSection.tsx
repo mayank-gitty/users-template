@@ -30,7 +30,7 @@ import { useRouter } from "next/navigation";
 
 import { useSession } from "next-auth/react";
 
-export function ResumeSection({ form, setinEditResume }) {
+export function ResumeSection({ form, setinEditResume, addHide, editHide }) {
   const router = useRouter();
 
   const { data: session } = useSession();
@@ -78,35 +78,37 @@ export function ResumeSection({ form, setinEditResume }) {
 
                 {form.getInputProps("resume")?.value && (
                   <div className="">
-                    <Image
-                      onClick={() => {
-                        setinEditResume(true);
-                        // setExperience({
-                        //   title: item.title,
-                        //   employment_type: item.employment_type,
-                        //   company: item.company,
-                        //   location: item.location,
-                        //   location_type: item.location_type,
-                        //   start_year: item.start_year,
-                        //   start_year_month: item.start_year_month,
-                        //   end_year: item.end_year,
-                        //   end_year_month: item.end_year_month,
-                        //   currently_working: item.currently_working,
-                        //   id: item.id,
-                        // });
-                      }}
-                      data-bs-toggle="modal"
-                      data-bs-target="#addResume"
-                      // data-toggle="modal"
-                      // data-target="#exampleModalLong"
-                      src="./images/Edit.svg"
-                      alt="Google"
-                      style={{
-                        width: "24px",
-                        height: "32px",
-                        // marginLeft: "10rem",
-                      }}
-                    />
+                    {!editHide && (
+                      <Image
+                        onClick={() => {
+                          setinEditResume(true);
+                          // setExperience({
+                          //   title: item.title,
+                          //   employment_type: item.employment_type,
+                          //   company: item.company,
+                          //   location: item.location,
+                          //   location_type: item.location_type,
+                          //   start_year: item.start_year,
+                          //   start_year_month: item.start_year_month,
+                          //   end_year: item.end_year,
+                          //   end_year_month: item.end_year_month,
+                          //   currently_working: item.currently_working,
+                          //   id: item.id,
+                          // });
+                        }}
+                        data-bs-toggle="modal"
+                        data-bs-target="#addResume"
+                        // data-toggle="modal"
+                        // data-target="#exampleModalLong"
+                        src="./images/Edit.svg"
+                        alt="Google"
+                        style={{
+                          width: "24px",
+                          height: "32px",
+                          // marginLeft: "10rem",
+                        }}
+                      />
+                    )}
                   </div>
                 )}
               </div>
@@ -185,33 +187,35 @@ export function ResumeSection({ form, setinEditResume }) {
                           No Information here{" "}
                         </span>
 
-                        <div className="d-flex align-items-center">
-                          <Image
-                            width={24}
-                            className="custom-align-image"
-                            data-bs-toggle="modal"
-                            data-bs-target="#addResume"
-                            alt="Google"
-                            style={{
-                              width: "24px",
-                              height: "24px",
-                              // marginLeft: "10rem",
-                            }}
-                            src="./assets/addIcon.svg"
-                            alt="Google"
-                            style={{
-                              width: "24px",
-                              height: "32px",
-                              cursor: "pointer",
-                            }}
-                            onClick={() => {}}
-                          />
+                        {!addHide && (
+                          <div className="d-flex align-items-center">
+                            <Image
+                              width={24}
+                              className="custom-align-image"
+                              data-bs-toggle="modal"
+                              data-bs-target="#addResume"
+                              alt="Google"
+                              style={{
+                                width: "24px",
+                                height: "24px",
+                                // marginLeft: "10rem",
+                              }}
+                              src="./assets/addIcon.svg"
+                              alt="Google"
+                              style={{
+                                width: "24px",
+                                height: "32px",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => {}}
+                            />
 
-                          <span className="user-add-education-text">
-                            {" "}
-                            Add Resume{" "}
-                          </span>
-                        </div>
+                            <span className="user-add-education-text">
+                              {" "}
+                              Add Resume{" "}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}
@@ -220,7 +224,6 @@ export function ResumeSection({ form, setinEditResume }) {
                 <div className="text-gray-600 text-xs font-normal"></div>
               </Stack>
             </div>
- 
           </Group>
         </div>
       </Stack>

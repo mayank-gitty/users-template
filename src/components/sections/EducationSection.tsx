@@ -26,7 +26,13 @@ import {
   FileInput,
 } from "@mantine/core";
 
-export function EducationSection({ form, setExperience, setEducation }) {
+export function EducationSection({
+  form,
+  setExperience,
+  setEducation,
+  addHide,
+  editHide,
+}) {
   return (
     <div>
       <Stack>
@@ -39,10 +45,16 @@ export function EducationSection({ form, setExperience, setEducation }) {
             // background: "red",
           }}
         >
-          <Group position="apart" className="border-b pb-[10px]"       style={{
-            // background: "pink",
-            // background: "red",
-          }} >
+          <Group
+            position="apart"
+            className="border-b pb-[10px]"
+            style={
+              {
+                // background: "pink",
+                // background: "red",
+              }
+            }
+          >
             <Group position="left">
               <Image
                 src="./images/educationIcon.svg"
@@ -54,37 +66,38 @@ export function EducationSection({ form, setExperience, setEducation }) {
               </div>
             </Group>
 
-            { form.getInputProps("education")?.value?.length > 0  &&   form.getInputProps("education")?.value?.length < 2 && (
-              <Image
-                src="/assets/addIcon.svg"
-                alt="Google"
-                style={{
-                  width: "24px",
-                  height: "32px",
-                  cursor: "pointer",
-                }}
-                data-bs-toggle="modal"
-                data-bs-target="#addEducation"
-                onClick={() => {
-                  setEducation({
-                    id: "",
-                    school: "",
-                    // schoolOther: "",
-                    degree: "",
-                    // degreeOther: "",
-                    field_of_study: "",
-                    // field_of_studyOther: "",
-                    grade: "",
-                    activities: "",
-                    description: "",
-                    start_year: "",
-                    start_year_month: "",
-                    end_year: "",
-                    end_year_month: "",
-                  });
-                }}
-              />
-            )}
+            {form.getInputProps("education")?.value?.length > 0 &&
+              form.getInputProps("education")?.value?.length < 3 && (
+                <Image
+                  src="/assets/addIcon.svg"
+                  alt="Google"
+                  style={{
+                    width: "24px",
+                    height: "32px",
+                    cursor: "pointer",
+                  }}
+                  data-bs-toggle="modal"
+                  data-bs-target="#addEducation"
+                  onClick={() => {
+                    setEducation({
+                      id: "",
+                      school: "",
+                      // schoolOther: "",
+                      degree: "",
+                      // degreeOther: "",
+                      field_of_study: "",
+                      // field_of_studyOther: "",
+                      grade: "",
+                      activities: "",
+                      description: "",
+                      start_year: "",
+                      start_year_month: "",
+                      end_year: "",
+                      end_year_month: "",
+                    });
+                  }}
+                />
+              )}
           </Group>
 
           <Group
@@ -109,7 +122,7 @@ export function EducationSection({ form, setExperience, setEducation }) {
                   width: "100%",
                   height: "100%",
                   // background:"red",
-                  transform:'translateY(-8px)'
+                  transform: "translateY(-8px)",
                 }}
               >
                 <div className="text-indigo-950 text-sm font-bold">
@@ -164,7 +177,7 @@ export function EducationSection({ form, setExperience, setEducation }) {
                                   <h6
                                     style={{
                                       fontWeight: "400",
-                                      marginBottom: "0.1rem", 
+                                      marginBottom: "0.1rem",
                                     }}
                                   >
                                     {" "}
@@ -184,38 +197,40 @@ export function EducationSection({ form, setExperience, setEducation }) {
                                   </p>
                                 </div>
 
-                                <Image
-                                  onClick={() => {
-                                    setEducation({
-                                      id: item.id,
-                                      school: item.school,
-                                      // schoolOther: "",
-                                      degree: item.degree,
-                                      // degreeOther: "",
-                                      field_of_study: item.field_of_study,
-                                      // field_of_studyOther: "",
-                                      grade: item.grade,
-                                      activities: item.activities,
-                                      description: item.description,
-                                      start_year: item.start_year,
-                                      start_year_month: item.start_year_month,
-                                      end_year: item.end_year,
-                                      end_year_month: item.end_year_month,
-                                    });
-                                  }}
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#exampleModalEducation"
-                                  // data-toggle="modal"
-                                  // data-target="#exampleModalLong"
-                                  src="./images/Edit.svg"
-                                  alt="Google"
-                                  style={{
-                                    width: "24px",
-                                    height: "24px",
-                                    // marginLeft: "10rem",
-                                  }}
-                                  width={54}
-                                />
+                                {!editHide && (
+                                  <Image
+                                    onClick={() => {
+                                      setEducation({
+                                        id: item.id,
+                                        school: item.school,
+                                        // schoolOther: "",
+                                        degree: item.degree,
+                                        // degreeOther: "",
+                                        field_of_study: item.field_of_study,
+                                        // field_of_studyOther: "",
+                                        grade: item.grade,
+                                        activities: item.activities,
+                                        description: item.description,
+                                        start_year: item.start_year,
+                                        start_year_month: item.start_year_month,
+                                        end_year: item.end_year,
+                                        end_year_month: item.end_year_month,
+                                      });
+                                    }}
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalEducation"
+                                    // data-toggle="modal"
+                                    // data-target="#exampleModalLong"
+                                    src="./images/Edit.svg"
+                                    alt="Google"
+                                    style={{
+                                      width: "24px",
+                                      height: "24px",
+                                      // marginLeft: "10rem",
+                                    }}
+                                    width={54}
+                                  />
+                                )}
                               </div>
                             );
                           })
@@ -233,39 +248,41 @@ export function EducationSection({ form, setExperience, setEducation }) {
                               No Information here{" "}
                             </span>
 
-                            <div className="d-flex align-items-center">
-                              <Image
-                                width={24}
-                                className="custom-align-image"
-                                src="./assets/addIcon.svg"
-                                alt="Google"
-                                data-bs-toggle="modal"
-                                data-bs-target="#addEducation"
-                                onClick={() => {
-                                  setEducation({
-                                    id: "",
-                                    school: "",
-                                    // schoolOther: "",
-                                    degree: "",
-                                    // degreeOther: "",
-                                    field_of_study: "",
-                                    // field_of_studyOther: "",
-                                    grade: "",
-                                    activities: "",
-                                    description: "",
-                                    start_year: "",
-                                    start_year_month: "",
-                                    end_year: "",
-                                    end_year_month: "",
-                                  });
-                                }}
-                              />
+                            {!addHide && (
+                              <div className="d-flex align-items-center">
+                                <Image
+                                  width={24}
+                                  className="custom-align-image"
+                                  src="./assets/addIcon.svg"
+                                  alt="Google"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#addEducation"
+                                  onClick={() => {
+                                    setEducation({
+                                      id: "",
+                                      school: "",
+                                      // schoolOther: "",
+                                      degree: "",
+                                      // degreeOther: "",
+                                      field_of_study: "",
+                                      // field_of_studyOther: "",
+                                      grade: "",
+                                      activities: "",
+                                      description: "",
+                                      start_year: "",
+                                      start_year_month: "",
+                                      end_year: "",
+                                      end_year_month: "",
+                                    });
+                                  }}
+                                />
 
-                              <span className="user-add-education-text">
-                                {" "}
-                                Add Education{" "}
-                              </span>
-                            </div>
+                                <span className="user-add-education-text">
+                                  {" "}
+                                  Add Education{" "}
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
                       )}

@@ -553,10 +553,29 @@ const ProjectForm = () => {
                     <div>
                       <label style={{ marginRight: "10px" }}>
                         <Radio
+                           variant="outline"
                           type="radio"
                           name="projectStatus"
                           value="inprogress"
                           label="In Progress"
+                          styles={() => ({
+                          //     input:{
+                          //       ".mantine-Radio-radio:checked": {
+                          //         background:"none",
+                          //         border:"none"
+
+                          //  }
+                          //     },
+                          //     icon:{
+                          //       background:"yellow",
+                          //       color:"#4D47C3"
+                          //     },
+                          //     inner:{
+                          //       // background:"pink",
+                          //       color:"orange"
+                          //     },
+                         
+                          })}
                           required
                           checked={project.projectStatus === "inprogress"}
                           onChange={() =>
@@ -567,6 +586,7 @@ const ProjectForm = () => {
                       <label style={{ marginRight: "10px" }}>
                         <Radio
                           type="radio"
+                          variant="outline"
                           name="projectStatus"
                           value="finished"
                           label="Finished"

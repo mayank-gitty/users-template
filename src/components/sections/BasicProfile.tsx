@@ -26,7 +26,7 @@ import {
 
 export interface IAppProps {}
 
-export function BasicProfile({ form }) {
+export function BasicProfile({ form, editHide, addHide }) {
   return (
     <div>
       <div className="p-4 h-full rounded bg-white">
@@ -41,34 +41,37 @@ export function BasicProfile({ form }) {
               Basic Information
             </div>
           </Group>
-          <Image
-            onClick={() => {
-              // setExperience({
-              //   title: item.title,
-              //   employment_type: item.employment_type,
-              //   company: item.company,
-              //   location: item.location,
-              //   location_type: item.location_type,
-              //   start_year: item.start_year,
-              //   start_year_month: item.start_year_month,
-              //   end_year: item.end_year,
-              //   end_year_month: item.end_year_month,
-              //   currently_working: item.currently_working,
-              //   id: item.id,
-              // });
-            }}
-            data-bs-toggle="modal"
-            data-bs-target="#exampleModalBasic"
-            // data-toggle="modal"
-            // data-target="#exampleModalLong"
-            src="./images/Edit.svg"
-            alt="Google"
-            style={{
-              width: "24px",
-              height: "32px",
-              // marginLeft: "10rem",
-            }}
-          />
+
+          {!editHide && (
+            <Image
+              onClick={() => {
+                // setExperience({
+                //   title: item.title,
+                //   employment_type: item.employment_type,
+                //   company: item.company,
+                //   location: item.location,
+                //   location_type: item.location_type,
+                //   start_year: item.start_year,
+                //   start_year_month: item.start_year_month,
+                //   end_year: item.end_year,
+                //   end_year_month: item.end_year_month,
+                //   currently_working: item.currently_working,
+                //   id: item.id,
+                // });
+              }}
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModalBasic"
+              // data-toggle="modal"
+              // data-target="#exampleModalLong"
+              src="./images/Edit.svg"
+              alt="Google"
+              style={{
+                width: "24px",
+                height: "32px",
+                // marginLeft: "10rem",
+              }}
+            />
+          )}
         </Group>
         <Group position="apart" py={12}>
           <div>

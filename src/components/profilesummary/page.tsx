@@ -107,14 +107,14 @@ const Profile = () => {
         profile_summary: formData.profile_summary,
         photograph: formData.photograph,
         keyskills: {
-          connect: formData.keyskills.map((item: any) => {
+          connect: formData?.keyskills?.map((item: any) => {
             return {
               id: item,
             };
           }),
         },
         itskills: {
-          connect: formData.itskills.map((item: any) => {
+          connect: formData?.itskills?.map((item: any) => {
             return {
               id: item,
             };

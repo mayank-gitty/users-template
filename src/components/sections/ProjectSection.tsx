@@ -27,7 +27,7 @@ import {
 
 import { IconEyeCheck, IconTable } from "@tabler/icons-react";
 
-export function ProjectSection({ form, setProject }) {
+export function ProjectSection({ form, setProject  ,addHide , editHide  }) {
   return (
     <div>
       <Stack>
@@ -45,7 +45,7 @@ export function ProjectSection({ form, setProject }) {
               <div className="text-black text-base font-semibold">Projects</div>
             </Group>
 
-            { form.getInputProps("project")?.value?.length > 0  &&   form.getInputProps("project")?.value?.length < 2  && (
+            { form.getInputProps("project")?.value?.length > 0  &&   form.getInputProps("project")?.value?.length < 3  && (
               <Image
                 width={24}
                 className="custom-align-image"
@@ -202,38 +202,52 @@ export function ProjectSection({ form, setProject }) {
                                   </h6>
                                 </div>
 
+
+
+
                                 <div className="">
-                                  <Image
-                                    onClick={() => {
-                                      setProject({
-                                        id: item.id,
-                                        projectTitle: item.projectTitle,
-                                        client: item.client,
-                                        projectStatus: item.projectStatus,
-                                        workFromYear: item.workFromYear,
-                                        workFromMonth: item.workFromMonth,
-                                        detailsOfProject: item.detailsOfProject,
-                                        projectLocation: item.projectLocation,
-                                        projectSite: item.projectSite,
-                                        natureOfEmployment:
-                                          item.natureOfEmployment,
-                                        teamSize: item.teamSize,
-                                        role: item.role,
-                                        roleDescription: item.roleDescription,
-                                        skillUsed: item.skillUsed,
-                                      });
-                                    }}
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#exampleModalProject"
-                                    src="./images/Edit.svg"
-                                    alt="Google"
-                                    style={{
-                                      width: "24px",
-                                      height: "24px",
-                                      // marginLeft: "10rem",
-                                    }}
-                                  />
+
+{
+
+!editHide &&     <Image
+onClick={() => {
+  setProject({
+    id: item.id,
+    projectTitle: item.projectTitle,
+    client: item.client,
+    projectStatus: item.projectStatus,
+    workFromYear: item.workFromYear,
+    workFromMonth: item.workFromMonth,
+    detailsOfProject: item.detailsOfProject,
+    projectLocation: item.projectLocation,
+    projectSite: item.projectSite,
+    natureOfEmployment:
+      item.natureOfEmployment,
+    teamSize: item.teamSize,
+    role: item.role,
+    roleDescription: item.roleDescription,
+    skillUsed: item.skillUsed,
+  });
+}}
+data-bs-toggle="modal"
+data-bs-target="#exampleModalProject"
+src="./images/Edit.svg"
+alt="Google"
+style={{
+  width: "24px",
+  height: "24px",
+  // marginLeft: "10rem",
+}}
+/>
+
+
+}
+
+                           
+
                                 </div>
+
+
                               </div>
                             );
                           })
@@ -251,43 +265,53 @@ export function ProjectSection({ form, setProject }) {
                               No Information here{" "}
                             </span>
 
-                            <div className="d-flex align-items-center">
-                              <Image
-                                width={24}
-                                className="custom-align-image"
-                                data-bs-toggle="modal"
-                                data-bs-target="#addProject"
-                                src="./assets/addIcon.svg"
-                                alt="Google"
-                                style={{
-                                  width: "24px",
-                                  height: "32px",
-                                  cursor: "pointer",
-                                }}
-                                onClick={() => {
-                                  setProject({
-                                    id: "",
-                                    projectTitle: "",
-                                    client: "",
-                                    projectStatus: "inProgress",
-                                    workFromYear: "",
-                                    workFromMonth: "",
-                                    detailsOfProject: "",
-                                    projectLocation: "",
-                                    projectSite: "Offsite",
-                                    natureOfEmployment: "Full Time",
-                                    teamSize: "",
-                                    role: "",
-                                    roleDescription: "",
-                                  });
-                                }}
-                              />
 
-                              <span className="user-add-education-text">
-                                {" "}
-                                Add Project{" "}
-                              </span>
-                            </div>
+
+{
+
+!addHide  &&  
+<div className="d-flex align-items-center">
+  <Image
+    width={24}
+    className="custom-align-image"
+    data-bs-toggle="modal"
+    data-bs-target="#addProject"
+    src="./assets/addIcon.svg"
+    alt="Google"
+    style={{
+      width: "24px",
+      height: "32px",
+      cursor: "pointer",
+    }}
+    onClick={() => {
+      setProject({
+        id: "",
+        projectTitle: "",
+        client: "",
+        projectStatus: "inProgress",
+        workFromYear: "",
+        workFromMonth: "",
+        detailsOfProject: "",
+        projectLocation: "",
+        projectSite: "Offsite",
+        natureOfEmployment: "Full Time",
+        teamSize: "",
+        role: "",
+        roleDescription: "",
+      });
+    }}
+  />
+
+  <span className="user-add-education-text">
+    {" "}
+    Add Project{" "}
+  </span>
+</div>
+
+}
+
+
+
                           </div>
                         </div>
                       )}
