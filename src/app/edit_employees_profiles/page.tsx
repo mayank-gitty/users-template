@@ -12,12 +12,17 @@ import { Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { COMPANIES } from "@/util/queries";
+import { Breadcrumbs , Anchor } from "@mantine/core";
 
 // Define mutation
 
 const DatatablePage = () => {
   const [main, setMain] = useState();
   const [alldata, setAllData] = useState([]);
+  const [items,setItems] = useState([
+    { title: 'view', href: '/view_employees_profiles' },
+    { title: 'profiles', href: '/view_employees_profiles' },
+  ])
 
   const session = useSession();
 
@@ -353,9 +358,22 @@ const DatatablePage = () => {
 
       {form.getInputProps("company")?.value && (
         <div className="profile-table ">
+          
+
+          <Breadcrumbs separator="→" mt="xs">
+            {items.map((item: any, index: any) => (
+              <Anchor href={item.href} key={index}>
+                {item.title}
+              </Anchor>
+            ))}
+          </Breadcrumbs>
+
+
           <MDBDataTable bordered small data={main} />
+
         </div>
       )}
+
     </div>
   );
 };

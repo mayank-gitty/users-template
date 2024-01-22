@@ -40,7 +40,7 @@ export function AddEducation({
         aria-hidden="true"
       >
         <form>
-          <div class="modal-dialog">
+          <div class="modal-dialog  modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
                 <div className="custom-align">
@@ -283,8 +283,8 @@ export function AddEducation({
                                 width: "100%",
                                 fontSize: 16,
                                 lineHeight: 50,
-                                borderRadius: 8,
-                                border: "2px solid #ccc",
+                                // borderRadius: 8,
+                                // border: "2px solid #ccc",
                               },
                             })}
                           />
@@ -307,8 +307,8 @@ export function AddEducation({
                                 width: "100%",
                                 fontSize: 16,
                                 lineHeight: 50,
-                                borderRadius: 8,
-                                border: "2px solid #ccc",
+                                // borderRadius: 8,
+                                // border: "2px solid #ccc",
                               },
                             })}
                           />
@@ -332,8 +332,8 @@ export function AddEducation({
                                 width: "100%",
                                 fontSize: 16,
                                 lineHeight: 50,
-                                borderRadius: 8,
-                                border: "2px solid #ccc",
+                                // borderRadius: 8,
+                                // border: "2px solid #ccc",
                               },
                             })}
                           />

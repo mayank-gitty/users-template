@@ -12,21 +12,21 @@ import { Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { COMPANIES } from "@/util/queries";
-import { Breadcrumbs, Anchor } from '@mantine/core';
+import { Breadcrumbs, Anchor } from "@mantine/core";
 
 // Define mutation
 
 const DatatablePage = () => {
-
   const [main, setMain] = useState();
   const [alldata, setAllData] = useState([]);
+
+  const [items, setItems] = useState([
+    { title: "add", href: "/add_employees_profiles" },
+    { title: "profiles", href: "/add_employees_profiles" },
+  ]);
+
   const session = useSession();
 
-  const [items,setItems] = useState([
-    { title: 'view', href: '/view_employees_profiles' },
-    { title: 'profiles', href: '/view_employees_profiles' },
-  ])
-  
   const form = useForm({
     initialValues: {
       userId: "",
@@ -52,7 +52,7 @@ const DatatablePage = () => {
     const user: any = await client.request(USERS, {
       where: {
         role: {
-          equals: "employee",
+          equals: "manager",
         },
       },
       orderBy: [
@@ -77,10 +77,10 @@ const DatatablePage = () => {
         action: (
           <button
             className="table-button"
-            onClick={() => router.push(`/view_master?id=${item.id}`)}
+            onClick={() => router.push(`/add_employee_profile?id=${item.id}`)}
           >
             {" "}
-            view{" "}
+            Add{" "}
           </button>
         ),
         resume: item.resume ? (
@@ -174,7 +174,6 @@ const DatatablePage = () => {
       element[0]?.classList?.remove("table-bordered");
     }
 
-
     getData();
 
     getComapanies();
@@ -199,7 +198,7 @@ const DatatablePage = () => {
     const user: any = await client.request(USERS, {
       where: {
         role: {
-          equals: "employee",
+          equals: "manager",
         },
         company: {
           id: {
@@ -227,10 +226,10 @@ const DatatablePage = () => {
         action: (
           <button
             className="table-button"
-            onClick={() => router.push(`/view_employee_profile?id=${item.id}`)}
+            onClick={() => router.push(`/add_employee_profile?id=${item.id}`)}
           >
             {" "}
-            view{" "}
+            Add{" "}
           </button>
         ),
         resume: item.resume ? (
@@ -359,19 +358,21 @@ const DatatablePage = () => {
       )}
 
       {form.getInputProps("company")?.value && (
-        <div className="profile-table ">
 
-         <Breadcrumbs separator="→" mt="xs" >{items.map((item:any,index:any)=>  <Anchor   href={item.href} key={index}>
-    {item.title}
-  </Anchor>
-  )}
-  
-  </Breadcrumbs>
+        <div className="profile-table">
+
+          <Breadcrumbs separator="→" mt="xs">
+            {items.map((item: any, index: any) => (
+              <Anchor href={item.href} key={index}>
+                {item.title}
+              </Anchor>
+            ))}
+          </Breadcrumbs>
+
 
           <MDBDataTable bordered small data={main} />
         </div>
       )}
-
     </div>
   );
 };

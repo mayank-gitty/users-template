@@ -89,6 +89,8 @@ import { EditProject } from "@/components/modals/EditProject";
 import { EditBasicInformation } from "@/components/modals/EditBasicInformation";
 import { IT_SKILLS,KEY_SKILLS } from "@/util/queries";
 
+import { Breadcrumbs, Anchor } from '@mantine/core';
+
 
 const useStyles = createStyles(() => ({
   inner: {
@@ -276,7 +278,13 @@ const useStyles = createStyles(() => ({
 export interface IAppProps {}
 
 export default function View(props: IAppProps) {
+
   const [createObjectURL, setCreateObjectURL] = useState(null);
+  const [items, setItems] = useState([
+    { title: "view", href: "/view_employees_profiles" },
+    { title: "profiles", href: "/view_employees_profiles" },
+    { title: "view profile", href: "/view_employees_profiles" }
+  ]);
 
   const session = useSession();
 
@@ -498,8 +506,13 @@ export default function View(props: IAppProps) {
   };
 
   useEffect(() => {
+
     getComapanies();
-  }, []);
+
+
+
+ 
+  }, []); 
 
   const [education, setEducation] = useState({
     id: "",
@@ -1650,7 +1663,17 @@ export default function View(props: IAppProps) {
           width: "100%",
         }}
       >
-        <div className="text-black text-2xl py-3  font-semibold">Profile</div>
+
+       <Breadcrumbs className="pt-2" separator="→" mt="xs">
+          {items.map((item: any, index: any) => (
+            <Anchor href={item.href} key={index}>
+              {item.title}
+            </Anchor>
+          ))}
+        </Breadcrumbs>
+
+        <div className="text-black text-2xl py-3  font-semibold mb-2">Profile</div>
+
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
           <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
             <ProfileSection form={form} setinEditPhoto={setinEditPhoto}         editHide={true}
@@ -1686,7 +1709,7 @@ export default function View(props: IAppProps) {
                 marginTop: "1rem",
               }}
             >
-              <ProjectSection form={form} setProject={setProject}          editHide={true}
+              <ProjectSection form={form} setProject={setProject}   editHide={true}
         addHide={true} />
             </div>
             <div className=" flex flex-col lg:flex-row justify-center  gap-5 xl:12 mt-3">

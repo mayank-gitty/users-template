@@ -9,12 +9,19 @@ import {
   IconUsers,
   IconCirclePlus,
   IconUser,
-  IconDashboard, IconEdit,
+  IconDashboard,
+  IconEdit,
   IconPlus,
-  IconEye
+  IconEye,
+  IconUsersGroup,
 } from "@tabler/icons-react";
+
 import { rem } from "@mantine/core";
 import { signOut } from "next-auth/react";
+import { Icon } from "@mui/material";
+import { RxDashboard } from "react-icons/rx";
+import { FaUsers } from "react-icons/fa6";
+import { FcInvite } from "react-icons/fc";
 
 export function Sidebar() {
   const router = useRouter();
@@ -23,11 +30,13 @@ export function Sidebar() {
 
   const [openSubProfilesMenu, setopenSubProfilesMenu] = useState(false);
 
-  const [openSubProfilesMenuInManager, setopenSubProfilesMenuInManager] = useState(false);
+  const [openSubProfilesMenuInManager, setopenSubProfilesMenuInManager] =
+    useState(false);
 
   const [openSubEmployeesMenu, setopenSubEmployeesMenu] = useState(false);
 
-  const [openSubEmployeesMenuInManager, setopenSubEmployeesMenuInManager] = useState(false);
+  const [openSubEmployeesMenuInManager, setopenSubEmployeesMenuInManager] =
+    useState(false);
 
   const [openSubManagersMenu, setopenSubManagersMenu] = useState(false);
 
@@ -63,12 +72,87 @@ export function Sidebar() {
   };
 
   const {
-    loggedIn, setLoggedIn, setFormData, setActive, hasMaster, sethasMaster, role, setRole, image, setImage, profileName, setProfileName, profileId, setProfileId,
+    loggedIn,
+    setLoggedIn,
+    setFormData,
+    setActive,
+    hasMaster,
+    sethasMaster,
+    role,
+    setRole,
+    image,
+    setImage,
+    profileName,
+    setProfileName,
+    profileId,
+    setProfileId,
   }: any = useThemeContext();
+
+  // console.log('pathnamessssssssssssssss',pathname)
 
   useEffect(() => {
     // alert("in sidebar");
     const id = session?.user?.user?.id;
+
+    if (pathname === "/view_employees_profiles" || pathname === '/view_employee_profile' ) {
+      setopenSubProfilesMenu(true);
+    }
+
+    if (pathname === "/add_employees_profiles"  || pathname === '/add_employee_profile'   )  {
+      setopenSubProfilesMenu(true);
+    }
+
+    if (pathname === "/edit_employees_profiles"  || pathname === '/edit_employee_profile'   ) {
+      setopenSubProfilesMenu(true);
+    }
+
+    if (pathname === "/view_manager_employees_profiles"  || pathname === '/view_employee_profile'  ) {
+      setopenSubProfilesMenuInManager(true);
+    }
+
+    if (pathname === "/add_manager_employees_profiles"  || pathname === '/add_employee_profile' ) {
+      setopenSubProfilesMenuInManager(true);
+    }
+
+    if (pathname === "/edit_manager_employees_profiles"  || pathname === '/edit_employee_profile'  ) {
+      setopenSubProfilesMenuInManager(true);
+    }
+
+    if (pathname === "/view_employees") {
+      setopenSubEmployeesMenu(true);
+    }
+
+    if (pathname === "/add_employees") {
+      setopenSubEmployeesMenu(true);
+    }
+
+    if (pathname === "/edit_profiles") {
+      setopenSubEmployeesMenu(true);
+    }
+
+    if (pathname === "/view_employees_in_manager") {
+      setopenSubEmployeesMenuInManager(true);
+    }
+
+    if (pathname === "/add_employees_in_manager") {
+      setopenSubEmployeesMenuInManager(true);
+    }
+
+    if (pathname === "/edit_profiles_in_manager") {
+      setopenSubEmployeesMenuInManager(true);
+    }
+
+    if (pathname === "view_managers") {
+      setopenSubManagersMenu(true);
+    }
+
+    if (pathname === "add_managers") {
+      setopenSubManagersMenu(true);
+    }
+
+    if (pathname === "edit_managers") {
+      setopenSubManagersMenu(true);
+    }
 
     if (id) {
       getData();
@@ -77,98 +161,118 @@ export function Sidebar() {
 
   // console.log("role", role);
   const profilesSubTabs = [
-    {
-      link: "view_employees_profiles",
-      label: "View",
-      icon: <IconEye />
-    },
+
     {
       link: "add_employees_profiles",
       label: "Add",
-      icon: <IconPlus />
+      iconActive: <IconPlus color="#4D47C3" />,
+      iconInActive: <IconPlus color="#000000" />,
+    },
+    {
+      link: "view_employees_profiles",
+      label: "View",
+      iconActive: <IconEye color="#4D47C3" />,
+      iconInActive: <IconEye color="#000000" />,
     },
     {
       link: "edit_employees_profiles",
       label: "Modify",
-      icon: <IconEdit />
+      iconActive: <IconEdit color="#4D47C3" />,
+      iconInActive: <IconEdit color="#000000" />,
     },
   ];
 
   const profilesSubTabsInManager = [
-    {
-      link: "view_manager_employees_profiles",
-      label: "View",
-      icon: <IconEye />
-    },
+
     {
       link: "add_manager_employees_profiles",
       label: "Add",
-      icon: <IconPlus />
+      iconActive: <IconPlus color="#4D47C3" />,
+      iconInActive: <IconPlus color="#000000" />,
+    },
+    {
+      link: "view_manager_employees_profiles",
+      label: "View",
+      iconActive: <IconEye color="#4D47C3" />,
+      iconInActive: <IconEye color="#000000" />,
     },
     {
       link: "edit_manager_employees_profiles",
       label: "Modify",
-      icon: <IconEdit />
+      iconActive: <IconEdit color="#4D47C3" />,
+      iconInActive: <IconEdit color="#000000" />,
     },
   ];
 
   const employeesSubTabs = [
-    {
-      link: "view_employees",
-      label: "View",
-      icon: <IconEye />
-    },
+    // {
+    //   link: "view_employees",
+    //   label: "View",
+    //   iconActive: <IconEye color="#4D47C3" />,
+    //   iconInActive: <IconEye color="#000000" />,
+    // },
     {
       link: "add_employees",
-      label: "Add",
-      icon: <IconPlus />
-    },
-    {
-      link: "edit_employees",
-      label: "Modify",
-      icon: <IconEdit />
-    },
-  ];
-
-  const employeesSubTabsInManager = [
-    {
-      link: "view_employees_in_manager",
-      label: "View",
-      icon: <IconEye />
-    },
-    {
-      link: "add_employees_in_manager",
-      label: "Add",
-      icon: <IconPlus />
-    },
-    {
-      link: "edit_employees_in_manager",
-      label: "Modify",
-      icon: <IconEdit />
-    },
-  ];
-
-  const managersSubTabs = [
-    {
-      link: "view_managers",
-      label: "View",
-      icon: <IconEye />
+      label: "Invite employees",
+      iconActive: <FcInvite  />,
+      iconInActive: <FcInvite />,
     },
     {
       link: "add_managers",
+      label: "Invite managers",
+      iconActive: <FcInvite  />,
+      iconInActive: <FcInvite />,
+    },
+    // {
+    //   link: "edit_employees",
+    //   label: "Modify",
+    //   iconActive: <IconEdit color="#4D47C3" />,
+    //   iconInActive: <IconEdit color="#000000" />,
+    // },
+  ];
+
+  // const employeesSubTabsInManager = [
+  //   // {
+  //   //   link: "view_employees_in_manager",
+  //   //   label: "View",
+  //   //   iconActive: <IconEye color="#4D47C3" />,
+  //   //   iconInActive: <IconEye color="#000000" />,
+  //   // },
+  //   {
+  //     link: "add_employees_in_manager",
+  //     label: "Add",
+  //     iconActive: <IconPlus color="#4D47C3" />,
+  //     iconInActive: <IconPlus color="#000000" />,
+  //   },
+  //   // {
+  //   //   link: "edit_employees_in_manager",
+  //   //   label: "Modify",
+  //   //   iconActive: <IconEdit color="#4D47C3" />,
+  //   //   iconInActive: <IconEdit color="#000000" />,
+  //   // },
+  // ];
+
+  const managersSubTabs = [
+
+    {
+      link: "add_managers_profiles",
       label: "Add",
-      icon: <IconPlus />
+      iconActive: <IconPlus color="#4D47C3" />,
+      iconInActive: <IconPlus color="#000000" />,
+    },
+    {
+      link: "view_managers",
+      label: "View",
+      iconActive: <IconEye color="#4D47C3" />,
+      iconInActive: <IconEye color="#000000" />,
     },
     {
       link: "edit_managers",
       label: "Modify",
-      icon: <IconEdit />
+      iconActive: <IconEdit color="#4D47C3" />,
+      iconInActive: <IconEdit color="#000000" />,
     },
   ];
-
-
-
-
 
   const logOut = async () => {
     // console.log("logout");
@@ -216,61 +320,77 @@ export function Sidebar() {
       </div>
 
       <ul className="mt-[20%]">
-        {<li
-          onClick={() => {
-            router.push(`/`);
-          }}
-          className={`d-flex align-items-center  mt-[5%] font-semibold ${pathname === "/profile_creation" || pathname === "/"
-              ? "custom-border-bottom"
-              : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
-        >
-          <div className="icon">
-            {pathname === "/profile_creation" || pathname === "/" ? (
-              <IconDashboard
-                style={{ width: rem(30), height: rem(30) }}
-                stroke={2}
-                color="#4D47C3" />
-            ) : (
-              <IconDashboard
-                style={{ width: rem(30), height: rem(30) }}
-                stroke={2}
-                color="#000000" />
-            )}
-          </div>
-
-          <a
-            className={`nav-link  ${pathname === "/profile_creation" || pathname === "/"
-                ? "active"
-                : ""} `}
-            aria-current="page"
-            href="#"
-          >
-            {" "}
-            Dashboard{" "}
-          </a>
-        </li>}
-
-        {role !== "admin" && (
+        {
           <li
-            onClick={() => router.push(`/profile?id=${session?.user?.user?.id}`)}
-            className={`d-flex align-items-center  mt-[5%] font-semibold ${pathname === "/profile" ? "custom-border-bottom" : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+            onClick={() => {
+              router.push(`/`);
+            }}
+            className={`d-flex align-items-center  mt-[5%] font-semibold ${
+              pathname === "/profile_creation" || pathname === "/"
+                ? "custom-border-bottom"
+                : ""
+            }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+          >
+            <div className="icon">
+              {pathname === "/profile_creation" || pathname === "/" ? (
+                <RxDashboard 
+                  style={{ width: rem(30), height: rem(30) }}
+                  stroke={2}
+                  color="#4D47C3"
+                />
+              ) : (
+                <RxDashboard
+                  style={{ width: rem(30), height: rem(30) }}
+                  stroke={2}
+                  color="#000000"
+                />
+              )}
+            </div>
+
+            <a
+              className={`nav-link  ${
+                pathname === "/profile_creation" || pathname === "/"
+                  ? "active"
+                  : ""
+              } `}
+              aria-current="page"
+              href="#"
+            >
+              {" "}
+              Dashboard{" "}
+            </a>
+          </li>
+        }
+
+        {localStorage.getItem('role') !== "admin" && (
+          <li
+            onClick={() =>
+              router.push(`/profile?id=${session?.user?.user?.id}`)
+            }
+            className={`d-flex align-items-center  mt-[5%] font-semibold ${
+              pathname === "/profile" ? "custom-border-bottom" : ""
+            }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
           >
             <div className="icon">
               {pathname === "/profile" ? (
                 <IconUser
                   style={{ width: rem(30), height: rem(30) }}
                   stroke={2}
-                  color="#4D47C3" />
+                  color="#4D47C3"
+                />
               ) : (
                 <IconUser
                   style={{ width: rem(30), height: rem(30) }}
                   stroke={2}
-                  color="#000000" />
+                  color="#000000"
+                />
               )}
             </div>
 
             <a
-              className={`nav-link  ${pathname === "/profile" ? "active" : ""} `}
+              className={`nav-link  ${
+                pathname === "/profile" ? "active" : ""
+              } `}
               aria-current="page"
               href="#"
             >
@@ -285,128 +405,140 @@ export function Sidebar() {
             <div className="">
               <li
                 onClick={() => {
-                  setopenSubProfilesMenuInManager(!openSubProfilesMenuInManager);
-                  setopenSubEmployeesMenuInManager(false)
-
+                  setopenSubProfilesMenuInManager(
+                    !openSubProfilesMenuInManager
+                  );
+                  setopenSubEmployeesMenuInManager(false);
                 }}
-                className={`d-flex align-items-center  mt-[5%] font-semibold ${pathname === "/manager_employeesa"
+                className={`d-flex align-items-center  mt-[5%] font-semibold ${
+                  pathname === "/manager_employeesa"
                     ? "custom-border-bottom"
-                    : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+                    : ""
+                }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 {pathname === "/manager_employees" ? (
-              <IconCirclePlus
-              style={{ width: rem(30), height: rem(30) }}
-              stroke={2}
-              color="#4D47C3" />
-
-          ) : (
-            <IconCirclePlus
-              style={{ width: rem(30), height: rem(30) }}
-              stroke={2}
-              color="#000000" />
-          )
-                
-                }
+                  <IconUsers
+                    style={{ width: rem(30), height: rem(30) }}
+                    stroke={2}
+                    color="#4D47C3"
+                  />
+                ) : (
+                  <IconUsers
+                    style={{ width: rem(30), height: rem(30) }}
+                    stroke={2}
+                    color="#000000"
+                  />
+                )}
 
                 <a
-                  className={`nav-link  ${pathname === "/manager_employees" ? "active" : ""} `}
+                  className={`nav-link  ${
+                    pathname === "/manager_employees" ? "active" : ""
+                  } `}
                   aria-current="page"
                   href="#"
-                >
-                  {" "}
-                  Employees Profiles{" "}
-                </a>
-              </li>
-
-
-              {openSubProfilesMenuInManager &&
-                profilesSubTabsInManager.map((item: any) => {
-                  return (  
-                    <li
-                      onClick={() => {
-                        router.push(item.link);
-                      }}
-                      className={`d-flex align-items-center  mt-[5%] font-semibold ${  pathname === ( "/view_employees_profiless") 
-                          ? "custom-border-bottom"
-                          : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
-                    >
-                      <div className="icon">
-                        {pathname === "/create_employees" ? (
-                          item.icon
-                        ) : (
-                          item.icon
-                        )}
-                      </div>
-                      <a
-                        className={`nav-link  ${pathname === "/create_employees" ? "active" : ""} `}
-                        aria-current="page"
-                        href=""
-                      >
-                        {" "}
-                        {item.label}{" "}
-                      </a>
-                    </li>
-                  );
-                })}
-
-              <li
-                onClick={() => {
-                  // router.push("/create_manager_employees");
-
-                  setopenSubEmployeesMenuInManager(!openSubEmployeesMenuInManager)
-                  setopenSubProfilesMenuInManager(false)
-                  // alert('mayank')
-                }}
-                className={`d-flex align-items-center  mt-[5%] font-semibold ${pathname === "/create_manager_employees"
-                    ? "custom-border-bottom"
-                    : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
-              >
-                <div className="icon">
-                  {pathname === "/create_manager_employees" ? (
-                    <IconCirclePlus
-                      style={{ width: rem(30), height: rem(30) }}
-                      stroke={2}
-                      color="#4D47C3" />
-
-                  ) : (
-                    <IconCirclePlus
-                      style={{ width: rem(30), height: rem(30) }}
-                      stroke={2}
-                      color="#000000" />
-                  )
-                  
-                  }
-                </div>
-                <a
-                  className={`nav-link  ${pathname === "/create_manager_employees" ? "active" : ""} `}
-                  aria-current="page"
-                  href=""
                 >
                   {" "}
                   Employees{" "}
                 </a>
               </li>
 
-              {openSubEmployeesMenuInManager &&
+              {openSubProfilesMenuInManager &&
+                profilesSubTabsInManager.map((item: any) => {
+                  return (
+                    <li
+                      onClick={() => {
+                        router.push(item.link);
+                      }}
+                      className={`d-flex align-items-center  mt-[5%] font-semibold ${
+                        pathname === "/" + item.link
+                          ? "custom-border-bottom"
+                          : ""
+                      }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+                    >
+                      <div className="icon">
+                        {pathname === "/create_employees"
+                          ? item.iconActive
+                          : item.iconInActive}
+                      </div>
+                      <a
+                        className={`nav-link  ${
+                          pathname === "/" + item.link ? "active" : ""
+                        } `}
+                        aria-current="page"
+                        href=""
+                      >
+                        {" "}
+                        {item.label}{" "}
+                      </a>
+                    </li>
+                  );
+                })}
+
+              <li
+                onClick={() => {
+                  router.push("/add_employees_in_manager");
+                  setopenSubEmployeesMenuInManager(
+                    !openSubEmployeesMenuInManager
+                  );
+                  setopenSubProfilesMenuInManager(false);
+                  // alert('mayank')
+                }}
+                className={`d-flex align-items-center  mt-[5%] font-semibold ${
+                  pathname === "/create_manager_employees"
+                    ? "custom-border-bottom"
+                    : ""
+                }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+              >
+                <div className="icon">
+                  {pathname === "/create_manager_employees" ? (
+                    <IconCirclePlus
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#4D47C3"
+                    />
+                  ) : (
+                    <IconCirclePlus
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#000000"
+                    />
+                  )}
+                </div>
+                <a
+                  className={`nav-link  ${
+                    pathname === "/create_manager_employees" ? "active" : ""
+                  } `}
+                  aria-current="page"
+                  href=""
+                >
+                  {" "}
+                   Invite {" "}
+                </a>
+              </li>
+
+              {/* {openSubEmployeesMenuInManager &&
                 employeesSubTabsInManager.map((item: any) => {
                   return (
                     <li
                       onClick={() => {
                         router.push(item.link);
                       }}
-                      className={`d-flex align-items-center  mt-[5%] font-semibold ${pathname === "/create_employees"
-                          ? "custom-border-bottoms"
-                          : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+                      className={`d-flex align-items-center  mt-[5%] font-semibold ${
+                        pathname === "/" + item.link
+                          ? "custom-border-bottom"
+                          : ""
+                      }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
                     >
                       <div className="icon">
-                        {pathname === "/create_employees" ? (
-                          item.icon
-                        ) : (
-                          item.icon
-                        )}
+                        { 
+                           pathname === "/" + item.link
+                          ? item.iconActive
+                          : item.iconInActive}
                       </div>
                       <a
-                        className={`nav-link  ${pathname === "/create_employees" ? "active" : ""} `}
+                        className={`nav-link  ${
+                          pathname === "/" + item.link ? "active" : ""
+                        } `}
                         aria-current="page"
                         href=""
                       >
@@ -415,79 +547,14 @@ export function Sidebar() {
                       </a>
                     </li>
                   );
-                })}
-
-
-
+                })} */}
             </div>
           )}
 
           {role === "admin" && (
             <>
-              <li
-                onClick={() => {
-                  setopenSubProfilesMenu(!openSubProfilesMenu);
 
-                  setopenSubManagersMenu(false);
-
-                  setopenSubEmployeesMenu(false);
-                }}
-                className={`d-flex align-items-center  mt-[5%] font-semibold ${pathname === "/employees" ? "custom-border-bottom" : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
-              >
-                <div className="icon">
-                  {pathname === "/employees" ? (
-                    <IconCirclePlus
-                      style={{ width: rem(30), height: rem(30) }}
-                      stroke={2}
-                      color="#4D47C3" />
-                  ) : (
-                    <IconCirclePlus
-                      style={{ width: rem(30), height: rem(30) }}
-                      stroke={2}
-                      color="#000000" />
-                  )}
-                </div>
-                <a
-                  className={`nav-link  ${pathname === "/employees" ? "active" : ""} `}
-                  aria-current="page"
-                  href=""
-                >
-                  {" "}
-                  Employees Profiles{" "}
-                </a>
-              </li>
-
-              {openSubProfilesMenu &&
-                profilesSubTabs.map((item: any) => {
-                  return (
-                    <li
-                      onClick={() => {
-                        router.push(item.link);
-                      }}
-                      className={`d-flex align-items-center  mt-[5%] font-semibold ${ pathname === ( "/view_employees_profiless") 
-                          ? "custom-border-bottom"
-                          : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
-                    >
-                      <div className="icon">
-                        {pathname === "/create_employees" ? (
-                          item.icon
-                        ) : (
-                          item.icon
-                        )}
-                      </div>
-                      <a
-                        className={`nav-link  ${pathname === "/create_employees" ? "active" : ""} `}
-                        aria-current="page"
-                        href=""
-                      >
-                        {" "}
-                        {item.label}{" "}
-                      </a>
-                    </li>
-                  );
-                })}
-
-              <li
+<li
                 onClick={() => {
                   setopenSubEmployeesMenu(!openSubEmployeesMenu);
                   setopenSubManagersMenu(false);
@@ -495,30 +562,35 @@ export function Sidebar() {
                   // router.push("/create_employees");
                   // alert('mayank')
                 }}
-                className={`d-flex align-items-center  mt-[5%] font-semibold ${pathname === "/create_employees" ? "custom-border-bottom" : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+                className={`d-flex align-items-center  mt-[5%] font-semibold ${
+                  pathname === "/create_employees" ? "custom-border-bottom" : ""
+                }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
                   {pathname === "/create_employees" ? (
                     <IconCirclePlus
                       style={{ width: rem(30), height: rem(30) }}
                       stroke={2}
-                      color="#4D47C3" />
+                      color="#4D47C3"
+                    />
                   ) : (
                     <IconCirclePlus
                       style={{ width: rem(30), height: rem(30) }}
                       stroke={2}
-                      color="#000000" />
+                      color="#000000"
+                    />
                   )}
                 </div>
                 <a
-                  onClick={() => {
-                  }}
-                  className={`nav-link  ${pathname === "/create_employees" ? "active" : ""} `}
+                  onClick={() => {}}
+                  className={`nav-link  ${
+                    pathname === "/create_employees" ? "active" : ""
+                  } `}
                   aria-current="page"
                   href=""
                 >
                   {" "}
-                  Employees{" "}
+              Invite{" "}
                 </a>
               </li>
 
@@ -529,19 +601,21 @@ export function Sidebar() {
                       onClick={() => {
                         router.push(item.link);
                       }}
-                      className={`d-flex align-items-center  mt-[5%] font-semibold ${pathname === "/create_employees"
-                          ? "custom-border-bottoms"
-                          : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+                      className={`d-flex align-items-center  mt-[5%] font-semibold ${
+                        pathname === "/" + item.link
+                          ? "custom-border-bottom"
+                          : ""
+                      }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
                     >
                       <div className="icon">
-                        {pathname === "/create_employees" ? (
-                          item.icon
-                        ) : (
-                          item.icon
-                        )}
+                        {pathname === "/create_employees"
+                          ? item.iconActive
+                          : item.iconInActive}
                       </div>
                       <a
-                        className={`nav-link  ${pathname === "/create_employees" ? "active" : ""} `}
+                        className={`nav-link  ${
+                          pathname === "/" + item.link ? "active" : ""
+                        } `}
                         aria-current="page"
                         href=""
                       >
@@ -552,6 +626,82 @@ export function Sidebar() {
                   );
                 })}
 
+
+              <li
+                onClick={() => {
+                  setopenSubProfilesMenu(!openSubProfilesMenu);
+
+                  setopenSubManagersMenu(false);
+
+                  setopenSubEmployeesMenu(false);
+                }}
+                className={`d-flex align-items-center  mt-[5%] font-semibold ${
+                  pathname === "/employees" ? "custom-border-bottom" : ""
+                }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+              >
+                <div className="icon">
+                  {pathname === "/employees" ? (
+                    <IconUsersGroup
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#4D47C3"
+                    />
+                  ) : (
+                    <IconUsersGroup
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#000000"
+                    />
+                  )}
+                </div>
+                <a
+                  className={`nav-link  ${
+                    pathname === "/employees" ? "active" : ""
+                  } `}
+                  aria-current="page"
+                  href=""
+                >
+                  {" "}
+                  Employees {" "}
+                </a>
+              </li>
+
+
+              {openSubProfilesMenu &&
+                profilesSubTabs.map((item: any, key: number) => {
+                  return (
+                    <li
+                      onClick={() => {
+                        router.push(item.link);
+                      }}
+                      className={`d-flex align-items-center  mt-[5%] font-semibold ${
+                        pathname === "/" + item.link
+                          ? "custom-border-bottom"
+                          : ""
+                      }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+
+                    >
+                      <div className="icon">
+                        {
+                         pathname === "/" + item.link
+                          ? item.iconActive
+                          : item.iconInActive}
+                      </div>
+                      <a
+                        className={`nav-link  ${
+                          pathname === "/" + item.link   ? "active" : ""
+                        } `}
+                        aria-current="page"
+                        href=""
+                      >
+                        {" "}
+                        {item.label}{" "}
+                      </a>
+                    </li>
+                  );
+                })}
+
+
               <li
                 onClick={() => {
                   setopenSubManagersMenu(!openSubManagersMenu);
@@ -559,23 +709,29 @@ export function Sidebar() {
                   setopenSubEmployeesMenu(false);
                 }}
                 // alert('mayank')
-                className={`d-flex align-items-center  mt-[5%] font-semibold ${pathname === "/create_managers" ? "custom-border-bottom" : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+                className={`d-flex align-items-center  mt-[5%] font-semibold ${
+                  pathname === "/create_managers" ? "custom-border-bottom" : ""
+                }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
               >
                 <div className="icon">
                   {pathname === "/create_managers" ? (
-                    <IconCirclePlus
+                    <IconUsers
                       style={{ width: rem(30), height: rem(30) }}
                       stroke={2}
-                      color="#4D47C3" />
+                      color="#4D47C3"
+                    />
                   ) : (
-                    <IconCirclePlus
+                    <IconUsers
                       style={{ width: rem(30), height: rem(30) }}
                       stroke={2}
-                      color="#000000" />
+                      color="#000000"
+                    />
                   )}
                 </div>
                 <a
-                  className={`nav-link  ${pathname === "/create_managers" ? "active" : ""} `}
+                  className={`nav-link  ${
+                    pathname === "/create_managers" ? "active" : ""
+                  } `}
                   aria-current="page"
                   href=""
                 >
@@ -591,19 +747,21 @@ export function Sidebar() {
                       onClick={() => {
                         router.push(item.link);
                       }}
-                      className={`d-flex align-items-center  mt-[5%] font-semibold ${pathname === "/create_employees"
-                          ? "custom-border-bottoms"
-                          : ""}  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+                      className={`d-flex align-items-center  mt-[5%] font-semibold ${
+                        pathname === "/" + item.link
+                          ? "custom-border-bottom"
+                          : ""
+                      }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
                     >
                       <div className="icon">
-                        {pathname === "/create_employees" ? (
-                          item.icon
-                        ) : (
-                          item.icon
-                        )}
+                        {pathname === "/create_employees"
+                          ? item.iconActive
+                          : item.iconInActive}
                       </div>
                       <a
-                        className={`nav-link  ${pathname === "/create_employees" ? "active" : ""} `}
+                        className={`nav-link  ${
+                          pathname === "/" + item.link ? "active" : ""
+                        } `}
                         aria-current="page"
                         href=""
                       >
@@ -613,8 +771,17 @@ export function Sidebar() {
                     </li>
                   );
                 })}
+
+              
+  
+        
+  
+
+        
+
             </>
           )}
+
         </div>
 
         <li className="last-list-item d-flex justify-content-end align-items-center mt-[5%] font-semibold  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer">

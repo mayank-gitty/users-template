@@ -18,7 +18,7 @@ export function AddHeadline ({form,addHeadline}:any) {
         data-bs-backdrop="static"
       >
         <form>
-          <div class="modal-dialog">
+          <div class="modal-dialog  modal-dialog-centered ">
             <div class="modal-content">
               <div class="modal-header">
                 <div className="custom-align">
@@ -44,13 +44,15 @@ export function AddHeadline ({form,addHeadline}:any) {
                   height: "auto !important",
                 }}
               >
-                <Paper p="md">
+                <Paper >
                   <form>
-                    <Grid>
+                    <Grid style={{
+                      margin:"0.5rem 0"
+                    }}>
                       {/* <h6 className="box-heading">Add Project</h6> */}
                       <Grid.Col span={12}>
                         <Input
-                          placeholder="Headline"
+                          placeholder="Ex React Js developer"
                           required
                           value={
                             form.getInputProps("resume_headlineForMutation")

@@ -389,7 +389,7 @@ const ADD_MANAGERS = ({ AllProjects }: any) => {
         <form onSubmit={form.onSubmit((values) => {})}>
           <div className="px-5 py-6 ">
             <div className="page-heading  pt-2 pb-2">
-              <h2 className="page-main-heading"> Create managers </h2>
+              <h2 className="page-main-heading"> Invite managers </h2>
             </div>
             {/* <div className="p-5 bg-white drop-shadow-md rounded-xl"></div>   */}
           </div>

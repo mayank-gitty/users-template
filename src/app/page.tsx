@@ -1058,95 +1058,102 @@ export default function Home() {
             )}
 
             {form.getInputProps("role")?.value === "manager" && (
-         <div className="px-5  ">
-         <div className="">
-           <div className="">
-             <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center">
-               <div className="home_layer in_manager_dashboard" >
-    
-                 <div className="home_card custom-rounded custom-box-shadow">
-                   <h6 className="text-center mt-4 card-main-heading"> Employees </h6>
+              <div className="px-5  ">
+                <div className="">
+                  <div className="">
+                    <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center">
+                      <div className="home_layer in_manager_dashboard">
+                        <div className="home_card custom-rounded custom-box-shadow">
+                          <h6 className="text-center mt-4 card-main-heading">
+                            {" "}
+                            Employees{" "}
+                          </h6>
 
-                   <div className="home-card-bottom-layer">
-                     <div className="d-flex">
-                       <div className="icon">
-                         <IconEye />
-                       </div>
+                          <div className="home-card-bottom-layer">
+                            <div className="d-flex">
+                              <div className="icon">
+                                <IconEye />
+                              </div>
 
-                       <span
-                         className="card-span-tag"
-                         onClick={() =>
-                           router.push("/view_employees_in_manager")
-                         }
-                       >
-                         {" "}
-                         view employees {" "}
-                       </span>
-                     </div>
+                              <span
+                                className="card-span-tag"
+                                onClick={() =>
+                                  router.push("/view_employees_in_manager")
+                                }
+                              >
+                                {" "}
+                                view employees{" "}
+                              </span>
+                            </div>
 
-                     <div className="d-flex">
-                       <div className="icon">
-                         <IconPlus />
-                       </div>
+                            <div className="d-flex">
+                              <div className="icon">
+                                <IconPlus />
+                              </div>
 
-                       <span
-                         className="card-span-tag"
-                         onClick={() =>
-                           router.push("/add_employees_in_manager")
-                         }
-                       >
-                         {" "}
-                         add employees{" "}
-                       </span>
-                     </div>
-                   </div>
-                 </div>
+                              <span
+                                className="card-span-tag"
+                                onClick={() =>
+                                  router.push("/add_manager_employees_profiles")
+                                }
+                              >
+                                {" "}
+                                add employees{" "}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
 
+                        <div className="home_card custom-rounded custom-box-shadow mx-4">
+                          <h6 className="text-center mt-4 card-main-heading">
+                            {" "}
+                            Invite{" "}
+                          </h6>
 
-                 <div className="home_card custom-rounded custom-box-shadow mx-4">
-                   <h6 className="text-center mt-4 card-main-heading"> Employees profiles </h6>
+                          <div className="home-card-bottom-layer" style={{
+                            display:"flex",
+                            justifyContent:"center"
+                          }} >
+                            <div className="d-flex">
+                              <div className="icon">
+                                <IconEye />
+                              </div>
 
-                   <div className="home-card-bottom-layer">
-                     <div className="d-flex">
-                       <div className="icon">
-                         <IconEye />
-                       </div>
+                              <span
+                                className="card-span-tag"
+                                onClick={() =>
+                                  router.push(
+                                    "/view_manager_employees_profiles"
+                                  )
+                                }
+                              >
+                                {" "}
+                                Invite Employees{" "}
+                              </span>
+                            </div>
 
-                       <span
-                         className="card-span-tag"
-                         onClick={() =>
-                           router.push("/view_manager_employees_profiles")
-                         }
-                       >
-                         {" "}
-                         view  profiles{" "}
-                       </span>
-                     </div>
+                            {/* <div className="d-flex">
+                              <div className="icon">
+                                <IconPlus />
+                              </div>
 
-                     <div className="d-flex">
-                       <div className="icon">
-                         <IconPlus />
-                       </div>
-
-                       <span
-                         className="card-span-tag"
-                         onClick={() =>
-                           router.push("/add_manager_employees_profiles")
-                         }
-                       >
-                         {" "}
-                         add  profiles{" "}
-                       </span>
-                     </div>
-                   </div>
-                 </div>
-
-         
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
+                              <span
+                                className="card-span-tag"
+                                onClick={() =>
+                                  router.push("/add_manager_employees_profiles")
+                                }
+                              >
+                                {" "}
+                                Invite Managers{" "}
+                              </span>
+                            </div> */}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
 
             <div className="">
@@ -1159,7 +1166,10 @@ export default function Home() {
                           <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center justify-content-between">
                             <div className="home_layer">
                               <div className="home_card custom-rounded custom-box-shadow">
-                                <h6 className="text-center mt-4 card-main-heading"> Managers </h6>
+                                <h6 className="text-center mt-4 card-main-heading">
+                                  {" "}
+                                  Managers{" "}
+                                </h6>
 
                                 <div className="home-card-bottom-layer">
                                   <div className="d-flex">
@@ -1196,7 +1206,10 @@ export default function Home() {
                                 </div>
                               </div>
                               <div className="home_card custom-rounded custom-box-shadow">
-                                <h6 className="text-center mt-4 card-main-heading"> Employees </h6>
+                                <h6 className="text-center mt-4 card-main-heading">
+                                  {" "}
+                                  Employees{" "}
+                                </h6>
 
                                 <div className="home-card-bottom-layer">
                                   <div className="d-flex">
@@ -1211,7 +1224,7 @@ export default function Home() {
                                       }
                                     >
                                       {" "}
-                                      view employees {" "}
+                                      view employees{" "}
                                     </span>
                                   </div>
 
@@ -1233,7 +1246,10 @@ export default function Home() {
                                 </div>
                               </div>
                               <div className="home_card custom-rounded custom-box-shadow">
-                                <h6 className="text-center mt-4 card-main-heading"> Employees profiles </h6>
+                                <h6 className="text-center mt-4 card-main-heading">
+                                  {" "}
+                                  Invite{" "}
+                                </h6>
 
                                 <div className="home-card-bottom-layer">
                                   <div className="d-flex">
@@ -1244,33 +1260,32 @@ export default function Home() {
                                     <span
                                       className="card-span-tag"
                                       onClick={() =>
-                                        router.push("/view_employees_profiles")
+                                        router.push("/add_employees")
                                       }
                                     >
                                       {" "}
-                                      view  profiles{" "}
+                                      Invite Employees{" "}
                                     </span>
                                   </div>
-
+                                  
                                   <div className="d-flex">
                                     <div className="icon">
+                                      
                                       <IconPlus />
                                     </div>
 
                                     <span
                                       className="card-span-tag"
                                       onClick={() =>
-                                        router.push("/add_employees_profiles")
+                                        router.push("/add_managers")
                                       }
                                     >
                                       {" "}
-                                      add  profiles{" "}
+                                      Invite Managers{" "}
                                     </span>
                                   </div>
                                 </div>
                               </div>
-
-                      
                             </div>
                           </div>
                         </div>

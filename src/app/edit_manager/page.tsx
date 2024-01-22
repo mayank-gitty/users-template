@@ -87,8 +87,7 @@ import { EditExperience } from "@/components/modals/EditExperience";
 import { EditEducation } from "@/components/modals/EditEducation";
 import { EditProject } from "@/components/modals/EditProject";
 import { EditBasicInformation } from "@/components/modals/EditBasicInformation";
-import { IT_SKILLS,KEY_SKILLS } from "@/util/queries";
-
+import { IT_SKILLS, KEY_SKILLS } from "@/util/queries";
 
 const useStyles = createStyles(() => ({
   inner: {
@@ -660,7 +659,6 @@ export default function View(props: IAppProps) {
   const getKeySkills = async () => {
     const users: any = await client.request(KEY_SKILLS);
 
-
     const DefaultSkills = users?.keySkills?.map((item: any) => {
       return {
         label: item.name,
@@ -673,7 +671,6 @@ export default function View(props: IAppProps) {
 
   const getItSkills = async () => {
     const users: any = await client.request(IT_SKILLS);
-
 
     const DefaultSkills = users?.itSkills?.map((item: any) => {
       return {
@@ -860,8 +857,6 @@ export default function View(props: IAppProps) {
       },
     });
 
-  
-
     if (user?.updateAddEducation) {
       const button = document.getElementById("modal-close-btn-education");
 
@@ -986,7 +981,6 @@ export default function View(props: IAppProps) {
       }, 1000);
     }
   };
-
 
   const addEducation = async () => {
     if (!education.school) {
@@ -1149,7 +1143,6 @@ export default function View(props: IAppProps) {
       });
 
       const button = document.getElementById("closeAddEducation");
-
 
       setTimeout(() => {
         button?.click();
@@ -1378,8 +1371,6 @@ export default function View(props: IAppProps) {
         progressClassName: "fancy-progress-bar",
       });
     }
-
-
 
     if (!project.workFromYear) {
       return toast("please add work from year ", {
@@ -1651,22 +1642,28 @@ export default function View(props: IAppProps) {
       >
         <div className="text-black text-2xl py-3  font-semibold">Profile</div>
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
-          {/* <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
-            <ProfileSection form={form} setinEditPhoto={setinEditPhoto} />
-          </div> */}
+          <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
+            <ProfileSection
+              form={form}
+              setinEditPhoto={setinEditPhoto}
+              editHide={false}
+              addHide={true}
+            />
+          </div>
 
-          <div className="w-full lg:w-4/4 px-3 h-full rounded " style={{
-            height:"100vh"
-          }}>
+          <div className="w-full lg:w-3/4 px-3 h-full rounded ">
             <Stack>
-              <BasicProfile form={form}  />
-
-            
+              <BasicProfile form={form} editHide={false} addHide={true} />
             </Stack>
 
-            {/* <div className="flex flex-col lg:flex-row mt-3  justify-center  gap-5 xl:12 ">
+            <div className="flex flex-col lg:flex-row mt-3  justify-center  gap-5 xl:12 ">
               <div className="lg:w-1/2">
-                <ExperienceSection form={form} setExperience={setExperience} />
+                <ExperienceSection
+                  form={form}
+                  setExperience={setExperience}
+                  editHide={false}
+                  addHide={true}
+                />
               </div>
 
               <div className="lg:w-1/2">
@@ -1674,6 +1671,8 @@ export default function View(props: IAppProps) {
                   form={form}
                   setExperience={setExperience}
                   setEducation={setEducation}
+                  editHide={false}
+                  addHide={true}
                 />
               </div>
             </div>
@@ -1684,13 +1683,23 @@ export default function View(props: IAppProps) {
                 marginTop: "1rem",
               }}
             >
-              <ProjectSection form={form} setProject={setProject} />
+              <ProjectSection
+                form={form}
+                setProject={setProject}
+                editHide={false}
+                addHide={true}
+              />
             </div>
             <div className=" flex flex-col lg:flex-row justify-center  gap-5 xl:12 mt-3">
               <div className="lg:w-full">
-                <ResumeSection form={form} setinEditResume={setinEditResume} />
+                <ResumeSection
+                  form={form}
+                  setinEditResume={setinEditResume}
+                  editHide={false}
+                  addHide={true}
+                />
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

@@ -1650,21 +1650,23 @@ export default function View(props: IAppProps) {
         }}
       >
         <div className="text-black text-2xl py-3  font-semibold">Profile</div>
-        <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
-          {/* <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
-            <ProfileSection form={form} setinEditPhoto={setinEditPhoto} />
-          </div> */}
 
-          <div className="w-full lg:w-4/4 px-3 h-full rounded " style={{
-            height:"100vh"
-          }}>
+        <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
+          <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
+            <ProfileSection form={form} setinEditPhoto={setinEditPhoto}         editHide={true}
+        addHide={true} />
+          </div>
+
+          <div className="w-full lg:w-3/4 px-3 h-full rounded ">
             <Stack>
-              <BasicProfile form={form} editHide={true}  addHide={false} />
+              <BasicProfile form={form}   editHide={true}
+        addHide={true} />
             </Stack>
 
-            {/* <div className="flex flex-col lg:flex-row mt-3  justify-center  gap-5 xl:12 ">
+            <div className="flex flex-col lg:flex-row mt-3  justify-center  gap-5 xl:12 ">
               <div className="lg:w-1/2">
-                <ExperienceSection form={form} setExperience={setExperience} />
+                <ExperienceSection form={form} setExperience={setExperience}          editHide={true}
+        addHide={true} />
               </div>
 
               <div className="lg:w-1/2">
@@ -1672,6 +1674,8 @@ export default function View(props: IAppProps) {
                   form={form}
                   setExperience={setExperience}
                   setEducation={setEducation}
+                  editHide={true}
+                  addHide={true}
                 />
               </div>
             </div>
@@ -1682,15 +1686,18 @@ export default function View(props: IAppProps) {
                 marginTop: "1rem",
               }}
             >
-              <ProjectSection form={form} setProject={setProject} />
+              <ProjectSection form={form} setProject={setProject}          editHide={true}
+        addHide={true} />
             </div>
             <div className=" flex flex-col lg:flex-row justify-center  gap-5 xl:12 mt-3">
               <div className="lg:w-full">
-                <ResumeSection form={form} setinEditResume={setinEditResume} />
+                <ResumeSection form={form} setinEditResume={setinEditResume}         editHide={true}
+        addHide={true} />
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
+
       </div>
     </Box>
   );

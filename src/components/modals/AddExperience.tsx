@@ -18,7 +18,7 @@ export function AddExperience ({ experience , handleChange , addExperience }) {
         aria-hidden="true"
       >
         <form>
-          <div class="modal-dialog">
+          <div class="modal-dialog  modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
                 <div className="custom-align">
@@ -84,7 +84,7 @@ export function AddExperience ({ experience , handleChange , addExperience }) {
                               handleChange("employment_type", value)
                             }
                             data={type}
-                            placeholder="Employment Type"
+                            placeholder="Employment type"
                             styles={(theme) => ({
                               input: {
                                 height: "100%",
@@ -106,7 +106,7 @@ export function AddExperience ({ experience , handleChange , addExperience }) {
                         <Grid.Col span={12}>
                           {/* <label htmlFor=" "> Company name </label> */}
                           <TextInput
-                            placeholder="Company Name"
+                            placeholder="Company name"
                             size="md"
                             minLength={5}
                             maxLength={30}
@@ -167,7 +167,7 @@ export function AddExperience ({ experience , handleChange , addExperience }) {
                               handleChange("location_type", value)
                             }
                             data={locationType}
-                            placeholder="Location Type"
+                            placeholder="Location type"
                             styles={(theme) => ({
                               input: {
                                 height: "100%",

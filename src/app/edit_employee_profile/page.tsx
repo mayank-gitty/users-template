@@ -15,6 +15,7 @@ import { AddPhotograph } from "@/components/modals/AddPhotograph";
 import { BasicProfile } from "@/components/sections/BasicProfile";
 import { AddProject } from "@/components/modals/AddProject";
 import { COMPANIES } from "@/util/queries";
+import { Breadcrumbs, Anchor } from "@mantine/core";
 
 import {
   Button,
@@ -287,6 +288,12 @@ export default function View(props: IAppProps) {
   const [inEditPhoto, setinEditPhoto] = useState(false);
 
   const [inEditResume, setinEditResume] = useState(false);
+  
+  const [items, setItems] = useState([
+    { title: "modify", href: "/edit_employees_profiles" },
+    { title: "profiles", href: "/edit_employees_profiles" },
+    { title: "edit_profile", href: "/edit_employees_profiles" },
+  ]);
 
   const handleFileUploadResume = async (e) => {
     const file = e || form.getInputProps("resume")?.value;
@@ -1650,6 +1657,13 @@ export default function View(props: IAppProps) {
           width: "100%",
         }}
       >
+        
+<Breadcrumbs className="pt-2"  separator="→" mt="xs">{items.map((item:any,index:any)=>  <Anchor href={item.href} key={index}>
+    {item.title}
+  </Anchor>
+  
+  )}</Breadcrumbs>
+
         <div className="text-black text-2xl py-3  font-semibold">Profile</div>
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
           <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">

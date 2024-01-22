@@ -15,6 +15,7 @@ import { AddPhotograph } from "@/components/modals/AddPhotograph";
 import { BasicProfile } from "@/components/sections/BasicProfile";
 import { AddProject } from "@/components/modals/AddProject";
 import { COMPANIES } from "@/util/queries";
+import { Breadcrumbs, Anchor } from "@mantine/core";
 
 import {
   Button,
@@ -87,8 +88,7 @@ import { EditExperience } from "@/components/modals/EditExperience";
 import { EditEducation } from "@/components/modals/EditEducation";
 import { EditProject } from "@/components/modals/EditProject";
 import { EditBasicInformation } from "@/components/modals/EditBasicInformation";
-import { IT_SKILLS,KEY_SKILLS } from "@/util/queries";
-
+import { IT_SKILLS, KEY_SKILLS } from "@/util/queries";
 
 const useStyles = createStyles(() => ({
   inner: {
@@ -287,6 +287,12 @@ export default function View(props: IAppProps) {
   const [inEditPhoto, setinEditPhoto] = useState(false);
 
   const [inEditResume, setinEditResume] = useState(false);
+
+  const [items, setItems] = useState([
+    { title: "view", href: "add_employees_profiles" },
+    { title: "profiles", href: "add_employees_profiles" },
+    { title: "add profile", href: "view_employees_profiles" }
+  ]);
 
   const handleFileUploadResume = async (e) => {
     const file = e || form.getInputProps("resume")?.value;
@@ -498,6 +504,7 @@ export default function View(props: IAppProps) {
   };
 
   useEffect(() => {
+
     getComapanies();
   }, []);
 
@@ -660,7 +667,6 @@ export default function View(props: IAppProps) {
   const getKeySkills = async () => {
     const users: any = await client.request(KEY_SKILLS);
 
-
     const DefaultSkills = users?.keySkills?.map((item: any) => {
       return {
         label: item.name,
@@ -673,7 +679,6 @@ export default function View(props: IAppProps) {
 
   const getItSkills = async () => {
     const users: any = await client.request(IT_SKILLS);
-
 
     const DefaultSkills = users?.itSkills?.map((item: any) => {
       return {
@@ -860,8 +865,6 @@ export default function View(props: IAppProps) {
       },
     });
 
-  
-
     if (user?.updateAddEducation) {
       const button = document.getElementById("modal-close-btn-education");
 
@@ -986,7 +989,6 @@ export default function View(props: IAppProps) {
       }, 1000);
     }
   };
-
 
   const addEducation = async () => {
     if (!education.school) {
@@ -1149,7 +1151,6 @@ export default function View(props: IAppProps) {
       });
 
       const button = document.getElementById("closeAddEducation");
-
 
       setTimeout(() => {
         button?.click();
@@ -1379,8 +1380,6 @@ export default function View(props: IAppProps) {
       });
     }
 
-
-
     if (!project.workFromYear) {
       return toast("please add work from year ", {
         className: "black-background",
@@ -1578,7 +1577,6 @@ export default function View(props: IAppProps) {
         inEditResume={inEditResume}
         addResume={addResume}
         handleFileUploadResume={handleFileUploadResume}
-        
       />
 
       <AddPhotograph
@@ -1650,23 +1648,39 @@ export default function View(props: IAppProps) {
           width: "100%",
         }}
       >
+        <Breadcrumbs className="pt-2" separator="→" mt="xs">
+          {items.map((item: any, index: any) => (
+            <Anchor href={item.href} key={index}>
+              {item.title}
+            </Anchor>
+          ))}
+        </Breadcrumbs>
+
         <div className="text-black text-2xl py-3  font-semibold">Profile</div>
+
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
           <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">
-            <ProfileSection form={form} setinEditPhoto={setinEditPhoto}         editHide={true}
-        addHide={false} />
+            <ProfileSection
+              form={form}
+              setinEditPhoto={setinEditPhoto}
+              editHide={true}
+              addHide={false}
+            />
           </div>
 
           <div className="w-full lg:w-3/4 px-3 h-full rounded ">
             <Stack>
-              <BasicProfile form={form}         editHide={true}
-        addHide={false} />
+              <BasicProfile form={form} editHide={true} addHide={false} />
             </Stack>
 
             <div className="flex flex-col lg:flex-row mt-3  justify-center  gap-5 xl:12 ">
               <div className="lg:w-1/2">
-                <ExperienceSection form={form} setExperience={setExperience}          editHide={true}
-        addHide={false} />
+                <ExperienceSection
+                  form={form}
+                  setExperience={setExperience}
+                  editHide={true}
+                  addHide={false}
+                />
               </div>
 
               <div className="lg:w-1/2">
@@ -1686,13 +1700,21 @@ export default function View(props: IAppProps) {
                 marginTop: "1rem",
               }}
             >
-              <ProjectSection form={form} setProject={setProject}          editHide={true}
-        addHide={false} />
+              <ProjectSection
+                form={form}
+                setProject={setProject}
+                editHide={true}
+                addHide={false}
+              />
             </div>
             <div className=" flex flex-col lg:flex-row justify-center  gap-5 xl:12 mt-3">
               <div className="lg:w-full">
-                <ResumeSection form={form} setinEditResume={setinEditResume}         editHide={true}
-        addHide={false} />
+                <ResumeSection
+                  form={form}
+                  setinEditResume={setinEditResume}
+                  editHide={true}
+                  addHide={false}
+                />
               </div>
             </div>
           </div>

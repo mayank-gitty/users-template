@@ -66,38 +66,50 @@ export function EducationSection({
               </div>
             </Group>
 
-            {form.getInputProps("education")?.value?.length > 0 &&
-              form.getInputProps("education")?.value?.length < 3 && (
-                <Image
-                  src="/assets/addIcon.svg"
-                  alt="Google"
-                  style={{
-                    width: "24px",
-                    height: "32px",
-                    cursor: "pointer",
-                  }}
-                  data-bs-toggle="modal"
-                  data-bs-target="#addEducation"
-                  onClick={() => {
-                    setEducation({
-                      id: "",
-                      school: "",
-                      // schoolOther: "",
-                      degree: "",
-                      // degreeOther: "",
-                      field_of_study: "",
-                      // field_of_studyOther: "",
-                      grade: "",
-                      activities: "",
-                      description: "",
-                      start_year: "",
-                      start_year_month: "",
-                      end_year: "",
-                      end_year_month: "",
-                    });
-                  }}
-                />
-              )}
+
+{
+
+!addHide &&     
+form.getInputProps("education")?.value?.length > 0 &&
+  form.getInputProps("education")?.value?.length < 3 && (
+    <Image
+      src="/assets/addIcon.svg"
+      alt="Google"
+      style={{
+        width: "24px",
+        height: "32px",
+        cursor: "pointer",
+      }}
+      data-bs-toggle="modal"
+      data-bs-target="#addEducation"
+      onClick={() => {
+        setEducation({
+          id: "",
+          school: "",
+          // schoolOther: "",
+          degree: "",
+          // degreeOther: "",
+          field_of_study: "",
+          // field_of_studyOther: "",
+          grade: "",
+          activities: "",
+          description: "",
+          start_year: "",
+          start_year_month: "",
+          end_year: "",
+          end_year_month: "",
+        });
+      }}
+    />
+  )
+
+}
+
+        
+              
+            
+
+
           </Group>
 
           <Group

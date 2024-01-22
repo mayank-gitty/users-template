@@ -386,7 +386,7 @@ const Add_EMPLOYEES = ({ AllProjects }: any) => {
         <form onSubmit={form.onSubmit((values) => {})}>
           <div className="px-5 py-6 ">
             <div className="page-heading  pt-2 pb-2">
-              <h2 className="page-main-heading"> Create employees </h2>
+              <h2 className="page-main-heading"> Invite employees </h2>
             </div>
           </div>
 

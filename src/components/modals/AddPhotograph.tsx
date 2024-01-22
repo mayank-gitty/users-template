@@ -217,7 +217,7 @@ export function AddPhotograph({
         aria-hidden="true"
       >
         <form>
-          <div class="modal-dialog">
+          <div class="modal-dialog  modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
                 <div className="custom-align">

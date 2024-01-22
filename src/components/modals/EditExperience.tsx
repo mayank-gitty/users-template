@@ -44,7 +44,7 @@ export function EditExperience({
         aria-hidden="true"
         data-bs-backdrop="static"
       >
-        <div class="modal-dialog">
+        <div class="modal-dialog  modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header ">
               <div className="custom-align">
@@ -350,7 +350,7 @@ export function EditExperience({
                 </button>
               )}
             </div>
-            
+
           </div>
         </div>
       </div>

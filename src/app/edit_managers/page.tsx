@@ -220,7 +220,7 @@ const DatatablePage = () => {
         action: (
           <button
             className="table-button"
-            onClick={() => router.push(`/edit_employee?id=${item.id}`)}
+            onClick={() => router.push(`/edit_manager?id=${item.id}`)}
           >
             {" "}
             Edit{" "}

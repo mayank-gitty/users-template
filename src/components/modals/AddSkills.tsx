@@ -17,7 +17,7 @@ export function AddSkills({form, updateKeySkills , DefaultItSkills  ,DefaultKeyS
         aria-hidden="true"
         data-bs-backdrop="static"
       >
-        <div class="modal-dialog">
+        <div class="modal-dialog  modal-dialog-centered ">
           <div class="modal-content">
             <div class="modal-header">
               <div className="custom-align">
@@ -141,6 +141,7 @@ export function AddSkills({form, updateKeySkills , DefaultItSkills  ,DefaultKeyS
                     <small
                       style={{
                         color: "grey",
+                        marginLeft:"8px"
                       }}
                     >
                       {" "}

@@ -378,7 +378,7 @@ const Login = () => {
         aria-hidden="true"
       >
         <form>
-          <div class="modal-dialog">
+          <div class="modal-dialog  modal-dialog-centered">
             <div class="modal-content login">
               <div class="modal-header">
                 <div className="custom-align">
@@ -408,15 +408,12 @@ const Login = () => {
                         width: "100%",
                       }}
                     >
-                      {/* <div className="profile-upload">
-        {formData.photograph && <img src={formData.photograph} />}
-        {formData.photogarph}
-      </div> */}
-
+   
                       <Container
-                        px="xs"
+           
                         style={{
                           width: "100%",
+                          padding:0
                         }}
                         className=""
                       >

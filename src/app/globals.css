@@ -592,6 +592,10 @@ table.table-sm td {
   /* background: #000; */
 }
 
+.sidebar-wrapper .sidebar {
+width: 17.8%;
+}
+
 .main-icon {
   padding-top: 36px;
 }
@@ -888,6 +892,18 @@ table.table-sm td {
   color: #4d47c3;
 }
 
+.home-card-bottom-layer_one_element {
+  padding-top: 3.4rem;
+
+  display: flex;
+  justify-content: center;
+}
+
+.home-card-bottom-layer_one_element span {
+  cursor: pointer;
+  color: #4d47c3;
+}
+
 .table-button {
   display: inline-flex;
   /* transform: rotate(-0.325deg); */
@@ -1051,6 +1067,15 @@ a.page-link {
 .edit_master {
   padding: 40px 40px;
   width: 90%;
+}
+
+.mantine-Breadcrumbs-root a:last-child {
+  pointer-events:none;
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+
+.mantine-Breadcrumbs-root {
+  margin-top: 0rem !important;
 }
 
 input#file-upload-button {
