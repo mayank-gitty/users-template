@@ -38,6 +38,8 @@ import {
   Textarea,
   createStyles,
   FileInput,
+  Breadcrumbs,
+  Anchor,
 } from "@mantine/core";
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -276,6 +278,12 @@ export interface IAppProps {}
 
 export default function View(props: IAppProps) {
   const [createObjectURL, setCreateObjectURL] = useState(null);
+
+  const [items, setItems] = useState([
+    { title: "modify", href: "/edit_managers" },
+    { title: "profiles", href: "/edit_managers" },
+    { title: "edit_profile", href: "/edit_employees_profiles" },
+  ]);
 
   const session = useSession();
 
@@ -1640,6 +1648,14 @@ export default function View(props: IAppProps) {
           width: "100%",
         }}
       >
+        <Breadcrumbs className="pt-2" separator="→" mt="xs">
+          {items.map((item: any, index: any) => (
+            <Anchor href={item.href} key={index}>
+              {item.title}
+            </Anchor>
+          ))}
+        </Breadcrumbs>
+
         <div className="text-black text-2xl py-3  font-semibold">Profile</div>
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">
           <div className="w-full lg:w-1/4 px-3 py-4 h-full rounded bg-white">

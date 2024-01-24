@@ -106,15 +106,15 @@ export function Sidebar() {
       setopenSubProfilesMenu(true);
     }
 
-    if (pathname === "/view_manager_employees_profiles"  || pathname === '/view_employee_profile'  ) {
+    if (pathname === "/view_managers"  || pathname === '/view_manager_profile'  ) {
       setopenSubProfilesMenuInManager(true);
     }
 
-    if (pathname === "/add_manager_employees_profiles"  || pathname === '/add_employee_profile' ) {
+    if (pathname === "/add_managers"  || pathname === '/add_employee_profile' ) {
       setopenSubProfilesMenuInManager(true);
     }
 
-    if (pathname === "/edit_manager_employees_profiles"  || pathname === '/edit_employee_profile'  ) {
+    if (pathname === "/edit_managers"  || pathname === '/edit_manager_profile'  ) {
       setopenSubProfilesMenuInManager(true);
     }
 
@@ -183,7 +183,6 @@ export function Sidebar() {
   ];
 
   const profilesSubTabsInManager = [
-
     {
       link: "add_manager_employees_profiles",
       label: "Add",
@@ -253,7 +252,6 @@ export function Sidebar() {
   // ];
 
   const managersSubTabs = [
-
     {
       link: "add_managers_profiles",
       label: "Add",
@@ -403,6 +401,49 @@ export function Sidebar() {
         <div className="">
           {role === "manager" && (
             <div className="">
+
+<li
+                onClick={() => {
+                  router.push("/add_employees_in_manager");
+                  setopenSubEmployeesMenuInManager(
+                    !openSubEmployeesMenuInManager
+                  );
+                  setopenSubProfilesMenuInManager(false);
+                  // alert('mayank')
+                }}
+                className={`d-flex align-items-center  mt-[5%] font-semibold ${
+                  pathname === "/create_manager_employees"
+                    ? "custom-border-bottom"
+                    : ""
+                }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
+              >
+                <div className="icon">
+                  {pathname === "/create_manager_employees" ? (
+                    <IconCirclePlus
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#4D47C3"
+                    />
+                  ) : (
+                    <IconCirclePlus
+                      style={{ width: rem(30), height: rem(30) }}
+                      stroke={2}
+                      color="#000000"
+                    />
+                  )}
+                </div>
+                <a
+                  className={`nav-link  ${
+                    pathname === "/create_manager_employees" ? "active" : ""
+                  } `}
+                  aria-current="page"
+                  href=""
+                >
+                  {" "}
+                   Invite {" "}
+                </a>
+              </li>
+
               <li
                 onClick={() => {
                   setopenSubProfilesMenuInManager(
@@ -474,48 +515,7 @@ export function Sidebar() {
                   );
                 })}
 
-              <li
-                onClick={() => {
-                  router.push("/add_employees_in_manager");
-                  setopenSubEmployeesMenuInManager(
-                    !openSubEmployeesMenuInManager
-                  );
-                  setopenSubProfilesMenuInManager(false);
-                  // alert('mayank')
-                }}
-                className={`d-flex align-items-center  mt-[5%] font-semibold ${
-                  pathname === "/create_manager_employees"
-                    ? "custom-border-bottom"
-                    : ""
-                }  border-gray-300 py-2 hover:bg-violet-100 hover:text-gray-900 cursor-pointer`}
-              >
-                <div className="icon">
-                  {pathname === "/create_manager_employees" ? (
-                    <IconCirclePlus
-                      style={{ width: rem(30), height: rem(30) }}
-                      stroke={2}
-                      color="#4D47C3"
-                    />
-                  ) : (
-                    <IconCirclePlus
-                      style={{ width: rem(30), height: rem(30) }}
-                      stroke={2}
-                      color="#000000"
-                    />
-                  )}
-                </div>
-                <a
-                  className={`nav-link  ${
-                    pathname === "/create_manager_employees" ? "active" : ""
-                  } `}
-                  aria-current="page"
-                  href=""
-                >
-                  {" "}
-                   Invite {" "}
-                </a>
-              </li>
-
+      
               {/* {openSubEmployeesMenuInManager &&
                 employeesSubTabsInManager.map((item: any) => {
                   return (
@@ -548,6 +548,8 @@ export function Sidebar() {
                     </li>
                   );
                 })} */}
+
+
             </div>
           )}
 
@@ -669,6 +671,7 @@ export function Sidebar() {
 
               {openSubProfilesMenu &&
                 profilesSubTabs.map((item: any, key: number) => {
+                
                   return (
                     <li
                       onClick={() => {
@@ -772,13 +775,6 @@ export function Sidebar() {
                   );
                 })}
 
-              
-  
-        
-  
-
-        
-
             </>
           )}
 
@@ -795,6 +791,7 @@ export function Sidebar() {
             logout{" "}
           </a>
         </li>
+        
       </ul>
     </div>
   );

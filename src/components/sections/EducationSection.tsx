@@ -34,15 +34,23 @@ export function EducationSection({
   editHide,
 }) {
   return (
-    <div>
-      <Stack>
+    <div   style={{
+      // height: "310.897px",
+      // background: "red",
+       
+    }} >
+      <Stack   style={{
+            height: "310.897px",
+          
+             
+          }} >
         <div
           className="p-4 h-full rounded bg-white"
           style={{
             height: "310.897px",
-            background: "pink",
+ 
+            // opacity:"0.5"
 
-            // background: "red",
           }}
         >
           <Group

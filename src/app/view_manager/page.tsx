@@ -15,7 +15,6 @@ import { AddPhotograph } from "@/components/modals/AddPhotograph";
 import { BasicProfile } from "@/components/sections/BasicProfile";
 import { AddProject } from "@/components/modals/AddProject";
 import { COMPANIES } from "@/util/queries";
-
 import {
   Button,
   Group,
@@ -38,7 +37,10 @@ import {
   Textarea,
   createStyles,
   FileInput,
+  Breadcrumbs,
+  Anchor
 } from "@mantine/core";
+
 import { PROFILE_USER } from "@/util/queries";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faVideo } from "@fortawesome/free-solid-svg-icons";
@@ -88,7 +90,6 @@ import { EditEducation } from "@/components/modals/EditEducation";
 import { EditProject } from "@/components/modals/EditProject";
 import { EditBasicInformation } from "@/components/modals/EditBasicInformation";
 import { IT_SKILLS,KEY_SKILLS } from "@/util/queries";
-
 
 const useStyles = createStyles(() => ({
   inner: {
@@ -276,6 +277,8 @@ const useStyles = createStyles(() => ({
 export interface IAppProps {}
 
 export default function View(props: IAppProps) {
+
+
   const [createObjectURL, setCreateObjectURL] = useState(null);
 
   const session = useSession();
@@ -288,6 +291,11 @@ export default function View(props: IAppProps) {
 
   const [inEditResume, setinEditResume] = useState(false);
 
+  const [items, setItems] = useState([
+    { title: "view", href: "/add_employees_profiles" },
+    { title: "profiles", href: "/add_employees_profiles" },
+  ]);
+  
   const handleFileUploadResume = async (e) => {
     const file = e || form.getInputProps("resume")?.value;
 
@@ -1649,6 +1657,16 @@ export default function View(props: IAppProps) {
           width: "100%",
         }}
       >
+
+<Breadcrumbs className="pt-2" separator="→" mt="xs">
+          {items.map((item: any, index: any) => (
+            <Anchor href={item.href} key={index}>
+              {item.title}
+            </Anchor>
+          ))}
+        </Breadcrumbs>
+
+
         <div className="text-black text-2xl py-3  font-semibold">Profile</div>
 
         <div className="flex flex-col lg:flex-row  justify-center  gap-5 xl:12">

@@ -411,7 +411,7 @@ const ADD_MANAGERS = ({ AllProjects }: any) => {
                     fontSize: "11px",
                     fontWeight: 600,
                     border: "0.0625rem solid transparent",
-                    background: "#40c057",
+                    background: "#40c057",  
                     color: "#fff",
                     height: "32px",
                     padding: "0 10px",

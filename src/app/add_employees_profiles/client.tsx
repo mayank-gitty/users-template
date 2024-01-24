@@ -12,20 +12,20 @@ import { Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
 import { COMPANIES } from "@/util/queries";
-import { Breadcrumbs , Anchor } from "@mantine/core";
+import { Breadcrumbs, Anchor } from "@mantine/core";
 
 // Define mutation
 
-const DatatablePage = () => {
+const Client = () => {
   const [main, setMain] = useState();
   const [alldata, setAllData] = useState([]);
-  const session = useSession();
- 
+
   const [items, setItems] = useState([
-    { title: "modify", href: "/edit_managers" },
-    { title: "profiles", href: "/edit_managers"},
-    // { title: "edit_profile", href: "/edit_employees_profiles" },
+    { title: "add", href: "/add_employees_profiles" },
+    { title: "profiles", href: "/add_employees_profiles" },
   ]);
+
+  const session = useSession();
 
   const form = useForm({
     initialValues: {
@@ -52,7 +52,7 @@ const DatatablePage = () => {
     const user: any = await client.request(USERS, {
       where: {
         role: {
-          equals: "manager",
+          equals: "employee",
         },
       },
       orderBy: [
@@ -72,15 +72,15 @@ const DatatablePage = () => {
         address: item?.address,
         // photograph: <img src={item?.photograph} />,
         // // resume:  <a className="resume" href={"/files/3-new-delta-9-products-for-sale-at-Exhale-Wellness-8dEhepfpj9CT.docx"} >  resume </a>     ,
-        // keyskills: item.keyskills.map((u: any) => u.name).join(", "),
-        // itskills: item.itskills.map((u: any) => u.name).join(", "),
+        keyskills: item.keyskills.map((u: any) => u.name).join(", "),
+        itskills: item.itskills.map((u: any) => u.name).join(", "),
         action: (
           <button
             className="table-button"
-            onClick={() => router.push(`/view_master?id=${item.id}`)}
+            onClick={() => router.push(`/add_employee_profile?id=${item.id}`)}
           >
             {" "}
-            Edit{" "}
+            Add{" "}
           </button>
         ),
         resume: item.resume ? (
@@ -130,27 +130,27 @@ const DatatablePage = () => {
           width: 200,
         },
 
-        // {
-        //   label: "Key skills",
-        //   field: "keyskills",
-        //   sort: "disabled",
-        //   width: 100,
-        // },
+        {
+          label: "Key skills",
+          field: "keyskills",
+          sort: "disabled",
+          width: 100,
+        },
 
-        // {
-        //   label: "It Skills",
-        //   field: "itskills",
+        {
+          label: "It Skills",
+          field: "itskills",
 
-        //   sort: "disabled",
-        //   width: 100,
-        // },
+          sort: "disabled",
+          width: 100,
+        },
 
-        // {
-        //   label: "Resume",
-        //   field: "resume",
-        //   sort: "disabled",
-        //   width: 100,
-        // },
+        {
+          label: "Resume",
+          field: "resume",
+          sort: "disabled",
+          width: 100,
+        },
         {
           label: "Action",
           field: "action",
@@ -198,7 +198,7 @@ const DatatablePage = () => {
     const user: any = await client.request(USERS, {
       where: {
         role: {
-          equals: "manager",
+          equals: "employee",
         },
         company: {
           id: {
@@ -226,10 +226,10 @@ const DatatablePage = () => {
         action: (
           <button
             className="table-button"
-            onClick={() => router.push(`/edit_manager?id=${item.id}`)}
+            onClick={() => router.push(`/add_employee_profile?id=${item.id}`)}
           >
             {" "}
-            Edit{" "}
+            Add{" "}
           </button>
         ),
         resume: item.resume ? (
@@ -241,7 +241,7 @@ const DatatablePage = () => {
             }
             target="_blank"
             className="resume-link"
-            href={item.resume}  
+            href={item.resume}
           >
             {" "}
             view resume{" "}
@@ -279,28 +279,28 @@ const DatatablePage = () => {
           sort: "disabled",
           width: 200,
         },
-        // ,
-        // {
-        //   label: "Key skills",
-        //   field: "keyskills",
-        //   sort: "disabled",
-        //   width: 100,
-        // },
+        ,
+        {
+          label: "Key skills",
+          field: "keyskills",
+          sort: "disabled",
+          width: 100,
+        },
 
-        // {
-        //   label: "It Skills",
-        //   field: "itskills",
+        {
+          label: "It Skills",
+          field: "itskills",
 
-        //   sort: "disabled",
-        //   width: 100,
-        // },
+          sort: "disabled",
+          width: 100,
+        },
 
-        // {
-        //   label: "Resume",
-        //   field: "resume",
-        //   sort: "disabled",
-        //   width: 100,
-        // },
+        {
+          label: "Resume",
+          field: "resume",
+          sort: "disabled",
+          width: 100,
+        },
         {
           label: "Action",
           field: "action",
@@ -358,13 +358,17 @@ const DatatablePage = () => {
       )}
 
       {form.getInputProps("company")?.value && (
+
         <div className="profile-table">
 
-<Breadcrumbs className="pt-2"  separator="→" mt="xs">{items.map((item:any,index:any)=>  <Anchor href={item.href} key={index}>
-    {item.title}
-  </Anchor>
-  
-  )}</Breadcrumbs>
+          <Breadcrumbs separator="→" mt="xs">
+            {items.map((item: any, index: any) => (
+              <Anchor href={item.href} key={index}>
+                {item.title}
+              </Anchor>
+            ))}
+          </Breadcrumbs>
+
 
           <MDBDataTable bordered small data={main} />
         </div>
@@ -373,4 +377,4 @@ const DatatablePage = () => {
   );
 };
 
-export default DatatablePage;
+export default Client;

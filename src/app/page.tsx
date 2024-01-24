@@ -1082,7 +1082,7 @@ export default function Home() {
                                 }
                               >
                                 {" "}
-                                view employees{" "}
+                                View employees{" "}
                               </span>
                             </div>
 
@@ -1098,7 +1098,7 @@ export default function Home() {
                                 }
                               >
                                 {" "}
-                                add employees{" "}
+                                Add employees{" "}
                               </span>
                             </div>
                           </div>
@@ -1128,7 +1128,7 @@ export default function Home() {
                                 }
                               >
                                 {" "}
-                                Invite Employees{" "}
+                                Invite employees{" "}
                               </span>
                             </div>
 
@@ -1184,7 +1184,7 @@ export default function Home() {
                                       }
                                     >
                                       {" "}
-                                      view managers{" "}
+                                      View managers{" "}
                                     </span>
                                   </div>
 
@@ -1200,7 +1200,7 @@ export default function Home() {
                                       }
                                     >
                                       {" "}
-                                      add managers{" "}
+                                      Add managers{" "}
                                     </span>
                                   </div>
                                 </div>
@@ -1224,7 +1224,7 @@ export default function Home() {
                                       }
                                     >
                                       {" "}
-                                      view employees{" "}
+                                      View employees{" "}
                                     </span>
                                   </div>
 
@@ -1240,7 +1240,7 @@ export default function Home() {
                                       }
                                     >
                                       {" "}
-                                      add employees{" "}
+                                      Add employees{" "}
                                     </span>
                                   </div>
                                 </div>
@@ -1264,7 +1264,7 @@ export default function Home() {
                                       }
                                     >
                                       {" "}
-                                      Invite Employees{" "}
+                                      Invite employees{" "}
                                     </span>
                                   </div>
                                   
@@ -1281,7 +1281,7 @@ export default function Home() {
                                       }
                                     >
                                       {" "}
-                                      Invite Managers{" "}
+                                      Invite managers{" "}
                                     </span>
                                   </div>
                                 </div>
@@ -1309,6 +1309,7 @@ export default function Home() {
           form.getInputProps("stepperFilled")?.value === true && (
             <HomeProfile />
           )}
+
       </MantineProvider>
     </>
   );
