@@ -37,6 +37,8 @@ import {
   IconEye,
 } from "@tabler/icons-react";
 
+import { NavBar  as CustomNabBar} from "@clipl/ds-base"
+
 export default function Home() {
   const [main, setMain] = useState();
 
@@ -1043,6 +1045,20 @@ export default function Home() {
   return (
     <>
       <MantineProvider>
+
+      <CustomNabBar 
+        bellIcon={true}
+        profileImage={FiCalendar}
+        links={[
+          { link: "hone", label: "Home" },
+          { link: "abput", label: "About" },
+        ]}
+        searchable={true}  
+        // searchableCenter = {true} 
+        searchableLeft={true}
+        />
+
+
         <div className="">
           <div className="dashboard">
             {form.getInputProps("role")?.value !== "employee" && (
