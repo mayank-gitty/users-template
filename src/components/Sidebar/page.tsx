@@ -10,8 +10,8 @@ import {
   IconLiveView,
 } from "@tabler/icons-react";
 import { IconCactus } from "@tabler/icons-react";
-
 import { Sidebar } from "./Sidebar";
+ 
 
 function SideBar() {
   const {
@@ -34,7 +34,9 @@ function SideBar() {
   return (
     <div className="sidebar-wrapper">
       {" "}
-      <Sidebar />{" "}
+      {/* <Sidebar />{" "} */}
+
+      
     </div>
   );
 }

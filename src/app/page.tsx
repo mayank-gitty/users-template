@@ -1110,10 +1110,13 @@ export default function Home() {
                             Invite{" "}
                           </h6>
 
-                          <div className="home-card-bottom-layer" style={{
-                            display:"flex",
-                            justifyContent:"center"
-                          }} >
+                          <div
+                            className="home-card-bottom-layer"
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
                             <div className="d-flex">
                               <div className="icon">
                                 <IconEye />
@@ -1160,7 +1163,7 @@ export default function Home() {
               {form.getInputProps("role")?.value === "admin" && (
                 <div className="">
                   <form onSubmit={formManagers.onSubmit((values) => {})}>
-                    <div className="px-5  ">
+                    {/* <div className="px-5  ">
                       <div className="">
                         <div className="">
                           <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center justify-content-between">
@@ -1290,7 +1293,95 @@ export default function Home() {
                           </div>
                         </div>
                       </div>
+                    </div> */}
+                    <div className="px-5  ">
+                      <div className="">
+                        <div className="">
+                          <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center justify-content-between">
+                            <div className="home_layer">
+                              <div className="home_card custom-rounded custom-box-shadow">
+                                <h6 className="text-center mt-4 card-main-heading">
+                                  {" "}
+                                  Total Managers{" "}
+                                </h6>
+
+                                <div className="text-center">
+                                  <span> {789} </span>
+                                </div>
+
+                                <div className="d-flex justify-content-between">
+                                  <div className="mt-2">
+                                    <h6> open to work : {80} </h6>
+
+                                    <h6> engaged in project : {120} </h6>
+                                  </div>
+
+                                  <div className="mt-2">
+                                    <h6> active : {80} </h6>
+
+                                    <h6> not active : {120} </h6>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="home_card custom-rounded custom-box-shadow">
+                                <h6 className="text-center mt-4 card-main-heading">
+                                  {" "}
+                                  Total Employees{" "}
+                                </h6>
+
+                                <div className="text-center">
+                                  <span> {789} </span>
+
+                                  <div className="d-flex justify-content-between">
+                                    <div className="mt-2">
+                                      <h6> open to work : {80} </h6>
+
+                                      <h6> engaged in project : {120} </h6>
+                                    </div>
+
+                                    <div className="mt-2">
+                                      <h6> active : {80} </h6>
+
+                                      <h6> not active : {120} </h6>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="home_card custom-rounded custom-box-shadow">
+                                <h6 className="text-center mt-4 card-main-heading">
+                                  {" "}
+                                  Total Projects{" "}
+                                </h6>
+
+                                <div className="text-center">
+                                  <span> {789} </span>
+
+                                  <div className="d-flex justify-content-between">
+                                    <div className="mt-2">
+                                      <h6> in progress : {80} </h6>
+
+                                      <h6> finished : {120} </h6>
+                                    </div>
+
+                                    {/* <div className="mt-2">
+                                      <h6> active : {80} </h6>
+
+                                      <h6> not active : {120} </h6>
+                                    </div> */}
+                                  </div>
+
+                                </div>
+                              </div>
+
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+
+                    <div className="px-5 home_card custom-rounded custom-box-shadow"></div>
                   </form>
                 </div>
               )}
@@ -1309,7 +1400,6 @@ export default function Home() {
           form.getInputProps("stepperFilled")?.value === true && (
             <HomeProfile />
           )}
-
       </MantineProvider>
     </>
   );
