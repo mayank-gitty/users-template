@@ -4,6 +4,7 @@ import useThemeContext from "@/context/context";
 import { gql } from "graphql-request";
 import { HAS_MASTER, PROFILE_USER } from "@/util/queries";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from 'next/navigation'
 
 
 import {
@@ -63,10 +64,15 @@ function SideBar() {
     
   }: any = useThemeContext();
 
+
+
+  const router = useRouter()
+
   return (
     <div className="sidebar-wrapper">
       {" "}
       <CustomSideBar  
+       router={router} 
       linkColor = "#495584 !important"
       height="100vh"
       footerLinks={[
@@ -78,13 +84,13 @@ function SideBar() {
             { link: "", label: "Invite", icon: IconMail ,  sublinks: [
               {
                 title: 'Invite Employees',
-                link: ['add_employees'],
+                link: 'add_employees',
                 icon:  IconMailCode 
                 
               },
               {
                 title: 'Invite Managers',
-                link: ['add_managers'],
+                link: 'add_managers',
                 icon:   IconMailCode 
               }
             ]   },
@@ -92,17 +98,17 @@ function SideBar() {
             { link: "", label: "Employees", icon: IconUsersGroup ,    sublinks: [
               {
                 title: 'Add',
-                link: ['/page/2'],
+                link: '/page/2',
                 icon: IconPlus
               },
               {
                 title: 'View',
-                link: ['/page/3'],
+                link: '/page/3',
                 icon: IconEye
               },
               {
                 title: 'Edit',
-                link: ['/page/2'],
+                link: '/page/2',
                 icon: IconEdit
               },
             ]  
@@ -110,17 +116,17 @@ function SideBar() {
             { link: "", label: "Managers", icon: IconUsers ,    sublinks: [
               {
                 title: 'Add',
-                link: ['/page/2'],
+                link: '/page/2',
                 icon: IconPlus
               },
               {
                 title: 'View',
-                link: ['/page/3'],
+                link: '/page/3',
                 icon: IconEye
               },
               {
                 title: 'Edit',
-                link: ['/page/2'],
+                link: '/page/2',
                 icon: IconEdit
               },
             ]  
