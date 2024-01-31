@@ -50,7 +50,7 @@ export function Sidebar() {
 
   const sidebarStyles = {
     background: "",
-    boxShadow: "0px 4px 29px 0px rgba(0, 0, 0, 0.08)",
+    boxShadow: "1px 4px 29px 0px rgba(0, 0, 0, 0.08)",
   };
 
   const getData = async () => {
