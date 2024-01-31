@@ -1296,7 +1296,6 @@ input#file-upload-button {
 }
 .responsive-image1 {
   flex: 0 0 100%; /* Initially, both images take up 100% of the container width */
-
   position: relative;
 
   /* Add padding or margin if needed for spacing */
@@ -1309,3 +1308,17 @@ input#file-upload-button {
     flex: 0 0 40%;
   }
 }
+
+
+
+/*  */
+
+:root {
+
+  background-color: rgb(242,243,249);
+}
+
+
+/*  */
+
+

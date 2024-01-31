@@ -332,7 +332,7 @@ export function AddPhotograph({
                                       image ||
                                       form
                                         .getInputProps("photograph")
-                                        ?.value.slice(0, 17)
+                                        ?.value?.slice(0, 17)
                                         ? (
                                             image?.slice(0, 17) ||
                                             form.getInputProps("photograph")

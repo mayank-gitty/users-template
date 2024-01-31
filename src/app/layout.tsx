@@ -17,10 +17,11 @@ import SideBar from "@/components/Sidebar/page";
 import { SessionProvider } from "next-auth/react";
 
 import { MantineProvider } from "@mantine/core";
-
 import { ThemeProvider, THEME_ID, createTheme } from "@mui/material/styles";
 import { ToastContainer } from "react-toastify";
 import useThemeContext from "@/context/context";
+
+import { BrowserRouter } from 'react-router-dom';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,6 +43,7 @@ export default function RootLayout({
 
         <SessionProvider>
           <ThemeContextProvider>
+          <BrowserRouter>
             <ThemeProvider theme={{ [THEME_ID]: materialTheme }}>
               <div className="d-flex">
                 {pathname !== "/login" &&
@@ -59,6 +61,7 @@ export default function RootLayout({
                 </div>
               </div>
             </ThemeProvider>
+            </BrowserRouter>,
           </ThemeContextProvider>
         </SessionProvider>
       </body>

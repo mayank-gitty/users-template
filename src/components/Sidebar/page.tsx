@@ -7,7 +7,8 @@ import { useSearchParams } from "next/navigation";
 
 
 import {
-  IconLiveView,
+  IconDashboardOff,
+  IconLiveView, IconLogout,
 } from "@tabler/icons-react";
 import { IconCactus } from "@tabler/icons-react";
 
@@ -16,15 +17,24 @@ import {
   IconCirclePlus,
   IconUser,
   IconDashboard,
-  IconEdit,
-  IconPlus,
-  IconEye,
+  IconMail,
   IconUsersGroup,
   IconReceipt2 ,
   IconBellRinging,
   IconFingerprint,
-  IconKey 
+  IconKey ,
+  IconPlus,
+  IconEye,
+  IconEdit,
+  IconLayoutDashboard,
+  IconMailCode ,
+
 } from "@tabler/icons-react";
+
+
+
+import { RxDashboard } from "react-icons/rx";
+
 
 import { SideBar  as CustomSideBar} from "@clipl/ds-base"
  
@@ -47,7 +57,9 @@ function SideBar() {
     IconDatabaseImport,
     Icon2fa,
     IconSettings ,
-    IconKey
+    IconKey,
+
+    
     
   }: any = useThemeContext();
 
@@ -55,58 +67,64 @@ function SideBar() {
     <div className="sidebar-wrapper">
       {" "}
       <CustomSideBar  
-       height="100vh"
+      linkColor = "#495584 !important"
+      height="100vh"
       footerLinks={[
-        { link: "", label: "SSH Keys", icon: IconKey },
-        { link: "", label: "Other Settings", icon: IconSettings },
+        { link: "", label: "Logout", icon: IconLogout },
       ]}
-
+      backgroundColor="#fff"
       links={[
-            { link: "/", label: "Dashboard", icon: IconBellRinging },
-            { link: "", label: "Invite", icon: IconDatabaseImport,  sublinks: [
+            { link: "/", label: "Dashboard", icon:     IconLayoutDashboard },
+            { link: "", label: "Invite", icon: IconMail ,  sublinks: [
               {
-                'title': 'Invite Employees',
-                'link': ['/page/2'],
+                title: 'Invite Employees',
+                link: ['add_employees'],
+                icon:  IconMailCode 
+                
               },
               {
-                'title': 'Invite Managers',
-                'link': ['/page/3'],
+                title: 'Invite Managers',
+                link: ['add_managers'],
+                icon:   IconMailCode 
               }
             ]   },
 
-            { link: "", label: "Employees", icon: IconReceipt2 ,    sublinks: [
+            { link: "", label: "Employees", icon: IconUsersGroup ,    sublinks: [
               {
-                'title': 'Add',
-                'link': ['/page/2'],
+                title: 'Add',
+                link: ['/page/2'],
+                icon: IconPlus
               },
               {
-                'title': 'View',
-                'link': ['/page/3'],
+                title: 'View',
+                link: ['/page/3'],
+                icon: IconEye
               },
               {
-                'title': 'Edit',
-                'link': ['/page/2'],
-              },
-            ]  
-          },
-            { link: "", label: "Managers", icon: IconReceipt2 ,    sublinks: [
-              {
-                'title': 'Add',
-                'link': ['/page/2'],
-              },
-              {
-                'title': 'View',
-                'link': ['/page/3'],
-              },
-              {
-                'title': 'Edit',
-                'link': ['/page/2'],
+                title: 'Edit',
+                link: ['/page/2'],
+                icon: IconEdit
               },
             ]  
           },
-
-          
-            
+            { link: "", label: "Managers", icon: IconUsers ,    sublinks: [
+              {
+                title: 'Add',
+                link: ['/page/2'],
+                icon: IconPlus
+              },
+              {
+                title: 'View',
+                link: ['/page/3'],
+                icon: IconEye
+              },
+              {
+                title: 'Edit',
+                link: ['/page/2'],
+                icon: IconEdit
+              },
+            ]  
+          },
             // { link: "ml", label: "Security", icon: IconFingerprint },
           ]}  />{" "}
 

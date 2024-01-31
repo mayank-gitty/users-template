@@ -35,6 +35,7 @@ import {
   IconEdit,
   IconPlus,
   IconEye,
+  
 } from "@tabler/icons-react";
 
 import { NavBar  as CustomNabBar} from "@clipl/ds-base"
@@ -1046,32 +1047,38 @@ export default function Home() {
     <>
       <MantineProvider>
 
-      <CustomNabBar 
+      {/* <CustomNabBar 
         bellIcon={true}
         profileImage={FiCalendar}
-        links={[
-          { link: "hone", label: "Home" },
-          { link: "abput", label: "About" },
-        ]}
+        // links={[
+        //   { link: "hone", label: "Home" },
+        //   { link: "abput", label: "About" },
+        // ]}
         searchable={true}  
         // searchableCenter = {true} 
+        profileImage= {"assets/userProfile.svg"}  
         searchableLeft={true}
-        />
+        paddingLeft= "20px"
+        paddingRight="20px"
+        /> */}
 
 
         <div className="">
-          <div className="dashboard">
-            {form.getInputProps("role")?.value !== "employee" && (
+ 
+        <h6> welcome  </h6>
+
+          <div className="">
+            {/* {form.getInputProps("role")?.value !== "employee" && (
               <div
                 className=""
                 style={{
                   marginBottom: "18px",
-                  marginTop: "80px",
+                  // marginTop: "80px",
                 }}
               >
                 <span className="px-[48px] dashboard-heading">Dashboard</span>
               </div>
-            )}
+            )} */}
 
             {form.getInputProps("role")?.value === "manager" && (
               <div className="px-5  ">
@@ -1416,6 +1423,7 @@ export default function Home() {
           form.getInputProps("stepperFilled")?.value === true && (
             <HomeProfile />
           )}
+          
       </MantineProvider>
     </>
   );
