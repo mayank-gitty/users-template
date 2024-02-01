@@ -76,7 +76,7 @@ const Thanku = () => {
           </div>
 
           <div className="d-flex justify-content-center flex-column align-items-center mt-4">
-            <h6 className="thank-you"> Thank You ! </h6>
+            <h6 className="thank-you"> Thanks You ! </h6>
 
             <h4 className="thank-you-message">
               {" "}
