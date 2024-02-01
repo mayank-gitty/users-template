@@ -546,7 +546,6 @@ query Users($where: UserWhereInput!) {
 }
 `;
 
-
 const COMPANIES = gql`
   query Query {
     companies {
@@ -554,6 +553,14 @@ const COMPANIES = gql`
       id
     }
   }
+`;
+
+const PROJECTS = gql`
+query Projects {
+  projects {
+    projectStatus
+  }
+}
 `;
 
 const  ALL_USERS = gql`
@@ -585,5 +592,6 @@ export {
   VIEW_USER,
   USERS,
   ALL_USERS,
-  COMPANIES
+  COMPANIES,
+  PROJECTS
 };

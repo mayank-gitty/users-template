@@ -17,7 +17,7 @@ import { ADD_MULTIPLE_USER } from "@/util/mutationQueries";
 import { randomId } from "@mantine/hooks";
 import HomeProfile from "@/components/homeProfile/page";
 import { useSession } from "next-auth/react";
-import { ALL_USERS, USERS, COMPANIES } from "@/util/queries";
+import { ALL_USERS, USERS, COMPANIES , PROJECTS } from "@/util/queries";
 
 import {
   FiChevronDown,
@@ -132,6 +132,10 @@ export default function Home() {
       managersNotActive:0,
       managersOpenToWork:0,
       managersEngagedInProject:0,
+      projectsCount:0,
+      projectsInProgress:0,
+      projectsFinished:0,
+      
     },
     validate: {
       company: (value) => (value ? null : "please select company"),
@@ -734,7 +738,7 @@ export default function Home() {
     // managersActive:0,
     // managersOpenToWork:0,
 
-          employeesEngagedInProject:0,
+      
 
     form.setFieldValue('employeesCount',userEmployees.users.length)
     form.setFieldValue('employeesActive',employeesActive.length)
@@ -755,7 +759,21 @@ export default function Home() {
       ],
     });
 
+    const projects: any = await client.request(PROJECTS);
+
+    form.setFieldValue('projectsCount',projects.projects.length)
     console.log('seeingManagers',userManagers.users.length)
+
+    console.log('checkingggg projects',projects.projects)
+
+    const  projectsInProgress =  projects.projects.filter((item)=> item.projectStatus === 'inprogress' )
+    const  projectsFinished =   projects.projects.filter((item)=> item.projectStatus === 'finished' )
+
+    form.setFieldValue('projectsInProgress',projectsInProgress.length)
+    form.setFieldValue('projectsFinished', projectsFinished.length)
+
+    console.log('projectsInProgress length value',projectsInProgress.length)
+    console.log('projectsFinished length value', projectsFinished.length)
       
     const managersOpenToWork =  userManagers.users.filter((item)=> item.open_to_work === true)
     const managersEngagedInProject =  userManagers.users.filter((item)=> item.open_to_work === false)
@@ -772,7 +790,6 @@ export default function Home() {
 
 
 useEffect( ()=>{
-
 
   setCountsValue()
 
@@ -1490,13 +1507,13 @@ useEffect( ()=>{
                                 </h6>
 
                                 <div className="text-center">
-                                  <span> {789} </span>
+                                  <span>   {form.getInputProps('projectsCount').value} </span>
 
                                   <div className="d-flex justify-content-between">
                                     <div className="mt-2">
-                                      <h6> in progress : {80} </h6>
+                                      <h6> in progress :  {form.getInputProps('projectsInProgress').value}  </h6>
 
-                                      <h6> finished : {120} </h6>
+                                      <h6> finished :  {form.getInputProps('projectsFinished').value}  </h6>
                                     </div>
 
                                     {/* <div className="mt-2">
