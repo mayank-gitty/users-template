@@ -125,6 +125,9 @@ justify-content: center; */
 
 .custom-box-shadow {
   box-shadow: 0px 0px 18.579px 0px rgba(0, 0, 0, 0.06);
+  background: #fff;
+  color: #0d0c22 !important;
+  border-radius:  0.375rem !important ;
 }
 
 .profile-summary-box {
@@ -1309,15 +1312,30 @@ input#file-upload-button {
   }
 }
 
-
-
 /*  */
 
 :root {
-
   background-color: rgb(242,243,249);
 }
 
+
+html {
+  background-color: rgb(242,243,249) !important;
+}
+
+body {
+  background-color: rgb(242,243,249) !important;
+}
+
+.w-70  {
+  background-color: rgb(242,243,249) !important;
+}
+
+
+.mantine-Navbar-root {
+   width: 17.8% !important;
+}
+    
 
 /*  */
 

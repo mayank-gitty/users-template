@@ -337,8 +337,7 @@ export function Sidebar() {
 
 role === 'admin'  &&   <CustomSideBar
 router={router}
-
-linkColor="#495584 !important"
+activelinkColor="#6259CA !important"
 height="100vh"
 footerLinks={[
   { link: "", label: "Logout", icon: IconLogout, logOutmethod: logOut },
@@ -412,18 +411,18 @@ links={[
 ]}
 />
 
-  }
 
+  }
 
 
 
   {
 
-
 role === 'manager'  &&   <CustomSideBar
 router={router}
-linkColor="#495584 !important"
+activelinkColo="#6259CA !important"
 height="100vh"
+linksColor="linear-gradient(to bottom right,rgb  0,var(--primary06) 100%)"
 footerLinks={[
   { link: "", label: "Logout", icon: IconLogout, logOutmethod: logOut },
 ]}

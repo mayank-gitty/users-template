@@ -35,13 +35,14 @@ import {
   IconEdit,
   IconPlus,
   IconEye,
-  
 } from "@tabler/icons-react";
 
-import { NavBar  as CustomNabBar} from "@clipl/ds-base"
+import { NavBar as CustomNabBar } from "@clipl/ds-base";
 
 export default function Home() {
   const [main, setMain] = useState();
+
+  const [profileImg, setprofileImg] = useState(null);
 
   const { data: session }: any = useSession();
 
@@ -121,10 +122,21 @@ export default function Home() {
       resume_headline: "",
       name: "",
       status: "",
+      employeesCount:0,
+      employeesActive:0,
+      employeesNotActive:0,
+      employeesOpenToWork:0,
+      employeesEngagedInProject:0,
+      managersCount:0,
+      managersActive:0,
+      managersNotActive:0,
+      managersOpenToWork:0,
+      managersEngagedInProject:0,
     },
     validate: {
       company: (value) => (value ? null : "please select company"),
     },
+
   });
 
   const formEmployees: any = useForm({
@@ -278,6 +290,8 @@ export default function Home() {
         company: session?.user?.user?.company_name,
       });
     }
+
+    setprofileImg(user?.user?.photograph);
 
     form.setValues({
       resume_headline: user?.user?.resume_headline,
@@ -660,10 +674,10 @@ export default function Home() {
     setMain(test);
   };
 
-  console.log("---------------------------------------", session);
+  // console.log("---------------------------------------", session);
 
   useEffect(() => {
-    console.log("session122222", session);
+    // console.log("session122222", session);
 
     var element: any = document.getElementsByClassName("table-bordered");
 
@@ -681,7 +695,102 @@ export default function Home() {
     }
 
     getUser();
+
+
   }, [session]);
+
+
+
+   const setCountsValue = async  ( ) => {
+
+    console.log('hittingggggggggggggggggggggggg')
+
+    const userEmployees: any = await client.request(USERS, {
+      where: {
+        role: {
+          equals: "employee",
+        },
+      },
+      orderBy: [
+        {
+          createdAt: "asc",
+        },
+      ],
+    });
+  
+
+    console.log('seeingEmployees',userEmployees.users.length)
+  
+    const employeesOpenToWork =  userEmployees.users.filter((item)=> item.open_to_work === true)
+    const employeesEngagedInProject =  userEmployees.users.filter((item)=> item.open_to_work === false)
+    const employeesActive =  userEmployees.users.filter((item)=> item.active === true)
+    const employeesNotActive =  userEmployees.users.filter((item)=> item.active === false)
+
+    // employeesCount:0,
+    // employeesActive:0,
+    // employeesOpenToWork:0,
+    // managersCount:0,
+    // employeesCount:0,
+    // managersActive:0,
+    // managersOpenToWork:0,
+
+          employeesEngagedInProject:0,
+
+    form.setFieldValue('employeesCount',userEmployees.users.length)
+    form.setFieldValue('employeesActive',employeesActive.length)
+    form.setFieldValue('employeesNotActive',employeesNotActive.length)
+    form.setFieldValue('employeesOpenToWork',employeesOpenToWork.length)
+    form.setFieldValue('employeesEngagedInProject',employeesEngagedInProject.length)
+  
+    const userManagers: any = await client.request(USERS, {
+      where: {
+        role: {
+          equals: "manager",
+        },
+      },
+      orderBy: [
+        {
+          createdAt: "asc",
+        },
+      ],
+    });
+
+    console.log('seeingManagers',userManagers.users.length)
+      
+    const managersOpenToWork =  userManagers.users.filter((item)=> item.open_to_work === true)
+    const managersEngagedInProject =  userManagers.users.filter((item)=> item.open_to_work === false)
+    const managersActive =  userManagers.users.filter((item)=> item.active === true)
+    const managersNotActive =  userManagers.users.filter((item)=> item.active === false)
+  
+    form.setFieldValue('managersCount',userManagers.users.length)
+    form.setFieldValue('managersActive',managersActive.length)
+    form.setFieldValue('managersNotActive',managersNotActive.length)
+    form.setFieldValue('managersOpenToWork', managersOpenToWork.length)
+    form.setFieldValue('managersEngagedInProject',managersEngagedInProject.length)
+
+   }
+
+
+useEffect( ()=>{
+
+
+  setCountsValue()
+
+  // const user: any = await client.request(USERS, {
+  //   where: {
+  //     role: {
+  //       equals: "employee",
+  //     },
+  //   },
+  //   orderBy: [
+  //     {
+  //       createdAt: "asc",
+  //     },
+  //   ],
+  // });
+
+},[])
+
 
   const {
     loggedIn,
@@ -703,7 +812,7 @@ export default function Home() {
 
     const id = session?.user?.user.id;
 
-    console.log("session id---------------------------------");
+    // console.log("session id---------------------------------");
 
     if (id) {
       getData();
@@ -1046,27 +1155,24 @@ export default function Home() {
   return (
     <>
       <MantineProvider>
-
-      {/* <CustomNabBar 
-        bellIcon={true}
-        profileImage={FiCalendar}
-        // links={[
-        //   { link: "hone", label: "Home" },
-        //   { link: "abput", label: "About" },
-        // ]}
-        searchable={true}  
-        // searchableCenter = {true} 
-        profileImage= {"assets/userProfile.svg"}  
-        searchableLeft={true}
-        paddingLeft= "20px"
-        paddingRight="20px"
-        /> */}
-
+        {form.getInputProps("role")?.value !== "employee" && (
+          <CustomNabBar
+            // bellIcon={true}
+            // profileImage={   }
+            // links={[
+            //   { link: "hone", label: "Home" },
+            //   { link: "abput", label: "About" },
+            // ]}
+            searchable={true}
+            // searchableCenter = {true}
+            // profileImage= {IconUser}
+            searchableLeft={true}
+            paddingLeft="20px"
+            paddingRight="20px"
+          />
+        )}
 
         <div className="">
- 
-        <h6> welcome  </h6>
-
           <div className="">
             {/* {form.getInputProps("role")?.value !== "employee" && (
               <div
@@ -1080,88 +1186,85 @@ export default function Home() {
               </div>
             )} */}
 
-            {form.getInputProps("role")?.value === "manager" && (
-              
-
-                  
-                  false &&    <div className="px-5">
+            {form.getInputProps("role")?.value === "manager" && false && (
+              <div className="px-5">
+                <div className="">
                   <div className="">
-                    <div className="">
-                      <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center">
-                        <div className="home_layer in_manager_dashboard">
-                          <div className="home_card custom-rounded custom-box-shadow">
-                            <h6 className="text-center mt-4 card-main-heading">
-                              {" "}
-                              Employees{" "}
-                            </h6>
-  
-                            <div className="home-card-bottom-layer">
-                              <div className="d-flex">
-                                <div className="icon">
-                                  <IconEye />
-                                </div>
-  
-                                <span
-                                  className="card-span-tag"
-                                  onClick={() =>
-                                    router.push("/view_employees_in_manager")
-                                  }
-                                >
-                                  {" "}
-                                  View employees{" "}
-                                </span>
+                    <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center">
+                      <div className="home_layer in_manager_dashboard">
+                        <div className="home_card custom-rounded custom-box-shadow">
+                          <h6 className="text-center mt-4 card-main-heading">
+                            {" "}
+                            Employees{" "}
+                          </h6>
+
+                          <div className="home-card-bottom-layer">
+                            <div className="d-flex">
+                              <div className="icon">
+                                <IconEye />
                               </div>
-  
-                              <div className="d-flex">
-                                <div className="icon">
-                                  <IconPlus />
-                                </div>
-  
-                                <span
-                                  className="card-span-tag"
-                                  onClick={() =>
-                                    router.push("/add_manager_employees_profiles")
-                                  }
-                                >
-                                  {" "}
-                                  Add employees{" "}
-                                </span>
+
+                              <span
+                                className="card-span-tag"
+                                onClick={() =>
+                                  router.push("/view_employees_in_manager")
+                                }
+                              >
+                                {" "}
+                                View employees{" "}
+                              </span>
+                            </div>
+
+                            <div className="d-flex">
+                              <div className="icon">
+                                <IconPlus />
                               </div>
+
+                              <span
+                                className="card-span-tag"
+                                onClick={() =>
+                                  router.push("/add_manager_employees_profiles")
+                                }
+                              >
+                                {" "}
+                                Add employees{" "}
+                              </span>
                             </div>
                           </div>
-  
-                          <div className="home_card custom-rounded custom-box-shadow mx-4">
-                            <h6 className="text-center mt-4 card-main-heading">
-                              {" "}
-                              Invite{" "}
-                            </h6>
-  
-                            <div
-                              className="home-card-bottom-layer"
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              <div className="d-flex">
-                                <div className="icon">
-                                  <IconEye />
-                                </div>
-  
-                                <span
-                                  className="card-span-tag"
-                                  onClick={() =>
-                                    router.push(
-                                      "/view_manager_employees_profiles"
-                                    )
-                                  }
-                                >
-                                  {" "}
-                                  Invite employees{" "}
-                                </span>
+                        </div>
+
+                        <div className="home_card custom-rounded custom-box-shadow mx-4">
+                          <h6 className="text-center mt-4 card-main-heading">
+                            {" "}
+                            Invite{" "}
+                          </h6>
+
+                          <div
+                            className="home-card-bottom-layer"
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <div className="d-flex">
+                              <div className="icon">
+                                <IconEye />
                               </div>
-  
-                              {/* <div className="d-flex">
+
+                              <span
+                                className="card-span-tag"
+                                onClick={() =>
+                                  router.push(
+                                    "/view_manager_employees_profiles"
+                                  )
+                                }
+                              >
+                                {" "}
+                                Invite employees{" "}
+                              </span>
+                            </div>
+
+                            {/* <div className="d-flex">
                                 <div className="icon">
                                   <IconPlus />
                                 </div>
@@ -1176,16 +1279,13 @@ export default function Home() {
                                   Invite Managers{" "}
                                 </span>
                               </div> */}
-                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-            
-           
-
+              </div>
             )}
 
             <div className="">
@@ -1324,7 +1424,7 @@ export default function Home() {
                       </div>
                     </div> */}
                     <div className="px-5  ">
-                      <div className="">
+                      <div className="mt-10">
                         <div className="">
                           <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center justify-content-between">
                             <div className="home_layer">
@@ -1334,21 +1434,27 @@ export default function Home() {
                                   Total Managers{" "}
                                 </h6>
 
+    {/* form.setFieldValue('employeesCount',userEmployees.users.length)
+    form.setFieldValue('employeesActive',employeesActive.length)
+    form.setFieldValue('employeesNotActive',employeesNotActive.length)
+    form.setFieldValue('employeesOpenToWork',employeesOpenToWork.length)
+    form.setFieldValue('employeesEngagedInProject',employeesEngagedInProject.length) */}
+
                                 <div className="text-center">
-                                  <span> {789} </span>
+                                  <span> {form.getInputProps('managersCount').value} </span>
                                 </div>
 
                                 <div className="d-flex justify-content-between">
                                   <div className="mt-2">
-                                    <h6> open to work : {80} </h6>
+                                    <h6> open to work : {form.getInputProps('managersOpenToWork').value} </h6>
 
-                                    <h6> engaged in project : {120} </h6>
+                                    <h6> engaged in project :  {form.getInputProps('managersEngagedInProject').value} </h6>
                                   </div>
 
                                   <div className="mt-2">
-                                    <h6> active : {80} </h6>
+                                    <h6> active : {form.getInputProps('managersActive').value}  </h6>
 
-                                    <h6> not active : {120} </h6>
+                                    <h6> not active : {form.getInputProps('managersNotActive').value} </h6>
                                   </div>
                                 </div>
                               </div>
@@ -1359,19 +1465,19 @@ export default function Home() {
                                 </h6>
 
                                 <div className="text-center">
-                                  <span> {789} </span>
+                                  <span> {form.getInputProps('employeesCount').value} </span>
 
                                   <div className="d-flex justify-content-between">
                                     <div className="mt-2">
-                                      <h6> open to work : {80} </h6>
+                                      <h6> open to work :  {form.getInputProps('employeesOpenToWork').value}  </h6>
 
-                                      <h6> engaged in project : {120} </h6>
+                                      <h6> engaged in project :  {form.getInputProps('employeesEngagedInProject').value}  </h6>
                                     </div>
 
                                     <div className="mt-2">
-                                      <h6> active : {80} </h6>
+                                      <h6> active :   {form.getInputProps('employeesActive').value}  </h6>
 
-                                      <h6> not active : {120} </h6>
+                                      <h6> not active :  {form.getInputProps('managersNotActive').value}  </h6>
                                     </div>
                                   </div>
                                 </div>
@@ -1399,18 +1505,15 @@ export default function Home() {
                                       <h6> not active : {120} </h6>
                                     </div> */}
                                   </div>
-
                                 </div>
                               </div>
-
-
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-
-                    <div className="px-5 home_card custom-rounded custom-box-shadow"></div>
+                    {/* 
+                    <div className="px-5 home_card custom-rounded custom-box-shadow"></div> */}
                   </form>
                 </div>
               )}
@@ -1429,7 +1532,6 @@ export default function Home() {
           form.getInputProps("stepperFilled")?.value === true && (
             <HomeProfile />
           )}
-          
       </MantineProvider>
     </>
   );
