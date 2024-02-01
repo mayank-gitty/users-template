@@ -1081,105 +1081,111 @@ export default function Home() {
             )} */}
 
             {form.getInputProps("role")?.value === "manager" && (
-              <div className="px-5  ">
-                <div className="">
+              
+
+                  
+                  false &&    <div className="px-5">
                   <div className="">
-                    <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center">
-                      <div className="home_layer in_manager_dashboard">
-                        <div className="home_card custom-rounded custom-box-shadow">
-                          <h6 className="text-center mt-4 card-main-heading">
-                            {" "}
-                            Employees{" "}
-                          </h6>
-
-                          <div className="home-card-bottom-layer">
-                            <div className="d-flex">
-                              <div className="icon">
-                                <IconEye />
+                    <div className="">
+                      <div className="page-heading w-full  pt-2 pb-2 mb-4 d-flex align-items-center">
+                        <div className="home_layer in_manager_dashboard">
+                          <div className="home_card custom-rounded custom-box-shadow">
+                            <h6 className="text-center mt-4 card-main-heading">
+                              {" "}
+                              Employees{" "}
+                            </h6>
+  
+                            <div className="home-card-bottom-layer">
+                              <div className="d-flex">
+                                <div className="icon">
+                                  <IconEye />
+                                </div>
+  
+                                <span
+                                  className="card-span-tag"
+                                  onClick={() =>
+                                    router.push("/view_employees_in_manager")
+                                  }
+                                >
+                                  {" "}
+                                  View employees{" "}
+                                </span>
                               </div>
-
-                              <span
-                                className="card-span-tag"
-                                onClick={() =>
-                                  router.push("/view_employees_in_manager")
-                                }
-                              >
-                                {" "}
-                                View employees{" "}
-                              </span>
-                            </div>
-
-                            <div className="d-flex">
-                              <div className="icon">
-                                <IconPlus />
+  
+                              <div className="d-flex">
+                                <div className="icon">
+                                  <IconPlus />
+                                </div>
+  
+                                <span
+                                  className="card-span-tag"
+                                  onClick={() =>
+                                    router.push("/add_manager_employees_profiles")
+                                  }
+                                >
+                                  {" "}
+                                  Add employees{" "}
+                                </span>
                               </div>
-
-                              <span
-                                className="card-span-tag"
-                                onClick={() =>
-                                  router.push("/add_manager_employees_profiles")
-                                }
-                              >
-                                {" "}
-                                Add employees{" "}
-                              </span>
                             </div>
                           </div>
-                        </div>
-
-                        <div className="home_card custom-rounded custom-box-shadow mx-4">
-                          <h6 className="text-center mt-4 card-main-heading">
-                            {" "}
-                            Invite{" "}
-                          </h6>
-
-                          <div
-                            className="home-card-bottom-layer"
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                            }}
-                          >
-                            <div className="d-flex">
-                              <div className="icon">
-                                <IconEye />
+  
+                          <div className="home_card custom-rounded custom-box-shadow mx-4">
+                            <h6 className="text-center mt-4 card-main-heading">
+                              {" "}
+                              Invite{" "}
+                            </h6>
+  
+                            <div
+                              className="home-card-bottom-layer"
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                              }}
+                            >
+                              <div className="d-flex">
+                                <div className="icon">
+                                  <IconEye />
+                                </div>
+  
+                                <span
+                                  className="card-span-tag"
+                                  onClick={() =>
+                                    router.push(
+                                      "/view_manager_employees_profiles"
+                                    )
+                                  }
+                                >
+                                  {" "}
+                                  Invite employees{" "}
+                                </span>
                               </div>
-
-                              <span
-                                className="card-span-tag"
-                                onClick={() =>
-                                  router.push(
-                                    "/view_manager_employees_profiles"
-                                  )
-                                }
-                              >
-                                {" "}
-                                Invite employees{" "}
-                              </span>
+  
+                              {/* <div className="d-flex">
+                                <div className="icon">
+                                  <IconPlus />
+                                </div>
+  
+                                <span
+                                  className="card-span-tag"
+                                  onClick={() =>
+                                    router.push("/add_manager_employees_profiles")
+                                  }
+                                >
+                                  {" "}
+                                  Invite Managers{" "}
+                                </span>
+                              </div> */}
                             </div>
-
-                            {/* <div className="d-flex">
-                              <div className="icon">
-                                <IconPlus />
-                              </div>
-
-                              <span
-                                className="card-span-tag"
-                                onClick={() =>
-                                  router.push("/add_manager_employees_profiles")
-                                }
-                              >
-                                {" "}
-                                Invite Managers{" "}
-                              </span>
-                            </div> */}
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+            
+           
+
             )}
 
             <div className="">

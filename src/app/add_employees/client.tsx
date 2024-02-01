@@ -170,7 +170,7 @@ const Add_EMPLOYEES = ({ AllProjects }: any) => {
 
   useEffect(() => {
 
-    alert('page refreshing')
+    // alert('page refreshing')
 
     getComapanies();
   }, []);
